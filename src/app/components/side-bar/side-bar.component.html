@@ -1,0 +1,19 @@
+<nav class="side-nav-container">
+  <div class="side-nav">
+    <img src="/assets/icons/logo.png" alt="logo" />
+
+    <div class="tabs-container">
+      <ul>
+        <li *ngFor="let menu of menus">
+          <a routerLink="{{ menu.url }}"
+            ><fa-icon [icon]="menu.icon" class="icons"></fa-icon>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <button>
+      <img src="/assets/icons/logout.png" alt="logo" />
+    </button>
+  </div>
+</nav>
