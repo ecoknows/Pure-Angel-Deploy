@@ -1,13 +1,50 @@
 @import '../../app.component'
 
+ul
+    width: 100%
+    
+
 .icons
     color: white
     font-size: 20px
-ul
-    width: 100%
 
-li
-    height: 60px
+.top-illusion
+    height: 20px
+    background-color: $primaryColor
+
+.bottom-illusion
+    height: 20px
+    background-color: $primaryColor
+
+.icon-illusion
+    height: 45px
+    display: flex
+    justify-content: center
+    align-items: center
+
+.active
+    background-color: white
+
+    .icons
+        color: $primaryColor
+
+    .icon-container
+        background-color: $primaryColor
+
+        .icon-illusion
+            justify-content: start
+            margin-left: 25px
+            padding-left: 15px
+            border-top-left-radius: 40px
+            border-bottom-left-radius: 40px
+            background-color: white
+
+    .top-illusion
+        border-bottom-right-radius: 20px
+
+    .bottom-illusion
+        border-top-right-radius: 20px
+        
 
 .side-nav-container
     display: flex

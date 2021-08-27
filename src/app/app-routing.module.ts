@@ -8,7 +8,7 @@ import { ReferralsComponent } from './referrals/referrals.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'dashboard',
     component: DashboardComponent,
   },
   {
@@ -26,11 +26,11 @@ const routes: Routes = [
   {
     path: '**',
     component: PageNotFoundComponent,
-  }
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
