@@ -10,6 +10,9 @@ import { ReferralsComponent } from './referrals/referrals.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LineChartComponent } from './components/line-chart/line-chart.component';
 
 @NgModule({
   declarations: [
@@ -19,14 +22,17 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     NotificationsComponent,
     ReferralsComponent,
     SideBarComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    LineChartComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    NgxChartsModule,
+    BrowserAnimationsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
