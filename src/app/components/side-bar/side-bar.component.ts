@@ -9,7 +9,7 @@ import { faDesktop, faBell, faUsers } from '@fortawesome/free-solid-svg-icons';
 export class SideBarComponent {
   menus = [
     {
-      url: 'dashboard',
+      url: '',
       icon: faDesktop,
     },
     {

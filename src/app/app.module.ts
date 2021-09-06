@@ -13,6 +13,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LineChartComponent } from './components/line-chart/line-chart.component';
+import { CardTotalNumberComponent } from './components/card-total-number/card-total-number.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { LineChartComponent } from './components/line-chart/line-chart.component
     SideBarComponent,
     PageNotFoundComponent,
     LineChartComponent,
+    CardTotalNumberComponent,
   ],
   imports: [
     BrowserModule,

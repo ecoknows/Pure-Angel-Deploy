@@ -4,7 +4,11 @@
 
     <div class="tabs-container">
       <ul>
-        <li *ngFor="let menu of menus" routerLinkActive="active">
+        <li
+          *ngFor="let menu of menus"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
           <div class="top-illusion"></div>
           <div class="icon-container">
             <div class="icon-illusion">

@@ -8,7 +8,7 @@ import { ReferralsComponent } from './referrals/referrals.component';
 
 const routes: Routes = [
   {
-    path: 'dashboard',
+    path: '',
     component: DashboardComponent,
   },
   {
