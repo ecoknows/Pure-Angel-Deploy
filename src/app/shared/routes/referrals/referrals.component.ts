@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-referrals',
   templateUrl: './referrals.component.html',
-  styleUrls: ['./referrals.component.sass']
+  styleUrls: ['./referrals.component.sass'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ReferralsComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

@@ -17,6 +17,10 @@ import {
 } from '@shared/components';
 
 import { RouterModule } from '@angular/router';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { TableComponent } from './components/table/table.component';
+import { ButtonComponent } from './components/button/button.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -28,12 +32,16 @@ import { RouterModule } from '@angular/router';
     NotificationsComponent,
     ReferralsComponent,
     PageNotFoundComponent,
+    TableComponent,
+    ButtonComponent,
   ],
   imports: [
     FontAwesomeModule,
     NgxChartsModule,
     BrowserAnimationsModule,
     RouterModule,
+    NgxDatatableModule,
+    MatTabsModule,
   ],
   exports: [
     SideBarComponent,
