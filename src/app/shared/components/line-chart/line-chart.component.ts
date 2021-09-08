@@ -16,7 +16,7 @@ export class LineChartComponent implements OnInit {
   xAxis: boolean = true;
   yAxis: boolean = true;
   timeline: boolean = true;
-  showGridLines: boolean = false;
+  showGridLines: boolean = true;
   curve: any = curveBumpX;
 
   colorScheme: any = {
