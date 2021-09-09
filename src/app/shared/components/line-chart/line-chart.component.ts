@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { multi } from './example-data';
 import { curveBumpX } from 'd3-shape';
 
@@ -6,6 +6,7 @@ import { curveBumpX } from 'd3-shape';
   selector: 'app-line-chart',
   templateUrl: './line-chart.component.html',
   styleUrls: ['./line-chart.component.sass'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class LineChartComponent implements OnInit {
   multi: any[] | undefined;

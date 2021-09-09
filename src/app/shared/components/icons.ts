@@ -3,6 +3,7 @@ import {
   faFunnelDollar,
   faCommentsDollar,
   faHandHoldingUsd,
+  faSearch,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { IconDefinition } from '@fortawesome/fontawesome-common-types';
@@ -17,6 +18,8 @@ export function getIcon(icon: string | IconDefinition): IconDefinition {
       return faCommentsDollar;
     case 'faHandHoldingUsd':
       return faHandHoldingUsd;
+    case 'faSearch':
+      return faSearch;
   }
   return faUsers;
 }

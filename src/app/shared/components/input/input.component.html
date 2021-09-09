@@ -1,5 +1,10 @@
 <mat-form-field>
   <mat-label>{{ title }}</mat-label>
   <input matInput placeholder="{{ placeholder }}" />
-  <fa-icon matSuffix [icon]="faSearch" class="icon"></fa-icon>
+  <fa-icon
+    *ngIf="suffix_icon"
+    matSuffix
+    [icon]="suffix_icon"
+    class="icon"
+  ></fa-icon>
 </mat-form-field>

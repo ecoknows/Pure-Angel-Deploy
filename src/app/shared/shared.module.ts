@@ -57,6 +57,9 @@ import { InputComponent } from './components/input/input.component';
     NotificationsComponent,
     ReferralsComponent,
     PageNotFoundComponent,
+    TableComponent,
+    ButtonComponent,
+    InputComponent,
   ],
 })
 export class SharedModule {}

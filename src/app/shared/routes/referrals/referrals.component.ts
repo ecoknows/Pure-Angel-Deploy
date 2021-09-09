@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { IRows } from '@shared/components/table/table.component';
 import { data } from './test-data';
-
 @Component({
   selector: 'app-referrals',
   templateUrl: './referrals.component.html',
@@ -9,22 +8,11 @@ import { data } from './test-data';
   encapsulation: ViewEncapsulation.None,
 })
 export class ReferralsComponent implements OnInit {
-  rows: IRows = data;
-  temp: IRows = data;
+  direct_selling_rows: IRows = data;
+  direct_referral_rows: IRows = data;
+  indirect_referral_rows: IRows = data;
 
   constructor() {}
 
   ngOnInit(): void {}
-
-  updateFilter(event: any) {
-    const val = event.target.value.toLowerCase();
-
-    // filter our data
-    const temp = this.temp.filter(function (d) {
-      return d.name.toLowerCase().indexOf(val) !== -1 || !val;
-    });
-
-    // update the rows
-    this.rows = temp;
-  }
 }

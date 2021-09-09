@@ -1,17 +1,29 @@
-<ngx-datatable
-  class="material"
-  [rows]="rows"
-  [limit]="8"
-  rowHeight="auto"
-  [headerHeight]="40"
-  [footerHeight]="50"
->
-  <ngx-datatable-column name="Name" [width]="400"> </ngx-datatable-column>
-  <ngx-datatable-column name="Age" [width]="300"></ngx-datatable-column>
-  <ngx-datatable-column name="City" [width]="300"></ngx-datatable-column>
-  <ngx-datatable-column name="Income" [width]="220">
-    <ng-template let-value="value" ngx-datatable-cell-template>
-      ₱ {{ value | number }}
-    </ng-template></ngx-datatable-column
+<div>
+  <div class="main-top">
+    <app-button [icon]="button_icon" [title]="button_title"></app-button>
+    <app-input
+      title="Search"
+      placeholder="Ex. Reggie "
+      suffix-icon="faSearch"
+      (keyup)="search($event)"
+    ></app-input>
+  </div>
+
+  <ngx-datatable
+    class="material"
+    [rows]="rows"
+    [limit]="8"
+    rowHeight="auto"
+    [headerHeight]="40"
+    [footerHeight]="50"
   >
-</ngx-datatable>
+    <ngx-datatable-column name="Name" [width]="400"> </ngx-datatable-column>
+    <ngx-datatable-column name="Age" [width]="300"></ngx-datatable-column>
+    <ngx-datatable-column name="City" [width]="300"></ngx-datatable-column>
+    <ngx-datatable-column name="Income" [width]="220">
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        ₱ {{ value | number }}
+      </ng-template></ngx-datatable-column
+    >
+  </ngx-datatable>
+</div>
