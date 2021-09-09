@@ -1,31 +1,39 @@
 <mat-tab-group>
   <mat-tab label="Direct Selling">
     <div class="main-top">
-      <app-button></app-button>
+      <app-button icon="faFunnelDollar" title="Add Direct Selling"></app-button>
+      <app-input
+        title="Search"
+        placeholder="Ex. Reggie "
+        (keyup)="updateFilter($event)"
+      ></app-input>
     </div>
 
     <div>
-      <app-table></app-table>
+      <app-table [rows]="rows"></app-table>
     </div>
   </mat-tab>
 
   <mat-tab label="Indirect Referral">
     <div class="main-top">
-      <app-button></app-button>
+      <app-button icon="faUsers" title="Add Indirect Referral"></app-button>
+      <app-input title="Search" placeholder="Ex. Reggie "></app-input>
     </div>
 
     <div>
-      <app-table></app-table>
+      <app-table [rows]="rows"></app-table>
     </div>
   </mat-tab>
 
   <mat-tab label="Direct Referral">
     <div class="main-top">
-      <app-button></app-button>
+      <app-button icon="faUsers" title="Add Direct Referral"></app-button>
+      <app-input title="Search" placeholder="Ex. Reggie "></app-input>
     </div>
 
     <div>
-      <app-table></app-table>
+      <app-table [rows]="rows"></app-table>
+      <app-input title="Search" placeholder="Ex. Reggie "></app-input>
     </div>
   </mat-tab>
 </mat-tab-group>

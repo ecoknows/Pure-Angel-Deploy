@@ -7,14 +7,15 @@
         <li
           *ngFor="let menu of menus"
           routerLinkActive="active"
+          routerLink="{{ menu.url }}"
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <div class="top-illusion"></div>
           <div class="icon-container">
             <div class="icon-illusion">
-              <a routerLink="{{ menu.url }}">
+              <div>
                 <fa-icon [icon]="menu.icon" class="icons"></fa-icon>
-              </a>
+              </div>
             </div>
           </div>
           <div class="bottom-illusion"></div>

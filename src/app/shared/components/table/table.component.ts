@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+
+export type IRows = {
+  name: string;
+  age: number;
+  city: string;
+  income: number;
+}[];
 
 @Component({
   selector: 'app-table',
@@ -7,21 +14,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None,
 })
 export class TableComponent implements OnInit {
-  rows = [
-    { name: 'A', age: 14, city: 'Manila', income: 1400 },
-    { name: 'B', age: 14, city: 'Manila', income: 1400 },
-    { name: 'C', age: 14, city: 'Manila', income: 1400 },
-    { name: 'A', age: 14, city: 'Manila', income: 1400 },
-    { name: 'B', age: 14, city: 'Manila', income: 1400 },
-    { name: 'C', age: 14, city: 'Manila', income: 1400 },
-    { name: 'D', age: 14, city: 'Manila', income: 1400 },
-    { name: 'A', age: 14, city: 'Manila', income: 1400 },
-    { name: 'B', age: 14, city: 'Manila', income: 1400 },
-    { name: 'C', age: 14, city: 'Manila', income: 1400 },
-    { name: 'D', age: 14, city: 'Manila', income: 1400 },
-    { name: 'D', age: 14, city: 'Manila', income: 1400 },
-  ];
-
+  @Input('rows') rows: IRows = [];
   constructor() {}
 
   ngOnInit(): void {}

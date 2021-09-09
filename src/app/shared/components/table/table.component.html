@@ -6,8 +6,12 @@
   [headerHeight]="40"
   [footerHeight]="50"
 >
-  <ngx-datatable-column name="Name" [width]="300"></ngx-datatable-column>
+  <ngx-datatable-column name="Name" [width]="400"> </ngx-datatable-column>
   <ngx-datatable-column name="Age" [width]="300"></ngx-datatable-column>
   <ngx-datatable-column name="City" [width]="300"></ngx-datatable-column>
-  <ngx-datatable-column name="Income" [width]="300"></ngx-datatable-column>
+  <ngx-datatable-column name="Income" [width]="220">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      ₱ {{ value | number }}
+    </ng-template></ngx-datatable-column
+  >
 </ngx-datatable>
