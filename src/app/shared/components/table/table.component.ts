@@ -1,11 +1,24 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { data } from '../../routes/referrals/test-data';
+import {
+  Component,
+  Input,
+  OnInit,
+  ViewEncapsulation,
+  ViewChild,
+} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { DialogComponent } from '../dialog/dialog.component';
 
 export type IRows = {
   name: string;
   age: number;
   city: string;
   income: number;
+}[];
+
+export type IColumns = {
+  name: string;
+  width: number;
 }[];
 
 @Component({
@@ -15,13 +28,15 @@ export type IRows = {
   encapsulation: ViewEncapsulation.None,
 })
 export class TableComponent implements OnInit {
-  @Input('rows') rows: IRows = [];
+  @Input('columns') columns!: IColumns;
+  @Input('rows') rows!: IRows;
   @Input('button-icon') button_icon: string = 'faUsers';
   @Input('button-title') button_title: string = 'Button';
+  @ViewChild(DatatableComponent) table!: DatatableComponent;
 
   cache: IRows = [];
 
-  constructor() {}
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.cache = [...this.rows];
@@ -35,5 +50,12 @@ export class TableComponent implements OnInit {
     });
 
     this.rows = temp;
+    this.table.offset = 0;
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '250px',
+    });
   }
 }

@@ -22,7 +22,9 @@ import { TableComponent } from './components/table/table.component';
 import { ButtonComponent } from './components/button/button.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatInputModule } from '@angular/material/input';
+import { MatDialogModule } from '@angular/material/dialog';
 import { InputComponent } from './components/input/input.component';
+import { DialogComponent } from './components/dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { InputComponent } from './components/input/input.component';
     TableComponent,
     ButtonComponent,
     InputComponent,
+    DialogComponent,
   ],
   imports: [
     FontAwesomeModule,
@@ -47,6 +50,7 @@ import { InputComponent } from './components/input/input.component';
 
     MatTabsModule,
     MatInputModule,
+    MatDialogModule,
   ],
   exports: [
     SideBarComponent,
