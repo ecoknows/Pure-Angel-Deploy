@@ -8,7 +8,9 @@ import {
 
 import { IconDefinition } from '@fortawesome/fontawesome-common-types';
 
-export function getIcon(icon: string | IconDefinition): IconDefinition {
+export function getIcon(
+  icon: string | IconDefinition
+): IconDefinition | undefined {
   switch (icon) {
     case 'faUsers':
       return faUsers;
@@ -21,5 +23,5 @@ export function getIcon(icon: string | IconDefinition): IconDefinition {
     case 'faSearch':
       return faSearch;
   }
-  return faUsers;
+  return undefined;
 }

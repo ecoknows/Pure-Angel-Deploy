@@ -8,6 +8,7 @@ import {
   PageNotFoundComponent,
   ReferralsComponent,
 } from '@shared/routes';
+import { GenealogyComponent } from '@shared/routes/genealogy/genealogy.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: 'notifications',
     component: NotificationsComponent,
+  },
+  {
+    path: 'genealogy',
+    component: GenealogyComponent,
   },
   {
     path: 'referrals',

@@ -1,16 +1,21 @@
 <div>
   <div class="main-top">
-    <app-button
-      [icon]="button_icon"
-      [title]="button_title"
-      (click)="openDialog()"
-    ></app-button>
-    <app-input
-      title="Search"
-      placeholder="Ex. Reggie "
-      suffix-icon="faSearch"
-      (keyup)="search($event)"
-    ></app-input>
+    <h1 class="title">{{ table_title }}</h1>
+    <div class="end">
+      <app-input
+        title="Search"
+        placeholder="Ex. Reggie "
+        suffix-icon="faSearch"
+        (keyup)="search($event)"
+      ></app-input>
+
+      <app-button
+        *ngIf="button_icon || button_title"
+        [icon]="button_icon"
+        [title]="button_title"
+        (click)="openDialog()"
+      ></app-button>
+    </div>
   </div>
 
   <ngx-datatable

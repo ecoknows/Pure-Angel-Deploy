@@ -10,7 +10,7 @@ import { getIcon } from '../icons';
 export class InputComponent implements OnInit {
   faSearch = faSearch;
   @Input('title') title: string = 'Input';
-  @Input('placeholder') placeholder: string = 'Place Holder';
+  @Input('placeholder') placeholder!: string;
   @Input('suffix-icon') suffix_icon: any;
 
   ngOnInit(): void {

@@ -20,11 +20,16 @@ import { RouterModule } from '@angular/router';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { TableComponent } from './components/table/table.component';
 import { ButtonComponent } from './components/button/button.component';
+import { InputComponent } from './components/input/input.component';
+import { DialogComponent } from './components/dialog/dialog.component';
+
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
-import { InputComponent } from './components/input/input.component';
-import { DialogComponent } from './components/dialog/dialog.component';
+import { MatButtonModule } from '@angular/material/button';
+import { GenealogyComponent } from './routes/genealogy/genealogy.component';
+
+import { GenealogyChartModule } from './components/chart-genealogy/genealogy-chart/genealogy-chart.module';
 
 @NgModule({
   declarations: [
@@ -40,17 +45,22 @@ import { DialogComponent } from './components/dialog/dialog.component';
     ButtonComponent,
     InputComponent,
     DialogComponent,
+    GenealogyComponent,
   ],
   imports: [
     FontAwesomeModule,
     NgxChartsModule,
     BrowserAnimationsModule,
     RouterModule,
+
     NgxDatatableModule,
 
     MatTabsModule,
     MatInputModule,
     MatDialogModule,
+    MatButtonModule,
+
+    GenealogyChartModule,
   ],
   exports: [
     SideBarComponent,

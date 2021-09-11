@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { faDesktop, faBell, faUsers } from '@fortawesome/free-solid-svg-icons';
+import {
+  faDesktop,
+  faBell,
+  faUsers,
+  faTree,
+} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-side-bar',
@@ -11,6 +16,10 @@ export class SideBarComponent {
     {
       url: '',
       icon: faDesktop,
+    },
+    {
+      url: 'genealogy',
+      icon: faTree,
     },
     {
       url: 'referrals',
