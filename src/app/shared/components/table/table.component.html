@@ -1,4 +1,4 @@
-<div>
+<div class="table-container">
   <div class="main-top">
     <h1 class="title">{{ table_title }}</h1>
     <div class="end">
@@ -25,6 +25,7 @@
     rowHeight="auto"
     [headerHeight]="40"
     [footerHeight]="50"
+    [scrollbarH]="true"
   >
     <ngx-datatable-column
       *ngFor="let column of columns"
@@ -32,7 +33,7 @@
       [width]="column.width"
     >
     </ngx-datatable-column>
-    <ngx-datatable-column name="Income" [width]="220">
+    <ngx-datatable-column name="Income" [width]="200">
       <ng-template let-value="value" ngx-datatable-cell-template>
         ₱ {{ value | number }}
       </ng-template></ngx-datatable-column

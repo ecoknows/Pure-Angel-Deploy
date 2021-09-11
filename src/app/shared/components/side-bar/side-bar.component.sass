@@ -1,11 +1,12 @@
 @import 'variable'
+@import 'responsive'
 
 ul
     width: 100%
 
     li
         cursor: pointer
-    
+
 
 .icons
     color: white
@@ -47,7 +48,7 @@ ul
 
     .bottom-illusion
         border-top-right-radius: 20px
-        
+
 
 .side-nav-container
     display: flex
@@ -61,7 +62,7 @@ ul
 
     .side-nav
         height: 98%
-        width: 90% 
+        width: 90%
         display: flex
         padding-top: 10px
         padding-bottom: 10px
@@ -72,10 +73,15 @@ ul
 
     .tabs-container
         flex: 1
-        display: flex 
+        display: flex
         align-items: center
         justify-content: center
         width: 100%
 
         ul
             text-align: center
+
+
+    @include media('<=lg')
+      display: none
+

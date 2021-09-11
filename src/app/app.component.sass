@@ -1,8 +1,10 @@
+@import 'responsive'
 
-    
 main
     height: 100vh
-    margin-left: 105px
     padding: 10px 10px
     padding-left: 20px
     padding-right: 20px
+
+    @include media('>lg')
+      margin-left: 105px

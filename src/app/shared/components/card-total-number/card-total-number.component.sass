@@ -1,4 +1,15 @@
 @import 'variable'
+@import 'responsive'
+
+h1
+    font-size: 1.6rem
+
+h2
+    font-size: 1rem
+    text-align: center
+h3
+    font-size: 0.7rem
+    font-weight: normal
 
 .inline
     display: inline-block
@@ -14,6 +25,9 @@
     padding-left: 15px
     background-color: $primaryColor
 
+    @include media('<lg')
+      min-width: 150px
+
     .container
         height: 100%
         display: flex
@@ -21,16 +35,8 @@
         justify-content: center
         align-items: center
         line-height: 1.2
-        
-        h1
-            font-size: 30px
 
-        h2
-            font-size: 16px
-            text-align: center
-        h3
-            font-size: 13px
-            font-weight: normal
-
-        fa-icon 
+        fa-icon
             font-size: 50px
+            @include media('<lg')
+              font-size: 40px

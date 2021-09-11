@@ -1,4 +1,17 @@
 @import 'variable'
+@import 'responsive'
+
+h1
+    font-size: 2em
+
+    @include media('<lg')
+      font-size: 1em
+h2
+    font-size: 1em
+    font-weight: normal
+
+    @include media('<lg')
+      font-size: 0.8em
 
 .dashboard-top-info
     display: flex
@@ -12,24 +25,32 @@
     border-radius: 20px
     background-color: $primaryColor
 
+    @include media('<lg')
+      height: 90px
+
     .greetings, .total-assets
         color: white
         line-height: 1.4
 
-        h2
-            font-size: 1em
-            font-weight: normal
 
     .total-assets
-        h1
-            font-size: 2em
         h2
             text-align: end
 
 
-.dashboard-bottom-info 
+.dashboard-bottom-info
     display: flex
     margin-top: -40px
-    
-    > * + *
-        margin-left: 36px
+    align-items: start
+
+    app-card-total-number
+        margin-right: 36px
+
+    @include media('<lg')
+      flex-wrap: wrap
+      justify-content: center
+
+      app-card-total-number
+        margin-right: 20px
+        margin-bottom: 36px
+
