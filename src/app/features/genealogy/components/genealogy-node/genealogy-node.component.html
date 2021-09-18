@@ -1,0 +1,26 @@
+<div
+  ngClass="ngx-org-connector-{{ direction }}"
+  class="ngx-org-border"
+  *ngIf="hasParent"
+></div>
+
+<div
+  [ngClass]="node.cssClass || ''"
+  class="ngx-org-box ngx-org-border ngx-org-background"
+  (click)="itemClick.emit(node)"
+>
+  <div
+    class="ngx-org-image ngx-org-border"
+    [ngStyle]="{ 'background-image': 'url(\'' + 'assets/node.svg' + '\')' }"
+  ></div>
+  <div>
+    <div class="ngx-org-name">{{ node?.first_name }} {{ node?.last_name }}</div>
+    <div class="ngx-org-title">{{ node?.address }}</div>
+  </div>
+</div>
+
+<div
+  ngClass="ngx-org-connector-{{ direction }}"
+  class="ngx-org-border"
+  *ngIf="node?.branches?.length"
+></div>

@@ -1,0 +1,7 @@
+<app-table
+  table-title="Direct Selling"
+  [rows]="(rows$ | async)?.list"
+  button-icon="faFunnelDollar"
+  button-title="ADD PERSON"
+  [columns]="columns"
+></app-table>

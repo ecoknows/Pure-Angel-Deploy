@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SidebarService } from '@core/services/sidebar.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'pure-angel-coffee';
+
+  constructor(public sideBarService: SidebarService) {}
 }

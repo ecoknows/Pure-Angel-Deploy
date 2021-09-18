@@ -29,7 +29,7 @@ export type IColumns = {
 })
 export class TableComponent implements OnInit {
   @Input('columns') columns!: IColumns;
-  @Input('rows') rows!: IRows;
+  @Input('rows') rows: any;
   @Input('table-title') table_title!: string;
   @Input('button-icon') button_icon!: string;
   @Input('button-title') button_title!: string;

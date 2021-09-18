@@ -7,7 +7,7 @@ import { getIcon } from '../icons';
   styleUrls: ['./card-total-number.component.sass'],
 })
 export class CardTotalNumberComponent implements OnInit {
-  @Input('money') money: number = 0;
+  @Input('money') money: number | undefined;
   @Input('label') label: string = '';
   @Input('icon') icon: any;
 
@@ -15,5 +15,6 @@ export class CardTotalNumberComponent implements OnInit {
 
   ngOnInit(): void {
     this.icon = getIcon(this.icon);
+    this.money = this.money ? this.money : 0;
   }
 }
