@@ -26,6 +26,7 @@ import { RegistrationComponent } from './registration/registration.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatStepperModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    FontAwesomeModule,
   ],
 })
 export class FeaturesModule {}

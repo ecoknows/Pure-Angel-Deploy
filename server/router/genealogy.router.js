@@ -6,74 +6,89 @@ import { decodeUserToken } from "../utils.js";
 
 const GenealogyRouter = express.Router();
 
-async function addNewGenealogy(genealogy, child_id) {
-  let newBranch = await User.findById(child_id);
+async function updateGenealogy(genealogy, child_user, res) {
   genealogy.branches.push({
-    _id: newBranch._id,
-    first_name: newBranch.first_name,
-    last_name: newBranch.last_name,
-    address: newBranch.address,
+    _id: child_user._id,
+    first_name: child_user.first_name,
+    last_name: child_user.last_name,
+    address: child_user.address,
   });
   genealogy.save();
+  res.send({
+    message: "New branch has succesfully push to array!",
+  });
 }
 
-async function updateGenealogy(genealogy, child_id, root) {
-  let newBranch = await User.findById(child_id);
+async function addNewGenealogy(genealogy, child_user, current_user, res) {
   genealogy = new Genealogy({
-    user_id: root._id,
-    first_name: root.first_name,
-    last_name: root.last_name,
-    address: root.address,
+    user_id: current_user._id,
+    first_name: current_user.first_name,
+    last_name: current_user.last_name,
+    address: current_user.address,
     branches: [
       {
-        _id: newBranch._id,
-        first_name: newBranch.first_name,
-        last_name: newBranch.last_name,
-        address: newBranch.address,
+        _id: child_user._id,
+        first_name: child_user.first_name,
+        last_name: child_user.last_name,
+        address: child_user.address,
       },
     ],
   });
   genealogy.save();
+
+  res.send({
+    message: "New Branch Added Successfully!",
+  });
 }
 
-GenealogyRouter.post(
-  "/add",
-  decodeUserToken,
-  expressAsyncHandler(async (req, res) => {
-    const current_user = req.user;
-    const body = req.body;
+async function findChildUser(body) {
+  let child_user = await User.findOne({
+    first_name: body.first_name,
+    last_name: body.last_name,
+    address: body.address,
+    birthdate: body.birthdate,
+  });
 
-    let child_user = await User.findOne({
+  if (child_user == null) {
+    child_user = new User({
       first_name: body.first_name,
       last_name: body.last_name,
       address: body.address,
       birthdate: body.birthdate,
     });
 
-    if (child_user == null) {
-      child_user = new User({
-        first_name: body.first_name,
-        last_name: body.last_name,
-        address: body.address,
-        birthdate: body.birthdate,
-      });
+    child_user = await child_user.save();
+  }
 
-      child_user = await child_user.save();
-    }
+  return child_user;
+}
 
-    const child_id = child_user._id;
+GenealogyRouter.post(
+  "/add",
+  decodeUserToken,
+  expressAsyncHandler(async (req, res) => {
+    const body = req.body;
 
+    let current_user = await User.findById(req.user._id);
     let genealogy = await Genealogy.findOne({ user_id: current_user._id });
 
     if (genealogy) {
-      addNewGenealogy(genealogy, child_id);
-    } else {
-      updateGenealogy(genealogy, child_id, current_user);
-    }
+      if (genealogy.branches.length < 2) {
+        let child_user = await findChildUser(body);
 
-    res.send({
-      message: "User Created and Branch Added Successfully!",
-    });
+        await updateGenealogy(genealogy, child_user, res);
+      } else {
+        res
+          .status(409)
+          .send({ message: "Branch Exceed only 2 branch allowed!" });
+      }
+    } else if (genealogy == null && current_user != null) {
+      let child_user = await findChildUser(body);
+
+      await addNewGenealogy(genealogy, child_user, current_user, res);
+    } else {
+      res.status(409).send({ message: "All nulls!" });
+    }
   })
 );
 

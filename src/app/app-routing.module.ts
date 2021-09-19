@@ -39,11 +39,11 @@ const routes: Routes = [
     component: GenealogyComponent,
     canActivate: [AuthGuardService],
   },
-  {
-    path: 'referrals',
-    component: ReferralsComponent,
-    canActivate: [AuthGuardService],
-  },
+  // {
+  //   path: 'referrals',
+  //   component: ReferralsComponent,
+  //   canActivate: [AuthGuardService],
+  // },
   {
     path: '**',
     component: PageNotFoundComponent,

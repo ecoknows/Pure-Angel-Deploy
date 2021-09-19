@@ -80,7 +80,6 @@ export class AuthService {
       })
       .subscribe((response) => {
         const data = response.data;
-
         this.store.dispatch(setUserData({ user: data }));
       });
     this.fetchUserIncome();

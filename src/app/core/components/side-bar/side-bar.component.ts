@@ -21,10 +21,6 @@ export class SideBarComponent {
     },
     {
       url: 'genealogy',
-      icon: faTree,
-    },
-    {
-      url: 'referrals',
       icon: faUsers,
     },
     {

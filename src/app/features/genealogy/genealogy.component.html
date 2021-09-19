@@ -2,3 +2,14 @@
   [nodes]="(genealogy$ | async)?.genealogy"
   direction="vertical"
 ></genealogy-chart>
+
+<div *ngIf="genealogyService.canAddBranch" class="button-container">
+  <button
+    mat-fab
+    color="primary"
+    aria-label="Example icon button with a bookmark icon"
+    (click)="openCreateDialog()"
+  >
+    <fa-icon [icon]="iconButton" class="icon-button"></fa-icon>
+  </button>
+</div>
