@@ -9,11 +9,14 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { TableComponent } from './components/table/table.component';
 import { ButtonComponent } from './components/button/button.component';
 import { InputComponent } from './components/input/input.component';
-import { DialogComponent } from './components/dialog/dialog.component';
+import { CreateDialogComponent } from './components/create-dialog/create-dialog.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,7 @@ import { MatButtonModule } from '@angular/material/button';
     TableComponent,
     ButtonComponent,
     InputComponent,
-    DialogComponent,
+    CreateDialogComponent,
   ],
   imports: [
     FontAwesomeModule,
@@ -32,6 +35,9 @@ import { MatButtonModule } from '@angular/material/button';
     MatTabsModule,
     MatDialogModule,
     MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    ReactiveFormsModule,
   ],
   exports: [
     CardTotalNumberComponent,

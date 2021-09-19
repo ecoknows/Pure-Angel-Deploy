@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
-import { DialogComponent } from '../dialog/dialog.component';
+import { CreateDialogComponent } from '../create-dialog/create-dialog.component';
 
 export type IRows = {
   name: string;
@@ -55,6 +55,6 @@ export class TableComponent implements OnInit {
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(DialogComponent, {});
+    this.dialog.open(CreateDialogComponent, {});
   }
 }

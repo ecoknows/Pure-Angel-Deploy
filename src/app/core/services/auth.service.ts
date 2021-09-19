@@ -7,6 +7,7 @@ import { resetUserData, setUserData } from '@core/redux/user/user.actions';
 import { SidebarService } from './sidebar.service';
 import { GenealogyState } from '@core/redux/genealogy/genealogy.reducer';
 import { resetGenealogy } from '@core/redux/genealogy/genealogy.actions';
+import { SERVER_URL } from '@core/api';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,7 @@ export class AuthService {
   login(username: string, password: string) {
     this.http
       .post<{ message: string; userToken: string }>(
-        'http://localhost:3000/api/user/login',
+        SERVER_URL + '/user/login',
         {
           username,
           password,
@@ -42,17 +43,41 @@ export class AuthService {
       });
   }
 
+  register(person: {
+    username: string;
+    password: string;
+    first_name: string;
+    last_name: string;
+    birthdate: string;
+    address: string;
+  }) {
+    this.http
+      .post<{ message: string; userToken: string }>(
+        SERVER_URL + '/user/register',
+        person
+      )
+      .subscribe((response) => {
+        let userToken = response.userToken;
+        if (userToken) {
+          localStorage.setItem('user-token', userToken);
+          this.router.navigate(['/']);
+          this.sideBarService.show();
+          this.resetStates();
+        }
+      });
+  }
+
   logout() {
     localStorage.removeItem('user-token');
     this.router.navigate(['/login']);
+    this.resetStates();
   }
 
   fetchUserData() {
     this.http
-      .get<{ message: string; data: UserState }>(
-        'http://localhost:3000/api/user/profile',
-        { headers: this.headers }
-      )
+      .get<{ message: string; data: UserState }>(SERVER_URL + '/user/profile', {
+        headers: this.headers,
+      })
       .subscribe((response) => {
         const data = response.data;
 
@@ -63,10 +88,9 @@ export class AuthService {
 
   private fetchUserIncome() {
     this.http
-      .get<{ message: string; data: UserState }>(
-        'http://localhost:3000/api/user/income',
-        { headers: this.headers }
-      )
+      .get<{ message: string; data: UserState }>(SERVER_URL + '/user/income', {
+        headers: this.headers,
+      })
       .subscribe((response) => {
         const data = response.data;
         data.overall_income =

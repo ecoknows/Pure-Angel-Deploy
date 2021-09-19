@@ -10,33 +10,39 @@ import {
   NotificationsComponent,
   ReferralsComponent,
   GenealogyComponent,
+  RegistrationComponent,
 } from './features';
 
 const routes: Routes = [
   {
     path: '',
     component: DashboardComponent,
-    canActivate: [AuthGuardService] ,
+    canActivate: [AuthGuardService],
   },
   {
     path: 'login',
     component: LoginComponent,
-    canActivate: [LoginGuardService] ,
+    canActivate: [LoginGuardService],
+  },
+  {
+    path: 'register',
+    component: RegistrationComponent,
+    canActivate: [LoginGuardService],
   },
   {
     path: 'notifications',
     component: NotificationsComponent,
-    canActivate: [AuthGuardService] ,
+    canActivate: [AuthGuardService],
   },
   {
     path: 'genealogy',
     component: GenealogyComponent,
-    canActivate: [AuthGuardService] ,
+    canActivate: [AuthGuardService],
   },
   {
     path: 'referrals',
     component: ReferralsComponent,
-    canActivate: [AuthGuardService] ,
+    canActivate: [AuthGuardService],
   },
   {
     path: '**',

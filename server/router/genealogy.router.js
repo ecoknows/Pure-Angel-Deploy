@@ -40,19 +40,39 @@ GenealogyRouter.post(
   "/add",
   decodeUserToken,
   expressAsyncHandler(async (req, res) => {
-    let root = req.user;
-    let child_id = req.body.child_id;
+    const current_user = req.user;
+    const body = req.body;
 
-    let genealogy = await Genealogy.findOne({ user_id: root._id });
+    let child_user = await User.findOne({
+      first_name: body.first_name,
+      last_name: body.last_name,
+      address: body.address,
+      birthdate: body.birthdate,
+    });
+
+    if (child_user == null) {
+      child_user = new User({
+        first_name: body.first_name,
+        last_name: body.last_name,
+        address: body.address,
+        birthdate: body.birthdate,
+      });
+
+      child_user = await child_user.save();
+    }
+
+    const child_id = child_user._id;
+
+    let genealogy = await Genealogy.findOne({ user_id: current_user._id });
 
     if (genealogy) {
       addNewGenealogy(genealogy, child_id);
     } else {
-      updateGenealogy(genealogy, child_id, root);
+      updateGenealogy(genealogy, child_id, current_user);
     }
 
     res.send({
-      message: "Branch Added Successfully!",
+      message: "User Created and Branch Added Successfully!",
     });
   })
 );

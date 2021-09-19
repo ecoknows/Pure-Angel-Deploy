@@ -12,6 +12,7 @@ export class InputComponent implements OnInit {
   @Input('title') title: string = 'Input';
   @Input('placeholder') placeholder!: string;
   @Input('suffix-icon') suffix_icon: any;
+  @Input('class-form-field') class_form_field!: string;
 
   ngOnInit(): void {
     this.suffix_icon = getIcon(this.suffix_icon);

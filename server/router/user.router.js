@@ -7,34 +7,10 @@ import bcrypt from "bcryptjs";
 const UserRouter = express.Router();
 
 UserRouter.post(
-  "/add",
-  expressAsyncHandler(async (req, res) => {
-    const body = req.body;
-
-    const user = new User({
-      username: body.username,
-      password: bcrypt.hashSync(body.password, 8),
-
-      first_name: body.first_name,
-      last_name: body.last_name,
-      address: body.address,
-      birthdate: body.birthdate,
-    });
-
-    const createdUser = await user.save();
-
-    res.send({
-      message: "User created successfully",
-      userToken: generateUserToken(createdUser),
-    });
-  })
-);
-
-UserRouter.post(
   "/login",
   expressAsyncHandler(async (req, res) => {
     const user = await User.findOne({ username: req.body.username });
-    console.log(req.body.username);
+
     if (user) {
       if (bcrypt.compareSync(req.body.password, user.password)) {
         res.send({
@@ -79,6 +55,51 @@ UserRouter.get(
       message: "Successfully fetch User",
       data: income,
     });
+  })
+);
+
+UserRouter.post(
+  "/register",
+  expressAsyncHandler(async (req, res) => {
+    const body = req.body;
+
+    let user = await User.findOne({
+      first_name: body.first_name,
+      last_name: body.last_name,
+      birthdate: body.birthdate,
+      address: body.address,
+    });
+
+    if (user) {
+      if (user.password && user.username) {
+        res.status(409).send({
+          message: "This user has been already created",
+        });
+      } else {
+        user.password = bcrypt.hashSync(body.password, 8);
+        user.username = body.username;
+        let updated_user = await user.save();
+
+        res.send({
+          message: "User Updated Successfully!",
+          userToken: generateUserToken(updated_user),
+        });
+      }
+    } else {
+      user = new User({
+        username: body.username,
+        password: bcrypt.hashSync(body.password, 8),
+        first_name: body.first_name,
+        last_name: body.last_name,
+        birthdate: body.birthdate,
+        address: body.address,
+      });
+      let created_user = await user.save();
+      res.send({
+        message: "User Updated Successfully!",
+        userToken: generateUserToken(created_user),
+      });
+    }
   })
 );
 

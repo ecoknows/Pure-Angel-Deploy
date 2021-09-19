@@ -1,8 +1,13 @@
 <mat-tab-group>
-  <mat-tab label="Direct Selling">
-    <app-direct-selling></app-direct-selling>
+  <mat-tab label="Direct Referral">
+    <app-table
+      table-title="Direct Referral"
+      [rows]="direct_referral_rows"
+      button-icon="faUsers"
+      button-title="ADD PERSON"
+      [columns]="direct_referral_columns"
+    ></app-table>
   </mat-tab>
-
   <mat-tab label="Indirect Referral">
     <app-table
       table-title="Indirect Referral"
@@ -11,14 +16,8 @@
     ></app-table>
   </mat-tab>
 
-  <mat-tab label="Direct Referral">
-    <app-table
-      table-title="Indirect Referral"
-      [rows]="direct_referral_rows"
-      button-icon="faUsers"
-      button-title="ADD PERSON"
-      [columns]="direct_referral_columns"
-    ></app-table>
+  <mat-tab label="Direct Selling">
+    <app-direct-selling></app-direct-selling>
   </mat-tab>
 
   <mat-tab label="Pairing Bonus">

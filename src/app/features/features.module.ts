@@ -21,6 +21,11 @@ import { GenealogyDesignerComponent } from './genealogy/components/genealogy-des
 import { GenealogyNodeComponent } from './genealogy/components/genealogy-node/genealogy-node.component';
 import { LineChartComponent } from './dashboard/components/line-chart/line-chart.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDividerModule } from '@angular/material/divider';
+import { RegistrationComponent } from './registration/registration.component';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -34,6 +39,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     GenealogyNodeComponent,
     GenealogyComponent,
     LineChartComponent,
+    RegistrationComponent,
   ],
   imports: [
     NgxChartsModule,
@@ -46,6 +52,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
+    MatDividerModule,
+    MatStepperModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
 })
 export class FeaturesModule {}
