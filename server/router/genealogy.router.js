@@ -95,11 +95,11 @@ GenealogyRouter.post(
 async function updateBranches(root) {
   if (root.branches.length > 0) {
     for (let i = 0; i < root.branches.length; i++) {
-      let branch = root.branches[i];
+      const branch = root.branches[i];
       const newBranch = await Genealogy.findOne({ user_id: branch._id });
       if (newBranch) {
         root.branches[i] = newBranch;
-        updateBranches(root.branches[i]);
+        await updateBranches(root.branches[i]);
       }
     }
   }

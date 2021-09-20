@@ -50,7 +50,6 @@ export class GenealogyService {
       })
       .subscribe((result) => {
         let data = result.data;
-        console.log(result, 'FETCH');
 
         if (data) {
           if (data.branches?.length) {
