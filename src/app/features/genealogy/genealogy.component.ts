@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { GenealogyState } from '@core/redux/genealogy/genealogy.reducer';
 import { GenealogyService } from '@core/services/genealogy.service';
 import { Store } from '@ngrx/store';
-import { CreateDialogComponent } from '@shared/components/create-dialog/create-dialog.component';
 import { getIcon } from '@shared/components/icons';
 import { Observable } from 'rxjs';
 
@@ -18,8 +17,7 @@ export class GenealogyComponent implements OnInit {
 
   constructor(
     private store: Store<{ genealogyReducer: GenealogyState }>,
-    public genealogyService: GenealogyService,
-    private createDialog: MatDialog
+    public genealogyService: GenealogyService
   ) {
     this.genealogy$ = this.store.select('genealogyReducer');
     this.iconButton = getIcon('faUserPlus');
@@ -27,9 +25,5 @@ export class GenealogyComponent implements OnInit {
 
   ngOnInit(): void {
     this.genealogyService.fetchGenealogy();
-  }
-
-  openCreateDialog() {
-    this.createDialog.open(CreateDialogComponent, {});
   }
 }

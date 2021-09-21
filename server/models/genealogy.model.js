@@ -8,16 +8,26 @@ const genealogySchema = new mongoose.Schema(
     last_name: { type: String, required: true },
     address: { type: String, required: true },
 
-    branches: {
-      type: [
-        {
-          first_name: { type: String, required: true },
-          last_name: { type: String, required: true },
-          address: { type: String, required: true },
-          branches: { type: Array, default: [] },
-        },
-      ],
-      required: true,
+    left_branch: {
+      type: {
+        first_name: { type: String, required: true },
+        last_name: { type: String, required: true },
+        address: { type: String, required: true },
+
+        left_branch: { type: Object },
+        right_branch: { type: Object },
+      },
+    },
+
+    right_branch: {
+      type: {
+        first_name: { type: String, required: true },
+        last_name: { type: String, required: true },
+        address: { type: String, required: true },
+
+        left_branch: { type: Object },
+        right_branch: { type: Object },
+      },
     },
   },
   {

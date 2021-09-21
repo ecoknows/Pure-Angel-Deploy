@@ -3,7 +3,8 @@ export interface Genealogy {
   first_name?: string;
   last_name?: string;
   address?: string;
-  branches?: [];
+  right_branch?: Genealogy;
+  left_branch?: Genealogy;
   cssClass?: string;
   image?: string;
   title?: string;

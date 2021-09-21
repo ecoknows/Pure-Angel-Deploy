@@ -12,7 +12,7 @@ import { Genealogy } from '@core/redux/genealogy/genealogy.model';
   styleUrls: ['./genealogy-designer.component.sass'],
 })
 export class GenealogyDesignerComponent {
-  @Input('node') node!: Genealogy;
+  @Input('node') node!: Genealogy | undefined;
   @Input('hasParent') hasParent: boolean = false;
   @Input('direction') direction: 'vertical' | 'horizontal' = 'vertical';
 

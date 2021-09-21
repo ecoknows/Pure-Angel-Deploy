@@ -27,6 +27,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { GenealogyAddComponent } from './genealogy/components/genealogy-add/genealogy-add.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     GenealogyComponent,
     LineChartComponent,
     RegistrationComponent,
+    GenealogyAddComponent,
   ],
   imports: [
     NgxChartsModule,

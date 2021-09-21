@@ -1,0 +1,20 @@
+<div class="button-container">
+  <div class="border-container">
+    <div
+      class="border-line ngx-org-border"
+      [style.border-color]="position == 'left' ? 'transparent' : ''"
+    ></div>
+    <div class="ngx-org-border"></div>
+    <div
+      class="border-line ngx-org-border"
+      [style.border-color]="position == 'right' ? 'transparent' : ''"
+    ></div>
+  </div>
+
+  <div class="button-display">
+    <div ngClass="ngx-org-connector-vertical" class="ngx-org-border"></div>
+    <div class="container">
+      <button mat-raised-button color="primary">ADD DIRECT REFERRAL</button>
+    </div>
+  </div>
+</div>

@@ -13,8 +13,6 @@ import { AuthService } from './auth.service';
   providedIn: 'root',
 })
 export class GenealogyService {
-  canAddBranch: boolean = false;
-
   constructor(
     private http: HttpClient,
     private authService: AuthService,
@@ -36,7 +34,32 @@ export class GenealogyService {
               first_name: data.first_name,
               last_name: data.last_name,
               address: data.address,
-              branches: [],
+
+              left_branch: {
+                _id: data._id,
+                first_name: 'Darwin',
+                last_name: 'Vargas',
+                address: 'Manila',
+                left_branch: {
+                  _id: data._id,
+                  first_name: data.first_name,
+                  last_name: data.last_name,
+                  address: data.address,
+                },
+              },
+
+              right_branch: {
+                _id: data._id,
+                first_name: 'Regie',
+                last_name: 'Campomanes',
+                address: 'Manila',
+                right_branch: {
+                  _id: data._id,
+                  first_name: data.first_name,
+                  last_name: data.last_name,
+                  address: data.address,
+                },
+              },
             },
           })
         );
@@ -52,15 +75,8 @@ export class GenealogyService {
         let data = result.data;
 
         if (data) {
-          if (data.branches?.length) {
-            if (data.branches.length < 2) {
-              this.canAddBranch = true;
-            }
-          }
-
           this.store.dispatch(setGenealogy({ genealogy: data }));
         } else {
-          this.canAddBranch = true;
           this.fetchDefaultGenealogy();
         }
       });
@@ -72,7 +88,6 @@ export class GenealogyService {
     birthdate: string;
     address: string;
   }) {
-    this.canAddBranch = false;
     this.http
       .post<{ message: string }>(SERVER_URL + '/genealogy/add', person, {
         headers: this.authService.headers,
