@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Genealogy } from '@core/redux/genealogy/genealogy.model';
+import { AuthService } from '@core/services/auth.service';
 
 @Component({
   selector: 'genealogy-node',
@@ -14,4 +15,6 @@ export class GenealogyNodeComponent {
   @Input('direction') direction: 'vertical' | 'horizontal' = 'vertical';
 
   @Output('itemClick') itemClick = new EventEmitter<Genealogy>();
+
+  constructor(public authService: AuthService) {}
 }

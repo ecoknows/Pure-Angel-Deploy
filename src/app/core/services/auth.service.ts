@@ -8,11 +8,13 @@ import { SidebarService } from './sidebar.service';
 import { GenealogyState } from '@core/redux/genealogy/genealogy.reducer';
 import { resetGenealogy } from '@core/redux/genealogy/genealogy.actions';
 import { SERVER_URL } from '@core/api';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  user$: Observable<UserState>;
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -21,7 +23,10 @@ export class AuthService {
       branchReducer: GenealogyState;
       userReducer: UserState;
     }>
-  ) {}
+  ) {
+    this.user$ = this.store.select('userReducer');
+    this.fetchUserData();
+  }
 
   login(username: string, password: string) {
     this.http

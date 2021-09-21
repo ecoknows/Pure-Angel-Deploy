@@ -34,32 +34,6 @@ export class GenealogyService {
               first_name: data.first_name,
               last_name: data.last_name,
               address: data.address,
-
-              left_branch: {
-                _id: data._id,
-                first_name: 'Darwin',
-                last_name: 'Vargas',
-                address: 'Manila',
-                left_branch: {
-                  _id: data._id,
-                  first_name: data.first_name,
-                  last_name: data.last_name,
-                  address: data.address,
-                },
-              },
-
-              right_branch: {
-                _id: data._id,
-                first_name: 'Regie',
-                last_name: 'Campomanes',
-                address: 'Manila',
-                right_branch: {
-                  _id: data._id,
-                  first_name: data.first_name,
-                  last_name: data.last_name,
-                  address: data.address,
-                },
-              },
             },
           })
         );
@@ -83,10 +57,12 @@ export class GenealogyService {
   }
 
   addGenealogy(person: {
+    root_id: string;
     first_name: string;
     last_name: string;
     birthdate: string;
     address: string;
+    position: string;
   }) {
     this.http
       .post<{ message: string }>(SERVER_URL + '/genealogy/add', person, {

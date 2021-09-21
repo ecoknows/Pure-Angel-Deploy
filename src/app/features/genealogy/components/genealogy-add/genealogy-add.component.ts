@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Genealogy } from '@core/redux/genealogy/genealogy.model';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateDialogComponent } from '@shared/components/create-dialog/create-dialog.component';
 
 @Component({
   selector: 'genealogy-add',
@@ -8,7 +10,13 @@ import { Genealogy } from '@core/redux/genealogy/genealogy.model';
 })
 export class GenealogyAddComponent {
   @Input('node') node!: Genealogy | undefined;
-  @Input('position') position: 'left' | 'middle' | 'right' = 'middle';
+  @Input('position') position: 'left' | 'right' = 'left';
 
-  constructor() {}
+  constructor(public dialog: MatDialog) {}
+
+  addDirectRefferal() {
+    this.dialog.open(CreateDialogComponent, {
+      data: { position: this.position, root_id: this.node?._id },
+    });
+  }
 }

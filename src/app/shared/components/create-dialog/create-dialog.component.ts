@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { GenealogyService } from '@core/services/genealogy.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-create-dialog',
@@ -10,6 +11,7 @@ import { GenealogyService } from '@core/services/genealogy.service';
 export class CreateDialogComponent {
   form: FormGroup;
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: { position: string; root_id: string },
     private fb: FormBuilder,
     private genealogyService: GenealogyService
   ) {
@@ -26,10 +28,12 @@ export class CreateDialogComponent {
     let birthdate = this.form.get('birthdate')?.value;
     let address = this.form.get('address')?.value;
     const person = {
+      root_id: this.data.root_id,
       first_name,
       last_name,
       birthdate,
       address,
+      position: this.data.position,
     };
     this.genealogyService.addGenealogy(person);
   }

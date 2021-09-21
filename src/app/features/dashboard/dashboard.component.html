@@ -1,10 +1,12 @@
 <div class="dashboard-top-info">
   <div class="greetings">
-    <h1>Hello, {{ (user$ | async)?.first_name }}</h1>
+    <h1>Hello, {{ (authService.user$ | async)?.first_name }}</h1>
     <h2>Welcome back to Pure Angel Cofee</h2>
   </div>
   <div class="total-assets">
-    <h1>₱ {{ (user$ | async)?.overall_income | number: "1.2-2" }}</h1>
+    <h1>
+      ₱ {{ (authService.user$ | async)?.overall_income | number: "1.2-2" }}
+    </h1>
     <h2>Overall Income</h2>
   </div>
 </div>
@@ -13,31 +15,31 @@
 
 <div class="dashboard-bottom-info">
   <app-card-total-number
-    [money]="(user$ | async)?.direct_selling"
+    [money]="(authService.user$ | async)?.direct_selling"
     icon="faFunnelDollar"
     label="Direct Selling"
   ></app-card-total-number>
 
   <app-card-total-number
-    [money]="(user$ | async)?.indirect_referral"
+    [money]="(authService.user$ | async)?.indirect_referral"
     icon="faUsers"
     label="Indirect Referral"
   ></app-card-total-number>
 
   <app-card-total-number
-    [money]="(user$ | async)?.direct_referral"
+    [money]="(authService.user$ | async)?.direct_referral"
     icon="faUsers"
     label="Direct Referral"
   ></app-card-total-number>
 
   <app-card-total-number
-    [money]="(user$ | async)?.pairing_bonus"
+    [money]="(authService.user$ | async)?.pairing_bonus"
     icon="faCommentsDollar"
     label="Pairing Bonus"
   ></app-card-total-number>
 
   <app-card-total-number
-    [money]="(user$ | async)?.automatic_equivalent_rebates"
+    [money]="(authService.user$ | async)?.automatic_equivalent_rebates"
     icon="faHandHoldingUsd"
     label="Automatic Equivalent Rebates"
   ></app-card-total-number>

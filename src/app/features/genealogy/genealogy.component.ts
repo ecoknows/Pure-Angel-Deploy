@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { GenealogyState } from '@core/redux/genealogy/genealogy.reducer';
 import { GenealogyService } from '@core/services/genealogy.service';
 import { Store } from '@ngrx/store';

@@ -6,6 +6,12 @@
 
 <div
   [ngClass]="node.cssClass || ''"
+  [style.opacity]="
+    (authService.user$ | async)?._id == node?.id_of_the_user_that_invite ||
+    node?.id_of_the_user_that_invite == undefined
+      ? 1
+      : 0.6
+  "
   class="ngx-org-box ngx-org-border ngx-org-background"
   (click)="itemClick.emit(node)"
 >
