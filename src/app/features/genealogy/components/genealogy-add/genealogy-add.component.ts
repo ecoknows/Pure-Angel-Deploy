@@ -16,7 +16,7 @@ export class GenealogyAddComponent {
 
   addDirectRefferal() {
     this.dialog.open(CreateDialogComponent, {
-      data: { position: this.position, root_id: this.node?._id },
+      data: { position: this.position, root_id: this.node?.user_id },
     });
   }
 }

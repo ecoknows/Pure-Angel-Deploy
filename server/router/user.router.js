@@ -3,6 +3,7 @@ import expressAsyncHandler from "express-async-handler";
 import { decodeUserToken, generateUserToken } from "../utils.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
+import UserVerification from "../models/user.verification.model.js";
 
 const UserRouter = express.Router();
 
@@ -63,42 +64,56 @@ UserRouter.post(
   expressAsyncHandler(async (req, res) => {
     const body = req.body;
 
-    let user = await User.findOne({
+    let userVerification = await UserVerification.findOne({
       first_name: body.first_name,
       last_name: body.last_name,
       birthdate: body.birthdate,
       address: body.address,
     });
 
-    if (user) {
-      if (user.password && user.username) {
-        res.status(409).send({
-          message: "This user has been already created",
-        });
-      } else {
-        user.password = bcrypt.hashSync(body.password, 8);
-        user.username = body.username;
-        let updated_user = await user.save();
+    if (userVerification && userVerification._id == body.secret_code) {
+      let user = await User.findById(userVerification.user_id);
+      user.password = bcrypt.hashSync(body.password, 8);
+      user.username = body.username;
 
-        res.send({
-          message: "User Updated Successfully!",
-          userToken: generateUserToken(updated_user),
-        });
-      }
-    } else {
-      user = new User({
-        username: body.username,
-        password: bcrypt.hashSync(body.password, 8),
-        first_name: body.first_name,
-        last_name: body.last_name,
-        birthdate: body.birthdate,
-        address: body.address,
-      });
-      let created_user = await user.save();
+      let updated_user = await user.save();
+
+      userVerification.verified = true;
+      userVerification.save();
+
       res.send({
         message: "User Updated Successfully!",
-        userToken: generateUserToken(created_user),
+        userToken: generateUserToken(updated_user),
       });
+    } else {
+      res.status(404).send({
+        message: "Cannot find the correct user please, double check!",
+      });
+    }
+  })
+);
+
+UserRouter.post(
+  "/create-ancestor",
+  expressAsyncHandler(async (req, res) => {
+    let check_if_ancestor_exist = await User.findOne({ is_ancestor: true });
+    if (check_if_ancestor_exist) {
+      res.status(409).send({ message: "Ancestor already exist!" });
+    } else {
+      let body = req.body;
+      let ancestor = await new User({
+        username: body.username,
+        password: bcrypt.hashSync(body.password, 8),
+
+        first_name: body.first_name,
+        last_name: body.last_name,
+        address: body.address,
+        birthdate: body.birthdate,
+        is_ancestor: true,
+      });
+
+      await ancestor.save();
+      res.send({ message: "Succfully created an ancestor!" });
     }
   })
 );

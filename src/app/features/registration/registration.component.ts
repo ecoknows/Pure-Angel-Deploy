@@ -28,6 +28,7 @@ export class RegistrationComponent {
       last_name: ['', Validators.required],
       address: ['', Validators.required],
       birthdate: ['', Validators.required],
+      secret_code: ['', Validators.required],
     });
     this.authenticationGroup = this.fb.group({
       username: ['', Validators.required],
@@ -41,6 +42,7 @@ export class RegistrationComponent {
       first_name: this.personalInfoGroup.get('first_name')?.value,
       last_name: this.personalInfoGroup.get('last_name')?.value,
       address: this.personalInfoGroup.get('address')?.value,
+      secret_code: this.personalInfoGroup.get('secret_code')?.value,
       birthdate: this.personalInfoGroup.get('birthdate')?.value,
       username: this.authenticationGroup.get('username')?.value,
       password: this.authenticationGroup.get('password')?.value,
@@ -48,8 +50,6 @@ export class RegistrationComponent {
   }
 
   submit() {
-    console.log(this.RegistrationInfo, 'test');
-
     this.authService.register(this.RegistrationInfo);
   }
 }

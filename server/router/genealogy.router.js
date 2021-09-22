@@ -105,6 +105,7 @@ async function createChildUser(body, id_of_the_user_that_invite) {
     first_name: child_user.first_name,
     last_name: child_user.last_name,
     address: child_user.address,
+    birthdate: body.birthdate,
     id_of_the_user_that_invite,
   });
 

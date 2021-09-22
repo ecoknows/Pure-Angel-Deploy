@@ -7,6 +7,7 @@ const userVerificationSchema = new mongoose.Schema(
     first_name: { type: String, required: true },
     last_name: { type: String, required: true },
     address: { type: String, required: true },
+    birthdate: { type: String, required: true },
 
     id_of_the_user_that_invite: { type: String, required: true },
     verified: { type: Boolean, default: false },

@@ -10,6 +10,10 @@ const userSchema = new mongoose.Schema(
     address: { type: String, required: true, index: true },
     birthdate: { type: String, required: true, index: true },
 
+    is_stockist: { type: Boolean },
+    is_admin: { type: Boolean },
+    is_ancestor: { type: Boolean, index: true },
+
     direct_referral: { type: Number },
     indirect_referral: { type: Number },
     pairing_bonus: { type: Number },

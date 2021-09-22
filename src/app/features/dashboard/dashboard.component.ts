@@ -8,6 +8,10 @@ import { Observable } from 'rxjs';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.sass'],
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   constructor(public authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.authService.fetchUserData();
+  }
 }

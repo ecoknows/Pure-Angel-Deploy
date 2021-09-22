@@ -30,7 +30,7 @@ export class GenealogyService {
         this.store.dispatch(
           setGenealogy({
             genealogy: {
-              _id: data._id,
+              user_id: data._id,
               first_name: data.first_name,
               last_name: data.last_name,
               address: data.address,

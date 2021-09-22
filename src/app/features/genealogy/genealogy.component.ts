@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GenealogyState } from '@core/redux/genealogy/genealogy.reducer';
+import { AuthService } from '@core/services/auth.service';
 import { GenealogyService } from '@core/services/genealogy.service';
 import { Store } from '@ngrx/store';
 import { getIcon } from '@shared/components/icons';
@@ -16,8 +17,10 @@ export class GenealogyComponent implements OnInit {
 
   constructor(
     private store: Store<{ genealogyReducer: GenealogyState }>,
-    public genealogyService: GenealogyService
+    public genealogyService: GenealogyService,
+    public authService: AuthService
   ) {
+    this.authService.fetchUserData();
     this.genealogy$ = this.store.select('genealogyReducer');
     this.iconButton = getIcon('faUserPlus');
   }

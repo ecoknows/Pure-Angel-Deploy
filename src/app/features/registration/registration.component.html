@@ -49,6 +49,11 @@
           <mat-label>Address</mat-label>
           <input required matInput formControlName="address" />
         </mat-form-field>
+
+        <mat-form-field class="address-form">
+          <mat-label>Secret Code</mat-label>
+          <input required matInput formControlName="secret_code" />
+        </mat-form-field>
       </div>
 
       <div class="button-container">
@@ -113,6 +118,10 @@
         <li>
           Birthdate :
           <span>{{ RegistrationInfo.birthdate | date: "MMMM d, y" }}</span>
+        </li>
+        <li>
+          Secret Code :
+          <span>{{ RegistrationInfo.secret_code }}</span>
         </li>
       </ul>
       <div class="button-container">

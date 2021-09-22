@@ -25,7 +25,6 @@ export class AuthService {
     }>
   ) {
     this.user$ = this.store.select('userReducer');
-    this.fetchUserData();
   }
 
   login(username: string, password: string) {
@@ -55,6 +54,7 @@ export class AuthService {
     last_name: string;
     birthdate: string;
     address: string;
+    secret_code: string;
   }) {
     this.http
       .post<{ message: string; userToken: string }>(
