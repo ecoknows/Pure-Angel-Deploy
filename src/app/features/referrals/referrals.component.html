@@ -1,38 +1,9 @@
 <mat-tab-group>
   <mat-tab label="Direct Referral">
-    <app-table
-      table-title="Direct Referral"
-      [rows]="direct_referral_rows"
-      button-icon="faUsers"
-      button-title="ADD PERSON"
-      [columns]="direct_referral_columns"
-    ></app-table>
+    <app-direct-referral></app-direct-referral>
   </mat-tab>
+
   <mat-tab label="Indirect Referral">
-    <app-table
-      table-title="Indirect Referral"
-      [rows]="indirect_referral_rows"
-      [columns]="indirect_referral_columns"
-    ></app-table>
-  </mat-tab>
-
-  <mat-tab label="Direct Selling">
-    <app-direct-selling></app-direct-selling>
-  </mat-tab>
-
-  <mat-tab label="Pairing Bonus">
-    <app-table
-      table-title="Pairing Bonus"
-      [rows]="pairing_bonus_rows"
-      [columns]="pairing_bonus_columns"
-    ></app-table>
-  </mat-tab>
-
-  <mat-tab label="Automatic Equivalent Rebates">
-    <app-table
-      table-title="Automatic Equivalent Rebates"
-      [rows]="automatic_equivalent_rebates_rows"
-      [columns]="automatic_equivalent_rebates_columns"
-    ></app-table>
+    <app-indirect-referral></app-indirect-referral>
   </mat-tab>
 </mat-tab-group>

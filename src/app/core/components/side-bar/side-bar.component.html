@@ -5,6 +5,22 @@
     <div class="tabs-container">
       <ul>
         <li
+          *ngIf="(authService.user$ | async)?.is_admin"
+          routerLinkActive="active"
+          routerLink="/admin"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="top-illusion"></div>
+          <div class="icon-container">
+            <div class="icon-illusion">
+              <div>
+                <fa-icon [icon]="userShield" class="icons"></fa-icon>
+              </div>
+            </div>
+          </div>
+          <div class="bottom-illusion"></div>
+        </li>
+        <li
           *ngFor="let menu of menus"
           routerLinkActive="active"
           routerLink="{{ menu.url }}"

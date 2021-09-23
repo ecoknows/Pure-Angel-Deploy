@@ -1,1 +1,5 @@
-<p>indirect-referral works!</p>
+<app-table
+  table-title="Indirect Selling"
+  [rows]="(rows$ | async)?.list"
+  [columns]="columns"
+></app-table>

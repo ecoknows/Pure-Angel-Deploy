@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from '@core/components/page-not-found/page-not-found.component';
 import { AuthGuardService } from '@core/guards/auth-guard.service';
 import { LoginGuardService } from '@core/guards/login-guard.service';
+import { AdminComponent } from '@features/admin/admin.component';
+import { AdminGuardService } from '@features/admin/services/admin-guard.service';
 
 import {
   DashboardComponent,
@@ -39,11 +41,16 @@ const routes: Routes = [
     component: GenealogyComponent,
     canActivate: [AuthGuardService],
   },
-  // {
-  //   path: 'referrals',
-  //   component: ReferralsComponent,
-  //   canActivate: [AuthGuardService],
-  // },
+  {
+    path: 'referrals',
+    component: ReferralsComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: 'admin',
+    component: AdminComponent,
+    canActivate: [AdminGuardService],
+  },
   {
     path: '**',
     component: PageNotFoundComponent,

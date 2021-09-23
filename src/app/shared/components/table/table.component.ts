@@ -8,6 +8,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { CreateDialogComponent } from '../create-dialog/create-dialog.component';
+import { getIcon } from '../icons';
 
 export type IRows = {
   name: string;
@@ -31,16 +32,17 @@ export class TableComponent implements OnInit {
   @Input('columns') columns!: IColumns;
   @Input('rows') rows: any;
   @Input('table-title') table_title!: string;
-  @Input('button-icon') button_icon!: string;
-  @Input('button-title') button_title!: string;
   @ViewChild(DatatableComponent) table!: DatatableComponent;
 
+  verifiedIcon: any;
   cache: IRows = [];
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog) {
+    this.verifiedIcon = getIcon('faUserCheck');
+  }
 
   ngOnInit(): void {
-    this.cache = [...this.rows];
+    // this.cache = [...this.rows];
   }
 
   search(event: any) {

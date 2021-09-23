@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { DirectSellingState } from '@core/redux/direct-selling/direct-selling.reducers';
-import { DirectSellingService } from '@core/services/direct-selling.service';
+import { DirectReferralState } from '@core/redux/direct-referral/direct-referral.reducers';
+import { DirectReferralService } from '@core/services/direct-referral.service';
 import { Store } from '@ngrx/store';
+import { IColumns } from '@shared/components/table/table.component';
 import { Observable } from 'rxjs';
-import { IColumns } from '../table/table.component';
 
 @Component({
   selector: 'app-direct-referral',
@@ -11,31 +11,9 @@ import { IColumns } from '../table/table.component';
   styleUrls: ['./direct-referral.component.sass'],
 })
 export class DirectReferralComponent implements OnInit {
-  columns: IColumns = [
-    {
-      name: 'Name',
-      width: 400,
-    },
-    {
-      name: 'Age',
-      width: 300,
-    },
-    {
-      name: 'City',
-      width: 300,
-    },
-  ];
-
-  rows$: Observable<DirectSellingState>;
-
-  constructor(
-    private store: Store<{ directSellingReducer: DirectSellingState }>,
-    private service: DirectSellingService
-  ) {
-    this.rows$ = store.select('directSellingReducer');
-  }
+  constructor(public service: DirectReferralService) {}
 
   ngOnInit(): void {
-    this.service.getTable();
+    this.service.fetchDirectReferral();
   }
 }

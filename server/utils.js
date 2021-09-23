@@ -8,6 +8,9 @@ export const generateUserToken = (user) => {
       last_name: user.last_name,
       address: user.address,
       birthdate: user.birthdate,
+      is_stockist: user.is_stockist,
+      is_admin: user.is_admin,
+      is_ancestor: user.is_ancestor,
     },
     process.env.JWT_SECRET || "somethingsecret",
     {

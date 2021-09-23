@@ -71,15 +71,16 @@ UserRouter.post(
       address: body.address,
     });
 
-    if (userVerification && userVerification._id == body.secret_code) {
+    if (
+      userVerification &&
+      userVerification._id == body.secret_code &&
+      userVerification.verified
+    ) {
       let user = await User.findById(userVerification.user_id);
       user.password = bcrypt.hashSync(body.password, 8);
       user.username = body.username;
 
       let updated_user = await user.save();
-
-      userVerification.verified = true;
-      userVerification.save();
 
       res.send({
         message: "User Updated Successfully!",

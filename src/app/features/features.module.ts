@@ -28,6 +28,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { GenealogyAddComponent } from './genealogy/components/genealogy-add/genealogy-add.component';
+import { DirectReferralComponent } from './referrals/components/direct-referral/direct-referral.component';
+import { IndirectReferralComponent } from './referrals/components/indirect-referral/indirect-referral.component';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +47,9 @@ import { GenealogyAddComponent } from './genealogy/components/genealogy-add/gene
     LineChartComponent,
     RegistrationComponent,
     GenealogyAddComponent,
+    DirectReferralComponent,
+    IndirectReferralComponent,
+    AdminComponent,
   ],
   imports: [
     NgxChartsModule,
@@ -60,6 +67,7 @@ import { GenealogyAddComponent } from './genealogy/components/genealogy-add/gene
     MatDatepickerModule,
     MatNativeDateModule,
     FontAwesomeModule,
+    NgxDatatableModule,
   ],
 })
 export class FeaturesModule {}

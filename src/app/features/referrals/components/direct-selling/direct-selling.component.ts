@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DirectSellingState } from '@core/redux/direct-selling/direct-selling.reducers';
+import { DirectReferralState } from '@core/redux/direct-referral/direct-referral.reducers';
 import { Store } from '@ngrx/store';
 import { IColumns } from '@shared/components/table/table.component';
 import { Observable } from 'rxjs';
@@ -25,10 +25,10 @@ export class DirectSellingComponent implements OnInit {
     },
   ];
 
-  rows$: Observable<DirectSellingState>;
+  rows$: Observable<DirectReferralState>;
 
   constructor(
-    private store: Store<{ directSellingReducer: DirectSellingState }>
+    private store: Store<{ directSellingReducer: DirectReferralState }>
   ) {
     this.rows$ = this.store.select('directSellingReducer');
   }

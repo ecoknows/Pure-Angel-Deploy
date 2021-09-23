@@ -8,6 +8,10 @@ export interface UserState {
   address?: string;
   birthdate?: string;
 
+  is_stockist?: boolean;
+  is_admin?: boolean;
+  is_ancestor?: boolean;
+
   overall_income?: number;
   direct_referral?: number;
   indirect_referral?: number;

@@ -7,6 +7,7 @@ import {
   faUsers,
   faTree,
 } from '@fortawesome/free-solid-svg-icons';
+import { getIcon } from '@shared/components/icons';
 
 @Component({
   selector: 'app-side-bar',
@@ -21,6 +22,10 @@ export class SideBarComponent {
     },
     {
       url: 'genealogy',
+      icon: faTree,
+    },
+    {
+      url: 'referrals',
       icon: faUsers,
     },
     {
@@ -29,7 +34,11 @@ export class SideBarComponent {
     },
   ];
 
-  constructor(private authService: AuthService) {}
+  userShield: any;
+
+  constructor(public authService: AuthService) {
+    this.userShield = getIcon('faUserShield');
+  }
 
   logout() {
     this.authService.logout();
