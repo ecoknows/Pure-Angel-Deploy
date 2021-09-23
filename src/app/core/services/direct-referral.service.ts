@@ -14,6 +14,8 @@ import { AuthService } from './auth.service';
 export class DirectReferralService {
   public rows$: Observable<DirectReferralState>;
 
+  cache!: DirectReferral[];
+
   constructor(
     private http: HttpClient,
     private authService: AuthService,
@@ -31,8 +33,7 @@ export class DirectReferralService {
       .subscribe((response) => {
         const data = response.data;
         if (data) {
-          console.log(data);
-
+          this.cache = [...data];
           this.store.dispatch(fetchDirectReferral({ list: data }));
         }
       });

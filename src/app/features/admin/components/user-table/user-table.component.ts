@@ -11,31 +11,29 @@ import { getIcon } from '@shared/components/icons';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 @Component({
-  selector: 'app-direct-referral',
-  templateUrl: './direct-referral.component.html',
-  styleUrls: ['./direct-referral.component.sass'],
+  selector: 'app-user-table',
+  templateUrl: './user-table.component.html',
+  styleUrls: ['./user-table.component.sass'],
   encapsulation: ViewEncapsulation.None,
 })
-export class DirectReferralComponent implements OnInit {
+export class UserTableComponent implements OnInit {
   @Input('rows') rows: DirectReferral[] | undefined = [];
   verifiedIcon: any;
 
   @ViewChild(DatatableComponent) table!: DatatableComponent;
 
-  constructor(private service: DirectReferralService) {
+  constructor() {
     this.verifiedIcon = getIcon('faUserCheck');
   }
 
-  ngOnInit(): void {
-    this.service.fetchDirectReferral();
-  }
+  ngOnInit(): void {}
 
   search(event: any) {
-    const val = event.target.value.toLowerCase();
+    // const val = event.target.value.toLowerCase();
 
-    this.rows = this.service.cache?.filter(function (d) {
-      return d.first_name.toLowerCase().indexOf(val) !== -1 || !val;
-    });
+    // this.rows = this.service.cache?.filter(function (d) {
+    //   return d.first_name.toLowerCase().indexOf(val) !== -1 || !val;
+    // });
 
     this.table.offset = 0;
   }

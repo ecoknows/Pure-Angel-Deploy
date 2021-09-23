@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { UserState } from '@core/redux/user/user.reducer';
 import { AuthService } from '@core/services/auth.service';
 import { of } from 'rxjs';
@@ -9,20 +10,19 @@ import { catchError, map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AdminGuardService implements CanActivate {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   canActivate() {
-    return this.authService.user$.pipe(
-      map((user: UserState) => {
-        if (user.is_admin) {
-          return true;
-        } else {
-          return false;
-        }
-      }),
-      catchError((err) => {
-        return of(false);
-      })
-    );
+    const helper = new JwtHelperService();
+    const token = this.authService.userToken;
+
+    if (token) {
+      const decode = helper.decodeToken(token);
+      if (decode) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

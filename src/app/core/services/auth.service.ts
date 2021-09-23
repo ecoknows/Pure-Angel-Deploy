@@ -9,6 +9,7 @@ import { GenealogyState } from '@core/redux/genealogy/genealogy.reducer';
 import { resetGenealogy } from '@core/redux/genealogy/genealogy.actions';
 import { SERVER_URL } from '@core/api';
 import { Observable } from 'rxjs';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root',
@@ -79,15 +80,14 @@ export class AuthService {
   }
 
   fetchUserData() {
-    this.http
-      .get<{ message: string; data: UserState }>(SERVER_URL + '/user/profile', {
-        headers: this.headers,
-      })
-      .subscribe((response) => {
-        const data = response.data;
-        this.store.dispatch(setUserData({ user: data }));
-      });
+    const helper = new JwtHelperService();
+    const token = this.userToken;
+
     this.fetchUserIncome();
+
+    if (token) {
+      this.store.dispatch(setUserData({ user: helper.decodeToken(token) }));
+    }
   }
 
   private fetchUserIncome() {

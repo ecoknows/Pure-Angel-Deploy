@@ -32,6 +32,7 @@ import { DirectReferralComponent } from './referrals/components/direct-referral/
 import { IndirectReferralComponent } from './referrals/components/indirect-referral/indirect-referral.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { AdminComponent } from './admin/admin.component';
+import { UserTableComponent } from './admin/components/user-table/user-table.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { AdminComponent } from './admin/admin.component';
     DirectReferralComponent,
     IndirectReferralComponent,
     AdminComponent,
+    UserTableComponent,
   ],
   imports: [
     NgxChartsModule,

@@ -20,7 +20,6 @@ export class GenealogyComponent implements OnInit {
     public genealogyService: GenealogyService,
     public authService: AuthService
   ) {
-    this.authService.fetchUserData();
     this.genealogy$ = this.store.select('genealogyReducer');
     this.iconButton = getIcon('faUserPlus');
   }

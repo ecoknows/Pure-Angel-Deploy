@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from '@core/components/page-not-found/page-not-found.component';
 import { AuthGuardService } from '@core/guards/auth-guard.service';
 import { LoginGuardService } from '@core/guards/login-guard.service';
+import { AuthService } from '@core/services/auth.service';
 import { AdminComponent } from '@features/admin/admin.component';
 import { AdminGuardService } from '@features/admin/services/admin-guard.service';
 
