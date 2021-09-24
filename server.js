@@ -7,6 +7,10 @@ import GenealogyRouter from "./server/router/genealogy.router.js";
 import DirectReferralRouter from "./server/router/direct-referral.router.js";
 import AdminRouter from "./server/router/admin.router.js";
 
+import path from "path";
+
+const __dirname = path.resolve();
+
 dotenv.config();
 
 mongoose.connect(process.env.TESTING_DATABASE).then(() => {
@@ -15,6 +19,12 @@ mongoose.connect(process.env.TESTING_DATABASE).then(() => {
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+app.use(express.static(__dirname + "/dist"));
+
+app.get("/", function (req, res) {
+  res.sendFile(path.join(__dirname + "/dist/index.html"));
+});
 
 app.use(UtilsRouter);
 
