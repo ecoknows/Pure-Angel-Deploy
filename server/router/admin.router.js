@@ -1,10 +1,52 @@
 import express from "express";
 import expressAsyncHandler from "express-async-handler";
+import {
+  DIRECT_REFERRAL_PAYMENT,
+  INDIRECT_REFERRAL_LIMIT,
+  INDIRECT_REFERRAL_PAYMENT,
+} from "../constants.js";
 import User from "../models/user.model.js";
 import UserVerification from "../models/user.verification.model.js";
 import { checkIfAdmin, verifyUserToken } from "../utils.js";
 
 const AdminRouter = express.Router();
+
+async function payDirectReferral(id_of_the_user_that_invite, checked) {
+  const user_that_invite = await User.findById(id_of_the_user_that_invite);
+
+  if (user_that_invite) {
+    user_that_invite.direct_referral = checked
+      ? user_that_invite.direct_referral + DIRECT_REFERRAL_PAYMENT
+      : user_that_invite.direct_referral - DIRECT_REFERRAL_PAYMENT;
+
+    user_that_invite.save();
+  }
+}
+
+async function payIndirectReferral(id_of_the_user_that_invite, checked) {
+  const indirect_referral_user = await UserVerification.findOne({
+    user_id: id_of_the_user_that_invite,
+  });
+
+  if (
+    indirect_referral_user &&
+    indirect_referral_user.indirect_referral_count < INDIRECT_REFERRAL_LIMIT
+  ) {
+    const user_that_invite = await User.findById(
+      indirect_referral_user.id_of_the_user_that_invite
+    );
+
+    user_that_invite.indirect_referral = checked
+      ? user_that_invite.indirect_referral + INDIRECT_REFERRAL_PAYMENT
+      : user_that_invite.indirect_referral - INDIRECT_REFERRAL_PAYMENT;
+
+    indirect_referral_user.indirect_referral_count =
+      indirect_referral_user.indirect_referral_count + 1;
+
+    user_that_invite.save();
+    indirect_referral_user.save();
+  }
+}
 
 AdminRouter.get(
   "/users",
@@ -43,15 +85,15 @@ AdminRouter.post(
       user_to_verify.income = body.checked ? 100 : 0;
       await user_to_verify.save();
 
-      const user_that_invite = await User.findById(
-        user_to_verify.id_of_the_user_that_invite
+      await payDirectReferral(
+        user_to_verify.id_of_the_user_that_invite,
+        body.checked
       );
 
-      user_that_invite.direct_referral = body.checked
-        ? user_that_invite.direct_referral + 100
-        : user_that_invite.direct_referral - 100;
-
-      user_that_invite.save();
+      await payIndirectReferral(
+        user_to_verify.id_of_the_user_that_invite,
+        body.checked
+      );
 
       res.send({
         message: "Successfully verify User!",

@@ -12,6 +12,7 @@ const userVerificationSchema = new mongoose.Schema(
     id_of_the_user_that_invite: { type: String, index: true },
     verified: { type: Boolean, default: false },
     income: { type: Number, default: 0 },
+    indirect_referral_count: { type: Number, default: 0 },
   },
   {
     timestamps: true,

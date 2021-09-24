@@ -1,0 +1,3 @@
+export const INDIRECT_REFERRAL_LIMIT = 5;
+export const DIRECT_REFERRAL_PAYMENT = 100;
+export const INDIRECT_REFERRAL_PAYMENT = 25;

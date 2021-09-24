@@ -13,12 +13,6 @@
 
 <div class="dashboard-bottom-info">
   <app-card-total-number
-    [money]="(user$ | async)?.direct_selling"
-    icon="faFunnelDollar"
-    label="Direct Selling"
-  ></app-card-total-number>
-
-  <app-card-total-number
     [money]="(user$ | async)?.indirect_referral"
     icon="faUsers"
     label="Indirect Referral"

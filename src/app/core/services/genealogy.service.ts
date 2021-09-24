@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { SERVER_URL } from '@core/api';
 import { setGenealogy } from '@core/redux/genealogy/genealogy.actions';
 import { Genealogy } from '@core/redux/genealogy/genealogy.model';
@@ -20,24 +21,25 @@ export class GenealogyService {
   ) {}
 
   fetchDefaultGenealogy() {
-    this.http
-      .get<{ message: string; data: UserState }>(SERVER_URL + '/user/profile', {
-        headers: this.authService.headers,
-      })
-      .subscribe((response) => {
-        const data = response.data;
-        this.store.dispatch(setUserData({ user: data }));
-        this.store.dispatch(
-          setGenealogy({
-            genealogy: {
-              user_id: data._id,
-              first_name: data.first_name,
-              last_name: data.last_name,
-              address: data.address,
-            },
-          })
-        );
-      });
+    const helper = new JwtHelperService();
+    const token = this.authService.userToken;
+
+    if (token) {
+      const user = helper.decodeToken(token);
+
+      this.store.dispatch(
+        setGenealogy({
+          genealogy: {
+            user_id: user._id,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            address: user.address,
+          },
+        })
+      );
+
+      this.store.dispatch(setUserData({ user }));
+    }
   }
 
   fetchGenealogy() {

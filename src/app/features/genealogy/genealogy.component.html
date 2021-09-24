@@ -1,4 +1,6 @@
-<genealogy-chart
-  [nodes]="(genealogy$ | async)?.genealogy"
-  direction="vertical"
-></genealogy-chart>
+<div class="genealogy-container">
+  <genealogy-chart
+    [nodes]="(genealogy$ | async)?.genealogy"
+    direction="vertical"
+  ></genealogy-chart>
+</div>

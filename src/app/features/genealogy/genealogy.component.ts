@@ -25,6 +25,7 @@ export class GenealogyComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.authService.fetchUserData();
     this.genealogyService.fetchGenealogy();
   }
 }

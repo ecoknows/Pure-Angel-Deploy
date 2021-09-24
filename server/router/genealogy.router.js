@@ -16,7 +16,7 @@ async function updateGenealogy(
 ) {
   if (position == "left") {
     genealogy.left_branch = {
-      _id: child_user._id,
+      user_id: child_user._id,
       id_of_the_user_that_invite,
       first_name: child_user.first_name,
       last_name: child_user.last_name,
@@ -28,7 +28,7 @@ async function updateGenealogy(
     });
   } else if (position == "right") {
     genealogy.right_branch = {
-      _id: child_user._id,
+      user_id: child_user._id,
       id_of_the_user_that_invite,
       first_name: child_user.first_name,
       last_name: child_user.last_name,
@@ -60,7 +60,7 @@ async function addNewGenealogy(
       last_name: current_user.last_name,
       address: current_user.address,
       left_branch: {
-        _id: child_user._id,
+        user_id: child_user._id,
         id_of_the_user_that_invite,
         first_name: child_user.first_name,
         last_name: child_user.last_name,
@@ -75,7 +75,7 @@ async function addNewGenealogy(
       last_name: current_user.last_name,
       address: current_user.address,
       right_branch: {
-        _id: child_user._id,
+        user_id: child_user._id,
         id_of_the_user_that_invite,
         first_name: child_user.first_name,
         last_name: child_user.last_name,
@@ -123,6 +123,8 @@ GenealogyRouter.post(
     const id_of_the_user_that_invite = req.user._id;
 
     let current_user = await User.findById(body.root_id);
+    console.log(body.root_id);
+
     let genealogy = await Genealogy.findOne({ user_id: current_user._id });
 
     if (genealogy) {
@@ -164,7 +166,7 @@ GenealogyRouter.post(
 async function updateBranches(root) {
   if (root.left_branch) {
     const branch = root.left_branch;
-    const newBranch = await Genealogy.findOne({ user_id: branch._id });
+    const newBranch = await Genealogy.findOne({ user_id: branch.user_id });
     if (newBranch) {
       root.left_branch = newBranch;
       await updateBranches(root.left_branch);
@@ -173,7 +175,7 @@ async function updateBranches(root) {
 
   if (root.right_branch) {
     const branch = root.right_branch;
-    const newBranch = await Genealogy.findOne({ user_id: branch._id });
+    const newBranch = await Genealogy.findOne({ user_id: branch.user_id });
     if (newBranch) {
       root.right_branch = newBranch;
       await updateBranches(root.right_branch);

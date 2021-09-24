@@ -10,7 +10,7 @@ const genealogySchema = new mongoose.Schema(
 
     left_branch: {
       type: {
-        _id: { type: String, index: true },
+        user_id: { type: String, index: true },
         id_of_the_user_that_invite: { type: String, index: true },
 
         first_name: { type: String, required: true },
@@ -24,7 +24,7 @@ const genealogySchema = new mongoose.Schema(
 
     right_branch: {
       type: {
-        _id: { type: String, index: true },
+        user_id: { type: String, index: true },
         id_of_the_user_that_invite: { type: String, index: true },
 
         first_name: { type: String, required: true },

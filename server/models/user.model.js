@@ -18,7 +18,6 @@ const userSchema = new mongoose.Schema(
     indirect_referral: { type: Number, default: 0 },
     pairing_bonus: { type: Number, default: 0 },
     automatic_equivalent_rebates: { type: Number, default: 0 },
-    direct_selling: { type: Number, default: 0 },
   },
   {
     timestamps: true,

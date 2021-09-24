@@ -46,7 +46,7 @@ export class SideBarComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  checkIfAdmin() {
+  get checkIfAdmin() {
     const helper = new JwtHelperService();
     const token = this.authService.userToken;
 
