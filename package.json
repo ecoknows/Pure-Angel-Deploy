@@ -4,11 +4,12 @@
   "type": "module",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node server.js",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "deploy:gh": "ng deploy --base-href=/Pure-Angel-Coffe/",
+    "postinstall": "ng build --prod",
     "start:server": "nodemon --watch server --exec node --experimental-modules server.js"
   },
   "engines": {
