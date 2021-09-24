@@ -11,6 +11,10 @@
     "deploy:gh": "ng deploy --base-href=/Pure-Angel-Coffe/",
     "start:server": "nodemon --watch server --exec node --experimental-modules server.js"
   },
+  "engines": {
+    "node": "14.17.5",
+    "npm": "6.14.14"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~12.2.0",
