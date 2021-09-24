@@ -1,2 +1,2 @@
 // export const SERVER_URL = 'http://localhost:3000/api';
-export const SERVER_URL = '';
+export const SERVER_URL = 'api';
