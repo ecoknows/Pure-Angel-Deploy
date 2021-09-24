@@ -28,7 +28,7 @@ export class AuthService {
   login(username: string, password: string) {
     this.http
       .post<{ message: string; userToken: string }>(
-        SERVER_URL + '/user/login',
+        SERVER_URL + 'api/user/login',
         {
           username,
           password,
@@ -56,7 +56,7 @@ export class AuthService {
   }) {
     this.http
       .post<{ message: string; userToken: string }>(
-        SERVER_URL + '/user/register',
+        SERVER_URL + 'api/user/register',
         person
       )
       .subscribe((response) => {
@@ -91,9 +91,12 @@ export class AuthService {
 
   private fetchUserIncome() {
     this.http
-      .get<{ message: string; data: UserState }>(SERVER_URL + '/user/income', {
-        headers: this.headers,
-      })
+      .get<{ message: string; data: UserState }>(
+        SERVER_URL + 'api/user/income',
+        {
+          headers: this.headers,
+        }
+      )
       .subscribe((response) => {
         const data = response.data;
         data.overall_income =

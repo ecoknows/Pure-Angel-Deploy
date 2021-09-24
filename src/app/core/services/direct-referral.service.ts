@@ -27,7 +27,7 @@ export class DirectReferralService {
   fetchDirectReferral() {
     this.http
       .get<{ message: string; data: DirectReferral[] }>(
-        SERVER_URL + '/direct-referral',
+        SERVER_URL + 'api/direct-referral',
         { headers: this.authService.headers }
       )
       .subscribe((response) => {

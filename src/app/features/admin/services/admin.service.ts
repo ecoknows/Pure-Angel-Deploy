@@ -20,7 +20,7 @@ export class AdminService {
   fetchUsersTable() {
     this.http
       .get<{ message: string; data: UsersTableState[] }>(
-        SERVER_URL + '/admin/users',
+        SERVER_URL + 'api/admin/users',
         {
           headers: this.authService.headers,
         }
@@ -36,7 +36,7 @@ export class AdminService {
   verifyUser(verification_info: { checked: boolean; secret_code: string }) {
     this.http
       .post<{ message: string }>(
-        SERVER_URL + '/admin/verify',
+        SERVER_URL + 'api/admin/verify',
         {
           secret_code: verification_info.secret_code,
           checked: verification_info.checked,

@@ -44,9 +44,12 @@ export class GenealogyService {
 
   fetchGenealogy() {
     this.http
-      .get<{ message: string; data: Genealogy }>(SERVER_URL + '/genealogy/', {
-        headers: this.authService.headers,
-      })
+      .get<{ message: string; data: Genealogy }>(
+        SERVER_URL + 'api/genealogy/',
+        {
+          headers: this.authService.headers,
+        }
+      )
       .subscribe((result) => {
         let data = result.data;
 
@@ -67,7 +70,7 @@ export class GenealogyService {
     position: string;
   }) {
     this.http
-      .post<{ message: string }>(SERVER_URL + '/genealogy/add', person, {
+      .post<{ message: string }>(SERVER_URL + 'api/genealogy/add', person, {
         headers: this.authService.headers,
       })
       .subscribe((response) => {
