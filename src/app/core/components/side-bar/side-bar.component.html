@@ -5,7 +5,7 @@
     <div class="tabs-container">
       <ul>
         <li
-          *ngIf="(authService.user$ | async)?.is_admin"
+          *ngIf="checkIfAdmin"
           routerLinkActive="active"
           routerLink="/admin"
           [routerLinkActiveOptions]="{ exact: true }"

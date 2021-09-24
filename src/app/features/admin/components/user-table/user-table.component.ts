@@ -5,10 +5,14 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
+import { UsersTableState } from '@core/redux/admin/users-table.reducers';
 import { DirectReferral } from '@core/redux/direct-referral/direct-referral.model';
 import { DirectReferralService } from '@core/services/direct-referral.service';
+import { AdminService } from '@features/admin/services/admin.service';
+import { Store } from '@ngrx/store';
 import { getIcon } from '@shared/components/icons';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-user-table',
@@ -17,13 +21,18 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
   encapsulation: ViewEncapsulation.None,
 })
 export class UserTableComponent implements OnInit {
-  @Input('rows') rows: DirectReferral[] | undefined = [];
   verifiedIcon: any;
+
+  usersTable$: Observable<UsersTableState>;
 
   @ViewChild(DatatableComponent) table!: DatatableComponent;
 
-  constructor() {
+  constructor(
+    private store: Store<{ usersTableReducer: UsersTableState }>,
+    private adminService: AdminService
+  ) {
     this.verifiedIcon = getIcon('faUserCheck');
+    this.usersTable$ = this.store.select('usersTableReducer');
   }
 
   ngOnInit(): void {}
@@ -36,5 +45,9 @@ export class UserTableComponent implements OnInit {
     // });
 
     this.table.offset = 0;
+  }
+
+  checkUser(checked: boolean, secret_code: string) {
+    this.adminService.verifyUser({ secret_code, checked });
   }
 }

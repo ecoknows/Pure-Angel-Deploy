@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
-    username: { type: String },
-    password: { type: String },
+    username: { type: String, index: true },
+    password: { type: String, index: true },
 
     first_name: { type: String, required: true, index: true },
     last_name: { type: String, required: true, index: true },
@@ -14,11 +14,11 @@ const userSchema = new mongoose.Schema(
     is_admin: { type: Boolean },
     is_ancestor: { type: Boolean, index: true },
 
-    direct_referral: { type: Number },
-    indirect_referral: { type: Number },
-    pairing_bonus: { type: Number },
-    automatic_equivalent_rebates: { type: Number },
-    direct_selling: { type: Number },
+    direct_referral: { type: Number, default: 0 },
+    indirect_referral: { type: Number, default: 0 },
+    pairing_bonus: { type: Number, default: 0 },
+    automatic_equivalent_rebates: { type: Number, default: 0 },
+    direct_selling: { type: Number, default: 0 },
   },
   {
     timestamps: true,

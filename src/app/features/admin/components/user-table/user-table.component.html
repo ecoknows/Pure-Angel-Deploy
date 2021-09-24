@@ -1,6 +1,6 @@
 <div class="table-container">
   <div class="main-top">
-    <h1 class="title">User Table</h1>
+    <h1 class="title">Users Table</h1>
     <div class="end">
       <app-input
         title="Search"
@@ -13,27 +13,39 @@
 
   <ngx-datatable
     class="material"
-    [rows]="rows"
+    [rows]="usersTable$ | async"
     [limit]="8"
     rowHeight="auto"
     [headerHeight]="40"
     [footerHeight]="50"
     [scrollbarH]="true"
   >
-    <ngx-datatable-column name="Name" [width]="300">
+    <ngx-datatable-column name="Name" [width]="270">
       <ng-template let-row="row" ngx-datatable-cell-template>
+        <mat-checkbox
+          class="chekbox-margin"
+          color="primary"
+          [checked]="row.verified"
+          (change)="checkUser($event.checked, row._id)"
+        ></mat-checkbox>
         {{ row.first_name }} {{ row.last_name }}
       </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column name="Birthdate" [width]="250">
+    <ngx-datatable-column name="Secret Code" [width]="250">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{ row._id }}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Birthdate" [width]="170">
       <ng-template let-value="value" ngx-datatable-cell-template>
         {{ value | date: "longDate" }}
       </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column name="Address" [width]="320"> </ngx-datatable-column>
-    <ngx-datatable-column name="Status" [width]="150">
+    <ngx-datatable-column name="Address" [width]="280"> </ngx-datatable-column>
+    <ngx-datatable-column name="Status" [width]="120">
       <ng-template let-row="row" ngx-datatable-cell-template>
         <ng-container *ngIf="row.verified == true">
           <span class="verified">
@@ -47,9 +59,9 @@
       </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column name="Income" [width]="200">
-      <ng-template let-value="value" ngx-datatable-cell-template>
-        ₱ {{ value | number }}
+    <ngx-datatable-column name="Expenditure" [width]="130">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        ₱ {{ row.income | number }}
       </ng-template>
     </ngx-datatable-column>
   </ngx-datatable>

@@ -1,6 +1,9 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Genealogy } from '@core/redux/genealogy/genealogy.model';
+import { UserState } from '@core/redux/user/user.reducer';
 import { AuthService } from '@core/services/auth.service';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'genealogy-node',
@@ -16,5 +19,12 @@ export class GenealogyNodeComponent {
 
   @Output('itemClick') itemClick = new EventEmitter<Genealogy>();
 
-  constructor(public authService: AuthService) {}
+  user$: Observable<UserState>;
+
+  constructor(
+    public authService: AuthService,
+    private store: Store<{ userReducer: UserState }>
+  ) {
+    this.user$ = this.store.select('userReducer');
+  }
 }

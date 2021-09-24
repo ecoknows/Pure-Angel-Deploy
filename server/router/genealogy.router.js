@@ -3,7 +3,7 @@ import expressAsyncHandler from "express-async-handler";
 import Genealogy from "../models/genealogy.model.js";
 import User from "../models/user.model.js";
 import UserVerification from "../models/user.verification.model.js";
-import { decodeUserToken } from "../utils.js";
+import { verifyUserToken } from "../utils.js";
 
 const GenealogyRouter = express.Router();
 
@@ -116,7 +116,7 @@ async function createChildUser(body, id_of_the_user_that_invite) {
 
 GenealogyRouter.post(
   "/add",
-  decodeUserToken,
+  verifyUserToken,
   expressAsyncHandler(async (req, res) => {
     const body = req.body;
     const position = req.body.position;
@@ -183,7 +183,7 @@ async function updateBranches(root) {
 
 GenealogyRouter.get(
   "/",
-  decodeUserToken,
+  verifyUserToken,
   expressAsyncHandler(async (req, res) => {
     const root = await Genealogy.findOne({ user_id: req.user._id });
 

@@ -5,6 +5,7 @@ import UtilsRouter from "./server/router/utils.router.js";
 import UserRouter from "./server/router/user.router.js";
 import GenealogyRouter from "./server/router/genealogy.router.js";
 import DirectReferralRouter from "./server/router/direct-referral.router.js";
+import AdminRouter from "./server/router/admin.router.js";
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ const port = process.env.PORT || 3000;
 app.use(UtilsRouter);
 
 app.use("/api/user", UserRouter);
+app.use("/api/admin", AdminRouter);
 app.use("/api/genealogy", GenealogyRouter);
 app.use("/api/direct-referral", DirectReferralRouter);
 

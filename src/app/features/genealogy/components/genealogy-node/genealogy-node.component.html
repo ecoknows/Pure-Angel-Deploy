@@ -7,7 +7,7 @@
 <div
   [ngClass]="node.cssClass || ''"
   [style.opacity]="
-    (authService.user$ | async)?._id == node?.id_of_the_user_that_invite ||
+    (user$ | async)?._id == node?.id_of_the_user_that_invite ||
     node?.id_of_the_user_that_invite == undefined
       ? 1
       : 0.6

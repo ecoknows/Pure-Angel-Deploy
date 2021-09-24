@@ -19,7 +19,7 @@ export const generateUserToken = (user) => {
   );
 };
 
-export const decodeUserToken = (req, res, next) => {
+export const verifyUserToken = (req, res, next) => {
   const authorization = req.headers.authorization;
 
   if (authorization) {
@@ -39,5 +39,13 @@ export const decodeUserToken = (req, res, next) => {
     );
   } else {
     res.status(401).send({ message: "No Token" });
+  }
+};
+
+export const checkIfAdmin = (req, res, next) => {
+  if (req.user.is_admin) {
+    next();
+  } else {
+    res.status(401).send({ message: "Invalid Admin Token" });
   }
 };

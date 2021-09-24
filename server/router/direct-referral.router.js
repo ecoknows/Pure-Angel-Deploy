@@ -1,13 +1,13 @@
 import express from "express";
 import expressAsyncHandler from "express-async-handler";
 import UserVerification from "../models/user.verification.model.js";
-import { decodeUserToken } from "../utils.js";
+import { verifyUserToken } from "../utils.js";
 
 let DirectReferralRouter = express.Router();
 
 DirectReferralRouter.get(
   "/",
-  decodeUserToken,
+  verifyUserToken,
   expressAsyncHandler(async (req, res) => {
     const user = req.user;
 

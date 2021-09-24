@@ -15,7 +15,6 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   providedIn: 'root',
 })
 export class AuthService {
-  user$: Observable<UserState>;
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -24,9 +23,7 @@ export class AuthService {
       branchReducer: GenealogyState;
       userReducer: UserState;
     }>
-  ) {
-    this.user$ = this.store.select('userReducer');
-  }
+  ) {}
 
   login(username: string, password: string) {
     this.http
@@ -86,7 +83,9 @@ export class AuthService {
     this.fetchUserIncome();
 
     if (token) {
-      this.store.dispatch(setUserData({ user: helper.decodeToken(token) }));
+      const user = helper.decodeToken(token);
+
+      this.store.dispatch(setUserData({ user }));
     }
   }
 

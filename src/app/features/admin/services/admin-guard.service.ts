@@ -18,7 +18,7 @@ export class AdminGuardService implements CanActivate {
 
     if (token) {
       const decode = helper.decodeToken(token);
-      if (decode) {
+      if (decode.is_admin) {
         return true;
       }
     }

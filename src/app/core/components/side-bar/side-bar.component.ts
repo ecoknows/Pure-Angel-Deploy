@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuthService } from '@core/services/auth.service';
 import { SidebarService } from '@core/services/sidebar.service';
 import {
@@ -14,7 +15,7 @@ import { getIcon } from '@shared/components/icons';
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.sass'],
 })
-export class SideBarComponent {
+export class SideBarComponent implements OnInit {
   menus = [
     {
       url: '',
@@ -36,8 +37,26 @@ export class SideBarComponent {
 
   userShield: any;
 
-  constructor(public authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    private sidebarService: SidebarService
+  ) {
     this.userShield = getIcon('faUserShield');
+  }
+
+  ngOnInit(): void {}
+
+  checkIfAdmin() {
+    const helper = new JwtHelperService();
+    const token = this.authService.userToken;
+
+    if (token) {
+      const user = helper.decodeToken(token);
+      if (user.is_admin) {
+        return true;
+      }
+    }
+    return false;
   }
 
   logout() {

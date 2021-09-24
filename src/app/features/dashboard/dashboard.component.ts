@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserState } from '@core/redux/user/user.reducer';
 import { AuthService } from '@core/services/auth.service';
 import { GenealogyService } from '@core/services/genealogy.service';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -10,10 +11,15 @@ import { Observable } from 'rxjs';
   styleUrls: ['./dashboard.component.sass'],
 })
 export class DashboardComponent implements OnInit {
+  user$: Observable<UserState>;
+
   constructor(
-    public authService: AuthService,
-    private genealogyService: GenealogyService
-  ) {}
+    private authService: AuthService,
+    private genealogyService: GenealogyService,
+    private store: Store<{ userReducer: UserState }>
+  ) {
+    this.user$ = this.store.select('userReducer');
+  }
 
   ngOnInit(): void {
     this.authService.fetchUserData();

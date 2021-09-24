@@ -1,6 +1,6 @@
 import express from "express";
 import expressAsyncHandler from "express-async-handler";
-import { decodeUserToken, generateUserToken } from "../utils.js";
+import { verifyUserToken, generateUserToken } from "../utils.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import UserVerification from "../models/user.verification.model.js";
@@ -28,21 +28,8 @@ UserRouter.post(
 );
 
 UserRouter.get(
-  "/profile",
-  decodeUserToken,
-  expressAsyncHandler(async (req, res) => {
-    const user = req.user;
-
-    res.send({
-      message: "Successfully fetch User",
-      data: user,
-    });
-  })
-);
-
-UserRouter.get(
   "/income",
-  decodeUserToken,
+  verifyUserToken,
   expressAsyncHandler(async (req, res) => {
     const income = await User.findById(req.user._id).select(
       "direct_referral " +

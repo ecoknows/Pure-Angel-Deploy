@@ -33,6 +33,7 @@ import { IndirectReferralComponent } from './referrals/components/indirect-refer
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { AdminComponent } from './admin/admin.component';
 import { UserTableComponent } from './admin/components/user-table/user-table.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { UserTableComponent } from './admin/components/user-table/user-table.com
     MatNativeDateModule,
     FontAwesomeModule,
     NgxDatatableModule,
+    MatCheckboxModule,
   ],
 })
 export class FeaturesModule {}

@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '@core/services/auth.service';
+import { Component } from '@angular/core';
 import { SidebarService } from '@core/services/sidebar.service';
 
 @Component({
@@ -7,10 +6,8 @@ import { SidebarService } from '@core/services/sidebar.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.sass'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'pure-angel-coffee';
 
   constructor(public sideBarService: SidebarService) {}
-
-  ngOnInit(): void {}
 }
