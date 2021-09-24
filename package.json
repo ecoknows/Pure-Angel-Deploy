@@ -4,17 +4,12 @@
   "type": "module",
   "scripts": {
     "ng": "ng",
-    "start": "node server.js",
+    "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "deploy:gh": "ng deploy --base-href=/Pure-Angel-Coffe/",
-    "heroku-postbuild": "ng build --prod",
     "start:server": "nodemon --watch server --exec node --experimental-modules server.js"
-  },
-  "engines": {
-    "node": "14.17.5",
-    "npm": "6.14.14"
   },
   "private": true,
   "dependencies": {
@@ -28,8 +23,6 @@
     "@angular/platform-browser": "~12.2.0",
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
-    "@angular/cli": "~12.2.1",
-    "@angular/compiler-cli": "~12.2.0",
     "@auth0/angular-jwt": "^5.0.2",
     "@fortawesome/angular-fontawesome": "^0.9.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
@@ -53,6 +46,8 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.2.1",
+    "@angular/cli": "~12.2.1",
+    "@angular/compiler-cli": "~12.2.0",
     "@types/jasmine": "~3.8.0",
     "@types/node": "^12.11.1",
     "angular-cli-ghpages": "^1.0.0-rc.2",
