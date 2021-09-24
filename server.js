@@ -11,15 +11,11 @@ import path from "path";
 
 const __dirname = path.resolve();
 
-dotenv.config();
+// dotenv.config();
 
-mongoose
-  .connect(
-    "mongodb+srv://eco:nBg3gTFhrIf0Bjft@cluster0.bnhec.mongodb.net/testing_database?retryWrites=true&w=majority"
-  )
-  .then(() => {
-    console.log("Connected to Database!");
-  });
+mongoose.connect(process.env.MONGODB_URI).then(() => {
+  console.log("Connected to Database!");
+});
 
 const app = express();
 const port = process.env.PORT || 3000;
