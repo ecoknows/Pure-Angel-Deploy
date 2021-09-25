@@ -22,16 +22,16 @@ const port = process.env.PORT || 3000;
 
 app.use(express.static(__dirname + "/dist/pure-angel-coffee"));
 
-app.use("*", function (req, res) {
-  res.sendFile(path.join(__dirname + "/dist/pure-angel-coffee/index.html"));
-});
-
 app.use(UtilsRouter);
 
 app.use("/api/user", UserRouter);
 app.use("/api/admin", AdminRouter);
 app.use("/api/genealogy", GenealogyRouter);
 app.use("/api/direct-referral", DirectReferralRouter);
+
+app.get("*", function (req, res) {
+  res.sendFile(path.join(__dirname + "/dist/pure-angel-coffee/index.html"));
+});
 
 app.listen(port, () => {
   console.log(`serve at http://localhost:${port}`);
