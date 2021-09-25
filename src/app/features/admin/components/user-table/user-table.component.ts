@@ -1,13 +1,5 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UsersTableState } from '@core/redux/admin/users-table.reducers';
-import { DirectReferral } from '@core/redux/direct-referral/direct-referral.model';
-import { DirectReferralService } from '@core/services/direct-referral.service';
 import { AdminService } from '@features/admin/services/admin.service';
 import { Store } from '@ngrx/store';
 import { getIcon } from '@shared/components/icons';
@@ -18,17 +10,16 @@ import { Observable } from 'rxjs';
   selector: 'app-user-table',
   templateUrl: './user-table.component.html',
   styleUrls: ['./user-table.component.sass'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class UserTableComponent implements OnInit {
   verifiedIcon: any;
 
-  usersTable$: Observable<UsersTableState>;
+  usersTable$: Observable<UsersTableState[]>;
 
   @ViewChild(DatatableComponent) table!: DatatableComponent;
 
   constructor(
-    private store: Store<{ usersTableReducer: UsersTableState }>,
+    private store: Store<{ usersTableReducer: UsersTableState[] }>,
     private adminService: AdminService
   ) {
     this.verifiedIcon = getIcon('faUserCheck');

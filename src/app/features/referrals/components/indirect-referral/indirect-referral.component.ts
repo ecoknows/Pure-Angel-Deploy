@@ -1,10 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { IndirectReferralState } from '@core/redux/indirect-referral/indirect-referral.reducers';
-import { DirectReferralService } from '@core/services/direct-referral.service';
 import { IndirectReferralService } from '@core/services/indirect-referral.service';
-import { Store } from '@ngrx/store';
-import { IColumns } from '@shared/components/table/table.component';
-import { Observable } from 'rxjs';
+import { getIcon } from '@shared/components/icons';
+import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 @Component({
   selector: 'app-indirect-referral',
@@ -12,29 +10,18 @@ import { Observable } from 'rxjs';
   styleUrls: ['./indirect-referral.component.sass'],
 })
 export class IndirectReferralComponent implements OnInit {
-  columns: IColumns = [
-    {
-      name: 'Name',
-      width: 400,
-    },
-    {
-      name: 'Age',
-      width: 300,
-    },
-    {
-      name: 'City',
-      width: 300,
-    },
-  ];
+  @Input('rows') rows: IndirectReferralState[] | null = [];
+  verifiedIcon: any;
 
-  rows$: Observable<IndirectReferralState>;
+  @ViewChild(DatatableComponent) table!: DatatableComponent;
 
-  constructor(
-    private store: Store<{ indirectSellingReducer: IndirectReferralState }>,
-    private service: IndirectReferralService
-  ) {
-    this.rows$ = store.select('indirectSellingReducer');
+  constructor(private indirectReferralService: IndirectReferralService) {
+    this.verifiedIcon = getIcon('faUserCheck');
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.indirectReferralService.fetchIndirectReferrals();
+  }
+
+  search($event: any) {}
 }

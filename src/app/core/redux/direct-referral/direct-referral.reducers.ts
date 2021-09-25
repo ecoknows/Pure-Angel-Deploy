@@ -1,18 +1,20 @@
 import { createReducer, on } from '@ngrx/store';
 import { fetchDirectReferral } from './direct-referral.actions';
-import { DirectReferral } from './direct-referral.model';
-
 export interface DirectReferralState {
-  list: DirectReferral[];
+  first_name: string;
+  last_name: string;
+  address: string;
+  birthdate: string;
+  user_id: string;
+  income: number;
+  verified: boolean;
 }
 
-export const DIRECT_REFERRAL_INITIAL_STATE: DirectReferralState = {
-  list: [],
-};
+export const DIRECT_REFERRAL_INITIAL_STATE: DirectReferralState[] = [];
 
 const DIRECT_REFERRAL_REDUCER = createReducer(
   DIRECT_REFERRAL_INITIAL_STATE,
-  on(fetchDirectReferral, (state, { list }) => ({ ...state, list: list }))
+  on(fetchDirectReferral, (state, { list }) => [...list])
 );
 
 export function directReferralReducer(state: any, action: any) {

@@ -7,13 +7,10 @@ import { verifyUserToken } from "../utils.js";
 
 const GenealogyRouter = express.Router();
 
-async function updateGenealogy(
-  genealogy,
-  child_user,
-  res,
-  position,
-  id_of_the_user_that_invite
-) {
+async function updateGenealogy(genealogy, child_user, res, req) {
+  const position = req.body.position;
+  const id_of_the_user_that_invite = req.user._id;
+
   if (position == "left") {
     genealogy.left_branch = {
       user_id: child_user._id,
@@ -45,14 +42,10 @@ async function updateGenealogy(
   }
 }
 
-async function addNewGenealogy(
-  genealogy,
-  child_user,
-  current_user,
-  res,
-  position,
-  id_of_the_user_that_invite
-) {
+async function addNewGenealogy(genealogy, child_user, current_user, res, req) {
+  const position = req.body.position;
+  const id_of_the_user_that_invite = req.user._id;
+
   if (position == "left") {
     genealogy = new Genealogy({
       user_id: current_user._id,
@@ -90,7 +83,8 @@ async function addNewGenealogy(
   });
 }
 
-async function createChildUser(body, id_of_the_user_that_invite) {
+async function createChildUser(req) {
+  const body = req.body;
   let child_user = new User({
     first_name: body.first_name,
     last_name: body.last_name,
@@ -99,6 +93,8 @@ async function createChildUser(body, id_of_the_user_that_invite) {
   });
 
   child_user = await child_user.save();
+
+  const id_of_the_user_that_invite = req.user._id;
 
   let child_user_verification = new UserVerification({
     user_id: child_user._id,
@@ -109,6 +105,15 @@ async function createChildUser(body, id_of_the_user_that_invite) {
     id_of_the_user_that_invite,
   });
 
+  const user_that_invite = await UserVerification.findOne({
+    user_id: id_of_the_user_that_invite,
+  });
+
+  if (user_that_invite) {
+    child_user_verification.id_of_the_indirect_referral =
+      user_that_invite.id_of_the_user_that_invite;
+  }
+
   child_user_verification.save();
 
   return child_user;
@@ -118,45 +123,23 @@ GenealogyRouter.post(
   "/add",
   verifyUserToken,
   expressAsyncHandler(async (req, res) => {
-    const body = req.body;
-    const position = req.body.position;
-    const id_of_the_user_that_invite = req.user._id;
-
-    let current_user = await User.findById(body.root_id);
-    console.log(body.root_id);
-
+    let current_user = await User.findById(req.body.root_id);
     let genealogy = await Genealogy.findOne({ user_id: current_user._id });
 
     if (genealogy) {
       if (genealogy.right_branch || genealogy.left_branch) {
-        let child_user = await createChildUser(
-          body,
-          id_of_the_user_that_invite
-        );
+        let child_user = await createChildUser(req);
 
-        await updateGenealogy(
-          genealogy,
-          child_user,
-          res,
-          position,
-          id_of_the_user_that_invite
-        );
+        await updateGenealogy(genealogy, child_user, res, req);
       } else {
         res
           .status(409)
           .send({ message: "Branch Exceed only 2 branch allowed!" });
       }
     } else if (genealogy == null && current_user != null) {
-      let child_user = await createChildUser(body, id_of_the_user_that_invite);
+      let child_user = await createChildUser(req);
 
-      await addNewGenealogy(
-        genealogy,
-        child_user,
-        current_user,
-        res,
-        position,
-        id_of_the_user_that_invite
-      );
+      await addNewGenealogy(genealogy, child_user, current_user, res, req);
     } else {
       res.status(409).send({ message: "All nulls!" });
     }

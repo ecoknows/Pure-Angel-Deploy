@@ -23,28 +23,32 @@ async function payDirectReferral(id_of_the_user_that_invite, checked) {
   }
 }
 
-async function payIndirectReferral(id_of_the_user_that_invite, checked) {
-  const indirect_referral_user = await UserVerification.findOne({
+async function payIndirectReferral(
+  id_of_the_user_that_invite,
+  id_of_the_indirect_referral,
+  checked
+) {
+  const direct_referral_user = await UserVerification.findOne({
     user_id: id_of_the_user_that_invite,
   });
 
   if (
-    indirect_referral_user &&
-    indirect_referral_user.indirect_referral_count < INDIRECT_REFERRAL_LIMIT
+    direct_referral_user &&
+    direct_referral_user.indirect_referral_count < INDIRECT_REFERRAL_LIMIT
   ) {
-    const user_that_invite = await User.findById(
-      indirect_referral_user.id_of_the_user_that_invite
+    const indirect_referra_user = await User.findById(
+      id_of_the_indirect_referral
     );
 
-    user_that_invite.indirect_referral = checked
-      ? user_that_invite.indirect_referral + INDIRECT_REFERRAL_PAYMENT
-      : user_that_invite.indirect_referral - INDIRECT_REFERRAL_PAYMENT;
+    indirect_referra_user.indirect_referral = checked
+      ? indirect_referra_user.indirect_referral + INDIRECT_REFERRAL_PAYMENT
+      : indirect_referra_user.indirect_referral - INDIRECT_REFERRAL_PAYMENT;
 
-    indirect_referral_user.indirect_referral_count =
-      indirect_referral_user.indirect_referral_count + 1;
+    direct_referral_user.indirect_referral_count =
+      direct_referral_user.indirect_referral_count + 1;
 
-    user_that_invite.save();
-    indirect_referral_user.save();
+    indirect_referra_user.save();
+    direct_referral_user.save();
   }
 }
 
@@ -82,7 +86,13 @@ AdminRouter.post(
 
     if (user_to_verify) {
       user_to_verify.verified = body.checked;
-      user_to_verify.income = body.checked ? 100 : 0;
+      user_to_verify.income_direct_referral = body.checked
+        ? DIRECT_REFERRAL_PAYMENT
+        : 0;
+
+      user_to_verify.income_indirect_referral = body.checked
+        ? INDIRECT_REFERRAL_PAYMENT
+        : 0;
       await user_to_verify.save();
 
       await payDirectReferral(
@@ -92,6 +102,7 @@ AdminRouter.post(
 
       await payIndirectReferral(
         user_to_verify.id_of_the_user_that_invite,
+        user_to_verify.id_of_the_indirect_referral,
         body.checked
       );
 

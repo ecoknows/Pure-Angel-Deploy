@@ -1,11 +1,5 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
-import { DirectReferral } from '@core/redux/direct-referral/direct-referral.model';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { DirectReferralState } from '@core/redux/direct-referral/direct-referral.reducers';
 import { DirectReferralService } from '@core/services/direct-referral.service';
 import { getIcon } from '@shared/components/icons';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
@@ -14,10 +8,9 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
   selector: 'app-direct-referral',
   templateUrl: './direct-referral.component.html',
   styleUrls: ['./direct-referral.component.sass'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class DirectReferralComponent implements OnInit {
-  @Input('rows') rows: DirectReferral[] | undefined = [];
+  @Input('rows') rows: DirectReferralState[] | null = [];
   verifiedIcon: any;
 
   @ViewChild(DatatableComponent) table!: DatatableComponent;

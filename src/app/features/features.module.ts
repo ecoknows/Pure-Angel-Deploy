@@ -14,7 +14,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
-import { DirectSellingComponent } from './referrals/components/direct-selling/direct-selling.component';
 import { SharedModule } from '@shared/shared.module';
 import { GenealogyChartComponent } from './genealogy/components/genealogy-chart/genealogy-chart.component';
 import { GenealogyDesignerComponent } from './genealogy/components/genealogy-designer/genealogy-designer.component';
@@ -41,7 +40,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     LoginComponent,
     NotificationsComponent,
     ReferralsComponent,
-    DirectSellingComponent,
     GenealogyChartComponent,
     GenealogyDesignerComponent,
     GenealogyNodeComponent,

@@ -1,7 +1,13 @@
 <mat-tab-group>
   <mat-tab label="Direct Referral">
     <app-direct-referral
-      [rows]="(directReferralService.rows$ | async)?.list"
+      [rows]="directReferralRows$ | async"
     ></app-direct-referral>
   </mat-tab>
+  <mat-tab label="Indirect Referral">
+    <app-indirect-referral
+      [rows]="indirectReferralRows$ | async"
+    ></app-indirect-referral>
+  </mat-tab>
 </mat-tab-group>
+`

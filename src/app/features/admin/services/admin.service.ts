@@ -14,7 +14,7 @@ export class AdminService {
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-    private store: Store<{ usersTableReducer: UsersTableState }>
+    private store: Store<{ usersTableReducer: UsersTableState[] }>
   ) {}
 
   fetchUsersTable() {

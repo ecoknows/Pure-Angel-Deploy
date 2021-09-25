@@ -8,6 +8,7 @@ import DirectReferralRouter from "./server/router/direct-referral.router.js";
 import AdminRouter from "./server/router/admin.router.js";
 
 import path from "path";
+import IndirectReferralRouter from "./server/router/indirect-referral.router.js";
 
 const __dirname = path.resolve();
 
@@ -28,6 +29,7 @@ app.use("/api/user", UserRouter);
 app.use("/api/admin", AdminRouter);
 app.use("/api/genealogy", GenealogyRouter);
 app.use("/api/direct-referral", DirectReferralRouter);
+app.use("/api/indirect-referral", IndirectReferralRouter);
 
 app.get("*", function (req, res) {
   res.sendFile(path.join(__dirname + "/dist/pure-angel-coffee/index.html"));

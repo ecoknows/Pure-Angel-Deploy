@@ -17,7 +17,7 @@ export class GenealogyService {
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-    private store: Store<{ genealogyReducer: GenealogyState }>
+    private store: Store<{ genealogyReducer: GenealogyState[] }>
   ) {}
 
   fetchDefaultGenealogy() {

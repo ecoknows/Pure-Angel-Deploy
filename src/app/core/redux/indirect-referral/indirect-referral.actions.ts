@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
-import { IndirectReferral } from './indirect-referral.model';
+import { IndirectReferralState } from './indirect-referral.reducers';
 
-export const fetchIndirectReferral = createAction(
-  '[Direct Selling Component] Fetch Item',
-  props<{ list: IndirectReferral[] }>()
+export const setIndirectReferral = createAction(
+  '[Indirect Referral Component] Seet Inderect Referral',
+  props<{ list: IndirectReferralState[] }>()
 );

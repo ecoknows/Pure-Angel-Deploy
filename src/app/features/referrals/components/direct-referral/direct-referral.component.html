@@ -14,7 +14,7 @@
   <ngx-datatable
     class="material"
     [rows]="rows"
-    [limit]="8"
+    [limit]="7"
     rowHeight="auto"
     [headerHeight]="40"
     [footerHeight]="50"
@@ -47,9 +47,9 @@
       </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column name="Income" [width]="200">
-      <ng-template let-value="value" ngx-datatable-cell-template>
-        ₱ {{ value | number }}
+    <ngx-datatable-column name="Income" [width]="180">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        ₱ {{ row.income_direct_referral | number }}
       </ng-template>
     </ngx-datatable-column>
   </ngx-datatable>

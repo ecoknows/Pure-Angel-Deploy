@@ -1,5 +1,56 @@
-<app-table
-  table-title="Indirect Selling"
-  [rows]="(rows$ | async)?.list"
-  [columns]="columns"
-></app-table>
+<div class="table-container">
+  <div class="main-top">
+    <h1 class="title">Indirect Referral</h1>
+    <div class="end">
+      <app-input
+        title="Search"
+        placeholder="Ex. Reggie "
+        suffix-icon="faSearch"
+        (keyup)="search($event)"
+      ></app-input>
+    </div>
+  </div>
+
+  <ngx-datatable
+    class="material"
+    [rows]="rows"
+    [limit]="8"
+    rowHeight="auto"
+    [headerHeight]="40"
+    [footerHeight]="50"
+    [scrollbarH]="true"
+  >
+    <ngx-datatable-column name="Name" [width]="300">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{ row.first_name }} {{ row.last_name }}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Birthdate" [width]="250">
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{ value | date: "longDate" }}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Address" [width]="320"> </ngx-datatable-column>
+    <ngx-datatable-column name="Status" [width]="150">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <ng-container *ngIf="row.verified == true">
+          <span class="verified">
+            <fa-icon [icon]="verifiedIcon"></fa-icon>
+            Verified
+          </span>
+        </ng-container>
+        <ng-container *ngIf="row.verified == false">
+          <span class="unverified"> Not Verified </span>
+        </ng-container>
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Income" [width]="180">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        ₱ {{ row.income_indirect_referral | number }}
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+</div>
