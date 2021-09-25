@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SERVER_URL } from '@core/api';
 import { setUsersTable } from '@core/redux/admin/users-table.actions';
 import { UsersTableState } from '@core/redux/admin/users-table.reducers';
 import { AuthService } from '@core/services/auth.service';
+import { environment } from '@env';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -20,7 +20,7 @@ export class AdminService {
   fetchUsersTable() {
     this.http
       .get<{ message: string; data: UsersTableState[] }>(
-        SERVER_URL + 'api/admin/users',
+        environment.api + 'api/admin/users',
         {
           headers: this.authService.headers,
         }
@@ -36,7 +36,7 @@ export class AdminService {
   verifyUser(verification_info: { checked: boolean; secret_code: string }) {
     this.http
       .post<{ message: string }>(
-        SERVER_URL + 'api/admin/verify',
+        environment.api + 'api/admin/verify',
         {
           secret_code: verification_info.secret_code,
           checked: verification_info.checked,

@@ -11,7 +11,7 @@ import path from "path";
 
 const __dirname = path.resolve();
 
-dotenv.config();
+// dotenv.config();
 
 mongoose.connect(process.env.MONGODB_URI).then(() => {
   console.log("Connected to Database!");

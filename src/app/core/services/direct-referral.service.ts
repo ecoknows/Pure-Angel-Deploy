@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SERVER_URL } from '@core/api';
 import { fetchDirectReferral } from '@core/redux/direct-referral/direct-referral.actions';
 import { DirectReferral } from '@core/redux/direct-referral/direct-referral.model';
 import { DirectReferralState } from '@core/redux/direct-referral/direct-referral.reducers';
+import { environment } from '@env';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
@@ -27,7 +27,7 @@ export class DirectReferralService {
   fetchDirectReferral() {
     this.http
       .get<{ message: string; data: DirectReferral[] }>(
-        SERVER_URL + 'api/direct-referral',
+        environment.api + 'api/direct-referral',
         { headers: this.authService.headers }
       )
       .subscribe((response) => {

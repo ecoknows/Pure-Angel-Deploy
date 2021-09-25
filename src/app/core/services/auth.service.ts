@@ -7,9 +7,9 @@ import { resetUserData, setUserData } from '@core/redux/user/user.actions';
 import { SidebarService } from './sidebar.service';
 import { GenealogyState } from '@core/redux/genealogy/genealogy.reducer';
 import { resetGenealogy } from '@core/redux/genealogy/genealogy.actions';
-import { SERVER_URL } from '@core/api';
 import { Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { environment } from '@env';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +28,7 @@ export class AuthService {
   login(username: string, password: string) {
     this.http
       .post<{ message: string; userToken: string }>(
-        SERVER_URL + 'api/user/login',
+        environment.api + 'api/user/login',
         {
           username,
           password,
@@ -56,7 +56,7 @@ export class AuthService {
   }) {
     this.http
       .post<{ message: string; userToken: string }>(
-        SERVER_URL + 'api/user/register',
+        environment.api + 'api/user/register',
         person
       )
       .subscribe((response) => {
@@ -92,7 +92,7 @@ export class AuthService {
   private fetchUserIncome() {
     this.http
       .get<{ message: string; data: UserState }>(
-        SERVER_URL + 'api/user/income',
+        environment.api + 'api/user/income',
         {
           headers: this.headers,
         }

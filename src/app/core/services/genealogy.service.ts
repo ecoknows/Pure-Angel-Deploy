@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { SERVER_URL } from '@core/api';
 import { setGenealogy } from '@core/redux/genealogy/genealogy.actions';
 import { Genealogy } from '@core/redux/genealogy/genealogy.model';
 import { GenealogyState } from '@core/redux/genealogy/genealogy.reducer';
 import { setUserData } from '@core/redux/user/user.actions';
 import { UserState } from '@core/redux/user/user.reducer';
+import { environment } from '@env';
 import { Store } from '@ngrx/store';
 import { AuthService } from './auth.service';
 
@@ -45,7 +45,7 @@ export class GenealogyService {
   fetchGenealogy() {
     this.http
       .get<{ message: string; data: Genealogy }>(
-        SERVER_URL + 'api/genealogy/',
+        environment.api + 'api/genealogy/',
         {
           headers: this.authService.headers,
         }
@@ -70,9 +70,13 @@ export class GenealogyService {
     position: string;
   }) {
     this.http
-      .post<{ message: string }>(SERVER_URL + 'api/genealogy/add', person, {
-        headers: this.authService.headers,
-      })
+      .post<{ message: string }>(
+        environment.api + 'api/genealogy/add',
+        person,
+        {
+          headers: this.authService.headers,
+        }
+      )
       .subscribe((response) => {
         this.fetchGenealogy();
       });
