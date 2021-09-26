@@ -64,10 +64,11 @@ export async function payIndirectReferral(user_to_verify) {
 }
 
 export async function checkIfThereIsPairingBonus(user_to_verify, checked) {
-  const id_of_the_user_that_invite = user_to_verify.id_of_the_user_that_invite;
+  const id_of_the_root_user_genealogy =
+    user_to_verify.id_of_the_root_user_genealogy;
 
   const genealogy_of_user_that_invite = await Genealogy.findOne({
-    user_id: user_to_verify.id_of_the_root_user_genealogy,
+    user_id: id_of_the_root_user_genealogy,
   });
 
   if (
@@ -83,19 +84,21 @@ export async function checkIfThereIsPairingBonus(user_to_verify, checked) {
     });
 
     if (left_branch_user && right_branch_user) {
-      const user_that_invite = await User.findById(id_of_the_user_that_invite);
+      const root_user_genealogy = await User.findById(
+        id_of_the_root_user_genealogy
+      );
 
       if (left_branch_user.verified && right_branch_user.verified) {
-        user_that_invite.pairing_bonus =
-          user_that_invite.pairing_bonus + PAIRING_BONUS_PAYMENT;
+        root_user_genealogy.pairing_bonus =
+          root_user_genealogy.pairing_bonus + PAIRING_BONUS_PAYMENT;
 
         user_to_verify.income_pairing_bonus = PAIRING_BONUS_PAYMENT;
 
         const newTransaction = new Transaction({
-          user_id: user_that_invite._id,
+          user_id: root_user_genealogy._id,
 
-          first_name: user_that_invite.first_name,
-          last_name: user_that_invite.first_name,
+          first_name: root_user_genealogy.first_name,
+          last_name: root_user_genealogy.first_name,
 
           pairing_bonus_info: {
             root_id: genealogy_of_user_that_invite.user_id,
@@ -114,26 +117,36 @@ export async function checkIfThereIsPairingBonus(user_to_verify, checked) {
         });
 
         await user_to_verify.save();
-        await user_that_invite.save();
+        await root_user_genealogy.save();
         await newTransaction.save();
       } else if (
         (left_branch_user.verified || right_branch_user.verified) &&
         checked == false
       ) {
-        user_that_invite.pairing_bonus =
-          user_that_invite.pairing_bonus - PAIRING_BONUS_PAYMENT;
+        root_user_genealogy.pairing_bonus =
+          root_user_genealogy.pairing_bonus - PAIRING_BONUS_PAYMENT;
 
-        user_to_verify.income_pairing_bonus = 0;
+        if (user_to_verify.income_pairing_bonus == undefined) {
+          user_to_verify.income_pairing_bonus = 0;
+        } else {
+          if (right_branch_user.user_id == user_to_verify.user_id) {
+            left_branch_user.income_pairing_bonus = 0;
+            await left_branch_user.save();
+          } else if (left_branch_user.user_id == user_to_verify.user_id) {
+            right_branch_user.income_pairing_bonus = 0;
+            await right_branch_user.save();
+          }
+        }
 
         await Transaction.deleteOne({
-          user_id: user_that_invite._id,
+          user_id: root_user_genealogy._id,
           root_id: genealogy_of_user_that_invite.user_id,
           right_id: right_branch_user.user_id,
           left_id: left_branch_user.user_id,
         });
 
         await user_to_verify.save();
-        await user_that_invite.save();
+        await root_user_genealogy.save();
       }
     }
   }
