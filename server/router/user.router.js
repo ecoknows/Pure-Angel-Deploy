@@ -82,11 +82,13 @@ UserRouter.post(
 );
 
 UserRouter.post(
-  "/create-ancestor",
+  "/create-owner",
   expressAsyncHandler(async (req, res) => {
     let check_if_ancestor_exist = await User.findOne({ is_ancestor: true });
     if (check_if_ancestor_exist) {
-      res.status(409).send({ message: "Ancestor already exist!" });
+      res
+        .status(409)
+        .send({ message: "Oppss don't try to create a new owner!" });
     } else {
       let body = req.body;
       let ancestor = await new User({
@@ -97,11 +99,12 @@ UserRouter.post(
         last_name: body.last_name,
         address: body.address,
         birthdate: body.birthdate,
-        is_ancestor: true,
+        is_admin: true,
+        is_owner: true,
       });
 
       await ancestor.save();
-      res.send({ message: "Succfully created an ancestor!" });
+      res.send({ message: "Successfully created an Owner!" });
     }
   })
 );

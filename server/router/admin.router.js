@@ -1,56 +1,15 @@
 import express from "express";
 import expressAsyncHandler from "express-async-handler";
-import {
-  DIRECT_REFERRAL_PAYMENT,
-  INDIRECT_REFERRAL_LIMIT,
-  INDIRECT_REFERRAL_PAYMENT,
-} from "../constants.js";
-import User from "../models/user.model.js";
+import { DIRECT_REFERRAL_PAYMENT } from "../constants.js";
 import UserVerification from "../models/user.verification.model.js";
 import { checkIfAdmin, verifyUserToken } from "../utils.js";
+import {
+  payIndirectReferral,
+  payDirectReferral,
+  checkIfThereIsPairingBonus,
+} from "../utils/genealogy.js";
 
 const AdminRouter = express.Router();
-
-async function payDirectReferral(id_of_the_user_that_invite, checked) {
-  const user_that_invite = await User.findById(id_of_the_user_that_invite);
-
-  if (user_that_invite) {
-    user_that_invite.direct_referral = checked
-      ? user_that_invite.direct_referral + DIRECT_REFERRAL_PAYMENT
-      : user_that_invite.direct_referral - DIRECT_REFERRAL_PAYMENT;
-
-    user_that_invite.save();
-  }
-}
-
-async function payIndirectReferral(
-  id_of_the_user_that_invite,
-  id_of_the_indirect_referral,
-  checked
-) {
-  const direct_referral_user = await UserVerification.findOne({
-    user_id: id_of_the_user_that_invite,
-  });
-
-  if (
-    direct_referral_user &&
-    direct_referral_user.indirect_referral_count < INDIRECT_REFERRAL_LIMIT
-  ) {
-    const indirect_referra_user = await User.findById(
-      id_of_the_indirect_referral
-    );
-
-    indirect_referra_user.indirect_referral = checked
-      ? indirect_referra_user.indirect_referral + INDIRECT_REFERRAL_PAYMENT
-      : indirect_referra_user.indirect_referral - INDIRECT_REFERRAL_PAYMENT;
-
-    direct_referral_user.indirect_referral_count =
-      direct_referral_user.indirect_referral_count + 1;
-
-    indirect_referra_user.save();
-    direct_referral_user.save();
-  }
-}
 
 AdminRouter.get(
   "/users",
@@ -85,30 +44,32 @@ AdminRouter.post(
     const user_to_verify = await UserVerification.findById(body.secret_code);
 
     if (user_to_verify) {
-      user_to_verify.verified = body.checked;
-      user_to_verify.income_direct_referral = body.checked
-        ? DIRECT_REFERRAL_PAYMENT
-        : 0;
+      const verified = user_to_verify.verified;
+      const checked = body.checked;
 
-      user_to_verify.income_indirect_referral = body.checked
-        ? INDIRECT_REFERRAL_PAYMENT
-        : 0;
-      await user_to_verify.save();
+      if (checked != verified) {
+        user_to_verify.verified = body.checked;
 
-      await payDirectReferral(
-        user_to_verify.id_of_the_user_that_invite,
-        body.checked
-      );
+        user_to_verify.income_direct_referral = user_to_verify.verified
+          ? DIRECT_REFERRAL_PAYMENT
+          : 0;
 
-      await payIndirectReferral(
-        user_to_verify.id_of_the_user_that_invite,
-        user_to_verify.id_of_the_indirect_referral,
-        body.checked
-      );
+        const update_user_to_verify = await user_to_verify.save();
 
-      res.send({
-        message: "Successfully verify User!",
-      });
+        await payDirectReferral(update_user_to_verify);
+
+        await payIndirectReferral(update_user_to_verify);
+
+        await checkIfThereIsPairingBonus(update_user_to_verify, checked);
+
+        res.send({
+          message: "Successfully update user!",
+        });
+      } else {
+        res.send({
+          message: "Already!",
+        });
+      }
     } else {
       res.status(401).send({
         message: "Secret code is invalid!",

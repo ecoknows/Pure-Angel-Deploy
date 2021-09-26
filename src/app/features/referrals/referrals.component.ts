@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DirectReferralState } from '@core/redux/direct-referral/direct-referral.reducers';
 import { IndirectReferralState } from '@core/redux/indirect-referral/indirect-referral.reducers';
+import { PairingBonusState } from '@core/redux/pairing-bonus/pairing-bonus.reducers';
 import { DirectReferralService } from '@core/services/direct-referral.service';
 import { IndirectReferralService } from '@core/services/indirect-referral.service';
 import { Store } from '@ngrx/store';
@@ -14,16 +15,19 @@ import { data } from './test-data';
 })
 export class ReferralsComponent implements OnInit {
   directReferralRows$: Observable<DirectReferralState[]>;
-  indirectReferralRows$: Observable<DirectReferralState[]>;
+  indirectReferralRows$: Observable<IndirectReferralState[]>;
+  pairingBonusRows$: Observable<PairingBonusState[]>;
 
   constructor(
     private store: Store<{
       directReferralReducer: DirectReferralState[];
       indirectReferralReducer: IndirectReferralState[];
+      pairingBonusReducer: PairingBonusState[];
     }>
   ) {
     this.directReferralRows$ = this.store.select('directReferralReducer');
     this.indirectReferralRows$ = this.store.select('indirectReferralReducer');
+    this.pairingBonusRows$ = this.store.select('pairingBonusReducer');
   }
 
   ngOnInit(): void {}

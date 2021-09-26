@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema(
 
     is_stockist: { type: Boolean },
     is_admin: { type: Boolean },
-    is_ancestor: { type: Boolean, index: true },
+    is_owner: { type: Boolean, index: true },
 
     direct_referral: { type: Number, default: 0 },
     indirect_referral: { type: Number, default: 0 },

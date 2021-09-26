@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { setIndirectReferral } from '@core/redux/indirect-referral/indirect-referral.actions';
-import { IndirectReferralState } from '@core/redux/indirect-referral/indirect-referral.reducers';
+import { setPairingBonus } from '@core/redux/pairing-bonus/pairing-bonus.actions';
+import { PairingBonusState } from '@core/redux/pairing-bonus/pairing-bonus.reducers';
 import { environment } from '@env';
 import { Store } from '@ngrx/store';
 import { AuthService } from './auth.service';
@@ -9,27 +9,25 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class IndirectReferralService {
-  cache!: IndirectReferralState[];
-
+export class PairingBonusService {
+  cache!: PairingBonusState[];
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-    private store: Store<{ indirectReferralReducer: IndirectReferralState[] }>
+    private store: Store<{ pairingBonusReducer: PairingBonusState[] }>
   ) {}
 
-  fetchIndirectReferrals() {
+  fetchPairingBonus() {
     this.http
-      .get<{ message: string; data: IndirectReferralState[] }>(
-        environment.api + 'api/indirect-referral',
+      .get<{ message: string; data: PairingBonusState[] }>(
+        environment.api + 'api/pairing-bonus',
         { headers: this.authService.headers }
       )
       .subscribe((response) => {
         const data = response.data;
-
         if (data) {
           this.cache = [...data];
-          this.store.dispatch(setIndirectReferral({ list: data }));
+          this.store.dispatch(setPairingBonus({ list: data }));
         }
       });
   }

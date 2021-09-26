@@ -23,5 +23,13 @@ export class IndirectReferralComponent implements OnInit {
     this.indirectReferralService.fetchIndirectReferrals();
   }
 
-  search($event: any) {}
+  search(event: any) {
+    const val = event.target.value.toLowerCase();
+
+    this.rows = this.indirectReferralService.cache?.filter(function (d) {
+      return d.first_name.toLowerCase().indexOf(val) !== -1 || !val;
+    });
+
+    this.table.offset = 0;
+  }
 }

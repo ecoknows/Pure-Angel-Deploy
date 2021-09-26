@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const genealogySchema = new mongoose.Schema(
   {
     user_id: { type: String, index: true },
+    id_of_the_user_that_invite: { type: String },
 
     first_name: { type: String, required: true },
     last_name: { type: String, required: true },

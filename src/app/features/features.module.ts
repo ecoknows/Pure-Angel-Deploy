@@ -33,6 +33,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { AdminComponent } from './admin/admin.component';
 import { UserTableComponent } from './admin/components/user-table/user-table.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { PairingBonusComponent } from './referrals/components/pairing-bonus/pairing-bonus.component';
 
 @NgModule({
   declarations: [
@@ -49,8 +50,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     GenealogyAddComponent,
     DirectReferralComponent,
     IndirectReferralComponent,
+    PairingBonusComponent,
     AdminComponent,
     UserTableComponent,
+    PairingBonusComponent,
   ],
   imports: [
     NgxChartsModule,

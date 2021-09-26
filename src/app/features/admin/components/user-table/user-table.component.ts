@@ -38,7 +38,14 @@ export class UserTableComponent implements OnInit {
     this.table.offset = 0;
   }
 
-  checkUser(checked: boolean, secret_code: string) {
-    this.adminService.verifyUser({ secret_code, checked });
+  get isDisabled() {
+    return this.adminService.userTableStatus;
+  }
+
+  checkUser($event: any, secret_code: string) {
+    this.adminService.verifyUser({
+      secret_code,
+      checked: $event.checked,
+    });
   }
 }

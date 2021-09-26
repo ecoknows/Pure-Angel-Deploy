@@ -45,10 +45,14 @@ async function updateGenealogy(genealogy, child_user, res, req) {
 async function addNewGenealogy(genealogy, child_user, current_user, res, req) {
   const position = req.body.position;
   const id_of_the_user_that_invite = req.user._id;
+  const user_that_invite = await UserVerification.findOne({
+    user_id: current_user._id,
+  });
 
   if (position == "left") {
     genealogy = new Genealogy({
       user_id: current_user._id,
+      id_of_the_user_that_invite: user_that_invite?.id_of_the_user_that_invite,
       first_name: current_user.first_name,
       last_name: current_user.last_name,
       address: current_user.address,
@@ -65,6 +69,7 @@ async function addNewGenealogy(genealogy, child_user, current_user, res, req) {
     genealogy = new Genealogy({
       user_id: current_user._id,
       first_name: current_user.first_name,
+      id_of_the_user_that_invite: user_that_invite?.id_of_the_user_that_invite,
       last_name: current_user.last_name,
       address: current_user.address,
       right_branch: {
@@ -83,7 +88,7 @@ async function addNewGenealogy(genealogy, child_user, current_user, res, req) {
   });
 }
 
-async function createChildUser(req) {
+async function createChildUser(req, current_user) {
   const body = req.body;
   let child_user = new User({
     first_name: body.first_name,
@@ -103,6 +108,7 @@ async function createChildUser(req) {
     address: child_user.address,
     birthdate: body.birthdate,
     id_of_the_user_that_invite,
+    id_of_the_root_user_genealogy: current_user._id,
   });
 
   const user_that_invite = await UserVerification.findOne({
@@ -128,7 +134,7 @@ GenealogyRouter.post(
 
     if (genealogy) {
       if (genealogy.right_branch || genealogy.left_branch) {
-        let child_user = await createChildUser(req);
+        let child_user = await createChildUser(req, current_user);
 
         await updateGenealogy(genealogy, child_user, res, req);
       } else {
@@ -137,7 +143,7 @@ GenealogyRouter.post(
           .send({ message: "Branch Exceed only 2 branch allowed!" });
       }
     } else if (genealogy == null && current_user != null) {
-      let child_user = await createChildUser(req);
+      let child_user = await createChildUser(req, current_user);
 
       await addNewGenealogy(genealogy, child_user, current_user, res, req);
     } else {

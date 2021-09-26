@@ -5,12 +5,12 @@ import { UsersTableState } from '@core/redux/admin/users-table.reducers';
 import { AuthService } from '@core/services/auth.service';
 import { environment } from '@env';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-
 @Injectable({
   providedIn: 'root',
 })
 export class AdminService {
+  userTableStatus: boolean = false;
+
   constructor(
     private http: HttpClient,
     private authService: AuthService,
@@ -34,6 +34,7 @@ export class AdminService {
   }
 
   verifyUser(verification_info: { checked: boolean; secret_code: string }) {
+    this.userTableStatus = true;
     this.http
       .post<{ message: string }>(
         environment.api + 'api/admin/verify',
@@ -44,6 +45,7 @@ export class AdminService {
         { headers: this.authService.headers }
       )
       .subscribe((response) => {
+        this.userTableStatus = false;
         this.fetchUsersTable();
       });
   }

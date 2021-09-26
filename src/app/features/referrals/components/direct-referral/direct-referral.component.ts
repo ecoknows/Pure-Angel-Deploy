@@ -15,18 +15,18 @@ export class DirectReferralComponent implements OnInit {
 
   @ViewChild(DatatableComponent) table!: DatatableComponent;
 
-  constructor(private service: DirectReferralService) {
+  constructor(private directReferralService: DirectReferralService) {
     this.verifiedIcon = getIcon('faUserCheck');
   }
 
   ngOnInit(): void {
-    this.service.fetchDirectReferral();
+    this.directReferralService.fetchDirectReferral();
   }
 
   search(event: any) {
     const val = event.target.value.toLowerCase();
 
-    this.rows = this.service.cache?.filter(function (d) {
+    this.rows = this.directReferralService.cache?.filter(function (d) {
       return d.first_name.toLowerCase().indexOf(val) !== -1 || !val;
     });
 

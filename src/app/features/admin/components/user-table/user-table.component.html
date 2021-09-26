@@ -23,11 +23,14 @@
     <ngx-datatable-column name="Name" [width]="270">
       <ng-template let-row="row" ngx-datatable-cell-template>
         <mat-checkbox
+          #checkbox
           class="chekbox-margin"
           color="primary"
           [checked]="row.verified"
-          (change)="checkUser($event.checked, row._id)"
+          (change)="checkUser($event, row._id)"
+          [disabled]="isDisabled"
         ></mat-checkbox>
+
         {{ row.first_name }} {{ row.last_name }}
       </ng-template>
     </ngx-datatable-column>
@@ -44,7 +47,7 @@
       </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column name="Address" [width]="280"> </ngx-datatable-column>
+    <ngx-datatable-column name="Address" [width]="250"> </ngx-datatable-column>
     <ngx-datatable-column name="Status" [width]="120">
       <ng-template let-row="row" ngx-datatable-cell-template>
         <ng-container *ngIf="row.verified == true">
@@ -59,10 +62,14 @@
       </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column name="Expenditure" [width]="130">
+    <ngx-datatable-column name="Expenditure" [width]="150">
       <ng-template let-row="row" ngx-datatable-cell-template>
         ₱
-        {{ row.income_direct_referral + row.income_indirect_referral | number }}
+        {{
+          row.income_direct_referral +
+            row.income_pairing_bonus +
+            row.income_indirect_referral | number
+        }}
       </ng-template>
     </ngx-datatable-column>
   </ngx-datatable>
