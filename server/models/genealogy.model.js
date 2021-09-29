@@ -3,16 +3,27 @@ import mongoose from "mongoose";
 const genealogySchema = new mongoose.Schema(
   {
     user_id: { type: String, index: true },
-    id_of_the_user_that_invite: { type: String },
-
     first_name: { type: String, required: true },
     last_name: { type: String, required: true },
     address: { type: String, required: true },
 
+    user_that_invite: {
+      user_id: { type: String, index: true },
+      first_name: { type: String },
+      last_name: { type: String },
+      address: { type: String },
+    },
+
     left_branch: {
       type: {
         user_id: { type: String, index: true },
-        id_of_the_user_that_invite: { type: String, index: true },
+
+        user_that_invite: {
+          user_id: { type: String, index: true },
+          first_name: { type: String },
+          last_name: { type: String },
+          address: { type: String },
+        },
 
         first_name: { type: String, required: true },
         last_name: { type: String, required: true },
@@ -26,7 +37,13 @@ const genealogySchema = new mongoose.Schema(
     right_branch: {
       type: {
         user_id: { type: String, index: true },
-        id_of_the_user_that_invite: { type: String, index: true },
+
+        user_that_invite: {
+          user_id: { type: String, index: true },
+          first_name: { type: String },
+          last_name: { type: String },
+          address: { type: String },
+        },
 
         first_name: { type: String, required: true },
         last_name: { type: String, required: true },

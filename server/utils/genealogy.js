@@ -1,153 +1,297 @@
-import User from "../models/user.model.js";
 import Genealogy from "../models/genealogy.model.js";
-import {
-  DIRECT_REFERRAL_PAYMENT,
-  INDIRECT_REFERRAL_LIMIT,
-  INDIRECT_REFERRAL_PAYMENT,
-  PAIRING_BONUS_PAYMENT,
-} from "../constants.js";
+import User from "../models/user.model.js";
 import UserVerification from "../models/user.verification.model.js";
-import Transaction from "../models/transaction.model.js";
+import DirectReferral from "../models/direct-referral.model.js";
+import IndirectReferral from "../models/indirect-referral.model.js";
 
-export async function payDirectReferral(user_to_verify) {
-  const user_that_invite = await User.findById(
-    user_to_verify.id_of_the_user_that_invite
-  );
+export async function addDirectReferral(direct_referral_user, child_user) {
+  const newDirectReferral = new DirectReferral({
+    user_id: direct_referral_user._id,
+    first_name: direct_referral_user.first_name,
+    last_name: direct_referral_user.last_name,
+    address: direct_referral_user.address,
+
+    root_user: {
+      user_id: child_user.root_user_genealogy.user_id,
+      first_name: child_user.root_user_genealogy.first_name,
+      last_name: child_user.root_user_genealogy.last_name,
+      address: child_user.root_user_genealogy.address,
+    },
+
+    user: {
+      user_id: child_user._id,
+      first_name: child_user.first_name,
+      last_name: child_user.last_name,
+      address: child_user.address,
+    },
+  });
+
+  await newDirectReferral.save();
+}
+
+export async function addIndirectReferral(
+  id_indirect_referral,
+  current_user,
+  child_user,
+  user_that_invite,
+  count
+) {
+  const indirect_referral_user = await User.findById(id_indirect_referral);
+
+  if (
+    indirect_referral_user &&
+    count < 5 &&
+    user_that_invite._id != indirect_referral_user._id
+  ) {
+    const newIndirectReferral = await new IndirectReferral({
+      user_id: indirect_referral_user._id,
+      first_name: indirect_referral_user.first_name,
+      last_name: indirect_referral_user.last_name,
+      address: indirect_referral_user.address,
+
+      user_that_invite: {
+        user_id: current_user._id,
+        first_name: current_user.first_name,
+        last_name: current_user.last_name,
+        address: current_user.address,
+      },
+
+      user: {
+        user_id: child_user._id,
+        first_name: child_user.first_name,
+        last_name: child_user.last_name,
+        address: child_user.address,
+      },
+
+      income: 0,
+    });
+
+    await newIndirectReferral.save();
+
+    await addIndirectReferral(
+      indirect_referral_user.user_that_invite.user_id,
+      current_user,
+      child_user,
+      user_that_invite,
+      count + 1
+    );
+  }
+}
+
+export async function updateGenealogy(genealogy, child_user, res, req) {
+  const position = req.body.position;
+  const id_of_the_user_that_invite = req.user._id;
+
+  if (position == "left") {
+    genealogy.left_branch = {
+      user_id: child_user._id,
+
+      user_that_invite: {
+        user_id: id_of_the_user_that_invite,
+        first_name: req.user.first_name,
+        last_name: req.user.last_name,
+        address: req.user.address,
+      },
+
+      first_name: child_user.first_name,
+      last_name: child_user.last_name,
+      address: child_user.address,
+    };
+    await genealogy.save();
+    res.send({
+      message: "New branch has succesfully push to array!",
+    });
+  } else if (position == "right") {
+    genealogy.right_branch = {
+      user_id: child_user._id,
+
+      user_that_invite: {
+        user_id: id_of_the_user_that_invite,
+        first_name: req.user.first_name,
+        last_name: req.user.last_name,
+        address: req.user.address,
+      },
+      first_name: child_user.first_name,
+      last_name: child_user.last_name,
+      address: child_user.address,
+    };
+    await genealogy.save();
+    res.send({
+      message: "New branch has succesfully push to array!",
+    });
+  } else {
+    res.stats(409).send({
+      message: "Oppss incorrect position!",
+    });
+  }
+}
+
+export async function addNewGenealogy(
+  genealogy,
+  child_user,
+  current_user,
+  res,
+  req
+) {
+  const position = req.body.position;
+  const id_of_the_user_that_invite = req.user._id;
+  const user_that_invite = await UserVerification.findOne({
+    user_id: current_user._id,
+  });
+
+  if (position == "left") {
+    genealogy = new Genealogy({
+      user_id: current_user._id,
+
+      user_that_invite: user_that_invite?.id_of_the_user_that_invite
+        ? {
+            user_id: user_that_invite.id_of_the_user_that_invite,
+            first_name: user_that_invite.first_name,
+            last_name: user_that_invite.last_name,
+            address: user_that_invite.address,
+          }
+        : undefined,
+
+      first_name: current_user.first_name,
+      last_name: current_user.last_name,
+      address: current_user.address,
+      left_branch: {
+        user_id: child_user._id,
+        user_that_invite: {
+          user_id: id_of_the_user_that_invite,
+          first_name: req.user.first_name,
+          last_name: req.user.last_name,
+          address: req.user.address,
+        },
+        first_name: child_user.first_name,
+        last_name: child_user.last_name,
+        address: child_user.address,
+      },
+    });
+    await genealogy.save();
+  } else {
+    genealogy = new Genealogy({
+      user_id: current_user._id,
+      first_name: current_user.first_name,
+      user_that_invite: user_that_invite?.id_of_the_user_that_invite
+        ? {
+            user_id: user_that_invite.id_of_the_user_that_invite,
+            first_name: user_that_invite.first_name,
+            last_name: user_that_invite.last_name,
+            address: user_that_invite.address,
+          }
+        : undefined,
+      last_name: current_user.last_name,
+      address: current_user.address,
+      right_branch: {
+        user_id: child_user._id,
+        user_that_invite: {
+          user_id: id_of_the_user_that_invite,
+          first_name: req.user.first_name,
+          last_name: req.user.last_name,
+          address: req.user.address,
+        },
+        first_name: child_user.first_name,
+        last_name: child_user.last_name,
+        address: child_user.address,
+      },
+    });
+    await genealogy.save();
+  }
+
+  res.send({
+    message: "New Branch Added Successfully!",
+  });
+}
+
+export async function createChildUser(
+  req,
+  current_user,
+  genealogy,
+  user_that_invite
+) {
+  const body = req.body;
+
+  let child_user = new User({
+    first_name: body.first_name,
+    last_name: body.last_name,
+    address: body.address,
+    birthdate: body.birthdate,
+
+    root_user_genealogy: genealogy
+      ? {
+          user_id: genealogy.user_id,
+          first_name: genealogy.first_name,
+          last_name: genealogy.last_name,
+          address: genealogy.address,
+        }
+      : undefined,
+
+    user_that_invite: {
+      user_id: req.user._id,
+      first_name: req.user.first_name,
+      last_name: req.user.last_name,
+      address: req.user.address,
+    },
+  });
+
+  child_user = await child_user.save();
+
+  let child_user_verification = new UserVerification({
+    user_id: child_user._id,
+    first_name: child_user.first_name,
+    last_name: child_user.last_name,
+    address: child_user.address,
+    birthdate: child_user.birthdate,
+
+    user_that_invite: {
+      user_id: req.user._id,
+      first_name: req.user.first_name,
+      last_name: req.user.last_name,
+      address: req.user.address,
+    },
+    root_user_genealogy: {
+      user_id: current_user._id,
+      first_name: current_user.first_name,
+      last_name: current_user.last_name,
+      address: current_user.address,
+    },
+  });
 
   if (user_that_invite) {
-    user_that_invite.direct_referral = user_to_verify.verified
-      ? user_that_invite.direct_referral + DIRECT_REFERRAL_PAYMENT
-      : user_that_invite.direct_referral - DIRECT_REFERRAL_PAYMENT;
-    await user_that_invite.save();
+    child_user_verification.indirect_referral.user_id =
+      user_that_invite.user_that_invite.user_id;
+
+    child_user_verification.indirect_referral.first_name =
+      user_that_invite.user_that_invite.first_name;
+
+    child_user_verification.indirect_referral.last_name =
+      user_that_invite.user_that_invite.last_name;
+
+    child_user_verification.indirect_referral.address =
+      user_that_invite.user_that_invite.address;
   }
+  child_user_verification.save();
+
+  return child_user;
 }
 
-export async function payIndirectReferral(user_to_verify) {
-  const id_of_the_user_that_invite = user_to_verify.id_of_the_user_that_invite;
-  const id_of_the_indirect_referral =
-    user_to_verify.id_of_the_indirect_referral;
-
-  const direct_referral_user = await UserVerification.findOne({
-    user_id: id_of_the_user_that_invite,
-  });
-
-  if (
-    direct_referral_user &&
-    user_to_verify.indirect_referral_count < INDIRECT_REFERRAL_LIMIT
-  ) {
-    const indirect_referra_user = await User.findById(
-      id_of_the_indirect_referral
-    );
-
-    if (user_to_verify.verified) {
-      indirect_referra_user.indirect_referral =
-        indirect_referra_user.indirect_referral + INDIRECT_REFERRAL_PAYMENT;
-
-      user_to_verify.indirect_referral_count =
-        user_to_verify.indirect_referral_count + 1;
-
-      user_to_verify.income_indirect_referral = INDIRECT_REFERRAL_PAYMENT;
-    } else {
-      indirect_referra_user.indirect_referral =
-        indirect_referra_user.indirect_referral - INDIRECT_REFERRAL_PAYMENT;
-
-      user_to_verify.indirect_referral_count =
-        user_to_verify.indirect_referral_count - 1;
-
-      user_to_verify.income_indirect_referral = 0;
+export async function updateBranches(root) {
+  if (root.left_branch) {
+    const branch = root.left_branch;
+    const newBranch = await Genealogy.findOne({ user_id: branch.user_id });
+    if (newBranch) {
+      root.left_branch = newBranch;
+      await updateBranches(root.left_branch);
     }
-
-    await user_to_verify.save();
-    await indirect_referra_user.save();
-    await direct_referral_user.save();
   }
-}
 
-export async function checkIfThereIsPairingBonus(user_to_verify, checked) {
-  const id_of_the_root_user_genealogy =
-    user_to_verify.id_of_the_root_user_genealogy;
-
-  const genealogy_of_user_that_invite = await Genealogy.findOne({
-    user_id: id_of_the_root_user_genealogy,
-  });
-
-  if (
-    genealogy_of_user_that_invite &&
-    genealogy_of_user_that_invite.right_branch &&
-    genealogy_of_user_that_invite.left_branch
-  ) {
-    const right_branch_user = await UserVerification.findOne({
-      user_id: genealogy_of_user_that_invite.right_branch.user_id,
-    });
-    const left_branch_user = await UserVerification.findOne({
-      user_id: genealogy_of_user_that_invite.left_branch.user_id,
-    });
-
-    if (left_branch_user && right_branch_user) {
-      const root_user_genealogy = await User.findById(
-        id_of_the_root_user_genealogy
-      );
-
-      if (left_branch_user.verified && right_branch_user.verified) {
-        root_user_genealogy.pairing_bonus =
-          root_user_genealogy.pairing_bonus + PAIRING_BONUS_PAYMENT;
-
-        user_to_verify.income_pairing_bonus = PAIRING_BONUS_PAYMENT;
-
-        const newTransaction = new Transaction({
-          user_id: root_user_genealogy._id,
-
-          first_name: root_user_genealogy.first_name,
-          last_name: root_user_genealogy.first_name,
-
-          pairing_bonus_info: {
-            root_id: genealogy_of_user_that_invite.user_id,
-            root_first_name: genealogy_of_user_that_invite.first_name,
-            root_last_name: genealogy_of_user_that_invite.last_name,
-
-            right_id: right_branch_user.user_id,
-            right_first_name: right_branch_user.first_name,
-            right_last_name: right_branch_user.last_name,
-
-            left_id: left_branch_user.user_id,
-            left_first_name: left_branch_user.first_name,
-            left_last_name: left_branch_user.last_name,
-          },
-          income_pairing_bonus: PAIRING_BONUS_PAYMENT,
-        });
-
-        await user_to_verify.save();
-        await root_user_genealogy.save();
-        await newTransaction.save();
-      } else if (
-        (left_branch_user.verified || right_branch_user.verified) &&
-        checked == false
-      ) {
-        root_user_genealogy.pairing_bonus =
-          root_user_genealogy.pairing_bonus - PAIRING_BONUS_PAYMENT;
-
-        if (user_to_verify.income_pairing_bonus == undefined) {
-          user_to_verify.income_pairing_bonus = 0;
-        } else {
-          if (right_branch_user.user_id == user_to_verify.user_id) {
-            left_branch_user.income_pairing_bonus = 0;
-            await left_branch_user.save();
-          } else if (left_branch_user.user_id == user_to_verify.user_id) {
-            right_branch_user.income_pairing_bonus = 0;
-            await right_branch_user.save();
-          }
-        }
-
-        await Transaction.deleteOne({
-          user_id: root_user_genealogy._id,
-          root_id: genealogy_of_user_that_invite.user_id,
-          right_id: right_branch_user.user_id,
-          left_id: left_branch_user.user_id,
-        });
-
-        await user_to_verify.save();
-        await root_user_genealogy.save();
-      }
+  if (root.right_branch) {
+    const branch = root.right_branch;
+    const newBranch = await Genealogy.findOne({ user_id: branch.user_id });
+    if (newBranch) {
+      root.right_branch = newBranch;
+      await updateBranches(root.right_branch);
     }
   }
 }

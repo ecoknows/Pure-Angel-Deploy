@@ -1,6 +1,6 @@
 import express from "express";
 import expressAsyncHandler from "express-async-handler";
-import UserVerification from "../models/user.verification.model.js";
+import DirectReferral from "../models/direct-referral.model.js";
 import { verifyUserToken } from "../utils.js";
 
 let DirectReferralRouter = express.Router();
@@ -11,8 +11,8 @@ DirectReferralRouter.get(
   expressAsyncHandler(async (req, res) => {
     const user = req.user;
 
-    let direct_referral = await UserVerification.find({
-      id_of_the_user_that_invite: user._id,
+    let direct_referral = await DirectReferral.find({
+      user_id: user._id,
     });
 
     if (direct_referral) {

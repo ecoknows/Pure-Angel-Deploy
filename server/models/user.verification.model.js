@@ -8,21 +8,35 @@ const userVerificationSchema = new mongoose.Schema(
     last_name: { type: String, required: true },
     address: { type: String, required: true },
     birthdate: { type: String, required: true },
-
-    id_of_the_root_user_genealogy: { type: String, index: true },
-
-    id_of_the_user_that_invite: { type: String, index: true },
-    id_of_the_indirect_referral: { type: String, index: true },
     verified: { type: Boolean, default: false },
 
     income_direct_referral: { type: Number, default: 0 },
     income_indirect_referral: { type: Number, default: 0 },
     income_pairing_bonus: { type: Number, default: 0 },
 
-    indirect_referral_count: { type: Number, default: 0 },
-
     pairing_bonus_count: { type: Number, default: 0 },
     starting_date_of_pairing_exceeded: { type: Date },
+
+    root_user_genealogy: {
+      user_id: { type: String, index: true },
+      first_name: { type: String },
+      last_name: { type: String },
+      address: { type: String },
+    },
+
+    user_that_invite: {
+      user_id: { type: String, index: true },
+      first_name: { type: String },
+      last_name: { type: String },
+      address: { type: String },
+    },
+
+    indirect_referral: {
+      user_id: { type: String, index: true },
+      first_name: { type: String },
+      last_name: { type: String },
+      address: { type: String },
+    },
   },
   {
     timestamps: true,

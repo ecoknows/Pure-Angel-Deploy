@@ -7,8 +7,8 @@
 <div
   [ngClass]="node.cssClass || ''"
   [style.opacity]="
-    (user$ | async)?._id == node?.id_of_the_user_that_invite ||
-    node?.id_of_the_user_that_invite == undefined
+    (user$ | async)?._id == node?.user_that_invite?.user_id ||
+    node?.user_that_invite?.user_id == undefined
       ? 1
       : 0.6
   "

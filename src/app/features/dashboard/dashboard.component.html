@@ -4,7 +4,14 @@
     <h2>Welcome back to Pure Angel Cofee</h2>
   </div>
   <div class="total-assets">
-    <h1>₱ {{ (user$ | async)?.overall_income | number: "1.2-2" }}</h1>
+    <h1>
+      ₱
+      {{
+        (user$ | async)?.overall_income
+          ? ((user$ | async)?.overall_income | number: "1.2-2")
+          : "0.00"
+      }}
+    </h1>
     <h2>Overall Income</h2>
   </div>
 </div>

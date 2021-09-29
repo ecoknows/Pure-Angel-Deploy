@@ -2,140 +2,45 @@ import express from "express";
 import expressAsyncHandler from "express-async-handler";
 import Genealogy from "../models/genealogy.model.js";
 import User from "../models/user.model.js";
-import UserVerification from "../models/user.verification.model.js";
 import { verifyUserToken } from "../utils.js";
 
+import {
+  addDirectReferral,
+  addIndirectReferral,
+  addNewGenealogy,
+  createChildUser,
+  updateGenealogy,
+  updateBranches,
+} from "../utils/genealogy.js";
+
 const GenealogyRouter = express.Router();
-
-async function updateGenealogy(genealogy, child_user, res, req) {
-  const position = req.body.position;
-  const id_of_the_user_that_invite = req.user._id;
-
-  if (position == "left") {
-    genealogy.left_branch = {
-      user_id: child_user._id,
-      id_of_the_user_that_invite,
-      first_name: child_user.first_name,
-      last_name: child_user.last_name,
-      address: child_user.address,
-    };
-    await genealogy.save();
-    res.send({
-      message: "New branch has succesfully push to array!",
-    });
-  } else if (position == "right") {
-    genealogy.right_branch = {
-      user_id: child_user._id,
-      id_of_the_user_that_invite,
-      first_name: child_user.first_name,
-      last_name: child_user.last_name,
-      address: child_user.address,
-    };
-    await genealogy.save();
-    res.send({
-      message: "New branch has succesfully push to array!",
-    });
-  } else {
-    res.stats(409).send({
-      message: "Oppss incorrect position!",
-    });
-  }
-}
-
-async function addNewGenealogy(genealogy, child_user, current_user, res, req) {
-  const position = req.body.position;
-  const id_of_the_user_that_invite = req.user._id;
-  const user_that_invite = await UserVerification.findOne({
-    user_id: current_user._id,
-  });
-
-  if (position == "left") {
-    genealogy = new Genealogy({
-      user_id: current_user._id,
-      id_of_the_user_that_invite: user_that_invite?.id_of_the_user_that_invite,
-      first_name: current_user.first_name,
-      last_name: current_user.last_name,
-      address: current_user.address,
-      left_branch: {
-        user_id: child_user._id,
-        id_of_the_user_that_invite,
-        first_name: child_user.first_name,
-        last_name: child_user.last_name,
-        address: child_user.address,
-      },
-    });
-    await genealogy.save();
-  } else {
-    genealogy = new Genealogy({
-      user_id: current_user._id,
-      first_name: current_user.first_name,
-      id_of_the_user_that_invite: user_that_invite?.id_of_the_user_that_invite,
-      last_name: current_user.last_name,
-      address: current_user.address,
-      right_branch: {
-        user_id: child_user._id,
-        id_of_the_user_that_invite,
-        first_name: child_user.first_name,
-        last_name: child_user.last_name,
-        address: child_user.address,
-      },
-    });
-    await genealogy.save();
-  }
-
-  res.send({
-    message: "New Branch Added Successfully!",
-  });
-}
-
-async function createChildUser(req, current_user) {
-  const body = req.body;
-  let child_user = new User({
-    first_name: body.first_name,
-    last_name: body.last_name,
-    address: body.address,
-    birthdate: body.birthdate,
-  });
-
-  child_user = await child_user.save();
-
-  const id_of_the_user_that_invite = req.user._id;
-
-  let child_user_verification = new UserVerification({
-    user_id: child_user._id,
-    first_name: child_user.first_name,
-    last_name: child_user.last_name,
-    address: child_user.address,
-    birthdate: body.birthdate,
-    id_of_the_user_that_invite,
-    id_of_the_root_user_genealogy: current_user._id,
-  });
-
-  const user_that_invite = await UserVerification.findOne({
-    user_id: id_of_the_user_that_invite,
-  });
-
-  if (user_that_invite) {
-    child_user_verification.id_of_the_indirect_referral =
-      user_that_invite.id_of_the_user_that_invite;
-  }
-
-  child_user_verification.save();
-
-  return child_user;
-}
 
 GenealogyRouter.post(
   "/add",
   verifyUserToken,
   expressAsyncHandler(async (req, res) => {
     let current_user = await User.findById(req.body.root_id);
+    let user_that_invite = await User.findById(req.user._id);
     let genealogy = await Genealogy.findOne({ user_id: current_user._id });
 
     if (genealogy) {
       if (genealogy.right_branch || genealogy.left_branch) {
-        let child_user = await createChildUser(req, current_user);
+        let child_user = await createChildUser(
+          req,
+          current_user,
+          genealogy,
+          user_that_invite
+        );
 
+        await addDirectReferral(req.user, child_user);
+
+        await addIndirectReferral(
+          user_that_invite.user_that_invite.user_id,
+          user_that_invite,
+          child_user,
+          req.user,
+          0
+        );
         await updateGenealogy(genealogy, child_user, res, req);
       } else {
         res
@@ -143,34 +48,27 @@ GenealogyRouter.post(
           .send({ message: "Branch Exceed only 2 branch allowed!" });
       }
     } else if (genealogy == null && current_user != null) {
-      let child_user = await createChildUser(req, current_user);
+      let child_user = await createChildUser(
+        req,
+        current_user,
+        genealogy,
+        user_that_invite
+      );
 
+      await addIndirectReferral(
+        user_that_invite.user_that_invite.user_id,
+        user_that_invite,
+        child_user,
+        req.user,
+        0
+      );
+      await addDirectReferral(req.user, child_user);
       await addNewGenealogy(genealogy, child_user, current_user, res, req);
     } else {
       res.status(409).send({ message: "All nulls!" });
     }
   })
 );
-
-async function updateBranches(root) {
-  if (root.left_branch) {
-    const branch = root.left_branch;
-    const newBranch = await Genealogy.findOne({ user_id: branch.user_id });
-    if (newBranch) {
-      root.left_branch = newBranch;
-      await updateBranches(root.left_branch);
-    }
-  }
-
-  if (root.right_branch) {
-    const branch = root.right_branch;
-    const newBranch = await Genealogy.findOne({ user_id: branch.user_id });
-    if (newBranch) {
-      root.right_branch = newBranch;
-      await updateBranches(root.right_branch);
-    }
-  }
-}
 
 GenealogyRouter.get(
   "/",

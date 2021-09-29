@@ -7,7 +7,7 @@ import {
   payIndirectReferral,
   payDirectReferral,
   checkIfThereIsPairingBonus,
-} from "../utils/genealogy.js";
+} from "../utils/admin.js";
 
 const AdminRouter = express.Router();
 

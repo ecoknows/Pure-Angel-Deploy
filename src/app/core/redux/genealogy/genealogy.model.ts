@@ -6,7 +6,12 @@ export interface Genealogy {
   address?: string;
   right_branch?: Genealogy;
   left_branch?: Genealogy;
-  id_of_the_user_that_invite?: string;
+  user_that_invite?: {
+    user_id?: string;
+    first_name?: string;
+    last_name?: string;
+    address?: string;
+  };
   cssClass?: string;
   image?: string;
   title?: string;

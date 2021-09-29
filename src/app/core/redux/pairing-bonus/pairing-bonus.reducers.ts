@@ -3,15 +3,15 @@ import { setPairingBonus } from './pairing-bonus.actions';
 
 export interface PairingBonusState {
   pairing_bonus_info: {
-    root_id: string;
+    root_user_id: string;
     root_first_name: string;
     root_last_name: string;
 
-    right_id: string;
+    right_user_id: string;
     right_first_name: string;
     right_last_name: string;
 
-    left_id: string;
+    left_user_id: string;
     left_first_name: string;
     left_last_name: string;
   };
