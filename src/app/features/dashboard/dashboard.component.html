@@ -42,4 +42,10 @@
     icon="faHandHoldingUsd"
     label="Automatic Equivalent Rebates"
   ></app-card-total-number>
+
+  <app-card-total-number
+    [money]="(user$ | async)?.automatic_equivalent_rebates"
+    icon="faMoneyBillAlt"
+    label="Pairing Product Voucher"
+  ></app-card-total-number>
 </div>

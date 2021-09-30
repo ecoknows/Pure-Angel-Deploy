@@ -11,10 +11,15 @@ import { AdminService } from './services/admin.service';
   styleUrls: ['./admin.component.sass'],
 })
 export class AdminComponent implements OnInit {
+  usersTable$: Observable<UsersTableState[]>;
+
   constructor(
     private authService: AuthService,
-    private adminService: AdminService
-  ) {}
+    private adminService: AdminService,
+    private store: Store<{ usersTableReducer: UsersTableState[] }>
+  ) {
+    this.usersTable$ = this.store.select('usersTableReducer');
+  }
 
   ngOnInit(): void {
     this.authService.fetchUserData();

@@ -12,14 +12,14 @@ import IndirectReferral from "../models/indirect-referral.model.js";
 import PairingBonus from "../models/pairing-bonus.model.js";
 
 export async function payDirectReferral(user_to_verify) {
-  const user_that_invite = await User.findById(
-    user_to_verify.user_that_invite.user_id
-  );
+  const user_that_invite = await UserVerification.findOne({
+    user_id: user_to_verify.user_that_invite.user_id,
+  });
 
   if (user_that_invite) {
     if (user_to_verify.verified) {
       const updateDirectReferral = await DirectReferral.findOne({
-        user_id: user_that_invite._id,
+        user_id: user_that_invite.user_id,
         "user.user_id": user_to_verify.user_id,
       });
 
@@ -33,7 +33,7 @@ export async function payDirectReferral(user_to_verify) {
       }
     } else {
       const updateDirectReferral = await DirectReferral.findOne({
-        user_id: user_that_invite._id,
+        user_id: user_that_invite.user_id,
         "user.user_id": user_to_verify.user_id,
       });
 
@@ -55,22 +55,17 @@ async function indirectReferralRecursion(
   id_of_the_indirect_referral,
   count
 ) {
-  const indirect_referral_user = await User.findById(
-    id_of_the_indirect_referral
-  );
+  const indirect_referral_user = await UserVerification.findOne({
+    user_id: id_of_the_indirect_referral,
+  });
 
   if (indirect_referral_user && count < 5) {
     if (user_to_verify.verified) {
       indirect_referral_user.indirect_referral =
         indirect_referral_user.indirect_referral + INDIRECT_REFERRAL_PAYMENT;
 
-      user_to_verify.income_indirect_referral =
-        user_to_verify.income_indirect_referral + INDIRECT_REFERRAL_PAYMENT;
-
-      await user_to_verify.save();
-
       const updateIndirectReferral = await IndirectReferral.findOne({
-        user_id: indirect_referral_user._id,
+        user_id: indirect_referral_user.user_id,
         "user_that_invite.user_id": user_to_verify.user_that_invite.user_id,
         "user.user_id": user_to_verify.user_id,
       });
@@ -83,13 +78,8 @@ async function indirectReferralRecursion(
       indirect_referral_user.indirect_referral =
         indirect_referral_user.indirect_referral - INDIRECT_REFERRAL_PAYMENT;
 
-      user_to_verify.income_indirect_referral =
-        user_to_verify.income_indirect_referral - INDIRECT_REFERRAL_PAYMENT;
-
-      await user_to_verify.save();
-
       const updateIndirectReferral = await IndirectReferral.findOne({
-        user_id: indirect_referral_user._id,
+        user_id: indirect_referral_user.user_id,
         "user_that_invite.user_id": user_to_verify.user_that_invite.user_id,
         "user.user_id": user_to_verify.user_id,
       });
@@ -109,7 +99,8 @@ async function indirectReferralRecursion(
 }
 
 export async function payIndirectReferral(user_to_verify) {
-  const id_of_the_indirect_referral = user_to_verify.indirect_referral.user_id;
+  const id_of_the_indirect_referral =
+    user_to_verify.indirect_referral_user.user_id;
   indirectReferralRecursion(user_to_verify, id_of_the_indirect_referral, 0);
 }
 
@@ -131,7 +122,9 @@ export async function checkIfThereIsPairingBonus(user_to_verify, checked) {
     for (let i = 0; i < pairingBonuses.length; i++) {
       const pairingBonus = await PairingBonus.findById(pairingBonuses[i]._id);
 
-      const user = await User.findById(pairingBonus.user_id);
+      const user = await UserVerification.findOne({
+        user_id: pairingBonus.user_id,
+      });
 
       const left = await UserVerification.findOne({
         user_id: pairingBonus.left.user_id,

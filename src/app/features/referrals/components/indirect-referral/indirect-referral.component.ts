@@ -27,7 +27,7 @@ export class IndirectReferralComponent implements OnInit {
     const val = event.target.value.toLowerCase();
 
     this.rows = this.indirectReferralService.cache?.filter(function (d) {
-      return d.first_name.toLowerCase().indexOf(val) !== -1 || !val;
+      return d.user.first_name.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
     this.table.offset = 0;

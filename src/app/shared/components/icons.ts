@@ -7,6 +7,7 @@ import {
   faUserPlus,
   faUserCheck,
   faUserShield,
+  faMoneyBillAlt,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { IconDefinition } from '@fortawesome/fontawesome-common-types';
@@ -29,6 +30,8 @@ export function getIcon(
       return faUserCheck;
     case 'faUserShield':
       return faUserShield;
+    case 'faMoneyBillAlt':
+      return faMoneyBillAlt;
     case 'faSearch':
       return faSearch;
   }

@@ -338,16 +338,16 @@ export async function createChildUser(req, current_user, user_that_invite) {
   });
 
   if (user_that_invite) {
-    child_user_verification.indirect_referral.user_id =
+    child_user_verification.indirect_referral_user.user_id =
       user_that_invite.user_that_invite.user_id;
 
-    child_user_verification.indirect_referral.first_name =
+    child_user_verification.indirect_referral_user.first_name =
       user_that_invite.user_that_invite.first_name;
 
-    child_user_verification.indirect_referral.last_name =
+    child_user_verification.indirect_referral_user.last_name =
       user_that_invite.user_that_invite.last_name;
 
-    child_user_verification.indirect_referral.address =
+    child_user_verification.indirect_referral_user.address =
       user_that_invite.user_that_invite.address;
   }
 

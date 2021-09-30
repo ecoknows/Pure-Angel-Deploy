@@ -10,6 +10,7 @@ import { Store } from '@ngrx/store';
 })
 export class AdminService {
   userTableStatus: boolean = false;
+  userTableCache!: UsersTableState[];
 
   constructor(
     private http: HttpClient,
@@ -27,7 +28,9 @@ export class AdminService {
       )
       .subscribe((response) => {
         const data = response.data;
+
         if (data) {
+          this.userTableCache = [...data];
           this.store.dispatch(setUsersTable({ list: data }));
         }
       });
@@ -46,6 +49,18 @@ export class AdminService {
       )
       .subscribe((response) => {
         this.userTableStatus = false;
+        this.fetchUsersTable();
+      });
+  }
+
+  cashOutUser(user_id: string) {
+    this.http
+      .post<{ message: string }>(
+        environment.api + 'api/admin/cashout',
+        { user_id },
+        { headers: this.authService.headers }
+      )
+      .subscribe((response) => {
         this.fetchUsersTable();
       });
   }

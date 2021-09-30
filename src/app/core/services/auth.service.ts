@@ -99,14 +99,15 @@ export class AuthService {
       )
       .subscribe((response) => {
         const data = response.data;
-        data.overall_income =
-          (data?.automatic_equivalent_rebates || 0) +
-          (data?.direct_referral || 0) +
-          (data?.indirect_referral || 0) +
-          (data?.direct_selling || 0) +
-          (data?.pairing_bonus || 0);
+        if (data) {
+          data.overall_income =
+            (data?.automatic_equivalent_rebates || 0) +
+            (data?.direct_referral || 0) +
+            (data?.indirect_referral || 0) +
+            (data?.pairing_bonus || 0);
 
-        this.store.dispatch(setUserData({ user: data }));
+          this.store.dispatch(setUserData({ user: data }));
+        }
       });
   }
 

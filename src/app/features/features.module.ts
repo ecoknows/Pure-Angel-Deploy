@@ -34,6 +34,7 @@ import { AdminComponent } from './admin/admin.component';
 import { UserTableComponent } from './admin/components/user-table/user-table.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { PairingBonusComponent } from './referrals/components/pairing-bonus/pairing-bonus.component';
+import { CashoutDialogComponent } from './admin/components/cashout-dialog/cashout-dialog.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { PairingBonusComponent } from './referrals/components/pairing-bonus/pair
     AdminComponent,
     UserTableComponent,
     PairingBonusComponent,
+    CashoutDialogComponent,
   ],
   imports: [
     NgxChartsModule,

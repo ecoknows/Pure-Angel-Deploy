@@ -7,8 +7,14 @@ export interface UsersTableState {
   address?: string;
   birthdate?: string;
   user_id?: string;
-  income?: number;
   verified?: boolean;
+
+  secret_code?: string;
+
+  direct_referral?: number;
+  indirect_referral?: number;
+  pairing_bonus?: number;
+  automatic_equivalent_rebates?: number;
 }
 
 export const USERS_TABLE_INITIAL_STATE: UsersTableState[] = [];

@@ -49,10 +49,6 @@ AdminRouter.post(
       if (checked != verified) {
         user_to_verify.verified = body.checked;
 
-        user_to_verify.income_direct_referral = user_to_verify.verified
-          ? DIRECT_REFERRAL_PAYMENT
-          : 0;
-
         const update_user_to_verify = await user_to_verify.save();
 
         await payDirectReferral(update_user_to_verify);
@@ -72,6 +68,35 @@ AdminRouter.post(
     } else {
       res.status(401).send({
         message: "Secret code is invalid!",
+      });
+    }
+  })
+);
+
+AdminRouter.post(
+  "/cashout",
+  verifyUserToken,
+  checkIfAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const body = req.body;
+    const cashoutUser = await UserVerification.findOne({
+      user_id: body.user_id,
+    });
+
+    if (cashoutUser) {
+      cashoutUser.pairing_bonus = 0;
+      cashoutUser.direct_referral = 0;
+      cashoutUser.indirect_referral = 0;
+      cashoutUser.automatic_equivalent_rebates = 0;
+
+      await cashoutUser.save();
+
+      res.send({
+        message: "Successfully Cashout User",
+      });
+    } else {
+      res.status(401).send({
+        message: "Failed to cashout User",
       });
     }
   })

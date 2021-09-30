@@ -5,10 +5,29 @@ export interface IndirectReferralState {
   first_name: string;
   last_name: string;
   address: string;
-  birthdate: string;
-  user_id: string;
-  income: number;
-  verified: boolean;
+
+  user_that_invite: {
+    user_id: string;
+    first_name: string;
+    last_name: string;
+    address: string;
+  };
+
+  user: {
+    user_id: string;
+    first_name: string;
+    last_name: string;
+    address: string;
+  };
+
+  pair: {
+    user_id: string;
+    first_name: string;
+    last_name: string;
+    address: string;
+  };
+
+  income: { type: Number; default: 0 };
 }
 
 export const INDIRECT_REFERRAL_INITIAL_STATE: IndirectReferralState[] = [];

@@ -20,13 +20,6 @@ const indirectReferralSchema = new mongoose.Schema({
     address: { type: String, required: true },
   },
 
-  pair: {
-    user_id: { type: String, index: true },
-    first_name: { type: String },
-    last_name: { type: String },
-    address: { type: String },
-  },
-
   income: { type: Number, default: 0 },
 });
 

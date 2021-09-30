@@ -31,18 +31,18 @@ UserRouter.get(
   "/income",
   verifyUserToken,
   expressAsyncHandler(async (req, res) => {
-    const income = await User.findById(req.user._id).select(
-      "direct_referral " +
-        "indirect_referral " +
-        "pairing_bonus " +
-        "automatic_equivalent_rebates " +
-        "direct_selling"
-    );
+    const income = await UserVerification.findOne({ user_id: req.user._id });
 
-    res.send({
-      message: "Successfully fetch User",
-      data: income,
-    });
+    if (income) {
+      res.send({
+        message: "Successfully fetch User",
+        data: income,
+      });
+    } else {
+      res.send({
+        message: "Failed to fetch!",
+      });
+    }
   })
 );
 
@@ -60,7 +60,7 @@ UserRouter.post(
 
     if (
       userVerification &&
-      userVerification._id == body.secret_code &&
+      userVerification.secret_code == body.secret_code &&
       userVerification.verified
     ) {
       let user = await User.findById(userVerification.user_id);
