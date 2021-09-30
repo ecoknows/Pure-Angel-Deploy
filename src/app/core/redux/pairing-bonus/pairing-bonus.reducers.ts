@@ -2,21 +2,26 @@ import { createReducer, on } from '@ngrx/store';
 import { setPairingBonus } from './pairing-bonus.actions';
 
 export interface PairingBonusState {
-  pairing_bonus_info: {
-    root_user_id: string;
-    root_first_name: string;
-    root_last_name: string;
+  user_id: string;
+  first_name: string;
+  last_name: string;
+  address: string;
 
-    right_user_id: string;
-    right_first_name: string;
-    right_last_name: string;
-
-    left_user_id: string;
-    left_first_name: string;
-    left_last_name: string;
+  left: {
+    user_id: string;
+    first_name: string;
+    last_name: string;
+    address: string;
   };
 
-  income_pairing_bonus: string;
+  right: {
+    user_id: string;
+    first_name: string;
+    last_name: string;
+    address: string;
+  };
+
+  income: string;
   createdAt: string;
 }
 

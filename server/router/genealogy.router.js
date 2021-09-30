@@ -11,6 +11,7 @@ import {
   createChildUser,
   updateGenealogy,
   updateBranches,
+  addPairingBonus,
 } from "../utils/genealogy.js";
 
 const GenealogyRouter = express.Router();
@@ -28,9 +29,10 @@ GenealogyRouter.post(
         let child_user = await createChildUser(
           req,
           current_user,
-          genealogy,
           user_that_invite
         );
+
+        await updateGenealogy(genealogy, child_user, res, req);
 
         await addDirectReferral(req.user, child_user);
 
@@ -41,7 +43,8 @@ GenealogyRouter.post(
           req.user,
           0
         );
-        await updateGenealogy(genealogy, child_user, res, req);
+
+        await addPairingBonus(child_user, child_user);
       } else {
         res
           .status(409)
@@ -51,9 +54,10 @@ GenealogyRouter.post(
       let child_user = await createChildUser(
         req,
         current_user,
-        genealogy,
         user_that_invite
       );
+
+      await addNewGenealogy(genealogy, child_user, current_user, res, req);
 
       await addIndirectReferral(
         user_that_invite.user_that_invite.user_id,
@@ -63,7 +67,8 @@ GenealogyRouter.post(
         0
       );
       await addDirectReferral(req.user, child_user);
-      await addNewGenealogy(genealogy, child_user, current_user, res, req);
+
+      await addPairingBonus(child_user, child_user);
     } else {
       res.status(409).send({ message: "All nulls!" });
     }

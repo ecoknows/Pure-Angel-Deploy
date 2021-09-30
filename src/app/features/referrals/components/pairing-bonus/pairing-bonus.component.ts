@@ -27,10 +27,7 @@ export class PairingBonusComponent implements OnInit {
     const val = event.target.value.toLowerCase();
 
     this.rows = this.pairingBonusService.cache?.filter(function (d) {
-      return (
-        d.pairing_bonus_info.root_first_name.toLowerCase().indexOf(val) !==
-          -1 || !val
-      );
+      return d.left.first_name.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
     this.table.offset = 0;

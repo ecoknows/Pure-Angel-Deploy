@@ -102,8 +102,18 @@ UserRouter.post(
         is_admin: true,
         is_owner: true,
       });
+      const ancestorCreated = await ancestor.save();
 
-      await ancestor.save();
+      let ancestorVerification = await new UserVerification({
+        user_id: ancestorCreated._id,
+        first_name: body.first_name,
+        last_name: body.last_name,
+        address: body.address,
+        birthdate: body.birthdate,
+        verified: true,
+      });
+
+      await ancestorVerification.save();
       res.send({ message: "Successfully created an Owner!" });
     }
   })

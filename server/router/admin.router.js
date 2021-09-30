@@ -38,7 +38,6 @@ AdminRouter.post(
   verifyUserToken,
   checkIfAdmin,
   expressAsyncHandler(async (req, res) => {
-    const user = req.user;
     const body = req.body;
 
     const user_to_verify = await UserVerification.findById(body.secret_code);

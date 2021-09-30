@@ -1,6 +1,7 @@
 import express from "express";
 import expressAsyncHandler from "express-async-handler";
 import { verifyUserToken } from "../utils.js";
+import PairingBonus from "../models/pairing-bonus.model.js";
 
 const PairingBonusRouter = express.Router();
 
@@ -10,23 +11,22 @@ PairingBonusRouter.get(
   expressAsyncHandler(async (req, res) => {
     const user = req.user;
 
-    // const pairingBonusTransactions = await Transaction.find({
-    //   user_id: user._id,
-    // });
-
-    // if (pairingBonusTransactions) {
-    //   res.send({
-    //     message: "Successfully Fetch Pairing Bonus",
-    //     data: pairingBonusTransactions,
-    //   });
-    // } else {
-    //   res.send({
-    //     message: "Empty Fetch Pairing Bonus",
-    //   });
-    // }
-    res.send({
-      message: "Maintenance",
+    const pairingBonus = await PairingBonus.find({
+      user_id: user._id,
+      right: { $exists: true },
+      left: { $exists: true },
     });
+
+    if (pairingBonus) {
+      res.send({
+        message: "Successfully Fetch Pairing Bonus",
+        data: pairingBonus,
+      });
+    } else {
+      res.send({
+        message: "Empty Fetch Pairing Bonus",
+      });
+    }
   })
 );
 

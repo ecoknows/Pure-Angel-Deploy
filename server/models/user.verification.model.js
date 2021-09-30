@@ -22,6 +22,7 @@ const userVerificationSchema = new mongoose.Schema(
       first_name: { type: String },
       last_name: { type: String },
       address: { type: String },
+      position: { type: String },
     },
 
     user_that_invite: {

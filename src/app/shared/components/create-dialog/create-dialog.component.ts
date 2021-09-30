@@ -11,7 +11,12 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class CreateDialogComponent {
   form: FormGroup;
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { position: string; root_id: string },
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      position: string;
+      root_id: string;
+      direction_from_the_root: string;
+    },
     private fb: FormBuilder,
     private genealogyService: GenealogyService
   ) {

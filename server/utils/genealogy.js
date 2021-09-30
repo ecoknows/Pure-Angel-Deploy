@@ -3,6 +3,89 @@ import User from "../models/user.model.js";
 import UserVerification from "../models/user.verification.model.js";
 import DirectReferral from "../models/direct-referral.model.js";
 import IndirectReferral from "../models/indirect-referral.model.js";
+import PairingBonus from "../models/pairing-bonus.model.js";
+
+export async function addPairingBonus(child_user, new_root_user) {
+  const new_user_genealogy = new_root_user.root_user_genealogy;
+
+  const rootUserVerification = await UserVerification.findOne({
+    user_id: new_user_genealogy.user_id,
+  });
+
+  if (rootUserVerification) {
+    if (new_user_genealogy.position == "left") {
+      const checkIfThereIsLeft = await PairingBonus.findOne({
+        user_id: rootUserVerification.user_id,
+        left: undefined,
+      });
+
+      if (checkIfThereIsLeft) {
+        checkIfThereIsLeft.left = {
+          user_id: child_user._id,
+          first_name: child_user.first_name,
+          last_name: child_user.last_name,
+          address: child_user.address,
+        };
+
+        await checkIfThereIsLeft.save();
+      } else {
+        const newPairing = new PairingBonus({
+          user_id: rootUserVerification.user_id,
+          first_name: rootUserVerification.first_name,
+          last_name: rootUserVerification.last_name,
+          address: rootUserVerification.address,
+
+          left: {
+            user_id: child_user._id,
+            first_name: child_user.first_name,
+            last_name: child_user.last_name,
+            address: child_user.address,
+          },
+        });
+
+        await newPairing.save();
+      }
+
+      const newRootUser = await rootUserVerification.save();
+      await addPairingBonus(child_user, newRootUser);
+    } else if (new_user_genealogy.position == "right") {
+      const checkIfThereIsRight = await PairingBonus.findOne({
+        user_id: rootUserVerification.user_id,
+        right: undefined,
+      });
+
+      if (checkIfThereIsRight) {
+        checkIfThereIsRight.right = {
+          user_id: child_user._id,
+          first_name: child_user.first_name,
+          last_name: child_user.last_name,
+          address: child_user.address,
+        };
+
+        await checkIfThereIsRight.save();
+      } else {
+        const newPairing = new PairingBonus({
+          user_id: rootUserVerification.user_id,
+          first_name: rootUserVerification.first_name,
+          last_name: rootUserVerification.last_name,
+          address: rootUserVerification.address,
+
+          right: {
+            user_id: child_user._id,
+            first_name: child_user.first_name,
+            last_name: child_user.last_name,
+            address: child_user.address,
+          },
+        });
+
+        await newPairing.save();
+      }
+
+      const newRootUser = await rootUserVerification.save();
+      await addPairingBonus(child_user, newRootUser);
+    }
+  }
+}
 
 export async function addDirectReferral(direct_referral_user, child_user) {
   const newDirectReferral = new DirectReferral({
@@ -169,7 +252,7 @@ export async function addNewGenealogy(
       },
     });
     await genealogy.save();
-  } else {
+  } else if (position == "right") {
     genealogy = new Genealogy({
       user_id: current_user._id,
       first_name: current_user.first_name,
@@ -204,13 +287,10 @@ export async function addNewGenealogy(
   });
 }
 
-export async function createChildUser(
-  req,
-  current_user,
-  genealogy,
-  user_that_invite
-) {
+export async function createChildUser(req, current_user, user_that_invite) {
   const body = req.body;
+
+  const position = body.position;
 
   let child_user = new User({
     first_name: body.first_name,
@@ -218,15 +298,13 @@ export async function createChildUser(
     address: body.address,
     birthdate: body.birthdate,
 
-    root_user_genealogy: genealogy
-      ? {
-          user_id: genealogy.user_id,
-          first_name: genealogy.first_name,
-          last_name: genealogy.last_name,
-          address: genealogy.address,
-        }
-      : undefined,
-
+    root_user_genealogy: {
+      user_id: current_user._id,
+      first_name: current_user.first_name,
+      last_name: current_user.last_name,
+      address: current_user.address,
+      position: position,
+    },
     user_that_invite: {
       user_id: req.user._id,
       first_name: req.user.first_name,
@@ -255,6 +333,7 @@ export async function createChildUser(
       first_name: current_user.first_name,
       last_name: current_user.last_name,
       address: current_user.address,
+      position: position,
     },
   });
 
@@ -271,7 +350,8 @@ export async function createChildUser(
     child_user_verification.indirect_referral.address =
       user_that_invite.user_that_invite.address;
   }
-  child_user_verification.save();
+
+  await child_user_verification.save();
 
   return child_user;
 }
