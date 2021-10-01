@@ -84,12 +84,12 @@ AdminRouter.post(
     });
 
     if (cashoutUser) {
-      cashoutUser.pairing_bonus = 0;
-      cashoutUser.direct_referral = 0;
-      cashoutUser.indirect_referral = 0;
-      cashoutUser.automatic_equivalent_rebates = 0;
+      // cashoutUser.pairing_bonus = 0;
+      // cashoutUser.direct_referral = 0;
+      // cashoutUser.indirect_referral = 0;
+      // cashoutUser.automatic_equivalent_rebates = 0;
 
-      await cashoutUser.save();
+      // await cashoutUser.save();
 
       res.send({
         message: "Successfully Cashout User",

@@ -1,6 +1,6 @@
 <div class="table-container">
   <div class="main-top">
-    <h1 class="title">Administrative Table</h1>
+    <h1 class="title">Verification Table</h1>
     <div class="end">
       <app-input
         title="Search"
@@ -14,13 +14,13 @@
   <ngx-datatable
     class="material"
     [rows]="rows"
-    [limit]="6"
+    [limit]="7"
     rowHeight="auto"
     [headerHeight]="40"
     [footerHeight]="50"
     [scrollbarH]="true"
   >
-    <ngx-datatable-column name="Name" [width]="280">
+    <ngx-datatable-column name="Name" [width]="250">
       <ng-template let-row="row" ngx-datatable-cell-template>
         <mat-checkbox
           #checkbox
@@ -41,7 +41,13 @@
       </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column name="Address" [width]="270"> </ngx-datatable-column>
+    <ngx-datatable-column name="Birthdate" [width]="230">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{ row.birthdate | date: "longDate" }}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Address" [width]="200"> </ngx-datatable-column>
     <ngx-datatable-column name="Status" [width]="120">
       <ng-template let-row="row" ngx-datatable-cell-template>
         <ng-container *ngIf="row.verified == true">
@@ -65,25 +71,6 @@
             row.indirect_referral +
             row.automatic_equivalent_rebates | number
         }}
-      </ng-template>
-    </ngx-datatable-column>
-
-    <ngx-datatable-column name="Cash out" [width]="150">
-      <ng-template let-row="row" ngx-datatable-cell-template>
-        <button
-          mat-stroked-button
-          color="primary"
-          (click)="cashout(row)"
-          [disabled]="
-            row.direct_referral +
-              row.pairing_bonus +
-              row.indirect_referral +
-              row.automatic_equivalent_rebates ==
-            0
-          "
-        >
-          Cash out
-        </button>
       </ng-template>
     </ngx-datatable-column>
   </ngx-datatable>

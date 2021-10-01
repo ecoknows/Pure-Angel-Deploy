@@ -7,6 +7,7 @@ import {
   faBell,
   faUsers,
   faTree,
+  faCog,
 } from '@fortawesome/free-solid-svg-icons';
 import { getIcon } from '@shared/components/icons';
 
@@ -32,6 +33,10 @@ export class SideBarComponent implements OnInit {
     {
       url: 'notifications',
       icon: faBell,
+    },
+    {
+      url: 'setting',
+      icon: faCog,
     },
   ];
 

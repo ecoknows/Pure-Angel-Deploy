@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { UsersTableState } from '@core/redux/admin/users-table.reducers';
 import { AdminService } from '@features/admin/services/admin.service';
 
 @Component({

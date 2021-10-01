@@ -9,6 +9,7 @@ const userVerificationSchema = new mongoose.Schema(
     last_name: { type: String, required: true },
     address: { type: String, required: true },
     birthdate: { type: String, required: true },
+
     verified: { type: Boolean, default: false },
 
     direct_referral: { type: Number, default: 0 },

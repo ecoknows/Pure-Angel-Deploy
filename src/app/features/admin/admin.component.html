@@ -1,1 +1,9 @@
-<app-user-table [rows]="usersTable$ | async"></app-user-table>
+<mat-tab-group>
+  <mat-tab label="Verification"
+    ><app-verification [rows]="verification$ | async"></app-verification>
+  </mat-tab>
+  <mat-tab label="Authentication"
+    ><app-verification [rows]="verification$ | async"></app-verification>
+  </mat-tab>
+</mat-tab-group>
+`

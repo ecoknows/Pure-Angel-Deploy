@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema(
     last_name: { type: String, required: true, index: true },
     address: { type: String, required: true, index: true },
     birthdate: { type: String, required: true, index: true },
+    contact_number: { type: String, required: true, index: true },
 
     root_user_genealogy: {
       user_id: { type: String, index: true },
@@ -27,6 +28,7 @@ const userSchema = new mongoose.Schema(
 
     is_stockist: { type: Boolean },
     is_admin: { type: Boolean },
+    is_mega_center: { type: Boolean },
     is_owner: { type: Boolean, index: true },
   },
   {

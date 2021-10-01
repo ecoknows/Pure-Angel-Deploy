@@ -4,7 +4,7 @@ import { userReducer } from './user/user.reducer';
 import { directReferralReducer } from './direct-referral/direct-referral.reducers';
 import { genealogyReducer } from './genealogy/genealogy.reducer';
 import { indirectReferralReducer } from './indirect-referral/indirect-referral.reducers';
-import { usersTableReducer } from './admin/users-table.reducers';
+import { verificationReducer } from './admin/verification/verification.reducers';
 import { pairingBonusReducer } from './pairing-bonus/pairing-bonus.reducers';
 
 const reducer: object = {
@@ -14,7 +14,7 @@ const reducer: object = {
 
   genealogyReducer: genealogyReducer,
   userReducer: userReducer,
-  usersTableReducer: usersTableReducer,
+  verificationReducer: verificationReducer,
 };
 
 @NgModule({

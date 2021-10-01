@@ -14,6 +14,7 @@ import {
   ReferralsComponent,
   GenealogyComponent,
   RegistrationComponent,
+  SettingComponent,
 } from './features';
 
 const routes: Routes = [
@@ -45,6 +46,11 @@ const routes: Routes = [
   {
     path: 'referrals',
     component: ReferralsComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: 'setting',
+    component: SettingComponent,
     canActivate: [AuthGuardService],
   },
   {

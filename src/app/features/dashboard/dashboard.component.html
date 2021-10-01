@@ -12,13 +12,19 @@
           : "0.00"
       }}
     </h1>
-    <h2>Overall Income</h2>
+    <h2>Unpaid Income</h2>
   </div>
 </div>
 
 <app-line-chart></app-line-chart>
 
 <div class="dashboard-bottom-info">
+  <app-card-total-number
+    [money]="(user$ | async)?.automatic_equivalent_rebates"
+    icon="faMoneyBillAlt"
+    label="Overall Income"
+  ></app-card-total-number>
+
   <app-card-total-number
     [money]="(user$ | async)?.indirect_referral"
     icon="faUsers"
@@ -41,6 +47,12 @@
     [money]="(user$ | async)?.automatic_equivalent_rebates"
     icon="faHandHoldingUsd"
     label="Automatic Equivalent Rebates"
+  ></app-card-total-number>
+
+  <app-card-total-number
+    [money]="(user$ | async)?.automatic_equivalent_rebates"
+    icon="faMoneyBillAlt"
+    label="Pairing Product Voucher"
   ></app-card-total-number>
 
   <app-card-total-number

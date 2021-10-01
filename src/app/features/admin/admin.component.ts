@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UsersTableState } from '@core/redux/admin/users-table.reducers';
+import { VerificationState } from '@core/redux/admin/verification/verification.reducers';
 import { AuthService } from '@core/services/auth.service';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -11,18 +11,18 @@ import { AdminService } from './services/admin.service';
   styleUrls: ['./admin.component.sass'],
 })
 export class AdminComponent implements OnInit {
-  usersTable$: Observable<UsersTableState[]>;
+  verification$: Observable<VerificationState[]>;
 
   constructor(
     private authService: AuthService,
     private adminService: AdminService,
-    private store: Store<{ usersTableReducer: UsersTableState[] }>
+    private store: Store<{ verificationReducer: VerificationState[] }>
   ) {
-    this.usersTable$ = this.store.select('usersTableReducer');
+    this.verification$ = this.store.select('verificationReducer');
   }
 
   ngOnInit(): void {
     this.authService.fetchUserData();
-    this.adminService.fetchUsersTable();
+    this.adminService.fetchVerificationTable();
   }
 }

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { setUsersTable } from '@core/redux/admin/users-table.actions';
-import { UsersTableState } from '@core/redux/admin/users-table.reducers';
+import { setVerificationTable } from '@core/redux/admin/verification/verification.actions';
+import { VerificationState } from '@core/redux/admin/verification/verification.reducers';
 import { AuthService } from '@core/services/auth.service';
 import { environment } from '@env';
 import { Store } from '@ngrx/store';
@@ -9,18 +9,18 @@ import { Store } from '@ngrx/store';
   providedIn: 'root',
 })
 export class AdminService {
-  userTableStatus: boolean = false;
-  userTableCache!: UsersTableState[];
+  verificationStatus: boolean = false;
+  verificationCache!: VerificationState[];
 
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-    private store: Store<{ usersTableReducer: UsersTableState[] }>
+    private store: Store<{ verificationReducer: VerificationState[] }>
   ) {}
 
-  fetchUsersTable() {
+  fetchVerificationTable() {
     this.http
-      .get<{ message: string; data: UsersTableState[] }>(
+      .get<{ message: string; data: VerificationState[] }>(
         environment.api + 'api/admin/users',
         {
           headers: this.authService.headers,
@@ -30,14 +30,15 @@ export class AdminService {
         const data = response.data;
 
         if (data) {
-          this.userTableCache = [...data];
-          this.store.dispatch(setUsersTable({ list: data }));
+          this.verificationCache = [...data];
+
+          this.store.dispatch(setVerificationTable({ list: data }));
         }
       });
   }
 
   verifyUser(verification_info: { checked: boolean; secret_code: string }) {
-    this.userTableStatus = true;
+    this.verificationStatus = true;
     this.http
       .post<{ message: string }>(
         environment.api + 'api/admin/verify',
@@ -48,8 +49,8 @@ export class AdminService {
         { headers: this.authService.headers }
       )
       .subscribe((response) => {
-        this.userTableStatus = false;
-        this.fetchUsersTable();
+        this.verificationStatus = false;
+        this.fetchVerificationTable();
       });
   }
 
@@ -61,7 +62,7 @@ export class AdminService {
         { headers: this.authService.headers }
       )
       .subscribe((response) => {
-        this.fetchUsersTable();
+        this.fetchVerificationTable();
       });
   }
 }

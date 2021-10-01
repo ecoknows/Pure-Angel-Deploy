@@ -31,10 +31,11 @@ import { DirectReferralComponent } from './referrals/components/direct-referral/
 import { IndirectReferralComponent } from './referrals/components/indirect-referral/indirect-referral.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { AdminComponent } from './admin/admin.component';
-import { UserTableComponent } from './admin/components/user-table/user-table.component';
+import { VerificationComponent } from './admin/components/verification/verification.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { PairingBonusComponent } from './referrals/components/pairing-bonus/pairing-bonus.component';
 import { CashoutDialogComponent } from './admin/components/cashout-dialog/cashout-dialog.component';
+import { SettingComponent } from './setting/setting.component';
 
 @NgModule({
   declarations: [
@@ -53,9 +54,10 @@ import { CashoutDialogComponent } from './admin/components/cashout-dialog/cashou
     IndirectReferralComponent,
     PairingBonusComponent,
     AdminComponent,
-    UserTableComponent,
+    VerificationComponent,
     PairingBonusComponent,
     CashoutDialogComponent,
+    SettingComponent,
   ],
   imports: [
     NgxChartsModule,
