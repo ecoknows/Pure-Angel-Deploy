@@ -15,6 +15,9 @@
   class="ngx-org-box ngx-org-border ngx-org-background"
   (click)="itemClick.emit(node)"
 >
+  <div class="ngx-org-count-left">
+    {{ node?.left_count ? node?.left_count : 0 }}
+  </div>
   <div
     class="ngx-org-image ngx-org-border"
     [ngStyle]="{ 'background-image': 'url(\'' + 'assets/node.svg' + '\')' }"
@@ -24,6 +27,9 @@
     <div class="ngx-org-title">
       {{ node?.address }}
     </div>
+  </div>
+  <div class="ngx-org-count-right">
+    {{ node?.right_count ? node?.right_count : 0 }}
   </div>
 </div>
 

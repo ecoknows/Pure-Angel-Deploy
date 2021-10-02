@@ -12,6 +12,11 @@ const userVerificationSchema = new mongoose.Schema(
 
     verified: { type: Boolean, default: false },
 
+    overall_income: { type: Number, default: 0 },
+    upaid_income: { type: Number, default: 0 },
+    pairing_product_voucher: { type: Number, default: 0 },
+    stockist: { type: Number, default: 0 },
+
     direct_referral: { type: Number, default: 0 },
     indirect_referral: { type: Number, default: 0 },
     pairing_bonus: { type: Number, default: 0 },

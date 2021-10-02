@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { setAuthenticationTable } from '@core/redux/admin/authentication/authentication.actions';
+import { AuthenticationState } from '@core/redux/admin/authentication/authentications.reducers';
 import { setVerificationTable } from '@core/redux/admin/verification/verification.actions';
 import { VerificationState } from '@core/redux/admin/verification/verification.reducers';
 import { AuthService } from '@core/services/auth.service';
@@ -12,10 +14,15 @@ export class AdminService {
   verificationStatus: boolean = false;
   verificationCache!: VerificationState[];
 
+  authenticationCache!: VerificationState[];
+
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-    private store: Store<{ verificationReducer: VerificationState[] }>
+    private store: Store<{
+      verificationReducer: VerificationState[];
+      authenticationReducer: AuthenticationState[];
+    }>
   ) {}
 
   fetchVerificationTable() {
@@ -33,6 +40,26 @@ export class AdminService {
           this.verificationCache = [...data];
 
           this.store.dispatch(setVerificationTable({ list: data }));
+        }
+      });
+  }
+
+  fetchAuthenticationTable() {
+    this.http
+      .get<{ message: string; data: AuthenticationState[] }>(
+        environment.api + 'api/admin/authentication',
+        {
+          headers: this.authService.headers,
+        }
+      )
+      .subscribe((response) => {
+        const data = response.data;
+        console.log(data);
+
+        if (data) {
+          this.authenticationCache = [...data];
+
+          this.store.dispatch(setAuthenticationTable({ list: data }));
         }
       });
   }
@@ -63,6 +90,24 @@ export class AdminService {
       )
       .subscribe((response) => {
         this.fetchVerificationTable();
+      });
+  }
+
+  editUser(user_info: {
+    user_id: string | undefined;
+    password?: string;
+    role: string;
+  }) {
+    this.http
+      .post<{ message: string }>(
+        environment.api + 'api/admin/edit-user',
+        {
+          ...user_info,
+        },
+        { headers: this.authService.headers }
+      )
+      .subscribe((response) => {
+        this.fetchAuthenticationTable();
       });
   }
 }

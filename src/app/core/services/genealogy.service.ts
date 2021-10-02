@@ -34,6 +34,8 @@ export class GenealogyService {
             first_name: user.first_name,
             last_name: user.last_name,
             address: user.address,
+            left_count: 0,
+            right_count: 0,
           },
         })
       );
@@ -67,6 +69,7 @@ export class GenealogyService {
     last_name: string;
     birthdate: string;
     address: string;
+    contact_number: string;
     position: string;
   }) {
     this.http

@@ -99,6 +99,7 @@ UserRouter.post(
         last_name: body.last_name,
         address: body.address,
         birthdate: body.birthdate,
+        contact_number: body.contact_number,
         is_admin: true,
         is_owner: true,
       });

@@ -5,6 +5,35 @@ import DirectReferral from "../models/direct-referral.model.js";
 import IndirectReferral from "../models/indirect-referral.model.js";
 import PairingBonus from "../models/pairing-bonus.model.js";
 
+export async function modifyBranchCountOfRoot(
+  root_user_verification_id,
+  direction
+) {
+  const root_genealogy = await Genealogy.findOne({
+    user_id: root_user_verification_id,
+  });
+
+  if (root_genealogy) {
+    if (direction == "left") {
+      root_genealogy.left_count = root_genealogy.left_count + 1;
+    } else if (direction == "right") {
+      root_genealogy.right_count = root_genealogy.right_count + 1;
+    }
+    await root_genealogy.save();
+
+    const root_user_verification = await UserVerification.findOne({
+      user_id: root_user_verification_id,
+    });
+
+    if (root_user_verification) {
+      await modifyBranchCountOfRoot(
+        root_user_verification.root_user_genealogy.user_id,
+        root_user_verification.root_user_genealogy.position
+      );
+    }
+  }
+}
+
 export async function addPairingBonus(child_user, new_root_user) {
   const new_user_genealogy = new_root_user.root_user_genealogy;
 
@@ -161,7 +190,7 @@ export async function addIndirectReferral(
   }
 }
 
-export async function updateGenealogy(genealogy, child_user, res, req) {
+export async function updateGenealogy(genealogy, child_user, req) {
   const position = req.body.position;
   const id_of_the_user_that_invite = req.user._id;
 
@@ -199,13 +228,6 @@ export async function updateGenealogy(genealogy, child_user, res, req) {
       address: child_user.address,
     };
     await genealogy.save();
-    res.send({
-      message: "New branch has succesfully push to array!",
-    });
-  } else {
-    res.stats(409).send({
-      message: "Oppss incorrect position!",
-    });
   }
 }
 
@@ -213,7 +235,6 @@ export async function addNewGenealogy(
   genealogy,
   child_user,
   current_user,
-  res,
   req
 ) {
   const position = req.body.position;
@@ -281,10 +302,6 @@ export async function addNewGenealogy(
     });
     await genealogy.save();
   }
-
-  res.send({
-    message: "New Branch Added Successfully!",
-  });
 }
 
 export async function createChildUser(req, current_user, user_that_invite) {
@@ -297,6 +314,7 @@ export async function createChildUser(req, current_user, user_that_invite) {
     last_name: body.last_name,
     address: body.address,
     birthdate: body.birthdate,
+    contact_number: body.contact_number,
 
     root_user_genealogy: {
       user_id: current_user._id,

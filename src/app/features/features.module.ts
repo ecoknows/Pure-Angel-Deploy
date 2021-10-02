@@ -36,6 +36,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { PairingBonusComponent } from './referrals/components/pairing-bonus/pairing-bonus.component';
 import { CashoutDialogComponent } from './admin/components/cashout-dialog/cashout-dialog.component';
 import { SettingComponent } from './setting/setting.component';
+import { AuthenticationComponent } from './admin/components/authentication/authentication.component';
+import { MatSelectModule } from '@angular/material/select';
+import { EditUserDialogComponent } from './admin/components/edit-user-dialog/edit-user-dialog.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +61,8 @@ import { SettingComponent } from './setting/setting.component';
     PairingBonusComponent,
     CashoutDialogComponent,
     SettingComponent,
+    AuthenticationComponent,
+    EditUserDialogComponent,
   ],
   imports: [
     NgxChartsModule,
@@ -74,6 +79,7 @@ import { SettingComponent } from './setting/setting.component';
     MatStepperModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSelectModule,
     FontAwesomeModule,
     NgxDatatableModule,
     MatCheckboxModule,

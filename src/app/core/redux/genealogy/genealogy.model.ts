@@ -6,6 +6,8 @@ export interface Genealogy {
   address?: string;
   right_branch?: Genealogy;
   left_branch?: Genealogy;
+  left_count?: number;
+  right_count?: number;
   user_that_invite?: {
     user_id?: string;
     first_name?: string;

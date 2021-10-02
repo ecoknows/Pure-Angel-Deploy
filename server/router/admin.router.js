@@ -1,6 +1,7 @@
 import express from "express";
 import expressAsyncHandler from "express-async-handler";
 import { DIRECT_REFERRAL_PAYMENT } from "../constants.js";
+import User from "../models/user.model.js";
 import UserVerification from "../models/user.verification.model.js";
 import { checkIfAdmin, verifyUserToken } from "../utils.js";
 import {
@@ -8,6 +9,7 @@ import {
   payDirectReferral,
   checkIfThereIsPairingBonus,
 } from "../utils/admin.js";
+import bcrypt from "bcryptjs";
 
 const AdminRouter = express.Router();
 
@@ -73,6 +75,29 @@ AdminRouter.post(
   })
 );
 
+AdminRouter.get(
+  "/authentication",
+  verifyUserToken,
+  checkIfAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const users = await User.find({
+      username: { $exists: true },
+      password: { $exists: true },
+    });
+
+    if (users) {
+      res.send({
+        message: "Successfully Fetch Users",
+        data: users,
+      });
+    } else {
+      res.status(401).send({
+        message: "Failed to Users",
+      });
+    }
+  })
+);
+
 AdminRouter.post(
   "/cashout",
   verifyUserToken,
@@ -97,6 +122,54 @@ AdminRouter.post(
     } else {
       res.status(401).send({
         message: "Failed to cashout User",
+      });
+    }
+  })
+);
+
+AdminRouter.post(
+  "/edit-user",
+  verifyUserToken,
+  checkIfAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const body = req.body;
+
+    const userToEdit = await User.findById(body.user_id);
+
+    if (userToEdit) {
+      if (
+        body.password != undefined &&
+        userToEdit.password != undefined &&
+        !bcrypt.compareSync(body.password, userToEdit.password)
+      ) {
+        userToEdit.password = bcrypt.hashSync(body.password, 8);
+      }
+
+      switch (body.role) {
+        case "admin":
+          userToEdit.is_admin = true;
+          break;
+        case "mega center":
+          userToEdit.is_mega_center = true;
+          userToEdit.is_stockist = false;
+          break;
+        case "stockist":
+          userToEdit.is_stockist = true;
+          userToEdit.is_mega_center = false;
+          break;
+        case "member":
+          userToEdit.is_admin = false;
+          userToEdit.is_mega_center = false;
+          userToEdit.is_stockist = false;
+          break;
+      }
+      await userToEdit.save();
+      res.send({
+        message: "Successfully Edited the User!",
+      });
+    } else {
+      res.status(401).send({
+        message: "Failed to edit the user",
       });
     }
   })

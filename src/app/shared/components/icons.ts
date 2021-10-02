@@ -8,6 +8,9 @@ import {
   faUserCheck,
   faUserShield,
   faMoneyBillAlt,
+  faReceipt,
+  faStreetView,
+  faUser,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { IconDefinition } from '@fortawesome/fontawesome-common-types';
@@ -16,6 +19,8 @@ export function getIcon(
   icon: string | IconDefinition
 ): IconDefinition | undefined {
   switch (icon) {
+    case 'faUser':
+      return faUser;
     case 'faUsers':
       return faUsers;
     case 'faUserPlus':
@@ -32,6 +37,10 @@ export function getIcon(
       return faUserShield;
     case 'faMoneyBillAlt':
       return faMoneyBillAlt;
+    case 'faReceipt':
+      return faReceipt;
+    case 'faStreetView':
+      return faStreetView;
     case 'faSearch':
       return faSearch;
   }

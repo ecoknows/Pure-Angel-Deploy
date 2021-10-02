@@ -13,8 +13,7 @@ export const GENEALOGY_INITIAL_STATE: GenealogyState = {
 const GENEALOGY_REDUCER = createReducer(
   GENEALOGY_INITIAL_STATE,
   on(setGenealogy, (state, { genealogy }) => ({
-    ...state,
-    genealogy: genealogy,
+    genealogy: { ...genealogy },
   })),
   on(resetGenealogy, (state) => ({ ...state, genealogy: {} }))
 );

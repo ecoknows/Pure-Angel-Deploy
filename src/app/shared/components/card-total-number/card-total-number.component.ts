@@ -10,6 +10,7 @@ export class CardTotalNumberComponent implements OnInit {
   @Input('money') money: number | undefined;
   @Input('label') label: string = '';
   @Input('icon') icon: any;
+  @Input('count') count: boolean = false;
 
   constructor() {}
 

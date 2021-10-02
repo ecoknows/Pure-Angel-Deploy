@@ -7,6 +7,7 @@ export interface UserState {
   last_name?: string;
   address?: string;
   birthdate?: string;
+  contact_number?: string;
 
   overall_income?: number;
   direct_referral?: number;

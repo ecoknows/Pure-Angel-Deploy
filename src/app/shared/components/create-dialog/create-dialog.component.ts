@@ -25,6 +25,7 @@ export class CreateDialogComponent {
       last_name: [''],
       birthdate: [''],
       address: [''],
+      contact_number: [''],
     });
   }
   submit() {
@@ -32,12 +33,15 @@ export class CreateDialogComponent {
     let last_name = this.form.get('last_name')?.value;
     let birthdate = this.form.get('birthdate')?.value;
     let address = this.form.get('address')?.value;
+    let contact_number = this.form.get('contact_number')?.value;
+
     const person = {
       root_id: this.data.root_id,
       first_name,
       last_name,
       birthdate,
       address,
+      contact_number,
       position: this.data.position,
     };
     this.genealogyService.addGenealogy(person);

@@ -1,6 +1,9 @@
 <div class="dashboard-top-info">
   <div class="greetings">
-    <h1>Hello, {{ (user$ | async)?.first_name }}</h1>
+    <h1>
+      Hello,
+      {{ (user$ | async)?.first_name + " " + (user$ | async)?.last_name }}
+    </h1>
     <h2>Welcome back to Pure Angel Cofee</h2>
   </div>
   <div class="total-assets">
@@ -21,7 +24,7 @@
 <div class="dashboard-bottom-info">
   <app-card-total-number
     [money]="(user$ | async)?.automatic_equivalent_rebates"
-    icon="faMoneyBillAlt"
+    icon="faFunnelDollar"
     label="Overall Income"
   ></app-card-total-number>
 
@@ -51,13 +54,14 @@
 
   <app-card-total-number
     [money]="(user$ | async)?.automatic_equivalent_rebates"
-    icon="faMoneyBillAlt"
+    icon="faReceipt"
     label="Pairing Product Voucher"
   ></app-card-total-number>
 
   <app-card-total-number
     [money]="(user$ | async)?.automatic_equivalent_rebates"
-    icon="faMoneyBillAlt"
-    label="Pairing Product Voucher"
+    [count]="true"
+    icon="faStreetView"
+    label="Stockist"
   ></app-card-total-number>
 </div>

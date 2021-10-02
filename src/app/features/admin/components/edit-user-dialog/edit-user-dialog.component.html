@@ -1,0 +1,49 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div mat-dialog-content>
+    <div>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>User Role</mat-label>
+        <mat-select formControlName="role" name="mega-center">
+          <mat-option *ngFor="let role of roles" [value]="role.value">
+            {{ role.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field
+        *ngIf="form.get('role')?.value == 'mega center'"
+        class="full-width"
+      >
+        <mat-label>Code is required please input...</mat-label>
+        <input required matInput formControlName="mega_center_code" />
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field class="full-width">
+        <mat-label>New Password</mat-label>
+        <input matInput formControlName="new_password" />
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field class="full-width">
+        <mat-label>Confirm Password</mat-label>
+        <input matInput formControlName="confirm_password" />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close>Cancel</button>
+    <button
+      mat-raised-button
+      mat-dialog-close
+      color="primary"
+      type="submit"
+      [disabled]="form.get('role')?.value == 'mega center' && form.invalid"
+    >
+      Edit
+    </button>
+  </div>
+</form>
