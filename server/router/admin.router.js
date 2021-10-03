@@ -8,8 +8,11 @@ import {
   payIndirectReferral,
   payDirectReferral,
   checkIfThereIsPairingBonus,
+  roleUpdater,
+  updateGenealogyRole,
 } from "../utils/admin.js";
 import bcrypt from "bcryptjs";
+import Genealogy from "../models/genealogy.model.js";
 
 const AdminRouter = express.Router();
 
@@ -20,7 +23,9 @@ AdminRouter.get(
   expressAsyncHandler(async (req, res) => {
     let user = req.user;
 
-    const users = await UserVerification.find({});
+    const users = await UserVerification.find({
+      secret_code: { $exists: true },
+    });
 
     if (users) {
       res.send({
@@ -145,24 +150,11 @@ AdminRouter.post(
         userToEdit.password = bcrypt.hashSync(body.password, 8);
       }
 
-      switch (body.role) {
-        case "admin":
-          userToEdit.is_admin = true;
-          break;
-        case "mega center":
-          userToEdit.is_mega_center = true;
-          userToEdit.is_stockist = false;
-          break;
-        case "stockist":
-          userToEdit.is_stockist = true;
-          userToEdit.is_mega_center = false;
-          break;
-        case "member":
-          userToEdit.is_admin = false;
-          userToEdit.is_mega_center = false;
-          userToEdit.is_stockist = false;
-          break;
-      }
+      await roleUpdater(body.role, userToEdit, body.secret_code_suffix);
+      await userToEdit.save();
+
+      await updateGenealogyRole(body.role, userToEdit._id);
+
       await userToEdit.save();
       res.send({
         message: "Successfully Edited the User!",

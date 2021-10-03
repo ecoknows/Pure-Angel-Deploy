@@ -4,6 +4,7 @@ import UserVerification from "../models/user.verification.model.js";
 import DirectReferral from "../models/direct-referral.model.js";
 import IndirectReferral from "../models/indirect-referral.model.js";
 import PairingBonus from "../models/pairing-bonus.model.js";
+import { nanoid } from "nanoid";
 
 export async function modifyBranchCountOfRoot(
   root_user_verification_id,
@@ -247,6 +248,11 @@ export async function addNewGenealogy(
     genealogy = new Genealogy({
       user_id: current_user._id,
 
+      is_stockist: current_user.is_stockist,
+      is_admin: current_user.is_admin,
+      is_mega_center: current_user.is_mega_center,
+      is_owner: current_user.is_owner,
+
       user_that_invite: user_that_invite?.id_of_the_user_that_invite
         ? {
             user_id: user_that_invite.id_of_the_user_that_invite,
@@ -270,6 +276,10 @@ export async function addNewGenealogy(
         first_name: child_user.first_name,
         last_name: child_user.last_name,
         address: child_user.address,
+
+        is_stockist: child_user.is_stockist,
+        is_admin: child_user.is_admin,
+        is_mega_center: child_user.is_mega_center,
       },
     });
     await genealogy.save();
@@ -277,6 +287,12 @@ export async function addNewGenealogy(
     genealogy = new Genealogy({
       user_id: current_user._id,
       first_name: current_user.first_name,
+
+      is_stockist: current_user.is_stockist,
+      is_admin: current_user.is_admin,
+      is_mega_center: current_user.is_mega_center,
+      is_owner: current_user.is_owner,
+
       user_that_invite: user_that_invite?.id_of_the_user_that_invite
         ? {
             user_id: user_that_invite.id_of_the_user_that_invite,
@@ -298,6 +314,10 @@ export async function addNewGenealogy(
         first_name: child_user.first_name,
         last_name: child_user.last_name,
         address: child_user.address,
+
+        is_stockist: child_user.is_stockist,
+        is_admin: child_user.is_admin,
+        is_mega_center: child_user.is_mega_center,
       },
     });
     await genealogy.save();
@@ -315,6 +335,7 @@ export async function createChildUser(req, current_user, user_that_invite) {
     address: body.address,
     birthdate: body.birthdate,
     contact_number: body.contact_number,
+    secret_code_suffix: user_that_invite.secret_code_suffix,
 
     root_user_genealogy: {
       user_id: current_user._id,
@@ -339,6 +360,7 @@ export async function createChildUser(req, current_user, user_that_invite) {
     last_name: child_user.last_name,
     address: child_user.address,
     birthdate: child_user.birthdate,
+    secret_code: user_that_invite.secret_code_suffix + "-" + nanoid(10),
 
     user_that_invite: {
       user_id: req.user._id,

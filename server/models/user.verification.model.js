@@ -1,10 +1,9 @@
 import mongoose from "mongoose";
-import { nanoid } from "nanoid";
 
 const userVerificationSchema = new mongoose.Schema(
   {
     user_id: { type: String, required: true },
-    secret_code: { type: String, default: () => nanoid(10) },
+    secret_code: { type: String },
     first_name: { type: String, required: true },
     last_name: { type: String, required: true },
     address: { type: String, required: true },

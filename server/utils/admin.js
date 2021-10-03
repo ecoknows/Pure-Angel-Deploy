@@ -147,3 +147,61 @@ export async function checkIfThereIsPairingBonus(user_to_verify, checked) {
     }
   }
 }
+
+export async function roleUpdater(role, schema, secret_code_suffix) {
+  switch (role) {
+    case "admin":
+      schema.is_admin = true;
+      schema.is_stockist = undefined;
+      schema.is_mega_center = undefined;
+
+      break;
+    case "mega center":
+      schema.is_mega_center = true;
+      schema.is_stockist = undefined;
+      schema.is_admin = undefined;
+
+      if (secret_code_suffix) schema.secret_code_suffix = secret_code_suffix;
+
+      break;
+    case "stockist":
+      schema.is_stockist = true;
+      schema.is_mega_center = undefined;
+      schema.is_admin = undefined;
+      break;
+    case "member":
+      schema.is_admin = undefined;
+      schema.is_mega_center = undefined;
+      schema.is_stockist = undefined;
+      break;
+  }
+}
+
+export async function updateGenealogyRole(role, user_id) {
+  const genealogy = await Genealogy.findOne({
+    user_id: user_id,
+  });
+
+  const left_genealogy = await Genealogy.findOne({
+    "left_branch.user_id": user_id,
+  });
+
+  const right_genealogy = await Genealogy.findOne({
+    "right_branch.user_id": user_id,
+  });
+
+  if (genealogy) {
+    await roleUpdater(role, genealogy, undefined);
+    await genealogy.save();
+  }
+
+  if (left_genealogy) {
+    await roleUpdater(role, left_genealogy.left_branch, undefined);
+    await left_genealogy.save();
+  }
+
+  if (right_genealogy) {
+    await roleUpdater(role, right_genealogy.right_branch, undefined);
+    await right_genealogy.save();
+  }
+}

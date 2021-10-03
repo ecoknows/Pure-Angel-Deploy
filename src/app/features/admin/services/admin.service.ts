@@ -97,6 +97,7 @@ export class AdminService {
     user_id: string | undefined;
     password?: string;
     role: string;
+    secret_code_suffix: string | undefined;
   }) {
     this.http
       .post<{ message: string }>(

@@ -100,6 +100,7 @@ UserRouter.post(
         address: body.address,
         birthdate: body.birthdate,
         contact_number: body.contact_number,
+        secret_code_suffix: body.secret_code_suffix,
         is_admin: true,
         is_owner: true,
       });

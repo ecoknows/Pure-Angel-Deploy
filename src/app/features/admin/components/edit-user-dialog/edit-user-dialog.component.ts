@@ -58,11 +58,13 @@ export class EditUserDialogComponent implements OnInit {
     const new_password = this.form.get('new_password')?.value;
     const confirm_password = this.form.get('confirm_password')?.value;
     const role = this.form.get('role')?.value;
+    const secret_code_suffix = this.form.get('mega_center_code')?.value;
 
     this.adminService.editUser({
       user_id: this.data.user_info._id,
       password: new_password ? new_password : undefined,
       role,
+      secret_code_suffix,
     });
   }
 }

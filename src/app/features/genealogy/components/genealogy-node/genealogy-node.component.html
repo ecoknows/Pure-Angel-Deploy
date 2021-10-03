@@ -5,12 +5,16 @@
 ></div>
 
 <div
-  [ngClass]="node.cssClass || ''"
-  [style.opacity]="
-    (user$ | async)?._id == node?.user_that_invite?.user_id ||
-    node?.user_that_invite?.user_id == undefined
-      ? 1
-      : 0.6
+  [ngClass]="
+    node?.is_owner
+      ? 'ngx-org-shadow-owner'
+      : node?.is_admin
+      ? 'ngx-org-shadow-admin'
+      : node?.is_mega_center
+      ? 'ngx-org-shadow-mega-center'
+      : node?.is_stockist
+      ? 'ngx-org-shadow-stockist'
+      : 'ngx-org-shadow'
   "
   class="ngx-org-box ngx-org-border ngx-org-background"
   (click)="itemClick.emit(node)"

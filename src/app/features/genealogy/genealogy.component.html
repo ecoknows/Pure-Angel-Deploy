@@ -3,4 +3,28 @@
     [nodes]="(genealogy$ | async)?.genealogy"
     direction="vertical"
   ></genealogy-chart>
+  <div class="legend">
+    <ul>
+      <li>
+        <div class="circle circle-owner"></div>
+        <span class="owner"> Owner </span>
+      </li>
+      <li>
+        <div class="circle circle-admin"></div>
+        <span class="admin"> Admin</span>
+      </li>
+      <li>
+        <div class="circle circle-mega-center"></div>
+        <span class="mega-center"> Mega Center</span>
+      </li>
+      <li>
+        <div class="circle circle-stockist"></div>
+        <span class="stockist"> Stockist</span>
+      </li>
+      <li>
+        <div class="circle circle-member"></div>
+        <span class="member"> Member</span>
+      </li>
+    </ul>
+  </div>
 </div>

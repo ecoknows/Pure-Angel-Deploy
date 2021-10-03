@@ -33,6 +33,11 @@ const genealogySchema = new mongoose.Schema(
         last_name: { type: String, required: true },
         address: { type: String, required: true },
 
+        is_stockist: { type: Boolean },
+        is_admin: { type: Boolean },
+        is_mega_center: { type: Boolean },
+        is_owner: { type: Boolean },
+
         left_branch: { type: Object },
         right_branch: { type: Object },
       },
@@ -55,10 +60,20 @@ const genealogySchema = new mongoose.Schema(
         last_name: { type: String, required: true },
         address: { type: String, required: true },
 
+        is_stockist: { type: Boolean },
+        is_admin: { type: Boolean },
+        is_mega_center: { type: Boolean },
+        is_owner: { type: Boolean },
+
         left_branch: { type: Object },
         right_branch: { type: Object },
       },
     },
+
+    is_stockist: { type: Boolean },
+    is_admin: { type: Boolean },
+    is_mega_center: { type: Boolean },
+    is_owner: { type: Boolean },
   },
   {
     timestamps: true,

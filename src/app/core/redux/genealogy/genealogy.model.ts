@@ -6,6 +6,12 @@ export interface Genealogy {
   address?: string;
   right_branch?: Genealogy;
   left_branch?: Genealogy;
+
+  is_stockist?: boolean;
+  is_admin?: boolean;
+  is_mega_center?: boolean;
+  is_owner?: boolean;
+
   left_count?: number;
   right_count?: number;
   user_that_invite?: {
