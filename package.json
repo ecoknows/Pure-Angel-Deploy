@@ -10,7 +10,7 @@
     "test": "ng test",
     "deploy:gh": "ng deploy --base-href=/Pure-Angel-Coffe/",
     "heroku-postbuild": "ng build --prod",
-    "start:server": "nodemon --watch server --exec node --experimental-modules server.js"
+    "start:server": "supervisor server.js"
   },
   "engines": {
     "node": "14.17.5",
@@ -20,7 +20,6 @@
   "dependencies": {
     "@angular/animations": "~12.2.0",
     "@angular/cdk": "^12.2.3",
-    "@angular/cli": "~12.2.1",
     "@angular/common": "~12.2.0",
     "@angular/compiler": "~12.2.0",
     "@angular/compiler-cli": "~12.2.0",
@@ -47,13 +46,15 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.5",
     "nanoid": "^3.1.28",
-    "nodemon": "^2.0.12",
+    "nodemon": "^2.0.7",
     "rxjs": "~6.6.0",
+    "supervisor": "^0.12.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.2.1",
+    "@angular/cli": "^12.2.8",
     "@types/jasmine": "~3.8.0",
     "@types/node": "^12.11.1",
     "angular-cli-ghpages": "^1.0.0-rc.2",
