@@ -3,6 +3,7 @@ import expressAsyncHandler from "express-async-handler";
 import { DIRECT_REFERRAL_PAYMENT } from "../constants.js";
 import User from "../models/user.model.js";
 import UserVerification from "../models/user.verification.model.js";
+import Cashout from "../models/cashout.model.js";
 import { checkIfAdmin, verifyUserToken } from "../utils.js";
 import {
   payIndirectReferral,
@@ -103,30 +104,21 @@ AdminRouter.get(
   })
 );
 
-AdminRouter.post(
-  "/cashout",
+AdminRouter.get(
+  "/cashouts",
   verifyUserToken,
   checkIfAdmin,
   expressAsyncHandler(async (req, res) => {
-    const body = req.body;
-    const cashoutUser = await UserVerification.findOne({
-      user_id: body.user_id,
-    });
+    const cashouts = await Cashout.find({});
 
-    if (cashoutUser) {
-      // cashoutUser.pairing_bonus = 0;
-      // cashoutUser.direct_referral = 0;
-      // cashoutUser.indirect_referral = 0;
-      // cashoutUser.automatic_equivalent_rebates = 0;
-
-      // await cashoutUser.save();
-
+    if (cashouts) {
       res.send({
-        message: "Successfully Cashout User",
+        message: "Successfully Fetch Users",
+        data: cashouts,
       });
     } else {
       res.status(401).send({
-        message: "Failed to cashout User",
+        message: "Failed to Users",
       });
     }
   })

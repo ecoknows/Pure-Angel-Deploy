@@ -1,3 +1,4 @@
+import { ViewportScroller } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { GenealogyState } from '@core/redux/genealogy/genealogy.reducer';
 import { AuthService } from '@core/services/auth.service';
@@ -18,14 +19,23 @@ export class GenealogyComponent implements OnInit {
   constructor(
     private store: Store<{ genealogyReducer: GenealogyState }>,
     public genealogyService: GenealogyService,
-    public authService: AuthService
+    private authService: AuthService,
+    private scroller: ViewportScroller
   ) {
     this.genealogy$ = this.store.select('genealogyReducer');
     this.iconButton = getIcon('faUserPlus');
   }
 
   ngOnInit(): void {
-    this.authService.fetchUserData();
+    this.authService.fetchUserIncome();
     this.genealogyService.fetchGenealogy();
+  }
+  scrollToRoot() {
+    let scroller: any = document.getElementById('scroller');
+    scroller.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+      inline: 'center',
+    });
   }
 }

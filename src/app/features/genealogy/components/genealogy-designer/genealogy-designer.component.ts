@@ -15,6 +15,7 @@ export class GenealogyDesignerComponent {
   @Input('node') node!: Genealogy | undefined;
   @Input('hasParent') hasParent: boolean = false;
   @Input('direction') direction: 'vertical' | 'horizontal' = 'vertical';
+  @Input('root') root = false;
 
   @Output('itemClick') itemClick = new EventEmitter<Genealogy>();
 

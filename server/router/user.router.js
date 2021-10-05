@@ -4,6 +4,7 @@ import { verifyUserToken, generateUserToken } from "../utils.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import UserVerification from "../models/user.verification.model.js";
+import Cashout from "../models/cashout.model.js";
 
 const UserRouter = express.Router();
 
@@ -117,6 +118,52 @@ UserRouter.post(
 
       await ancestorVerification.save();
       res.send({ message: "Successfully created an Owner!" });
+    }
+  })
+);
+
+UserRouter.post(
+  "/cashout",
+  verifyUserToken,
+  expressAsyncHandler(async (req, res) => {
+    const body = req.body;
+    const user = req.user;
+
+    const userVerification = await UserVerification.findOne({
+      user_id: user._id,
+    });
+
+    if (userVerification) {
+      if (userVerification.unpaid_income >= body.cashout) {
+        const newCashout = new Cashout({
+          user_id: user._id,
+
+          first_name: user.first_name,
+          last_name: user.last_name,
+          address: user.address,
+          contact_number: user.contact_number,
+
+          cashout: body.cashout,
+        });
+
+        const createCashout = await newCashout.save();
+
+        userVerification.unpaid_income =
+          userVerification.unpaid_income - createCashout.cashout;
+
+        await userVerification.save();
+        res.send({
+          message: "Successfully Cashout money!",
+        });
+      } else {
+        res.status(401).send({
+          message: "not enought money",
+        });
+      }
+    } else {
+      res.status(401).send({
+        message: "UserVerification missing",
+      });
     }
   })
 );

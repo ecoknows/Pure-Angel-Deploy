@@ -11,6 +11,7 @@ import {
   faReceipt,
   faStreetView,
   faUser,
+  faCashRegister,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { IconDefinition } from '@fortawesome/fontawesome-common-types';
@@ -41,6 +42,8 @@ export function getIcon(
       return faReceipt;
     case 'faStreetView':
       return faStreetView;
+    case 'faCashRegister':
+      return faCashRegister;
     case 'faSearch':
       return faSearch;
   }

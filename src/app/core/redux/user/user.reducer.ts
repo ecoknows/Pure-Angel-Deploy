@@ -3,6 +3,7 @@ import { resetUserData, setUserData } from './user.actions';
 
 export interface UserState {
   _id?: string;
+  username?: string;
   first_name?: string;
   last_name?: string;
   address?: string;
@@ -10,6 +11,8 @@ export interface UserState {
   contact_number?: string;
 
   overall_income?: number;
+  unpaid_income?: number;
+
   direct_referral?: number;
   indirect_referral?: number;
   pairing_bonus?: number;

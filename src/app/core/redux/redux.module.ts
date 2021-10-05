@@ -7,6 +7,7 @@ import { indirectReferralReducer } from './indirect-referral/indirect-referral.r
 import { verificationReducer } from './admin/verification/verification.reducers';
 import { pairingBonusReducer } from './pairing-bonus/pairing-bonus.reducers';
 import { authenticationReducer } from './admin/authentication/authentications.reducers';
+import { cashoutsReducer } from './admin/cashouts-verification/cashouts.reducers';
 
 const reducer: object = {
   directReferralReducer: directReferralReducer,
@@ -15,8 +16,10 @@ const reducer: object = {
 
   genealogyReducer: genealogyReducer,
   userReducer: userReducer,
+
   verificationReducer: verificationReducer,
   authenticationReducer: authenticationReducer,
+  cashoutsReducer: cashoutsReducer,
 };
 
 @NgModule({

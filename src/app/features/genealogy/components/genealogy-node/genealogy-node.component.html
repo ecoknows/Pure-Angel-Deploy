@@ -5,6 +5,7 @@
 ></div>
 
 <div
+  [id]="root ? 'scroller' : undefined"
   [ngClass]="
     node?.is_owner
       ? 'ngx-org-shadow-owner'

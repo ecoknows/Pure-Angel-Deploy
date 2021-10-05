@@ -1,5 +1,5 @@
 <app-side-bar *ngIf="sideBarService.visibility"></app-side-bar>
 
-<main [class.main-margin]="sideBarService.visibility">
+<main [class.main-margin]="sideBarService.visibility" id="main">
   <router-outlet></router-outlet>
 </main>

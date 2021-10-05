@@ -1,10 +1,11 @@
-<div *ngIf="nodes" style="display: inline-block">
+<div *ngIf="nodes">
   <ng-container>
     <div class="ngx-org-self-{{ direction }}">
       <genealogy-designer
         [node]="nodes"
         [direction]="direction"
         (itemClick)="itemClick.emit($event)"
+        [root]="true"
       ></genealogy-designer>
     </div>
   </ng-container>

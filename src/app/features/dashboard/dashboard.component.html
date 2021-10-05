@@ -10,8 +10,8 @@
     <h1>
       ₱
       {{
-        (user$ | async)?.overall_income
-          ? ((user$ | async)?.overall_income | number: "1.2-2")
+        (user$ | async)?.unpaid_income
+          ? ((user$ | async)?.unpaid_income | number: "1.2-2")
           : "0.00"
       }}
     </h1>
@@ -23,39 +23,54 @@
 
 <div class="dashboard-bottom-info">
   <app-card-total-number
-    [money]="(user$ | async)?.automatic_equivalent_rebates"
+    [money]="(user$ | async)?.overall_income"
     icon="faFunnelDollar"
     label="Overall Income"
+    caption="Income since registration"
   ></app-card-total-number>
+
+  <button class="cash-out-button" (click)="cashout()">
+    <app-card-total-number
+      [money]="(user$ | async)?.unpaid_income"
+      icon="faCashRegister"
+      label="Cashout Unpaid Income"
+      caption="Click to cashout"
+    ></app-card-total-number>
+  </button>
 
   <app-card-total-number
     [money]="(user$ | async)?.indirect_referral"
     icon="faUsers"
     label="Indirect Referral"
+    caption="Total Income"
   ></app-card-total-number>
 
   <app-card-total-number
     [money]="(user$ | async)?.direct_referral"
     icon="faUsers"
     label="Direct Referral"
+    caption="Total Income"
   ></app-card-total-number>
 
   <app-card-total-number
     [money]="(user$ | async)?.pairing_bonus"
     icon="faCommentsDollar"
     label="Pairing Bonus"
+    caption="Total Income"
   ></app-card-total-number>
 
   <app-card-total-number
     [money]="(user$ | async)?.automatic_equivalent_rebates"
     icon="faHandHoldingUsd"
     label="Automatic Equivalent Rebates"
+    caption="Total Income"
   ></app-card-total-number>
 
   <app-card-total-number
     [money]="(user$ | async)?.automatic_equivalent_rebates"
     icon="faReceipt"
     label="Pairing Product Voucher"
+    caption="Total Income"
   ></app-card-total-number>
 
   <app-card-total-number
@@ -63,5 +78,6 @@
     [count]="true"
     icon="faStreetView"
     label="Stockist"
+    caption="Total Number of People"
   ></app-card-total-number>
 </div>

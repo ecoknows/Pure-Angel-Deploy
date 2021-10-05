@@ -76,11 +76,11 @@ export class AuthService {
     this.resetStates();
   }
 
-  fetchUserData() {
+  fetchUserIncome() {
     const helper = new JwtHelperService();
     const token = this.userToken;
 
-    this.fetchUserIncome();
+    this.fetchIncome();
 
     if (token) {
       const user = helper.decodeToken(token);
@@ -89,7 +89,18 @@ export class AuthService {
     }
   }
 
-  private fetchUserIncome() {
+  fetchUserData() {
+    const helper = new JwtHelperService();
+    const token = this.userToken;
+
+    if (token) {
+      const user = helper.decodeToken(token);
+
+      this.store.dispatch(setUserData({ user }));
+    }
+  }
+
+  private fetchIncome() {
     this.http
       .get<{ message: string; data: UserState }>(
         environment.api + 'api/user/income',
@@ -100,14 +111,24 @@ export class AuthService {
       .subscribe((response) => {
         const data = response.data;
         if (data) {
-          data.overall_income =
-            (data?.automatic_equivalent_rebates || 0) +
-            (data?.direct_referral || 0) +
-            (data?.indirect_referral || 0) +
-            (data?.pairing_bonus || 0);
-
           this.store.dispatch(setUserData({ user: data }));
         }
+      });
+  }
+
+  cashOut(cashout: number) {
+    this.http
+      .post<{ message: string }>(
+        environment.api + 'api/user/cashout',
+        {
+          cashout,
+        },
+        {
+          headers: this.headers,
+        }
+      )
+      .subscribe((response) => {
+        this.fetchIncome();
       });
   }
 

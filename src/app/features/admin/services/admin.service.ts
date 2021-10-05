@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { setAuthenticationTable } from '@core/redux/admin/authentication/authentication.actions';
 import { AuthenticationState } from '@core/redux/admin/authentication/authentications.reducers';
+import { setCashoutsTable } from '@core/redux/admin/cashouts-verification/cashouts.actions';
+import { CashoutsState } from '@core/redux/admin/cashouts-verification/cashouts.reducers';
 import { setVerificationTable } from '@core/redux/admin/verification/verification.actions';
 import { VerificationState } from '@core/redux/admin/verification/verification.reducers';
 import { AuthService } from '@core/services/auth.service';
@@ -12,9 +14,11 @@ import { Store } from '@ngrx/store';
 })
 export class AdminService {
   verificationStatus: boolean = false;
+  cashoutsStatus: boolean = false;
   verificationCache!: VerificationState[];
 
   authenticationCache!: VerificationState[];
+  cashoutsCache!: CashoutsState[];
 
   constructor(
     private http: HttpClient,
@@ -22,8 +26,28 @@ export class AdminService {
     private store: Store<{
       verificationReducer: VerificationState[];
       authenticationReducer: AuthenticationState[];
+      cashoutsReducer: CashoutsState[];
     }>
   ) {}
+
+  fetchCashoutsTable() {
+    this.http
+      .get<{ message: string; data: CashoutsState[] }>(
+        environment.api + 'api/admin/cashouts',
+        {
+          headers: this.authService.headers,
+        }
+      )
+      .subscribe((response) => {
+        const data = response.data;
+
+        if (data) {
+          this.cashoutsCache = [...data];
+
+          this.store.dispatch(setCashoutsTable({ list: data }));
+        }
+      });
+  }
 
   fetchVerificationTable() {
     this.http
@@ -77,18 +101,6 @@ export class AdminService {
       )
       .subscribe((response) => {
         this.verificationStatus = false;
-        this.fetchVerificationTable();
-      });
-  }
-
-  cashOutUser(user_id: string) {
-    this.http
-      .post<{ message: string }>(
-        environment.api + 'api/admin/cashout',
-        { user_id },
-        { headers: this.authService.headers }
-      )
-      .subscribe((response) => {
         this.fetchVerificationTable();
       });
   }

@@ -34,11 +34,13 @@ import { AdminComponent } from './admin/admin.component';
 import { VerificationComponent } from './admin/components/verification/verification.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { PairingBonusComponent } from './referrals/components/pairing-bonus/pairing-bonus.component';
-import { CashoutDialogComponent } from './admin/components/cashout-dialog/cashout-dialog.component';
+import { CashoutDialogComponent } from './dashboard/components/cashout-dialog/cashout-dialog.component';
 import { SettingComponent } from './setting/setting.component';
 import { AuthenticationComponent } from './admin/components/authentication/authentication.component';
 import { MatSelectModule } from '@angular/material/select';
 import { EditUserDialogComponent } from './admin/components/edit-user-dialog/edit-user-dialog.component';
+import { FormDirective } from './setting/directives/form.directive';
+import { CashoutsVerificationComponent } from './admin/components/cashouts-verification/cashouts-verification.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,8 @@ import { EditUserDialogComponent } from './admin/components/edit-user-dialog/edi
     SettingComponent,
     AuthenticationComponent,
     EditUserDialogComponent,
+    FormDirective,
+    CashoutsVerificationComponent,
   ],
   imports: [
     NgxChartsModule,

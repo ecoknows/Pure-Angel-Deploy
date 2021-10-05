@@ -1,8 +1,12 @@
-<div class="genealogy-container">
-  <genealogy-chart
-    [nodes]="(genealogy$ | async)?.genealogy"
-    direction="vertical"
-  ></genealogy-chart>
+<div
+  id="genealogy-container"
+  [style.display]="
+    (genealogy$ | async)?.genealogy?.left_branch?.left_branch ||
+    (genealogy$ | async)?.genealogy?.right_branch?.right_branch
+      ? 'inline-block'
+      : undefined
+  "
+>
   <div class="legend">
     <ul>
       <li>
@@ -17,6 +21,8 @@
         <div class="circle circle-mega-center"></div>
         <span class="mega-center"> Mega Center</span>
       </li>
+    </ul>
+    <ul>
       <li>
         <div class="circle circle-stockist"></div>
         <span class="stockist"> Stockist</span>
@@ -26,5 +32,13 @@
         <span class="member"> Member</span>
       </li>
     </ul>
+    <button mat-stroked-button (click)="scrollToRoot()" color="primary">
+      Click to scroll to main root
+    </button>
   </div>
+
+  <genealogy-chart
+    [nodes]="(genealogy$ | async)?.genealogy"
+    direction="vertical"
+  ></genealogy-chart>
 </div>
