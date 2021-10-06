@@ -81,6 +81,40 @@ AdminRouter.post(
   })
 );
 
+AdminRouter.post(
+  "/approved-cashout",
+  verifyUserToken,
+  checkIfAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const body = req.body;
+
+    const cashout_to_approved = await Cashout.findById(body.cashout_id);
+
+    if (cashout_to_approved) {
+      const approved = cashout_to_approved.approved;
+      const checked = body.checked;
+
+      if (checked != approved) {
+        cashout_to_approved.approved = body.checked;
+
+        await cashout_to_approved.save();
+
+        res.send({
+          message: "Successfully cashout user!",
+        });
+      } else {
+        res.send({
+          message: "Already!",
+        });
+      }
+    } else {
+      res.status(401).send({
+        message: "Secret code is invalid!",
+      });
+    }
+  })
+);
+
 AdminRouter.get(
   "/authentication",
   verifyUserToken,
@@ -109,7 +143,7 @@ AdminRouter.get(
   verifyUserToken,
   checkIfAdmin,
   expressAsyncHandler(async (req, res) => {
-    const cashouts = await Cashout.find({});
+    const cashouts = await Cashout.aggregate([{ $sort: { createdAt: -1 } }]);
 
     if (cashouts) {
       res.send({

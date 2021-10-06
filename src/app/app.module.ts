@@ -5,9 +5,11 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
-import { SharedModule } from './shared/shared.module';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { InterceptorService } from '@core/services/interceptor.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,13 +18,21 @@ import { environment } from '../environments/environment';
     AppRoutingModule,
     CoreModule,
     FeaturesModule,
+    MatProgressBarModule,
+
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
       autoPause: true,
     }),
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

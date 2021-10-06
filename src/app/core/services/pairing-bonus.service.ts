@@ -14,7 +14,7 @@ export class PairingBonusService {
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-    private store: Store<{ pairingBonusReducer: PairingBonusState[] }>
+    private store: Store<{}>
   ) {}
 
   fetchPairingBonus() {

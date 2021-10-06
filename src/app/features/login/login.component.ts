@@ -11,6 +11,7 @@ import { SidebarService } from '@core/services/sidebar.service';
 })
 export class LoginComponent {
   form: FormGroup;
+  hide = true;
 
   constructor(
     private authService: AuthService,

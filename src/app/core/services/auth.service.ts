@@ -19,10 +19,7 @@ export class AuthService {
     private http: HttpClient,
     private router: Router,
     private sideBarService: SidebarService,
-    private store: Store<{
-      branchReducer: GenealogyState;
-      userReducer: UserState;
-    }>
+    private store: Store<{}>
   ) {}
 
   login(username: string, password: string) {
@@ -100,7 +97,7 @@ export class AuthService {
     }
   }
 
-  private fetchIncome() {
+  fetchIncome() {
     this.http
       .get<{ message: string; data: UserState }>(
         environment.api + 'api/user/income',
@@ -113,22 +110,6 @@ export class AuthService {
         if (data) {
           this.store.dispatch(setUserData({ user: data }));
         }
-      });
-  }
-
-  cashOut(cashout: number) {
-    this.http
-      .post<{ message: string }>(
-        environment.api + 'api/user/cashout',
-        {
-          cashout,
-        },
-        {
-          headers: this.headers,
-        }
-      )
-      .subscribe((response) => {
-        this.fetchIncome();
       });
   }
 

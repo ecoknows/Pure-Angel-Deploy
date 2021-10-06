@@ -11,6 +11,7 @@ import path from "path";
 import IndirectReferralRouter from "./server/router/indirect-referral.router.js";
 import PairingBonusRouter from "./server/router/pairing-bonus.router.js";
 import SeedRouter from "./server/router/seed.router.js";
+import UserCashouts from "./server/router/user-cashouts.router.js";
 
 const __dirname = path.resolve();
 
@@ -33,6 +34,7 @@ app.use("/api/genealogy", GenealogyRouter);
 app.use("/api/direct-referral", DirectReferralRouter);
 app.use("/api/indirect-referral", IndirectReferralRouter);
 app.use("/api/pairing-bonus", PairingBonusRouter);
+app.use("/api/user-cashouts", UserCashouts);
 app.use("/api/seed", SeedRouter);
 
 app.get("*", function (req, res) {

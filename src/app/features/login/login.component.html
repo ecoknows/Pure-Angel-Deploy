@@ -2,12 +2,7 @@
   <form [formGroup]="form" (ngSubmit)="submit()">
     <mat-form-field>
       <mat-label>Username</mat-label>
-      <input
-        matInput
-        placeholder="Type username"
-        type="text"
-        formControlName="username"
-      />
+      <input matInput placeholder="Type username" formControlName="username" />
     </mat-form-field>
 
     <mat-form-field>
@@ -17,8 +12,16 @@
         placeholder="Type password"
         type="password"
         formControlName="password"
+        [type]="hide ? 'password' : 'text'"
       />
+      <mat-icon class="eye" matSuffix (click)="hide = !hide">{{
+        hide ? "visibility_off" : "visibility"
+      }}</mat-icon>
     </mat-form-field>
+
+    <div class="error-box">
+      <p>Siguraduhing tama ang nailagay na <b>username at password</b></p>
+    </div>
 
     <div class="button-container">
       <button mat-raised-button color="primary" type="submit" class="login-btn">

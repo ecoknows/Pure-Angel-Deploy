@@ -8,11 +8,13 @@ import { verificationReducer } from './admin/verification/verification.reducers'
 import { pairingBonusReducer } from './pairing-bonus/pairing-bonus.reducers';
 import { authenticationReducer } from './admin/authentication/authentications.reducers';
 import { cashoutsReducer } from './admin/cashouts-verification/cashouts.reducers';
+import { userCashoutsReducer } from './cashouts/user-cashouts.reducers';
 
 const reducer: object = {
   directReferralReducer: directReferralReducer,
   indirectReferralReducer: indirectReferralReducer,
   pairingBonusReducer: pairingBonusReducer,
+  userCashoutsReducer: userCashoutsReducer,
 
   genealogyReducer: genealogyReducer,
   userReducer: userReducer,

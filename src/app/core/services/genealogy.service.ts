@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { setGenealogy } from '@core/redux/genealogy/genealogy.actions';
 import { Genealogy } from '@core/redux/genealogy/genealogy.model';
-import { GenealogyState } from '@core/redux/genealogy/genealogy.reducer';
 import { setUserData } from '@core/redux/user/user.actions';
-import { UserState } from '@core/redux/user/user.reducer';
 import { environment } from '@env';
 import { Store } from '@ngrx/store';
 import { AuthService } from './auth.service';
@@ -17,7 +15,7 @@ export class GenealogyService {
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-    private store: Store<{ genealogyReducer: GenealogyState[] }>
+    private store: Store<{}>
   ) {}
 
   fetchDefaultGenealogy() {

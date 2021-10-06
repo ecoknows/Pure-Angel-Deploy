@@ -41,6 +41,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { EditUserDialogComponent } from './admin/components/edit-user-dialog/edit-user-dialog.component';
 import { FormDirective } from './setting/directives/form.directive';
 import { CashoutsVerificationComponent } from './admin/components/cashouts-verification/cashouts-verification.component';
+import { UserCashoutsComponent } from './referrals/components/user-cashouts/user-cashouts.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -67,6 +69,7 @@ import { CashoutsVerificationComponent } from './admin/components/cashouts-verif
     EditUserDialogComponent,
     FormDirective,
     CashoutsVerificationComponent,
+    UserCashoutsComponent,
   ],
   imports: [
     NgxChartsModule,
@@ -87,6 +90,7 @@ import { CashoutsVerificationComponent } from './admin/components/cashouts-verif
     FontAwesomeModule,
     NgxDatatableModule,
     MatCheckboxModule,
+    MatIconModule,
   ],
 })
 export class FeaturesModule {}

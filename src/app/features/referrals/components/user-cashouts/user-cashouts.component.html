@@ -1,6 +1,6 @@
 <div class="table-container">
   <div class="main-top">
-    <h1 class="title">Cashouts Verification Table</h1>
+    <h1 class="title">User Cashouts Table</h1>
     <div class="end">
       <app-input
         title="Search"
@@ -22,15 +22,6 @@
   >
     <ngx-datatable-column name="Name" [width]="250">
       <ng-template let-row="row" ngx-datatable-cell-template>
-        <mat-checkbox
-          #checkbox
-          class="chekbox-margin"
-          color="primary"
-          [checked]="row.approved"
-          (change)="approvedCashout($event, row._id)"
-          [disabled]="isDisabled"
-        ></mat-checkbox>
-
         {{ row.first_name }} {{ row.last_name }}
       </ng-template>
     </ngx-datatable-column>

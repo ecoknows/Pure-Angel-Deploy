@@ -11,13 +11,13 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
   styleUrls: ['./cashouts-verification.component.sass'],
 })
 export class CashoutsVerificationComponent implements OnInit {
-  verifiedIcon: any;
+  approvedIcon: any;
   @Input('rows') rows: CashoutsState[] | null = [];
 
   @ViewChild(DatatableComponent) table!: DatatableComponent;
 
   constructor(private adminService: AdminService, public dialog: MatDialog) {
-    this.verifiedIcon = getIcon('faUserCheck');
+    this.approvedIcon = getIcon('faUserCheck');
   }
 
   ngOnInit(): void {}
@@ -36,12 +36,12 @@ export class CashoutsVerificationComponent implements OnInit {
   }
 
   get isDisabled() {
-    return this.adminService.verificationStatus;
+    return this.adminService.cashoutsStatus;
   }
 
-  checkUser($event: any, secret_code: string) {
-    this.adminService.verifyUser({
-      secret_code,
+  approvedCashout($event: any, cashout_id: string) {
+    this.adminService.approvedCheckout({
+      cashout_id,
       checked: $event.checked,
     });
   }

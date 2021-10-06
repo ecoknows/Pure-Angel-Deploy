@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LoaderService } from '@core/services/loader.service';
 import { SidebarService } from '@core/services/sidebar.service';
 
 @Component({
@@ -9,5 +10,8 @@ import { SidebarService } from '@core/services/sidebar.service';
 export class AppComponent {
   title = 'pure-angel-coffee';
 
-  constructor(public sideBarService: SidebarService) {}
+  constructor(
+    public sideBarService: SidebarService,
+    public loaderService: LoaderService
+  ) {}
 }

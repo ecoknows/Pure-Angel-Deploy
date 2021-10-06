@@ -23,11 +23,7 @@ export class AdminService {
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-    private store: Store<{
-      verificationReducer: VerificationState[];
-      authenticationReducer: AuthenticationState[];
-      cashoutsReducer: CashoutsState[];
-    }>
+    private store: Store<{}>
   ) {}
 
   fetchCashoutsTable() {
@@ -102,6 +98,23 @@ export class AdminService {
       .subscribe((response) => {
         this.verificationStatus = false;
         this.fetchVerificationTable();
+      });
+  }
+
+  approvedCheckout(checkout_info: { checked: boolean; cashout_id: string }) {
+    this.cashoutsStatus = true;
+    this.http
+      .post<{ message: string }>(
+        environment.api + 'api/admin/approved-cashout',
+        {
+          cashout_id: checkout_info.cashout_id,
+          checked: checkout_info.checked,
+        },
+        { headers: this.authService.headers }
+      )
+      .subscribe((response) => {
+        this.cashoutsStatus = false;
+        this.fetchCashoutsTable();
       });
   }
 

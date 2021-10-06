@@ -1,3 +1,7 @@
+<mat-progress-bar
+  *ngIf="loaderService.isLoading | async"
+  mode="indeterminate"
+></mat-progress-bar>
 <app-side-bar *ngIf="sideBarService.visibility"></app-side-bar>
 
 <main [class.main-margin]="sideBarService.visibility" id="main">

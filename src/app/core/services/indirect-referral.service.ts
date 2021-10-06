@@ -15,7 +15,7 @@ export class IndirectReferralService {
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-    private store: Store<{ indirectReferralReducer: IndirectReferralState[] }>
+    private store: Store<{}>
   ) {}
 
   fetchIndirectReferrals() {
