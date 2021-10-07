@@ -64,7 +64,7 @@ export class RegistrationComponent {
           [
             Validators.required,
             Validators.maxLength(25),
-            Validators.minLength(8),
+            Validators.minLength(4),
           ],
         ],
         password: [

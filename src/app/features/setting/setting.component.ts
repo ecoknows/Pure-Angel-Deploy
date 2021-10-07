@@ -30,7 +30,7 @@ export class SettingComponent implements OnInit {
         [
           Validators.required,
           Validators.maxLength(25),
-          Validators.minLength(8),
+          Validators.minLength(4),
         ],
       ],
       old_password: ['', [Validators.maxLength(25), Validators.minLength(8)]],
