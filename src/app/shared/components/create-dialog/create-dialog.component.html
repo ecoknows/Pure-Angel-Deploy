@@ -5,11 +5,36 @@
       <mat-form-field>
         <mat-label>First Name</mat-label>
         <input required matInput formControlName="first_name" />
+        <mat-error *ngIf="form.get('first_name')?.hasError('pattern')">
+          symbols and numbers are not allowed
+        </mat-error>
+        <mat-error *ngIf="form.get('first_name')?.hasError('maxlength')">
+          25 letters only
+        </mat-error>
+        <mat-error *ngIf="form.get('first_name')?.hasError('minlength')">
+          minimum length is 2 letters
+        </mat-error>
+        <mat-error *ngIf="form.get('first_name')?.hasError('required')">
+          First Name is <strong>required</strong>
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Last Name</mat-label>
         <input required matInput formControlName="last_name" />
+
+        <mat-error *ngIf="form.get('last_name')?.hasError('pattern')">
+          symbols and numbers are not allowed
+        </mat-error>
+        <mat-error *ngIf="form.get('last_name')?.hasError('maxlength')">
+          25 letters only
+        </mat-error>
+        <mat-error *ngIf="form.get('last_name')?.hasError('minlength')">
+          minimum length is 2 letters
+        </mat-error>
+        <mat-error *ngIf="form.get('last_name')?.hasError('required')">
+          Last Name is <strong>required</strong>
+        </mat-error>
       </mat-form-field>
     </div>
 
@@ -17,6 +42,20 @@
       <mat-form-field>
         <mat-label>Phone Number</mat-label>
         <input required matInput formControlName="contact_number" />
+        <mat-error *ngIf="form.get('contact_number')?.hasError('pattern')">
+          letters and symbols are not allowed.
+        </mat-error>
+        <mat-error
+          *ngIf="
+            form.get('contact_number')?.hasError('maxlength') ||
+            form.get('contact_number')?.hasError('minlength')
+          "
+        >
+          11 numbers only
+        </mat-error>
+        <mat-error *ngIf="form.get('contact_number')?.hasError('required')">
+          Phone Number is <strong>required</strong>
+        </mat-error>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Birthdate</mat-label>
@@ -36,6 +75,9 @@
           #birthdate
           (closed)="inputBirthdate.blur()"
         ></mat-datepicker>
+        <mat-error *ngIf="form.get('birthdate')?.hasError('required')">
+          Birthdate is <strong>required</strong>
+        </mat-error>
       </mat-form-field>
     </div>
 
@@ -43,13 +85,28 @@
       <mat-form-field class="address-form">
         <mat-label>Address</mat-label>
         <input required matInput formControlName="address" />
+        <mat-error *ngIf="form.get('address')?.hasError('maxlength')">
+          50 letters only
+        </mat-error>
+        <mat-error *ngIf="form.get('address')?.hasError('minlength')">
+          minimum length is 2 letters
+        </mat-error>
+        <mat-error *ngIf="form.get('address')?.hasError('required')">
+          Address is <strong>required</strong>
+        </mat-error>
       </mat-form-field>
     </div>
   </div>
 
   <div mat-dialog-actions>
     <button mat-raised-button mat-dialog-close>Cancel</button>
-    <button mat-raised-button mat-dialog-close color="primary" type="submit">
+    <button
+      mat-raised-button
+      mat-dialog-close
+      color="primary"
+      type="submit"
+      [disabled]="form.invalid"
+    >
       Create
     </button>
   </div>

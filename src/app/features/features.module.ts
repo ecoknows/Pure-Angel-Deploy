@@ -18,7 +18,7 @@ import { SharedModule } from '@shared/shared.module';
 import { GenealogyChartComponent } from './genealogy/components/genealogy-chart/genealogy-chart.component';
 import { GenealogyDesignerComponent } from './genealogy/components/genealogy-designer/genealogy-designer.component';
 import { GenealogyNodeComponent } from './genealogy/components/genealogy-node/genealogy-node.component';
-import { LineChartComponent } from './dashboard/components/line-chart/line-chart.component';
+import { HistoryTimelineComponent } from './dashboard/components/history-timeline/history-timeline.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { RegistrationComponent } from './registration/registration.component';
@@ -54,7 +54,7 @@ import { MatIconModule } from '@angular/material/icon';
     GenealogyDesignerComponent,
     GenealogyNodeComponent,
     GenealogyComponent,
-    LineChartComponent,
+    HistoryTimelineComponent,
     RegistrationComponent,
     GenealogyAddComponent,
     DirectReferralComponent,

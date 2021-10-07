@@ -4,7 +4,7 @@ import { verifyUserToken, generateUserToken } from "../utils.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import UserVerification from "../models/user.verification.model.js";
-import Cashout from "../models/cashout.model.js";
+import { updateUserAuthentication } from "../utils/user.js";
 
 const UserRouter = express.Router();
 
@@ -19,9 +19,13 @@ UserRouter.post(
           message: "Successfully Login",
           userToken: generateUserToken(user),
         });
+      } else {
+        res.status(401).send({
+          message: "Failed Login",
+        });
       }
     } else {
-      res.send({
+      res.status(401).send({
         message: "Failed Login",
       });
     }
@@ -118,6 +122,30 @@ UserRouter.post(
 
       await ancestorVerification.save();
       res.send({ message: "Successfully created an Owner!" });
+    }
+  })
+);
+
+UserRouter.post(
+  "/update-user",
+  verifyUserToken,
+  expressAsyncHandler(async (req, res) => {
+    const user = req.user;
+    const update_info = req.body.update_info;
+
+    const existing_user = await User.findById(user._id);
+
+    if (existing_user) {
+      const updated_user = await updateUserAuthentication(
+        update_info,
+        existing_user
+      );
+      res.send({
+        message: "Successfully Created User",
+        userToken: generateUserToken(updated_user),
+      });
+    } else {
+      res.status(404).send({ message: "Cannot Find user" });
     }
   })
 );

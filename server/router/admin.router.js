@@ -13,8 +13,6 @@ import {
   updateGenealogyRole,
 } from "../utils/admin.js";
 import bcrypt from "bcryptjs";
-import Genealogy from "../models/genealogy.model.js";
-
 const AdminRouter = express.Router();
 
 AdminRouter.get(

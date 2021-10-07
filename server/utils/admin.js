@@ -8,8 +8,41 @@ import {
 } from "../constants.js";
 import UserVerification from "../models/user.verification.model.js";
 import DirectReferral from "../models/direct-referral.model.js";
+import History from "../models/history.model.js";
 import IndirectReferral from "../models/indirect-referral.model.js";
 import PairingBonus from "../models/pairing-bonus.model.js";
+import moment from "moment";
+
+async function writeHistory(value, verified, user_id) {
+  const getCurrentDay = moment().format("D MMM");
+
+  const history = await History.findOne({
+    user_id,
+    name: getCurrentDay,
+  });
+
+  if (history) {
+    if (verified) {
+      history.value = history.value + value;
+      await history.save();
+    } else {
+      if (history.value - value <= 0) {
+        await History.deleteOne({ name: history._id });
+      } else {
+        history.value = history.value - value;
+        await history.save();
+      }
+    }
+  } else {
+    const new_history = new History({
+      user_id,
+      name: getCurrentDay,
+      value: value,
+    });
+
+    await new_history.save();
+  }
+}
 
 export async function payDirectReferral(user_to_verify) {
   const user_that_invite = await UserVerification.findOne({
@@ -35,6 +68,12 @@ export async function payDirectReferral(user_to_verify) {
         user_that_invite.unpaid_income =
           user_that_invite.unpaid_income + DIRECT_REFERRAL_PAYMENT;
 
+        await writeHistory(
+          DIRECT_REFERRAL_PAYMENT,
+          user_to_verify.verified,
+          user_that_invite.user_id
+        );
+
         await updateDirectReferral.save();
       }
     } else {
@@ -55,6 +94,12 @@ export async function payDirectReferral(user_to_verify) {
         user_that_invite.unpaid_income =
           user_that_invite.unpaid_income - DIRECT_REFERRAL_PAYMENT;
 
+        await writeHistory(
+          DIRECT_REFERRAL_PAYMENT,
+          user_to_verify.verified,
+          user_that_invite.user_id
+        );
+
         await updateDirectReferral.save();
       }
     }
@@ -71,7 +116,7 @@ async function indirectReferralRecursion(
     user_id: id_of_the_indirect_referral,
   });
 
-  if (indirect_referral_user && count < 5) {
+  if (indirect_referral_user && count < INDIRECT_REFERRAL_LIMIT) {
     if (user_to_verify.verified) {
       indirect_referral_user.indirect_referral =
         indirect_referral_user.indirect_referral + INDIRECT_REFERRAL_PAYMENT;
@@ -81,6 +126,12 @@ async function indirectReferralRecursion(
 
       indirect_referral_user.unpaid_income =
         indirect_referral_user.unpaid_income + INDIRECT_REFERRAL_PAYMENT;
+
+      await writeHistory(
+        INDIRECT_REFERRAL_PAYMENT,
+        user_to_verify.verified,
+        id_of_the_indirect_referral
+      );
 
       const updateIndirectReferral = await IndirectReferral.findOne({
         user_id: indirect_referral_user.user_id,
@@ -101,6 +152,12 @@ async function indirectReferralRecursion(
 
       indirect_referral_user.unpaid_income =
         indirect_referral_user.unpaid_income - INDIRECT_REFERRAL_PAYMENT;
+
+      await writeHistory(
+        INDIRECT_REFERRAL_PAYMENT,
+        user_to_verify.verified,
+        id_of_the_indirect_referral
+      );
 
       const updateIndirectReferral = await IndirectReferral.findOne({
         user_id: indirect_referral_user.user_id,
@@ -168,6 +225,8 @@ export async function checkIfThereIsPairingBonus(user_to_verify, checked) {
         user.overall_income = user.overall_income + PAIRING_BONUS_PAYMENT;
         user.unpaid_income = user.unpaid_income + PAIRING_BONUS_PAYMENT;
 
+        await writeHistory(PAIRING_BONUS_PAYMENT, true, pairingBonus.user_id);
+
         await pairingBonus.save();
         await user.save();
       } else if (checked == false && (left.verified || right.verified)) {
@@ -175,6 +234,9 @@ export async function checkIfThereIsPairingBonus(user_to_verify, checked) {
 
         user.overall_income = user.overall_income - PAIRING_BONUS_PAYMENT;
         user.unpaid_income = user.unpaid_income - PAIRING_BONUS_PAYMENT;
+
+        await writeHistory(PAIRING_BONUS_PAYMENT, false, pairingBonus.user_id);
+
         await user.save();
         pairingBonus.income = 0;
         await pairingBonus.save();

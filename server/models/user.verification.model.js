@@ -3,11 +3,12 @@ import mongoose from "mongoose";
 const userVerificationSchema = new mongoose.Schema(
   {
     user_id: { type: String, required: true },
-    secret_code: { type: String },
     first_name: { type: String, required: true },
     last_name: { type: String, required: true },
     address: { type: String, required: true },
     birthdate: { type: String, required: true },
+
+    secret_code: { type: String },
 
     verified: { type: Boolean, default: false },
 

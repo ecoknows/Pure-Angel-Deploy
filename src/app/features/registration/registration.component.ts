@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '@core/services/auth.service';
 import { SidebarService } from '@core/services/sidebar.service';
+import { CommonErrorStateMatcher } from '@shared/validators/login.validators';
+import { RegisterValidators } from '@shared/validators/register.validators';
 
 @Component({
   selector: 'app-registration',
@@ -14,6 +16,8 @@ export class RegistrationComponent {
   personalInfoGroup!: FormGroup;
   authenticationGroup!: FormGroup;
 
+  matcher = new CommonErrorStateMatcher();
+
   constructor(
     private fb: FormBuilder,
     private sidebarService: SidebarService,
@@ -24,17 +28,59 @@ export class RegistrationComponent {
 
   ngOnInit() {
     this.personalInfoGroup = this.fb.group({
-      first_name: ['', Validators.required],
-      last_name: ['', Validators.required],
-      address: ['', Validators.required],
+      first_name: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(25),
+          Validators.minLength(2),
+          Validators.pattern('^[a-zA-Z ]*$'),
+        ],
+      ],
+      last_name: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(25),
+          Validators.minLength(2),
+          Validators.pattern('^[a-zA-Z ]*$'),
+        ],
+      ],
+      address: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(50),
+          Validators.minLength(2),
+        ],
+      ],
       birthdate: ['', Validators.required],
       secret_code: ['', Validators.required],
     });
-    this.authenticationGroup = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
-      confirm_password: ['', Validators.required],
-    });
+    this.authenticationGroup = this.fb.group(
+      {
+        username: [
+          '',
+          [
+            Validators.required,
+            Validators.maxLength(25),
+            Validators.minLength(8),
+          ],
+        ],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.maxLength(25),
+            Validators.minLength(8),
+          ],
+        ],
+        confirm_password: ['', Validators.required],
+      },
+      {
+        validators: RegisterValidators.confirmPasswordMustMatch,
+      }
+    );
   }
 
   get RegistrationInfo() {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LoaderService } from '@core/services/loader.service';
 import { SidebarService } from '@core/services/sidebar.service';
 

@@ -10,8 +10,29 @@
           matInput
           placeholder="First name"
           formControlName="first_name"
-          required
+          [errorStateMatcher]="matcher"
+          autocomplete="off"
         />
+        <mat-error
+          *ngIf="personalInfoGroup.get('first_name')?.hasError('pattern')"
+        >
+          symbols and numbers are not allowed
+        </mat-error>
+        <mat-error
+          *ngIf="personalInfoGroup.get('first_name')?.hasError('maxlength')"
+        >
+          25 letters only
+        </mat-error>
+        <mat-error
+          *ngIf="personalInfoGroup.get('first_name')?.hasError('minlength')"
+        >
+          minimum length is 2 letters
+        </mat-error>
+        <mat-error
+          *ngIf="personalInfoGroup.get('first_name')?.hasError('required')"
+        >
+          First Name is <strong>required</strong>
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field>
@@ -20,19 +41,40 @@
           matInput
           placeholder="Last name"
           formControlName="last_name"
-          required
+          [errorStateMatcher]="matcher"
+          autocomplete="off"
         />
+        <mat-error
+          *ngIf="personalInfoGroup.get('last_name')?.hasError('pattern')"
+        >
+          symbols and numbers are not allowed
+        </mat-error>
+        <mat-error
+          *ngIf="personalInfoGroup.get('last_name')?.hasError('maxlength')"
+        >
+          25 letters only
+        </mat-error>
+        <mat-error
+          *ngIf="personalInfoGroup.get('last_name')?.hasError('minlength')"
+        >
+          minimum length is 2 letters
+        </mat-error>
+        <mat-error
+          *ngIf="personalInfoGroup.get('last_name')?.hasError('required')"
+        >
+          Last Name is <strong>required</strong>
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Birthdate</mat-label>
         <input
-          required
           #inputBirthdate
           (focus)="birthdate.open()"
           matInput
           formControlName="birthdate"
           [matDatepicker]="birthdate"
+          [errorStateMatcher]="matcher"
         />
         <mat-datepicker-toggle
           matSuffix
@@ -42,17 +84,51 @@
           #birthdate
           (closed)="inputBirthdate.blur()"
         ></mat-datepicker>
+        <mat-error
+          *ngIf="personalInfoGroup.get('birthdate')?.hasError('required')"
+        >
+          Birthdate is <strong>required</strong>
+        </mat-error>
       </mat-form-field>
 
       <div>
         <mat-form-field class="address-form">
           <mat-label>Address</mat-label>
-          <input required matInput formControlName="address" />
+          <input
+            matInput
+            formControlName="address"
+            [errorStateMatcher]="matcher"
+          />
+          <mat-error
+            *ngIf="personalInfoGroup.get('address')?.hasError('maxlength')"
+          >
+            50 letters only
+          </mat-error>
+          <mat-error
+            *ngIf="personalInfoGroup.get('address')?.hasError('minlength')"
+          >
+            minimum length is 2 letters
+          </mat-error>
+          <mat-error
+            *ngIf="personalInfoGroup.get('address')?.hasError('required')"
+          >
+            Address is <strong>required</strong>
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field class="address-form">
           <mat-label>Secret Code</mat-label>
-          <input required matInput formControlName="secret_code" />
+          <input
+            matInput
+            formControlName="secret_code"
+            [errorStateMatcher]="matcher"
+          />
+
+          <mat-error
+            *ngIf="personalInfoGroup.get('secret_code')?.hasError('required')"
+          >
+            Secret Code is <strong>required</strong>
+          </mat-error>
         </mat-form-field>
       </div>
 
@@ -69,12 +145,51 @@
     <form [formGroup]="authenticationGroup" class="form-authentication">
       <mat-form-field>
         <mat-label>Username</mat-label>
-        <input matInput formControlName="username" required />
+        <input
+          matInput
+          formControlName="username"
+          [errorStateMatcher]="matcher"
+        />
+        <mat-error
+          *ngIf="authenticationGroup.get('username')?.hasError('maxlength')"
+        >
+          25 letters only
+        </mat-error>
+        <mat-error
+          *ngIf="authenticationGroup.get('username')?.hasError('minlength')"
+        >
+          minimum length is 8 letters
+        </mat-error>
+        <mat-error
+          *ngIf="authenticationGroup.get('username')?.hasError('required')"
+        >
+          Username is <strong>required</strong>
+        </mat-error>
       </mat-form-field>
       <br />
       <mat-form-field>
         <mat-label>Password</mat-label>
-        <input matInput formControlName="password" type="password" required />
+        <input
+          matInput
+          formControlName="password"
+          type="password"
+          [errorStateMatcher]="matcher"
+        />
+        <mat-error
+          *ngIf="authenticationGroup.get('password')?.hasError('maxlength')"
+        >
+          25 letters only
+        </mat-error>
+        <mat-error
+          *ngIf="authenticationGroup.get('password')?.hasError('minlength')"
+        >
+          minimum length is 8 letters
+        </mat-error>
+        <mat-error
+          *ngIf="authenticationGroup.get('password')?.hasError('required')"
+        >
+          Password is <strong>required</strong>
+        </mat-error>
       </mat-form-field>
       <br />
       <mat-form-field>
@@ -83,8 +198,24 @@
           matInput
           formControlName="confirm_password"
           type="password"
-          required
+          [errorStateMatcher]="matcher"
         />
+        <mat-error
+          *ngIf="
+            authenticationGroup
+              .get('confirm_password')
+              ?.hasError('confirmPasswordMustMatch')
+          "
+        >
+          Confirm Password doesn't Match
+        </mat-error>
+        <mat-error
+          *ngIf="
+            authenticationGroup.get('confirm_password')?.hasError('required')
+          "
+        >
+          Confirm is <strong>required</strong>
+        </mat-error>
       </mat-form-field>
 
       <div class="button-container">

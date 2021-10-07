@@ -1,7 +1,8 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GenealogyService } from '@core/services/genealogy.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { CommonErrorStateMatcher } from '@shared/validators/login.validators';
 
 @Component({
   selector: 'app-create-dialog',
@@ -10,6 +11,9 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class CreateDialogComponent {
   form: FormGroup;
+
+  matcher = new CommonErrorStateMatcher();
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -21,11 +25,42 @@ export class CreateDialogComponent {
     private genealogyService: GenealogyService
   ) {
     this.form = fb.group({
-      first_name: [''],
-      last_name: [''],
-      birthdate: [''],
-      address: [''],
-      contact_number: [''],
+      first_name: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(25),
+          Validators.minLength(2),
+          Validators.pattern('^[a-zA-Z ]*$'),
+        ],
+      ],
+      last_name: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(25),
+          Validators.minLength(2),
+          Validators.pattern('^[a-zA-Z ]*$'),
+        ],
+      ],
+      address: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(50),
+          Validators.minLength(2),
+        ],
+      ],
+      contact_number: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(11),
+          Validators.minLength(11),
+          Validators.pattern('^[0-9]*$'),
+        ],
+      ],
+      birthdate: ['', [Validators.required]],
     });
   }
   submit() {

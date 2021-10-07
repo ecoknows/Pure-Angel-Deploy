@@ -36,7 +36,7 @@ export class VerificationComponent implements OnInit {
   }
 
   get isDisabled() {
-    return this.adminService.cashoutsStatus;
+    return this.adminService.verificationStatus;
   }
 
   checkUser($event: any, secret_code: string) {

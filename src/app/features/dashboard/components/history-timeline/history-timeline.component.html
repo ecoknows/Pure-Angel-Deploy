@@ -1,6 +1,6 @@
 <div class="chart-wrapper">
   <ngx-charts-line-chart
-    [results]="multi"
+    [results]="history$ | async"
     [legend]="legend"
     [animations]="animations"
     [xAxis]="xAxis"

@@ -74,8 +74,6 @@ export class AdminService {
       )
       .subscribe((response) => {
         const data = response.data;
-        console.log(data);
-
         if (data) {
           this.authenticationCache = [...data];
 

@@ -10,6 +10,7 @@ import { resetGenealogy } from '@core/redux/genealogy/genealogy.actions';
 import { Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from '@env';
+import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,7 @@ export class AuthService {
     private store: Store<{}>
   ) {}
 
-  login(username: string, password: string) {
+  login(username: string, password: string, form: FormGroup) {
     this.http
       .post<{ message: string; userToken: string }>(
         environment.api + 'api/user/login',
@@ -31,15 +32,20 @@ export class AuthService {
           password,
         }
       )
-      .subscribe((response) => {
-        let userToken = response.userToken;
-        if (userToken) {
-          localStorage.setItem('user-token', userToken);
-          this.router.navigate(['/']);
-          this.sideBarService.show();
-          this.resetStates();
+      .subscribe(
+        (response) => {
+          let userToken = response.userToken;
+          if (userToken) {
+            localStorage.setItem('user-token', userToken);
+            this.router.navigate(['/']);
+            this.sideBarService.show();
+            this.resetStates();
+          }
+        },
+        (error) => {
+          form.setErrors({ incorrectAuth: true });
         }
-      });
+      );
   }
 
   register(person: {
@@ -109,6 +115,33 @@ export class AuthService {
         const data = response.data;
         if (data) {
           this.store.dispatch(setUserData({ user: data }));
+        }
+      });
+  }
+
+  updateUser(update_info: {
+    username?: string;
+    old_password?: string;
+    new_password?: string;
+    first_name?: string;
+    last_name?: string;
+    birthdate?: string;
+    address?: string;
+    contact_number?: string;
+  }) {
+    this.http
+      .post<{ message: string; userToken: string }>(
+        environment.api + 'api/user/update-user',
+        {
+          update_info,
+        },
+        { headers: this.headers }
+      )
+      .subscribe((response) => {
+        const userToken = response.userToken;
+
+        if (userToken) {
+          localStorage.setItem('user-token', userToken);
         }
       });
   }

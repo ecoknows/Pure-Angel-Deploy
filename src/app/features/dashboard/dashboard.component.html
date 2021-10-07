@@ -1,83 +1,85 @@
-<div class="dashboard-top-info">
-  <div class="greetings">
-    <h1>
-      Hello,
-      {{ (user$ | async)?.first_name + " " + (user$ | async)?.last_name }}
-    </h1>
-    <h2>Welcome back to Pure Angel Cofee</h2>
+<div class="dashboard-container">
+  <div class="dashboard-top-info">
+    <div class="greetings">
+      <h1>
+        Hello,
+        {{ (user$ | async)?.first_name + " " + (user$ | async)?.last_name }}
+      </h1>
+      <h2>Welcome back to Pure Angel Cofee</h2>
+    </div>
+    <div class="total-assets">
+      <h1>
+        ₱
+        {{
+          (user$ | async)?.unpaid_income
+            ? ((user$ | async)?.unpaid_income | number: "1.2-2")
+            : "0.00"
+        }}
+      </h1>
+      <h2>Unpaid Income</h2>
+    </div>
   </div>
-  <div class="total-assets">
-    <h1>
-      ₱
-      {{
-        (user$ | async)?.unpaid_income
-          ? ((user$ | async)?.unpaid_income | number: "1.2-2")
-          : "0.00"
-      }}
-    </h1>
-    <h2>Unpaid Income</h2>
-  </div>
-</div>
 
-<app-line-chart></app-line-chart>
+  <app-history-timeline></app-history-timeline>
 
-<div class="dashboard-bottom-info">
-  <app-card-total-number
-    [money]="(user$ | async)?.overall_income"
-    icon="faFunnelDollar"
-    label="Overall Income"
-    caption="Income since registration"
-  ></app-card-total-number>
-
-  <button class="cash-out-button" (click)="cashout()">
+  <div class="dashboard-bottom-info">
     <app-card-total-number
-      [money]="(user$ | async)?.unpaid_income"
-      icon="faCashRegister"
-      label="Cashout Unpaid Income"
-      caption="Click to cashout"
+      [money]="(user$ | async)?.overall_income"
+      icon="faFunnelDollar"
+      label="Overall Income"
+      caption="Income since registration"
     ></app-card-total-number>
-  </button>
 
-  <app-card-total-number
-    [money]="(user$ | async)?.indirect_referral"
-    icon="faUsers"
-    label="Indirect Referral"
-    caption="Total Income"
-  ></app-card-total-number>
+    <button class="cash-out-button" (click)="cashout()">
+      <app-card-total-number
+        [money]="(user$ | async)?.unpaid_income"
+        icon="faCashRegister"
+        label="Cashout Unpaid Income"
+        caption="Click to cashout"
+      ></app-card-total-number>
+    </button>
 
-  <app-card-total-number
-    [money]="(user$ | async)?.direct_referral"
-    icon="faUsers"
-    label="Direct Referral"
-    caption="Total Income"
-  ></app-card-total-number>
+    <app-card-total-number
+      [money]="(user$ | async)?.indirect_referral"
+      icon="faUsers"
+      label="Indirect Referral"
+      caption="Total Income"
+    ></app-card-total-number>
 
-  <app-card-total-number
-    [money]="(user$ | async)?.pairing_bonus"
-    icon="faCommentsDollar"
-    label="Pairing Bonus"
-    caption="Total Income"
-  ></app-card-total-number>
+    <app-card-total-number
+      [money]="(user$ | async)?.direct_referral"
+      icon="faUsers"
+      label="Direct Referral"
+      caption="Total Income"
+    ></app-card-total-number>
 
-  <app-card-total-number
-    [money]="(user$ | async)?.automatic_equivalent_rebates"
-    icon="faHandHoldingUsd"
-    label="Automatic Equivalent Rebates"
-    caption="Total Income"
-  ></app-card-total-number>
+    <app-card-total-number
+      [money]="(user$ | async)?.pairing_bonus"
+      icon="faCommentsDollar"
+      label="Pairing Bonus"
+      caption="Total Income"
+    ></app-card-total-number>
 
-  <app-card-total-number
-    [money]="(user$ | async)?.automatic_equivalent_rebates"
-    icon="faReceipt"
-    label="Pairing Product Voucher"
-    caption="Total Income"
-  ></app-card-total-number>
+    <app-card-total-number
+      [money]="(user$ | async)?.automatic_equivalent_rebates"
+      icon="faHandHoldingUsd"
+      label="Automatic Equivalent Rebates"
+      caption="Total Income"
+    ></app-card-total-number>
 
-  <app-card-total-number
-    [money]="(user$ | async)?.automatic_equivalent_rebates"
-    [count]="true"
-    icon="faStreetView"
-    label="Stockist"
-    caption="Total Number of People"
-  ></app-card-total-number>
+    <app-card-total-number
+      [money]="(user$ | async)?.automatic_equivalent_rebates"
+      icon="faReceipt"
+      label="Pairing Product Voucher"
+      caption="Total Income"
+    ></app-card-total-number>
+
+    <app-card-total-number
+      [money]="(user$ | async)?.automatic_equivalent_rebates"
+      [count]="true"
+      icon="faStreetView"
+      label="Stockist"
+      caption="Total Number of People"
+    ></app-card-total-number>
+  </div>
 </div>

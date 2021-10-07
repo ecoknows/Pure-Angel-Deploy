@@ -211,9 +211,6 @@ export async function updateGenealogy(genealogy, child_user, req) {
       address: child_user.address,
     };
     await genealogy.save();
-    res.send({
-      message: "New branch has succesfully push to array!",
-    });
   } else if (position == "right") {
     genealogy.right_branch = {
       user_id: child_user._id,

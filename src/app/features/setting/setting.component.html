@@ -1,84 +1,200 @@
-<h1 class="title">Update User</h1>
-<form [formGroup]="form" (ngSubmit)="submit()" [connectForm]="user$ | async">
-  <div>
+<div class="setting-container">
+  <h1 class="title">Update User</h1>
+  <form [formGroup]="form" (ngSubmit)="submit()" [connectForm]="user$ | async">
     <div>
-      <mat-form-field>
-        <mat-label>Username</mat-label>
-        <input required matInput formControlName="username" value="'asdsa" />
-      </mat-form-field>
+      <div>
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input
+            required
+            matInput
+            formControlName="username"
+            [errorStateMatcher]="matcher"
+          />
+
+          <mat-error *ngIf="form.get('username')?.hasError('maxlength')">
+            25 letters only
+          </mat-error>
+          <mat-error *ngIf="form.get('username')?.hasError('minlength')">
+            minimum length is 8 letters
+          </mat-error>
+          <mat-error *ngIf="form.get('username')?.hasError('required')">
+            Username is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <mat-label> Old Password</mat-label>
+          <input
+            matInput
+            formControlName="old_password"
+            [errorStateMatcher]="matcher"
+            [type]="old_hide ? 'password' : 'text'"
+          />
+          <mat-icon class="eye" matSuffix (click)="old_hide = !old_hide">{{
+            old_hide ? "visibility_off" : "visibility"
+          }}</mat-icon>
+
+          <mat-error *ngIf="form.get('old_password')?.hasError('maxlength')">
+            25 letters only
+          </mat-error>
+          <mat-error *ngIf="form.get('old_password')?.hasError('minlength')">
+            minimum length is 8 letters
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <mat-label> New Password</mat-label>
+          <input
+            matInput
+            formControlName="new_password"
+            [errorStateMatcher]="matcher"
+            [type]="new_hide ? 'password' : 'text'"
+          />
+          <mat-icon class="eye" matSuffix (click)="new_hide = !new_hide">{{
+            new_hide ? "visibility_off" : "visibility"
+          }}</mat-icon>
+
+          <mat-error *ngIf="form.get('new_password')?.hasError('maxlength')">
+            25 letters only
+          </mat-error>
+          <mat-error *ngIf="form.get('new_password')?.hasError('minlength')">
+            minimum length is 8 letters
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <mat-label>First Name</mat-label>
+          <input
+            required
+            matInput
+            formControlName="first_name"
+            [value]="(user$ | async)?.first_name"
+            [errorStateMatcher]="matcher"
+          />
+
+          <mat-error *ngIf="form.get('first_name')?.hasError('pattern')">
+            symbols and numbers are not allowed
+          </mat-error>
+          <mat-error *ngIf="form.get('first_name')?.hasError('maxlength')">
+            25 letters only
+          </mat-error>
+          <mat-error *ngIf="form.get('first_name')?.hasError('minlength')">
+            minimum length is 2 letters
+          </mat-error>
+          <mat-error *ngIf="form.get('first_name')?.hasError('required')">
+            First Name is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <mat-label>Last Name</mat-label>
+          <input
+            required
+            matInput
+            formControlName="last_name"
+            [errorStateMatcher]="matcher"
+          />
+
+          <mat-error *ngIf="form.get('last_name')?.hasError('pattern')">
+            symbols and numbers are not allowed
+          </mat-error>
+          <mat-error *ngIf="form.get('last_name')?.hasError('maxlength')">
+            25 letters only
+          </mat-error>
+          <mat-error *ngIf="form.get('last_name')?.hasError('minlength')">
+            minimum length is 2 letters
+          </mat-error>
+          <mat-error *ngIf="form.get('last_name')?.hasError('required')">
+            Last Name is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <mat-label>Phone Number</mat-label>
+          <input
+            required
+            matInput
+            formControlName="contact_number"
+            [errorStateMatcher]="matcher"
+          />
+
+          <mat-error *ngIf="form.get('contact_number')?.hasError('pattern')">
+            letters and symbols are not allowed.
+          </mat-error>
+          <mat-error *ngIf="form.get('contact_number')?.hasError('maxlength')">
+            25 letters only
+          </mat-error>
+          <mat-error *ngIf="form.get('contact_number')?.hasError('minlength')">
+            minimum length is 2 letters
+          </mat-error>
+          <mat-error *ngIf="form.get('contact_number')?.hasError('required')">
+            Phone Number is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <mat-label>Birthdate</mat-label>
+          <input
+            required
+            #inputBirthdate
+            (focus)="birthdate.open()"
+            matInput
+            formControlName="birthdate"
+            [matDatepicker]="birthdate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="birthdate"
+          ></mat-datepicker-toggle>
+          <mat-datepicker
+            #birthdate
+            (closed)="inputBirthdate.blur()"
+          ></mat-datepicker>
+          <mat-error *ngIf="form.get('birthdate')?.hasError('required')">
+            Birthdate is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <mat-label>Address</mat-label>
+          <input required matInput formControlName="address" />
+          <mat-error *ngIf="form.get('address')?.hasError('maxlength')">
+            50 letters only
+          </mat-error>
+          <mat-error *ngIf="form.get('address')?.hasError('minlength')">
+            minimum length is 2 letters
+          </mat-error>
+          <mat-error *ngIf="form.get('address')?.hasError('required')">
+            Address is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
 
-    <div>
-      <mat-form-field>
-        <mat-label> Old Password</mat-label>
-        <input required matInput formControlName="old_password" />
-      </mat-form-field>
+    <div class="action">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="form.invalid"
+      >
+        Update
+      </button>
     </div>
-
-    <div>
-      <mat-form-field>
-        <mat-label> New Password</mat-label>
-        <input required matInput formControlName="new_password" />
-      </mat-form-field>
-    </div>
-
-    <div>
-      <mat-form-field>
-        <mat-label>First Name</mat-label>
-        <input
-          required
-          matInput
-          formControlName="first_name"
-          [value]="(user$ | async)?.first_name"
-        />
-      </mat-form-field>
-    </div>
-
-    <div>
-      <mat-form-field>
-        <mat-label>Last Name</mat-label>
-        <input required matInput formControlName="last_name" />
-      </mat-form-field>
-    </div>
-
-    <div>
-      <mat-form-field>
-        <mat-label>Phone Number</mat-label>
-        <input required matInput formControlName="contact_number" />
-      </mat-form-field>
-    </div>
-
-    <div>
-      <mat-form-field>
-        <mat-label>Birthdate</mat-label>
-        <input
-          required
-          #inputBirthdate
-          (focus)="birthdate.open()"
-          matInput
-          formControlName="birthdate"
-          [matDatepicker]="birthdate"
-        />
-        <mat-datepicker-toggle
-          matSuffix
-          [for]="birthdate"
-        ></mat-datepicker-toggle>
-        <mat-datepicker
-          #birthdate
-          (closed)="inputBirthdate.blur()"
-        ></mat-datepicker>
-      </mat-form-field>
-    </div>
-
-    <div>
-      <mat-form-field>
-        <mat-label>Address</mat-label>
-        <input required matInput formControlName="address" />
-      </mat-form-field>
-    </div>
-  </div>
-
-  <div class="action">
-    <button mat-raised-button color="primary" type="submit">Update</button>
-  </div>
-</form>
+  </form>
+</div>

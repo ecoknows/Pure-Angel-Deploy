@@ -6,6 +6,7 @@ const genealogySchema = new mongoose.Schema(
     first_name: { type: String, required: true },
     last_name: { type: String, required: true },
     address: { type: String, required: true },
+
     left_count: { type: Number, default: 0 },
     right_count: { type: Number, default: 0 },
 

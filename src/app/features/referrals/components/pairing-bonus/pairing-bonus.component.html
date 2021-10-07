@@ -27,14 +27,14 @@
       </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column name="Team B" [width]="340">
+    <ngx-datatable-column name="Team B" [width]="320">
       <ng-template let-row="row" ngx-datatable-cell-template>
         {{ row.right?.first_name }}
         {{ row.right?.last_name }}
       </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column name="Date Paired" [width]="180">
+    <ngx-datatable-column name="Date Paired" [width]="200">
       <ng-template let-row="row" ngx-datatable-cell-template>
         {{ row.createdAt | date: "medium" }}
       </ng-template>
@@ -56,7 +56,7 @@
 
     <ngx-datatable-column name="Income" [width]="180">
       <ng-template let-row="row" ngx-datatable-cell-template>
-        ₱ {{ row.income | number }}
+        ₱ {{ row.income | number: "1.2-2" }}
       </ng-template>
     </ngx-datatable-column>
   </ngx-datatable>

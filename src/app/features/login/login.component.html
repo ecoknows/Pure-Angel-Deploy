@@ -1,41 +1,58 @@
 <div class="login-container">
-  <form [formGroup]="form" (ngSubmit)="submit()">
-    <mat-form-field>
-      <mat-label>Username</mat-label>
-      <input matInput placeholder="Type username" formControlName="username" />
-    </mat-form-field>
+  <div class="login-wrapper">
+    <div class="login-form">
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input
+            matInput
+            placeholder="Type username"
+            formControlName="username"
+            [errorStateMatcher]="matcher"
+          />
+          <mat-error *ngIf="form.get('username')?.hasError('required')">
+            Username is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Password</mat-label>
-      <input
-        matInput
-        placeholder="Type password"
-        type="password"
-        formControlName="password"
-        [type]="hide ? 'password' : 'text'"
-      />
-      <mat-icon class="eye" matSuffix (click)="hide = !hide">{{
-        hide ? "visibility_off" : "visibility"
-      }}</mat-icon>
-    </mat-form-field>
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            placeholder="Type password"
+            type="password"
+            formControlName="password"
+            [type]="hide ? 'password' : 'text'"
+          />
+          <mat-icon class="eye" matSuffix (click)="hide = !hide">{{
+            hide ? "visibility_off" : "visibility"
+          }}</mat-icon>
 
-    <div class="error-box">
-      <p>Siguraduhing tama ang nailagay na <b>username at password</b></p>
+          <mat-error *ngIf="form.get('password')?.hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <div class="error-box" *ngIf="form?.hasError('incorrectAuth')">
+          <p>Siguraduhing tama ang nailagay na <b>username at password</b></p>
+        </div>
+
+        <div class="button-container">
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            class="login-btn"
+          >
+            Login
+          </button>
+        </div>
+      </form>
     </div>
 
-    <div class="button-container">
-      <button mat-raised-button color="primary" type="submit" class="login-btn">
-        Login
-      </button>
-      <mat-divider></mat-divider>
-      <button
-        mat-raised-button
-        color="accent"
-        class="login-btn"
-        routerLink="/register"
-      >
-        Register
-      </button>
+    <mat-divider></mat-divider>
+    <div class="register-button">
+      <h5>Already encoded ? <span routerLink="/register">Register</span></h5>
     </div>
-  </form>
+  </div>
 </div>

@@ -27,7 +27,6 @@ export class GenealogyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.fetchUserIncome();
     this.genealogyService.fetchGenealogy();
   }
   scrollToRoot() {

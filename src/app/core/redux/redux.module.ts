@@ -9,12 +9,14 @@ import { pairingBonusReducer } from './pairing-bonus/pairing-bonus.reducers';
 import { authenticationReducer } from './admin/authentication/authentications.reducers';
 import { cashoutsReducer } from './admin/cashouts-verification/cashouts.reducers';
 import { userCashoutsReducer } from './cashouts/user-cashouts.reducers';
+import { historyReducer } from './history/history.reducers';
 
 const reducer: object = {
   directReferralReducer: directReferralReducer,
   indirectReferralReducer: indirectReferralReducer,
   pairingBonusReducer: pairingBonusReducer,
   userCashoutsReducer: userCashoutsReducer,
+  historyReducer: historyReducer,
 
   genealogyReducer: genealogyReducer,
   userReducer: userReducer,
