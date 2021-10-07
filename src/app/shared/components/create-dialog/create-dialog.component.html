@@ -6,7 +6,7 @@
         <mat-label>First Name</mat-label>
         <input required matInput formControlName="first_name" />
         <mat-error *ngIf="form.get('first_name')?.hasError('pattern')">
-          symbols and numbers are not allowed
+          symbols are not allowed
         </mat-error>
         <mat-error *ngIf="form.get('first_name')?.hasError('maxlength')">
           25 letters only

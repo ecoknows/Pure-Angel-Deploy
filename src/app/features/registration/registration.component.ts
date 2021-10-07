@@ -43,7 +43,7 @@ export class RegistrationComponent {
           Validators.required,
           Validators.maxLength(25),
           Validators.minLength(2),
-          Validators.pattern('^[a-zA-Z ]*$'),
+          Validators.pattern('^[a-zA-Z-0-9 ]*$'),
         ],
       ],
       address: [
