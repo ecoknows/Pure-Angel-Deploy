@@ -43,11 +43,11 @@
         <ng-container *ngIf="row.approved == true">
           <span class="verified">
             <fa-icon [icon]="approvedIcon"></fa-icon>
-            Approved
+            Done
           </span>
         </ng-container>
         <ng-container *ngIf="row.approved == false">
-          <span class="unverified"> Not Approved </span>
+          <span class="unverified"> Pending...</span>
         </ng-container>
       </ng-template>
     </ngx-datatable-column>
