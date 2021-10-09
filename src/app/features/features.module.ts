@@ -43,7 +43,8 @@ import { FormDirective } from './setting/directives/form.directive';
 import { CashoutsVerificationComponent } from './admin/components/cashouts-verification/cashouts-verification.component';
 import { UserCashoutsComponent } from './referrals/components/user-cashouts/user-cashouts.component';
 import { MatIconModule } from '@angular/material/icon';
-
+import { MegaCenterComponent } from './mega-center/mega-center.component';
+import { MemberVerificationComponent } from './mega-center/components/member-verification/member-verification.component';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -70,6 +71,8 @@ import { MatIconModule } from '@angular/material/icon';
     FormDirective,
     CashoutsVerificationComponent,
     UserCashoutsComponent,
+    MegaCenterComponent,
+    MemberVerificationComponent,
   ],
   imports: [
     NgxChartsModule,

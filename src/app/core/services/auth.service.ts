@@ -92,6 +92,22 @@ export class AuthService {
     }
   }
 
+  fetchUserDetails() {
+    this.http
+      .get<{ message: string; data: UserState }>(
+        environment.api + 'api/user/user-details',
+        {
+          headers: this.headers,
+        }
+      )
+      .subscribe((response) => {
+        const data = response.data;
+        if (data) {
+          this.store.dispatch(setUserData({ user: data }));
+        }
+      });
+  }
+
   fetchUserData() {
     const helper = new JwtHelperService();
     const token = this.userToken;

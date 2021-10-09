@@ -33,6 +33,25 @@ UserRouter.post(
 );
 
 UserRouter.get(
+  "/user-details",
+  verifyUserToken,
+  expressAsyncHandler(async (req, res) => {
+    const user = await User.findById(req.user._id);
+
+    if (user) {
+      res.send({
+        message: "Successfully fetch User",
+        data: user,
+      });
+    } else {
+      res.send({
+        message: "Failed to fetch!",
+      });
+    }
+  })
+);
+
+UserRouter.get(
   "/income",
   verifyUserToken,
   expressAsyncHandler(async (req, res) => {

@@ -54,9 +54,14 @@
 
         <ng-container *ngIf="row.is_mega_center">
           <span class="mega-center">
-            <fa-icon [icon]="userIcon"></fa-icon> Mega Center</span
-          ></ng-container
-        >
+            <fa-icon [icon]="userIcon"></fa-icon> Mega Center
+            <br />
+            <span>
+              {{ row.member_that_verified ? row.member_that_verified : 0 }} /
+              {{ row.max_member_to_verify ? row.max_member_to_verify : 0 }}
+            </span>
+          </span>
+        </ng-container>
         <ng-container *ngIf="row.is_stockist">
           <span class="stockist">
             <fa-icon [icon]="userIcon"></fa-icon> Stockist</span

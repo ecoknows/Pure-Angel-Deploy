@@ -12,6 +12,9 @@ const userSchema = new mongoose.Schema(
     contact_number: { type: String, required: true, index: true },
     secret_code_suffix: { type: String, required: true },
 
+    max_member_to_verify: { type: Number },
+    member_that_verified: { type: Number },
+
     mega_center: {
       user_id: { type: String, index: true },
       first_name: { type: String },

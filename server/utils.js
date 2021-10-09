@@ -13,7 +13,7 @@ export const generateUserToken = (user) => {
       is_stockist: user.is_stockist,
       is_admin: user.is_admin,
       is_ancestor: user.is_ancestor,
-      is_megacenter: user.is_megacenter,
+      is_mega_center: user.is_mega_center,
     },
     process.env.JWT_SECRET || "somethingsecret",
     {
@@ -50,5 +50,13 @@ export const checkIfAdmin = (req, res, next) => {
     next();
   } else {
     res.status(401).send({ message: "Invalid Admin Token" });
+  }
+};
+
+export const checkIfMegaCenter = (req, res, next) => {
+  if (req.user.is_mega_center) {
+    next();
+  } else {
+    res.status(401).send({ message: "Invalid Mega Center Token" });
   }
 };

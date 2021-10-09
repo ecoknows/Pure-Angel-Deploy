@@ -10,6 +10,7 @@ import { authenticationReducer } from './admin/authentication/authentications.re
 import { cashoutsReducer } from './admin/cashouts-verification/cashouts.reducers';
 import { userCashoutsReducer } from './cashouts/user-cashouts.reducers';
 import { historyReducer } from './history/history.reducers';
+import { memberVerificationReducer } from './mega-center/member-verification.reducers';
 
 const reducer: object = {
   directReferralReducer: directReferralReducer,
@@ -22,6 +23,8 @@ const reducer: object = {
   userReducer: userReducer,
 
   verificationReducer: verificationReducer,
+  memberVerificationReducer: memberVerificationReducer,
+
   authenticationReducer: authenticationReducer,
   cashoutsReducer: cashoutsReducer,
 };

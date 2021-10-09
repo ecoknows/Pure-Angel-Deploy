@@ -9,7 +9,11 @@ export interface AuthenticationState {
   first_name?: string;
   last_name?: string;
 
+  secret_code_suffix?: string;
   secret_code?: string;
+
+  max_member_to_verify?: number;
+  member_that_verified?: number;
 
   address?: string;
   birthdate?: string;

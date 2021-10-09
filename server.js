@@ -13,6 +13,7 @@ import PairingBonusRouter from "./server/router/pairing-bonus.router.js";
 import SeedRouter from "./server/router/seed.router.js";
 import UserCashouts from "./server/router/user-cashouts.router.js";
 import HistoryRouter from "./server/router/history.router.js";
+import MegaCenterRouter from "./server/router/mega-center.router.js";
 
 const __dirname = path.resolve();
 
@@ -31,6 +32,7 @@ app.use(UtilsRouter);
 
 app.use("/api/user", UserRouter);
 app.use("/api/admin", AdminRouter);
+app.use("/api/mega-center", MegaCenterRouter);
 app.use("/api/genealogy", GenealogyRouter);
 app.use("/api/direct-referral", DirectReferralRouter);
 app.use("/api/indirect-referral", IndirectReferralRouter);

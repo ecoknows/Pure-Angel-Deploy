@@ -6,6 +6,8 @@ import { LoginGuardService } from '@core/guards/login-guard.service';
 import { AuthService } from '@core/services/auth.service';
 import { AdminComponent } from '@features/admin/admin.component';
 import { AdminGuardService } from '@features/admin/services/admin-guard.service';
+import { MegaCenterComponent } from '@features/mega-center/mega-center.component';
+import { MegaCenterGuardService } from '@features/mega-center/services/mega-center-guard.service';
 
 import {
   DashboardComponent,
@@ -57,6 +59,11 @@ const routes: Routes = [
     path: 'admin',
     component: AdminComponent,
     canActivate: [AdminGuardService],
+  },
+  {
+    path: 'mega-center',
+    component: MegaCenterComponent,
+    canActivate: [MegaCenterGuardService],
   },
   {
     path: '**',

@@ -37,8 +37,10 @@
     </button>
   </div>
 
-  <genealogy-chart
-    [nodes]="(genealogy$ | async)?.genealogy"
-    direction="vertical"
-  ></genealogy-chart>
+  <div class="genealogy-chart">
+    <genealogy-chart
+      [nodes]="(genealogy$ | async)?.genealogy"
+      direction="vertical"
+    ></genealogy-chart>
+  </div>
 </div>

@@ -93,10 +93,15 @@ export class AdminService {
         },
         { headers: this.authService.headers }
       )
-      .subscribe((response) => {
-        this.verificationStatus = false;
-        this.fetchVerificationTable();
-      });
+      .subscribe(
+        (response) => {
+          this.verificationStatus = false;
+          this.fetchVerificationTable();
+        },
+        (error) => {
+          this.verificationStatus = false;
+        }
+      );
   }
 
   approvedCheckout(checkout_info: { checked: boolean; cashout_id: string }) {
@@ -121,6 +126,7 @@ export class AdminService {
     password?: string;
     role: string;
     secret_code_suffix: string | undefined;
+    max_member_to_verify: number | undefined;
   }) {
     this.http
       .post<{ message: string }>(

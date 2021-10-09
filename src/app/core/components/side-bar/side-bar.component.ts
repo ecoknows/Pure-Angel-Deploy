@@ -41,12 +41,14 @@ export class SideBarComponent implements OnInit {
   ];
 
   userShield: any;
+  userCheck: any;
 
   constructor(
     private authService: AuthService,
     private sidebarService: SidebarService
   ) {
     this.userShield = getIcon('faUserShield');
+    this.userCheck = getIcon('faUserCheck');
   }
 
   ngOnInit(): void {}
@@ -58,6 +60,19 @@ export class SideBarComponent implements OnInit {
     if (token) {
       const user = helper.decodeToken(token);
       if (user.is_admin) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  get checkIfMegaCenter() {
+    const helper = new JwtHelperService();
+    const token = this.authService.userToken;
+
+    if (token) {
+      const user = helper.decodeToken(token);
+      if (user.is_mega_center) {
         return true;
       }
     }

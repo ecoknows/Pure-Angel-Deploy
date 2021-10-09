@@ -6,7 +6,7 @@ import { AuthService } from '@core/services/auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AdminGuardService implements CanActivate {
+export class MegaCenterGuardService implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate() {
@@ -16,7 +16,7 @@ export class AdminGuardService implements CanActivate {
     if (token) {
       const decode = helper.decodeToken(token);
 
-      if (decode.is_admin) {
+      if (decode.is_mega_center) {
         return true;
       }
     }

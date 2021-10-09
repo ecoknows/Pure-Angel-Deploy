@@ -49,7 +49,15 @@ AdminRouter.post(
 
     const user_to_verify = await UserVerification.findById(body.secret_code);
 
-    if (user_to_verify) {
+    const mega_center_user = await User.findById(
+      user_to_verify.mega_center.user_id
+    );
+
+    if (
+      user_to_verify &&
+      mega_center_user.member_that_verified <
+        mega_center_user.max_member_to_verify
+    ) {
       const verified = user_to_verify.verified;
       const checked = body.checked;
 
@@ -57,6 +65,24 @@ AdminRouter.post(
         user_to_verify.verified = body.checked;
 
         const update_user_to_verify = await user_to_verify.save();
+
+        if (update_user_to_verify.verified) {
+          if (mega_center_user) {
+            const member_that_verified = mega_center_user.member_that_verified
+              ? mega_center_user.member_that_verified
+              : 0;
+            mega_center_user.member_that_verified = member_that_verified + 1;
+            await mega_center_user.save();
+          }
+        } else {
+          if (mega_center_user) {
+            const member_that_verified = mega_center_user.member_that_verified
+              ? mega_center_user.member_that_verified
+              : 0;
+            mega_center_user.member_that_verified = member_that_verified - 1;
+            await mega_center_user.save();
+          }
+        }
 
         await payDirectReferral(update_user_to_verify);
 
@@ -178,6 +204,8 @@ AdminRouter.post(
       await roleUpdater(body.role, userToEdit, body.secret_code_suffix);
 
       if (body.role == "mega center") {
+        userToEdit.max_member_to_verify = body.max_member_to_verify;
+        await userToEdit.save();
         await updateMegaCenterBranches(
           userToEdit,
           userToEdit,

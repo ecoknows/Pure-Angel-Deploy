@@ -17,6 +17,19 @@
         <mat-label>Code is required please input...</mat-label>
         <input required matInput formControlName="mega_center_code" />
       </mat-form-field>
+
+      <mat-form-field
+        *ngIf="form.get('role')?.value == 'mega center'"
+        class="full-width"
+      >
+        <mat-label>Maximum number to verify please input...</mat-label>
+        <input
+          required
+          matInput
+          formControlName="max_member_to_verify"
+          type="number"
+        />
+      </mat-form-field>
     </div>
 
     <div>

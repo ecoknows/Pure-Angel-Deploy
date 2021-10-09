@@ -10,6 +10,9 @@ export interface UserState {
   birthdate?: string;
   contact_number?: string;
 
+  max_member_to_verify?: number;
+  member_that_verified?: number;
+
   overall_income?: number;
   unpaid_income?: number;
 

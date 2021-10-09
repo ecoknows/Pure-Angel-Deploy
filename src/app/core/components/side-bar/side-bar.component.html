@@ -20,6 +20,23 @@
           </div>
           <div class="bottom-illusion"></div>
         </li>
+
+        <li
+          *ngIf="checkIfMegaCenter"
+          routerLinkActive="active"
+          routerLink="/mega-center"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="top-illusion"></div>
+          <div class="icon-container">
+            <div class="icon-illusion">
+              <div>
+                <fa-icon [icon]="userCheck" class="icons"></fa-icon>
+              </div>
+            </div>
+          </div>
+          <div class="bottom-illusion"></div>
+        </li>
         <li
           *ngFor="let menu of menus"
           routerLinkActive="active"

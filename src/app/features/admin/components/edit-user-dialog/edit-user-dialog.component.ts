@@ -38,6 +38,7 @@ export class EditUserDialogComponent implements OnInit {
       confirm_password: [''],
       role: ['member'],
       mega_center_code: ['', Validators.required],
+      max_member_to_verify: ['', Validators.required],
     });
   }
 
@@ -49,6 +50,9 @@ export class EditUserDialogComponent implements OnInit {
     } else if (this.data.user_info?.is_mega_center) {
       this.form.patchValue({
         role: this.roles[2].value,
+      });
+      this.form.patchValue({
+        mega_center_code: this.data.user_info.secret_code_suffix,
       });
     } else if (this.data.user_info?.is_stockist) {
       this.form.patchValue({
@@ -62,12 +66,14 @@ export class EditUserDialogComponent implements OnInit {
     const confirm_password = this.form.get('confirm_password')?.value;
     const role = this.form.get('role')?.value;
     const secret_code_suffix = this.form.get('mega_center_code')?.value;
+    const max_member_to_verify = this.form.get('max_member_to_verify')?.value;
 
     this.adminService.editUser({
       user_id: this.data.user_info._id,
       password: new_password ? new_password : undefined,
       role,
       secret_code_suffix,
+      max_member_to_verify,
     });
   }
 }
