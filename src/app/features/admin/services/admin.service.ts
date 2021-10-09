@@ -17,7 +17,7 @@ export class AdminService {
   cashoutsStatus: boolean = false;
   verificationCache!: VerificationState[];
 
-  authenticationCache!: VerificationState[];
+  authenticationCache!: AuthenticationState[];
   cashoutsCache!: CashoutsState[];
 
   constructor(

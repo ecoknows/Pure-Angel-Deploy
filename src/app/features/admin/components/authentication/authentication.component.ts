@@ -25,7 +25,7 @@ export class AuthenticationComponent implements OnInit {
   search(event: any) {
     const val = event.target.value.toLowerCase();
 
-    this.rows = this.adminService.verificationCache?.filter(function (d) {
+    this.rows = this.adminService.authenticationCache?.filter(function (d) {
       if (d.first_name) {
         return d.first_name.toLowerCase().indexOf(val) !== -1 || !val;
       }
