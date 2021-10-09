@@ -302,3 +302,82 @@ export async function updateGenealogyRole(role, user_id) {
     await right_genealogy.save();
   }
 }
+
+export async function updateMegaCenterBranches(
+  user,
+  user_mega_center,
+  secret_code_suffix
+) {
+  const genealogy = await Genealogy.findOne({
+    user_id: user._id,
+  });
+
+  if (genealogy) {
+    if (genealogy.left_branch) {
+      const left_user = await User.findById(genealogy.left_branch.user_id);
+
+      if (left_user) {
+        left_user.mega_center = {
+          user_id: user_mega_center._id,
+          first_name: user_mega_center.first_name,
+          last_name: user_mega_center.last_name,
+        };
+
+        left_user.secret_code_suffix = secret_code_suffix;
+
+        const updated_left_user = await left_user.save();
+
+        const left_user_verification = await UserVerification.findOne({
+          user_id: left_user._id,
+        });
+
+        left_user_verification.mega_center = {
+          user_id: user_mega_center._id,
+          first_name: user_mega_center.first_name,
+          last_name: user_mega_center.last_name,
+        };
+
+        await left_user_verification.save();
+
+        await updateMegaCenterBranches(
+          updated_left_user,
+          user_mega_center,
+          secret_code_suffix
+        );
+      }
+    }
+
+    if (genealogy.right_branch) {
+      const right_user = await User.findById(genealogy.right_branch.user_id);
+
+      if (right_user) {
+        right_user.mega_center = {
+          user_id: user_mega_center._id,
+          first_name: user_mega_center.first_name,
+          last_name: user_mega_center.last_name,
+        };
+
+        right_user.secret_code_suffix = secret_code_suffix;
+
+        const updated_right_user = await right_user.save();
+
+        const right_user_verification = await UserVerification.findOne({
+          user_id: right_user._id,
+        });
+
+        right_user_verification.mega_center = {
+          user_id: user_mega_center._id,
+          first_name: user_mega_center.first_name,
+          last_name: user_mega_center.last_name,
+        };
+
+        await right_user_verification.save();
+        await updateMegaCenterBranches(
+          updated_right_user,
+          user_mega_center,
+          secret_code_suffix
+        );
+      }
+    }
+  }
+}

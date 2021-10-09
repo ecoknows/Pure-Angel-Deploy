@@ -37,6 +37,7 @@ app.use("/api/indirect-referral", IndirectReferralRouter);
 app.use("/api/pairing-bonus", PairingBonusRouter);
 app.use("/api/user-cashouts", UserCashouts);
 app.use("/api/history", HistoryRouter);
+
 app.use("/api/seed", SeedRouter);
 
 app.get("*", function (req, res) {

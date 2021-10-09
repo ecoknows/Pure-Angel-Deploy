@@ -334,6 +334,20 @@ export async function createChildUser(req, current_user, user_that_invite) {
     contact_number: body.contact_number,
     secret_code_suffix: user_that_invite.secret_code_suffix,
 
+    mega_center: user_that_invite?.is_mega_center
+      ? {
+          user_id: user_that_invite._id,
+          first_name: user_that_invite.first_name,
+          last_name: user_that_invite.last_name,
+        }
+      : user_that_invite?.mega_center
+      ? {
+          user_id: user_that_invite.mega_center.user_id,
+          first_name: user_that_invite.mega_center.first_name,
+          last_name: user_that_invite.mega_center.last_name,
+        }
+      : undefined,
+
     root_user_genealogy: {
       user_id: current_user._id,
       first_name: current_user.first_name,
@@ -341,6 +355,7 @@ export async function createChildUser(req, current_user, user_that_invite) {
       address: current_user.address,
       position: position,
     },
+
     user_that_invite: {
       user_id: req.user._id,
       first_name: req.user.first_name,
@@ -358,6 +373,20 @@ export async function createChildUser(req, current_user, user_that_invite) {
     address: child_user.address,
     birthdate: child_user.birthdate,
     secret_code: user_that_invite.secret_code_suffix + "-" + nanoid(10),
+
+    mega_center: user_that_invite?.is_mega_center
+      ? {
+          user_id: user_that_invite._id,
+          first_name: user_that_invite.first_name,
+          last_name: user_that_invite.last_name,
+        }
+      : user_that_invite?.mega_center
+      ? {
+          user_id: user_that_invite.mega_center.user_id,
+          first_name: user_that_invite.mega_center.first_name,
+          last_name: user_that_invite.mega_center.last_name,
+        }
+      : undefined,
 
     user_that_invite: {
       user_id: req.user._id,

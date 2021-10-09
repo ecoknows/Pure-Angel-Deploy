@@ -12,6 +12,12 @@ const userSchema = new mongoose.Schema(
     contact_number: { type: String, required: true, index: true },
     secret_code_suffix: { type: String, required: true },
 
+    mega_center: {
+      user_id: { type: String, index: true },
+      first_name: { type: String },
+      last_name: { type: String },
+    },
+
     root_user_genealogy: {
       user_id: { type: String, index: true },
       first_name: { type: String },

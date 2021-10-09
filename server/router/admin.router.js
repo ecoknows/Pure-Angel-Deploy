@@ -11,6 +11,7 @@ import {
   checkIfThereIsPairingBonus,
   roleUpdater,
   updateGenealogyRole,
+  updateMegaCenterBranches,
 } from "../utils/admin.js";
 import bcrypt from "bcryptjs";
 const AdminRouter = express.Router();
@@ -175,6 +176,15 @@ AdminRouter.post(
       }
 
       await roleUpdater(body.role, userToEdit, body.secret_code_suffix);
+
+      if (body.role == "mega center") {
+        await updateMegaCenterBranches(
+          userToEdit,
+          userToEdit,
+          body.secret_code_suffix
+        );
+      }
+
       await userToEdit.save();
 
       await updateGenealogyRole(body.role, userToEdit._id);

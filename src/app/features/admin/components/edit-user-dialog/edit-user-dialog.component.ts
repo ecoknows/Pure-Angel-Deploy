@@ -13,6 +13,9 @@ export class EditUserDialogComponent implements OnInit {
   form: FormGroup;
   selectedRole!: string;
 
+  newPasswordHide = false;
+  confirmPasswordHide = false;
+
   roles = [
     { value: 'member', viewValue: 'Member' },
     { value: 'admin', viewValue: 'Admin' },

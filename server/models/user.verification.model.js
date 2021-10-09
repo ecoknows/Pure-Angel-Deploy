@@ -26,6 +26,12 @@ const userVerificationSchema = new mongoose.Schema(
     pairing_bonus_count: { type: Number, default: 0 },
     starting_date_of_pairing_exceeded: { type: Date },
 
+    mega_center: {
+      user_id: { type: String, index: true },
+      first_name: { type: String },
+      last_name: { type: String },
+    },
+
     root_user_genealogy: {
       user_id: { type: String, index: true },
       first_name: { type: String },

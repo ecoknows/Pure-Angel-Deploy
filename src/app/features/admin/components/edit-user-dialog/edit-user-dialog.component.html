@@ -22,14 +22,38 @@
     <div>
       <mat-form-field class="full-width">
         <mat-label>New Password</mat-label>
-        <input matInput formControlName="new_password" />
+        <input
+          matInput
+          placeholder="Type password"
+          type="password"
+          formControlName="new_password"
+          [type]="newPasswordHide ? 'password' : 'text'"
+        />
+        <mat-icon
+          class="eye"
+          matSuffix
+          (click)="newPasswordHide = !newPasswordHide"
+          >{{ newPasswordHide ? "visibility_off" : "visibility" }}</mat-icon
+        >
       </mat-form-field>
     </div>
 
     <div>
       <mat-form-field class="full-width">
         <mat-label>Confirm Password</mat-label>
-        <input matInput formControlName="confirm_password" />
+        <input
+          matInput
+          placeholder="Type password"
+          type="password"
+          formControlName="confirm_password"
+          [type]="confirmPasswordHide ? 'password' : 'text'"
+        />
+        <mat-icon
+          class="eye"
+          matSuffix
+          (click)="confirmPasswordHide = !confirmPasswordHide"
+          >{{ confirmPasswordHide ? "visibility_off" : "visibility" }}</mat-icon
+        >
       </mat-form-field>
     </div>
   </div>
