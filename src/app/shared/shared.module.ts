@@ -18,6 +18,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TimelineChartComponent } from './components/timeline-chart/timeline-chart.component';
+import { SnackbarComponent } from './components/snackbar/snackbar.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { TimelineChartComponent } from './components/timeline-chart/timeline-cha
     InputComponent,
     CreateDialogComponent,
     TimelineChartComponent,
+    SnackbarComponent,
   ],
   imports: [
     FontAwesomeModule,

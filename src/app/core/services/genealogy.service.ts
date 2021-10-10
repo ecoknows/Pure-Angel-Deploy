@@ -7,15 +7,20 @@ import { setUserData } from '@core/redux/user/user.actions';
 import { environment } from '@env';
 import { Store } from '@ngrx/store';
 import { AuthService } from './auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarComponent } from '@shared/components';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GenealogyService {
+  snackBarDuration = 2;
+
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-    private store: Store<{}>
+    private store: Store<{}>,
+    private _snackBar: MatSnackBar
   ) {}
 
   fetchDefaultGenealogy() {
@@ -78,8 +83,32 @@ export class GenealogyService {
           headers: this.authService.headers,
         }
       )
-      .subscribe((response) => {
-        this.fetchGenealogy();
-      });
+      .subscribe(
+        (response) => {
+          this._snackBar.openFromComponent(SnackbarComponent, {
+            duration: this.snackBarDuration * 1000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+            panelClass: ['snackbar-background'],
+            data: {
+              message: response.message,
+            },
+          });
+
+          this.fetchGenealogy();
+        },
+        (error) => {
+          this._snackBar.openFromComponent(SnackbarComponent, {
+            duration: this.snackBarDuration * 1000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+            panelClass: ['snackbar-background'],
+            data: {
+              message: error.error.message,
+              error: true,
+            },
+          });
+        }
+      );
   }
 }

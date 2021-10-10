@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AdminService } from '@features/admin/services/admin.service';
 import { getIcon } from '@shared/components/icons';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { ApproveCashoutDialogComponent } from '@features/admin/approve-cashout-dialog/approve-cashout-dialog.component';
 
 @Component({
   selector: 'app-cashouts-verification',
@@ -39,10 +40,17 @@ export class CashoutsVerificationComponent implements OnInit {
     return this.adminService.cashoutsStatus;
   }
 
-  approvedCashout($event: any, cashout_id: string) {
-    this.adminService.approvedCheckout({
-      cashout_id,
-      checked: $event.checked,
+  approvedCashout($event: any, cashout_id: string, checkbox: any) {
+    if (checkbox.checked == true) {
+      checkbox.checked = false;
+    } else {
+      checkbox.checked = true;
+    }
+    this.dialog.open(ApproveCashoutDialogComponent, {
+      data: {
+        cashout_id,
+        checked: $event.checked,
+      },
     });
   }
 }

@@ -47,7 +47,7 @@ GenealogyRouter.post(
 
         await addPairingBonus(child_user, child_user);
         await modifyBranchCountOfRoot(current_user._id, req.body.position);
-        res.send({ message: "All Successfully Update Genealogy" });
+        res.send({ message: "Successfully Added New Direct Referral" });
       } else {
         res
           .status(409)
@@ -75,7 +75,7 @@ GenealogyRouter.post(
 
       await modifyBranchCountOfRoot(current_user._id, req.body.position);
 
-      res.send({ message: "All Successfully Add Genealogy" });
+      res.send({ message: "Successfully Added New Direct Referral" });
     } else {
       res.status(409).send({ message: "All nulls!" });
     }

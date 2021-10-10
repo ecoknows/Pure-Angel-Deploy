@@ -15,7 +15,6 @@ export class SettingComponent implements OnInit {
   form: FormGroup;
   user$: Observable<UserState>;
   matcher = new CommonErrorStateMatcher();
-
   old_hide = true;
   new_hide = true;
 

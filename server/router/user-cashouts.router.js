@@ -65,7 +65,7 @@ UserCashouts.post(
         });
       } else {
         res.status(401).send({
-          message: "not enought money",
+          message: "Not enought money",
         });
       }
     } else {

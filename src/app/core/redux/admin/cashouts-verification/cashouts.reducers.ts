@@ -9,6 +9,8 @@ export interface CashoutsState {
   address?: string;
   contact_number?: string;
 
+  remarks?: string;
+
   cashout?: number;
   approved?: boolean;
   created_at?: string;

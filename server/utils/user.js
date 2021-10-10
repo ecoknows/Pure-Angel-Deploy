@@ -1,4 +1,3 @@
-import bcrypt from "bcryptjs";
 import Cashout from "../models/cashout.model.js";
 import DirectReferral from "../models/direct-referral.model.js";
 import Genealogy from "../models/genealogy.model.js";
@@ -8,10 +7,6 @@ import User from "../models/user.model.js";
 import UserVerification from "../models/user.verification.model.js";
 
 export async function updateUserAuthentication(update_info, existing_user) {
-  if (bcrypt.compareSync(update_info.old_password, existing_user.password)) {
-    existing_user.password = bcrypt.hashSync(update_info.new_password, 8);
-  }
-
   existing_user.username = update_info.username;
   existing_user.first_name = update_info.first_name;
   existing_user.last_name = update_info.last_name;

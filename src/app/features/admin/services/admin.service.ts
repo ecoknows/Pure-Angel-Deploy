@@ -104,7 +104,11 @@ export class AdminService {
       );
   }
 
-  approvedCheckout(checkout_info: { checked: boolean; cashout_id: string }) {
+  approvedCheckout(checkout_info: {
+    checked: boolean;
+    cashout_id: string;
+    remarks: string;
+  }) {
     this.cashoutsStatus = true;
     this.http
       .post<{ message: string }>(
@@ -112,6 +116,7 @@ export class AdminService {
         {
           cashout_id: checkout_info.cashout_id,
           checked: checkout_info.checked,
+          remarks: checkout_info.remarks,
         },
         { headers: this.authService.headers }
       )

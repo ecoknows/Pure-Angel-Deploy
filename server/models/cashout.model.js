@@ -11,6 +11,7 @@ const cashoutSchema = new mongoose.Schema(
 
     cashout: { type: Number, required: true },
     approved: { type: Boolean, default: false },
+    remarks: { type: String },
   },
   {
     timestamps: true,

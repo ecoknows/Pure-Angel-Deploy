@@ -12,6 +12,8 @@ import {
   faStreetView,
   faUser,
   faCashRegister,
+  faCheckCircle,
+  faTimesCircle,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { IconDefinition } from '@fortawesome/fontawesome-common-types';
@@ -44,6 +46,10 @@ export function getIcon(
       return faStreetView;
     case 'faCashRegister':
       return faCashRegister;
+    case 'faCheckCircle':
+      return faCheckCircle;
+    case 'faTimesCircle':
+      return faTimesCircle;
     case 'faSearch':
       return faSearch;
   }

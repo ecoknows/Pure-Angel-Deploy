@@ -45,6 +45,9 @@ import { UserCashoutsComponent } from './referrals/components/user-cashouts/user
 import { MatIconModule } from '@angular/material/icon';
 import { MegaCenterComponent } from './mega-center/mega-center.component';
 import { MemberVerificationComponent } from './mega-center/components/member-verification/member-verification.component';
+import { ApproveCashoutDialogComponent } from './admin/approve-cashout-dialog/approve-cashout-dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -73,6 +76,7 @@ import { MemberVerificationComponent } from './mega-center/components/member-ver
     UserCashoutsComponent,
     MegaCenterComponent,
     MemberVerificationComponent,
+    ApproveCashoutDialogComponent,
   ],
   imports: [
     NgxChartsModule,
@@ -94,6 +98,7 @@ import { MemberVerificationComponent } from './mega-center/components/member-ver
     NgxDatatableModule,
     MatCheckboxModule,
     MatIconModule,
+    MatSnackBarModule,
   ],
 })
 export class FeaturesModule {}

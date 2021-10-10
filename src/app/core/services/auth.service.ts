@@ -5,22 +5,25 @@ import { UserState } from '@core/redux/user/user.reducer';
 import { Store } from '@ngrx/store';
 import { resetUserData, setUserData } from '@core/redux/user/user.actions';
 import { SidebarService } from './sidebar.service';
-import { GenealogyState } from '@core/redux/genealogy/genealogy.reducer';
 import { resetGenealogy } from '@core/redux/genealogy/genealogy.actions';
-import { Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from '@env';
 import { FormGroup } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarComponent } from '@shared/components';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  snackBarDuration = 2;
+
   constructor(
     private http: HttpClient,
     private router: Router,
     private sideBarService: SidebarService,
-    private store: Store<{}>
+    private store: Store<{}>,
+    private _snackBar: MatSnackBar
   ) {}
 
   login(username: string, password: string, form: FormGroup) {
@@ -62,15 +65,40 @@ export class AuthService {
         environment.api + 'api/user/register',
         person
       )
-      .subscribe((response) => {
-        let userToken = response.userToken;
-        if (userToken) {
-          localStorage.setItem('user-token', userToken);
-          this.router.navigate(['/']);
-          this.sideBarService.show();
-          this.resetStates();
+      .subscribe(
+        (response) => {
+          let userToken = response.userToken;
+
+          this._snackBar.openFromComponent(SnackbarComponent, {
+            duration: this.snackBarDuration * 1000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+            panelClass: ['snackbar-background'],
+            data: {
+              message: response.message,
+            },
+          });
+
+          if (userToken) {
+            localStorage.setItem('user-token', userToken);
+            this.router.navigate(['/']);
+            this.sideBarService.show();
+            this.resetStates();
+          }
+        },
+        (error) => {
+          this._snackBar.openFromComponent(SnackbarComponent, {
+            duration: this.snackBarDuration * 1000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+            panelClass: ['snackbar-background'],
+            data: {
+              message: error.error.message,
+              error: true,
+            },
+          });
         }
-      });
+      );
   }
 
   logout() {
@@ -153,13 +181,37 @@ export class AuthService {
         },
         { headers: this.headers }
       )
-      .subscribe((response) => {
-        const userToken = response.userToken;
+      .subscribe(
+        (response) => {
+          const userToken = response.userToken;
 
-        if (userToken) {
-          localStorage.setItem('user-token', userToken);
+          this._snackBar.openFromComponent(SnackbarComponent, {
+            duration: this.snackBarDuration * 1000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+            panelClass: ['snackbar-background'],
+            data: {
+              message: response.message,
+            },
+          });
+
+          if (userToken) {
+            localStorage.setItem('user-token', userToken);
+          }
+        },
+        (error) => {
+          this._snackBar.openFromComponent(SnackbarComponent, {
+            duration: this.snackBarDuration * 1000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+            panelClass: ['snackbar-background'],
+            data: {
+              message: error.error.message,
+              error: true,
+            },
+          });
         }
-      });
+      );
   }
 
   private resetStates() {

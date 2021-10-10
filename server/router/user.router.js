@@ -155,14 +155,32 @@ UserRouter.post(
     const existing_user = await User.findById(user._id);
 
     if (existing_user) {
-      const updated_user = await updateUserAuthentication(
-        update_info,
-        existing_user
-      );
-      res.send({
-        message: "Successfully Created User",
-        userToken: generateUserToken(updated_user),
-      });
+      if (update_info.new_password) {
+        if (
+          bcrypt.compareSync(update_info.old_password, existing_user.password)
+        ) {
+          existing_user.password = bcrypt.hashSync(update_info.new_password, 8);
+          const updated_user = await updateUserAuthentication(
+            update_info,
+            existing_user
+          );
+          res.send({
+            message: "Successfully Updated the User",
+            userToken: generateUserToken(updated_user),
+          });
+        } else {
+          res.status(404).send({ message: "Old password doesn't match" });
+        }
+      } else {
+        const updated_user = await updateUserAuthentication(
+          update_info,
+          existing_user
+        );
+        res.send({
+          message: "Successfully Updated the User",
+          userToken: generateUserToken(updated_user),
+        });
+      }
     } else {
       res.status(404).send({ message: "Cannot Find user" });
     }

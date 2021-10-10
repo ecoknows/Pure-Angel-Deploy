@@ -121,6 +121,7 @@ AdminRouter.post(
 
       if (checked != approved) {
         cashout_to_approved.approved = body.checked;
+        cashout_to_approved.remarks = body.remarks;
 
         await cashout_to_approved.save();
 
