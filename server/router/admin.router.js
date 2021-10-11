@@ -46,6 +46,7 @@ AdminRouter.post(
   checkIfAdmin,
   expressAsyncHandler(async (req, res) => {
     const body = req.body;
+    const user = req.user;
 
     const user_to_verify = await UserVerification.findById(body.secret_code);
 
@@ -55,8 +56,10 @@ AdminRouter.post(
 
     if (
       user_to_verify &&
-      mega_center_user.member_that_verified <
-        mega_center_user.max_member_to_verify
+      ((user_to_verify.user_that_invite.user_id == user._id &&
+        (user.is_owner || user.is_admin)) ||
+        mega_center_user.member_that_verified <
+          mega_center_user.max_member_to_verify)
     ) {
       const verified = user_to_verify.verified;
       const checked = body.checked;

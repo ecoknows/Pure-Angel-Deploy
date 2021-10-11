@@ -14,6 +14,7 @@ export const generateUserToken = (user) => {
       is_admin: user.is_admin,
       is_ancestor: user.is_ancestor,
       is_mega_center: user.is_mega_center,
+      is_owner: user.is_owner,
     },
     process.env.JWT_SECRET || "somethingsecret",
     {
