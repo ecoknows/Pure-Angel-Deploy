@@ -8,6 +8,7 @@ import {
   faUsers,
   faTree,
   faCog,
+  faSignOutAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { getIcon } from '@shared/components/icons';
 
@@ -20,28 +21,34 @@ export class SideBarComponent implements OnInit {
   menus = [
     {
       url: '',
+      name: 'Dashboard',
       icon: faDesktop,
     },
     {
       url: 'genealogy',
+      name: 'Genealogy',
       icon: faTree,
     },
     {
       url: 'referrals',
+      name: 'Referrals',
       icon: faUsers,
     },
     {
       url: 'notifications',
+      name: 'Notifications',
       icon: faBell,
     },
     {
       url: 'setting',
+      name: 'Setting',
       icon: faCog,
     },
   ];
 
   userShield: any;
   userCheck: any;
+  logoutIcon = faSignOutAlt;
 
   constructor(
     private authService: AuthService,

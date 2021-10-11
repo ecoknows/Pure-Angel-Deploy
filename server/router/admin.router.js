@@ -1,6 +1,5 @@
 import express from "express";
 import expressAsyncHandler from "express-async-handler";
-import { DIRECT_REFERRAL_PAYMENT } from "../constants.js";
 import User from "../models/user.model.js";
 import UserVerification from "../models/user.verification.model.js";
 import Cashout from "../models/cashout.model.js";

@@ -1,7 +1,9 @@
 <nav class="side-nav-container">
   <div class="side-nav">
-    <img src="assets/icons/logo.png" alt="logo" width="40px" />
-
+    <div class="logo-container">
+      <img src="assets/icons/logo.png" alt="logo" width="40px" />
+      <span>PAC</span>
+    </div>
     <div class="tabs-container">
       <ul>
         <li
@@ -15,6 +17,7 @@
             <div class="icon-illusion">
               <div>
                 <fa-icon [icon]="userShield" class="icons"></fa-icon>
+                <span>Admin</span>
               </div>
             </div>
           </div>
@@ -32,11 +35,13 @@
             <div class="icon-illusion">
               <div>
                 <fa-icon [icon]="userCheck" class="icons"></fa-icon>
+                <span>Mega Center</span>
               </div>
             </div>
           </div>
           <div class="bottom-illusion"></div>
         </li>
+
         <li
           *ngFor="let menu of menus"
           routerLinkActive="active"
@@ -48,6 +53,20 @@
             <div class="icon-illusion">
               <div>
                 <fa-icon [icon]="menu.icon" class="icons"></fa-icon>
+                <span>{{ menu.name }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="bottom-illusion"></div>
+        </li>
+
+        <li (click)="logout()">
+          <div class="top-illusion"></div>
+          <div class="icon-container">
+            <div class="icon-illusion">
+              <div>
+                <fa-icon [icon]="logoutIcon" class="icons"></fa-icon>
+                <span>Logout</span>
               </div>
             </div>
           </div>
@@ -55,9 +74,5 @@
         </li>
       </ul>
     </div>
-
-    <button (click)="logout()">
-      <img src="assets/icons/logout.png" alt="logo" />
-    </button>
   </div>
 </nav>

@@ -1,4 +1,9 @@
 <mat-tab-group>
+  <mat-tab label="Purchase">
+    <app-direct-referral
+      [rows]="directReferralRows$ | async"
+    ></app-direct-referral>
+  </mat-tab>
   <mat-tab label="Direct Referral">
     <app-direct-referral
       [rows]="directReferralRows$ | async"

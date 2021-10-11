@@ -3,12 +3,8 @@ import { UserCashoutsState } from '@core/redux/cashouts/user-cashouts.reducers';
 import { DirectReferralState } from '@core/redux/direct-referral/direct-referral.reducers';
 import { IndirectReferralState } from '@core/redux/indirect-referral/indirect-referral.reducers';
 import { PairingBonusState } from '@core/redux/pairing-bonus/pairing-bonus.reducers';
-import { DirectReferralService } from '@core/services/direct-referral.service';
-import { IndirectReferralService } from '@core/services/indirect-referral.service';
 import { Store } from '@ngrx/store';
-import { IColumns, IRows } from '@shared/components/table/table.component';
 import { Observable } from 'rxjs';
-import { data } from './test-data';
 @Component({
   selector: 'app-referrals',
   templateUrl: './referrals.component.html',

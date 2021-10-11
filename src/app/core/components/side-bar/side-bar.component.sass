@@ -6,6 +6,10 @@ ul
 
     li
         cursor: pointer
+.logo-container
+  color: white
+  font-size: 2rem
+  font-weight: 600
 
 
 .icons
@@ -23,8 +27,15 @@ ul
 .icon-illusion
     height: 45px
     display: flex
-    justify-content: center
+    justify-content: flex-start
+    padding-left: 25px
     align-items: center
+
+    span
+      font-weight: 400
+      margin-left: 10px
+      color: white
+      font-size: 0.8rem
 
 .active
     background-color: white
@@ -37,11 +48,16 @@ ul
 
         .icon-illusion
             justify-content: start
-            margin-left: 25px
+            margin-left: 15px
             padding-left: 15px
             border-top-left-radius: 40px
             border-bottom-left-radius: 40px
             background-color: white
+
+        span
+          font-weight: 700
+          color: $primaryColor
+          font-size: 0.8rem
 
     .top-illusion
         border-bottom-right-radius: 20px
@@ -55,7 +71,7 @@ ul
     justify-content: center
     align-items: center
     height: 100%
-    width: 100px
+    width: 150px
     position: fixed
     top: 0
     left: 0
