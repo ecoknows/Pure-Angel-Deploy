@@ -11,17 +11,13 @@ import { AuthService } from './auth.service';
   providedIn: 'root',
 })
 export class DirectReferralService {
-  public rows$: Observable<DirectReferralState[]>;
-
   cache!: DirectReferralState[];
 
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-    private store: Store<{ directReferralReducer: DirectReferralState[] }>
-  ) {
-    this.rows$ = this.store.select('directReferralReducer');
-  }
+    private store: Store<{}>
+  ) {}
 
   fetchDirectReferral() {
     this.http

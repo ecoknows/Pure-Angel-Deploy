@@ -4,6 +4,8 @@ import { setAuthenticationTable } from '@core/redux/admin/authentication/authent
 import { AuthenticationState } from '@core/redux/admin/authentication/authentications.reducers';
 import { setCashoutsTable } from '@core/redux/admin/cashouts-verification/cashouts.actions';
 import { CashoutsState } from '@core/redux/admin/cashouts-verification/cashouts.reducers';
+import { setPurchaseTable } from '@core/redux/admin/purchase-verification/purchase.actions';
+import { PurchaseState } from '@core/redux/admin/purchase-verification/purchase.reducers';
 import { setVerificationTable } from '@core/redux/admin/verification/verification.actions';
 import { VerificationState } from '@core/redux/admin/verification/verification.reducers';
 import { AuthService } from '@core/services/auth.service';
@@ -15,9 +17,11 @@ import { Store } from '@ngrx/store';
 export class AdminService {
   verificationStatus: boolean = false;
   cashoutsStatus: boolean = false;
+  purchasesStatus: boolean = false;
   verificationCache!: VerificationState[];
 
   authenticationCache!: AuthenticationState[];
+  purchasesCache!: PurchaseState[];
   cashoutsCache!: CashoutsState[];
 
   constructor(
@@ -82,6 +86,24 @@ export class AdminService {
       });
   }
 
+  fetchPurchasesTable() {
+    this.http
+      .get<{ message: string; data: PurchaseState[] }>(
+        environment.api + 'api/admin/purchases',
+        {
+          headers: this.authService.headers,
+        }
+      )
+      .subscribe((response) => {
+        const data = response.data;
+        if (data) {
+          this.purchasesCache = [...data];
+
+          this.store.dispatch(setPurchaseTable({ list: data }));
+        }
+      });
+  }
+
   verifyUser(verification_info: { checked: boolean; secret_code: string }) {
     this.verificationStatus = true;
     this.http
@@ -123,6 +145,28 @@ export class AdminService {
       .subscribe((response) => {
         this.cashoutsStatus = false;
         this.fetchCashoutsTable();
+      });
+  }
+
+  verifyPurchase(purchase_info: {
+    checked: boolean;
+    purchase_id: string;
+    remarks: string;
+  }) {
+    this.purchasesStatus = true;
+    this.http
+      .post<{ message: string }>(
+        environment.api + 'api/admin/approved-purchase',
+        {
+          purchase_id: purchase_info.purchase_id,
+          checked: purchase_info.checked,
+          remarks: purchase_info.remarks,
+        },
+        { headers: this.authService.headers }
+      )
+      .subscribe((response) => {
+        this.purchasesStatus = false;
+        this.fetchPurchasesTable();
       });
   }
 

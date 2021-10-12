@@ -47,6 +47,11 @@ import { MegaCenterComponent } from './mega-center/mega-center.component';
 import { MemberVerificationComponent } from './mega-center/components/member-verification/member-verification.component';
 import { ApproveCashoutDialogComponent } from './admin/approve-cashout-dialog/approve-cashout-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { PurchaseComponent } from './referrals/components/purchase/purchase.component';
+import { PurchaseVerificationComponent } from './admin/components/purchase-verification/purchase-verification.component';
+import { PurchaseDialogComponent } from './referrals/components/purchase/components/purchase-dialog/purchase-dialog.component';
+import { PurchaseVerificationDialogComponent } from './admin/purchase-verification-dialog/purchase-verification-dialog.component';
+import { AutomaticEquivalentRebatesComponent } from './referrals/components/automatic-equivalent-rebates/automatic-equivalent-rebates.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +82,11 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MegaCenterComponent,
     MemberVerificationComponent,
     ApproveCashoutDialogComponent,
+    PurchaseComponent,
+    PurchaseVerificationComponent,
+    PurchaseDialogComponent,
+    PurchaseVerificationDialogComponent,
+    AutomaticEquivalentRebatesComponent,
   ],
   imports: [
     NgxChartsModule,

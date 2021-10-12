@@ -4,7 +4,7 @@ import { UserState } from '@core/redux/user/user.reducer';
 import { AuthService } from '@core/services/auth.service';
 import { UserCashoutsService } from '@core/services/user-cashouts.service';
 import { Store } from '@ngrx/store';
-import { CashoutValidators } from '@shared/validators/cashouts.validators';
+import { LimitValidators } from '@shared/validators/limit.validators';
 import { CommonErrorStateMatcher } from '@shared/validators/login.validators';
 import { Observable } from 'rxjs';
 
@@ -26,7 +26,7 @@ export class CashoutDialogComponent {
   ) {
     this.user$ = this.store.select('userReducer');
     this.form = fb.group({
-      amount: [0, null, CashoutValidators.limitMoney(this.user$)],
+      amount: [0, null, LimitValidators.limitMoney(this.user$)],
     });
   }
 

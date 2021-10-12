@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationState } from '@core/redux/admin/authentication/authentications.reducers';
 import { CashoutsState } from '@core/redux/admin/cashouts-verification/cashouts.reducers';
+import { PurchaseState } from '@core/redux/admin/purchase-verification/purchase.reducers';
 import { VerificationState } from '@core/redux/admin/verification/verification.reducers';
 import { AuthService } from '@core/services/auth.service';
 import { Store } from '@ngrx/store';
@@ -16,6 +17,7 @@ export class AdminComponent implements OnInit {
   verification$: Observable<VerificationState[]>;
   authentication$: Observable<AuthenticationState[]>;
   cashouts$: Observable<CashoutsState[]>;
+  purchases$: Observable<PurchaseState[]>;
 
   constructor(
     private authService: AuthService,
@@ -24,11 +26,13 @@ export class AdminComponent implements OnInit {
       verificationReducer: VerificationState[];
       authenticationReducer: AuthenticationState[];
       cashoutsReducer: CashoutsState[];
+      purchaseReducer: PurchaseState[];
     }>
   ) {
     this.verification$ = this.store.select('verificationReducer');
     this.authentication$ = this.store.select('authenticationReducer');
     this.cashouts$ = this.store.select('cashoutsReducer');
+    this.purchases$ = this.store.select('purchaseReducer');
   }
 
   ngOnInit(): void {
@@ -36,5 +40,6 @@ export class AdminComponent implements OnInit {
     this.adminService.fetchVerificationTable();
     this.adminService.fetchAuthenticationTable();
     this.adminService.fetchCashoutsTable();
+    this.adminService.fetchPurchasesTable();
   }
 }

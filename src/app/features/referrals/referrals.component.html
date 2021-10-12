@@ -1,8 +1,6 @@
 <mat-tab-group>
-  <mat-tab label="Purchase">
-    <app-direct-referral
-      [rows]="directReferralRows$ | async"
-    ></app-direct-referral>
+  <mat-tab label="Repeat Purchase">
+    <app-purchase [rows]="purchasesRow$ | async"></app-purchase>
   </mat-tab>
   <mat-tab label="Direct Referral">
     <app-direct-referral
@@ -16,6 +14,11 @@
   </mat-tab>
   <mat-tab label="Pairing Bonus">
     <app-pairing-bonus [rows]="pairingBonusRows$ | async"></app-pairing-bonus>
+  </mat-tab>
+  <mat-tab label="Automatic Equivalent Rebates">
+    <app-automatic-equivalent-rebates
+      [rows]="aerRows$ | async"
+    ></app-automatic-equivalent-rebates>
   </mat-tab>
   <mat-tab label="Cashouts">
     <app-user-cashouts [rows]="userCashoutsRow$ | async"></app-user-cashouts>

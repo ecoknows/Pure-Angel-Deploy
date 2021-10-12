@@ -8,7 +8,7 @@ import { UserState } from '@core/redux/user/user.reducer';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-export class CashoutValidators {
+export class LimitValidators {
   static limitMoney(user$: Observable<UserState>): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors> => {
       return user$.pipe(
@@ -21,13 +21,12 @@ export class CashoutValidators {
       );
     };
   }
-}
+  static limitPurchase(control: AbstractControl): ValidationErrors | null {
+    if ((control.value as number) <= 0)
+      return {
+        purchaseExceed: true,
+      };
 
-// export class CashoutValidators {
-//   static createValidator(zipcodeService: ZipcodeService): AsyncValidatorFn {
-//     return (control: AbstractControl): Observable<ValidationErrors> => {
-//       return zipcodeService.fakeHttp(control.value).pipe(
-//         map((result: boolean) => result ? null : {invalidAsync: true})
-//       );
-//     };
-//   }
+    return null;
+  }
+}

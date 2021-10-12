@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import Genealogy from "../models/genealogy.model.js";
 import {
+  AUTOMATIC_EQUIVALENT_REBATES_PAYMENT,
   DIRECT_REFERRAL_PAYMENT,
   INDIRECT_REFERRAL_LIMIT,
   INDIRECT_REFERRAL_PAYMENT,
@@ -12,6 +13,7 @@ import History from "../models/history.model.js";
 import IndirectReferral from "../models/indirect-referral.model.js";
 import PairingBonus from "../models/pairing-bonus.model.js";
 import moment from "moment";
+import AutomaticEquivalentRebates from "../models/automatic-equivalent-rebates.model.js";
 
 async function writeHistory(value, verified, user_id) {
   const getCurrentDay = moment().format("D MMM");
@@ -378,6 +380,78 @@ export async function updateMegaCenterBranches(
           secret_code_suffix
         );
       }
+    }
+  }
+}
+
+export async function payAutomaticEquivalentRebates(purchase) {
+  const user_that_invite = await UserVerification.findOne({
+    user_id: purchase.user_that_invite.user_id,
+  });
+
+  if (user_that_invite) {
+    if (purchase.approved) {
+      user_that_invite.automatic_equivalent_rebates =
+        user_that_invite.automatic_equivalent_rebates +
+        purchase.quantity * AUTOMATIC_EQUIVALENT_REBATES_PAYMENT;
+
+      user_that_invite.overall_income =
+        user_that_invite.overall_income +
+        purchase.quantity * AUTOMATIC_EQUIVALENT_REBATES_PAYMENT;
+
+      user_that_invite.unpaid_income =
+        user_that_invite.unpaid_income +
+        purchase.quantity * AUTOMATIC_EQUIVALENT_REBATES_PAYMENT;
+
+      const new_aer = new AutomaticEquivalentRebates({
+        purchase_id: purchase._id,
+        user_id: user_that_invite.user_id,
+
+        first_name: user_that_invite.first_name,
+        last_name: user_that_invite.last_name,
+        address: user_that_invite.address,
+
+        user: {
+          user_id: purchase.user_id,
+          first_name: purchase.first_name,
+          last_name: purchase.last_name,
+          address: purchase.address,
+        },
+
+        quantity: purchase.quantity,
+        income: purchase.quantity * AUTOMATIC_EQUIVALENT_REBATES_PAYMENT,
+      });
+
+      await user_that_invite.save();
+      await new_aer.save();
+
+      await writeHistory(
+        purchase.quantity * AUTOMATIC_EQUIVALENT_REBATES_PAYMENT,
+        purchase.approved,
+        user_that_invite.user_id
+      );
+    } else {
+      user_that_invite.automatic_equivalent_rebates =
+        user_that_invite.automatic_equivalent_rebates -
+        purchase.quantity * AUTOMATIC_EQUIVALENT_REBATES_PAYMENT;
+
+      user_that_invite.overall_income =
+        user_that_invite.overall_income -
+        purchase.quantity * AUTOMATIC_EQUIVALENT_REBATES_PAYMENT;
+
+      user_that_invite.unpaid_income =
+        user_that_invite.unpaid_income -
+        purchase.quantity * AUTOMATIC_EQUIVALENT_REBATES_PAYMENT;
+
+      await AutomaticEquivalentRebates.deleteOne({ purchase_id: purchase._id });
+
+      await user_that_invite.save();
+
+      await writeHistory(
+        purchase.quantity * AUTOMATIC_EQUIVALENT_REBATES_PAYMENT,
+        purchase.approved,
+        user_that_invite.user_id
+      );
     }
   }
 }

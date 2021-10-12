@@ -1,6 +1,7 @@
 import express from "express";
 import expressAsyncHandler from "express-async-handler";
 import User from "../models/user.model.js";
+import Purchase from "../models/purchase.model.js";
 import UserVerification from "../models/user.verification.model.js";
 import Cashout from "../models/cashout.model.js";
 import { checkIfAdmin, verifyUserToken } from "../utils.js";
@@ -11,8 +12,12 @@ import {
   roleUpdater,
   updateGenealogyRole,
   updateMegaCenterBranches,
+  payAutomaticEquivalentRebates,
 } from "../utils/admin.js";
 import bcrypt from "bcryptjs";
+
+import moment from "moment";
+
 const AdminRouter = express.Router();
 
 AdminRouter.get(
@@ -143,6 +148,49 @@ AdminRouter.post(
   })
 );
 
+AdminRouter.post(
+  "/approved-purchase",
+  verifyUserToken,
+  checkIfAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const body = req.body;
+
+    const purchase_to_approved = await Purchase.findById(body.purchase_id);
+
+    if (purchase_to_approved) {
+      const approved = purchase_to_approved.approved;
+      const checked = body.checked;
+
+      if (checked != approved) {
+        purchase_to_approved.approved = body.checked;
+        purchase_to_approved.remarks = body.remarks;
+
+        if (purchase_to_approved.approved) {
+          purchase_to_approved.approved_date = moment();
+        } else {
+          purchase_to_approved.approved_date = undefined;
+        }
+
+        const purchase_approved = await purchase_to_approved.save();
+
+        await payAutomaticEquivalentRebates(purchase_approved);
+
+        res.send({
+          message: "Successfully verify purchase!",
+        });
+      } else {
+        res.send({
+          message: "Already!",
+        });
+      }
+    } else {
+      res.status(401).send({
+        message: "Purchase is ID is invalid",
+      });
+    }
+  })
+);
+
 AdminRouter.get(
   "/authentication",
   verifyUserToken,
@@ -175,12 +223,32 @@ AdminRouter.get(
 
     if (cashouts) {
       res.send({
-        message: "Successfully Fetch Users",
+        message: "Successfully Fetch Cashouts",
         data: cashouts,
       });
     } else {
       res.status(401).send({
         message: "Failed to Users",
+      });
+    }
+  })
+);
+
+AdminRouter.get(
+  "/purchases",
+  verifyUserToken,
+  checkIfAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const purchases = await Purchase.aggregate([{ $sort: { createdAt: -1 } }]);
+
+    if (purchases) {
+      res.send({
+        message: "Successfully Purchases",
+        data: purchases,
+      });
+    } else {
+      res.status(401).send({
+        message: "Failed to fetch Purchases",
       });
     }
   })

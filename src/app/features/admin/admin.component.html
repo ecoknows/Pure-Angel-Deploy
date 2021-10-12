@@ -10,5 +10,10 @@
       [rows]="cashouts$ | async"
     ></app-cashouts-verification>
   </mat-tab>
+  <mat-tab label="Purchases Verifications">
+    <app-purchase-verification
+      [rows]="purchases$ | async"
+    ></app-purchase-verification>
+  </mat-tab>
 </mat-tab-group>
 `

@@ -11,6 +11,9 @@ import { cashoutsReducer } from './admin/cashouts-verification/cashouts.reducers
 import { userCashoutsReducer } from './cashouts/user-cashouts.reducers';
 import { historyReducer } from './history/history.reducers';
 import { memberVerificationReducer } from './mega-center/member-verification.reducers';
+import { userPurchaseReducer } from './purchase/user-purchase.reducers';
+import { purchaseReducer } from './admin/purchase-verification/purchase.reducers';
+import { automaticEquivalentRebatesReducer } from './automatic-equivalent-rebates/automatic-equivalent-rebates.reducers';
 
 const reducer: object = {
   directReferralReducer: directReferralReducer,
@@ -18,6 +21,8 @@ const reducer: object = {
   pairingBonusReducer: pairingBonusReducer,
   userCashoutsReducer: userCashoutsReducer,
   historyReducer: historyReducer,
+  userPurchaseReducer: userPurchaseReducer,
+  automaticEquivalentRebatesReducer: automaticEquivalentRebatesReducer,
 
   genealogyReducer: genealogyReducer,
   userReducer: userReducer,
@@ -27,6 +32,7 @@ const reducer: object = {
 
   authenticationReducer: authenticationReducer,
   cashoutsReducer: cashoutsReducer,
+  purchaseReducer: purchaseReducer,
 };
 
 @NgModule({

@@ -20,7 +20,7 @@
     [footerHeight]="50"
     [scrollbarH]="true"
   >
-    <ngx-datatable-column name="Name" [width]="250">
+    <ngx-datatable-column name="Name" [width]="230">
       <ng-template let-row="row" ngx-datatable-cell-template>
         <mat-checkbox
           #checkbox
@@ -59,12 +59,7 @@
           </span>
         </ng-container>
         <ng-container *ngIf="row.approved == false">
-          <span class="unverified">
-            Pending...
-            <div>
-              {{ row.remarks }}
-            </div>
-          </span>
+          <span class="unverified"> Pending... </span>
         </ng-container>
       </ng-template>
     </ngx-datatable-column>
