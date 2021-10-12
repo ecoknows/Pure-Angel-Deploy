@@ -445,52 +445,68 @@ async function modifyBranch(root, left_branch, right_branch) {
   await modifyBranchCountOfRoot(root._id, "right");
 }
 
-export async function createHeads(mega_center) {
-  let root_container = [mega_center];
-  let array_leaves = [1, 2, 4, 8];
+export async function createHeads(mega_center, root_head, heads_info, count) {
+  let root_container = [root_head];
   let code = 1;
 
-  for (let i = 0; i < 4; i++) {
-    let new_root_container = [];
-    let root_container_counter = 0;
-    for (let y = 0; y < array_leaves[i]; y++) {
-      const current_root = root_container[root_container_counter];
+  if (count < heads_info.length) {
+    const array_leaves = heads_info[count].array;
 
-      const left_new_user = await branchesAction(
-        current_root,
-        "left",
-        mega_center,
-        code
-      );
-      code++;
-      const right_new_user = await branchesAction(
-        current_root,
-        "right",
-        mega_center,
-        code
-      );
-      code++;
+    for (let i = 0; i < array_leaves.length; i++) {
+      let new_root_container = [];
+      let root_container_counter = 0;
+      for (let y = 0; y < array_leaves[i]; y++) {
+        const current_root = root_container[root_container_counter];
 
-      await addHeadsGenealogy(current_root, left_new_user, right_new_user);
-      await modifyBranch(current_root, left_new_user, right_new_user);
+        const left_new_user = await branchesAction(
+          current_root,
+          "left",
+          mega_center,
+          code,
+          heads_info[count]
+        );
+        code++;
+        const right_new_user = await branchesAction(
+          current_root,
+          "right",
+          mega_center,
+          code,
+          heads_info[count]
+        );
+        code++;
 
-      await payBonuses(left_new_user);
-      await payBonuses(right_new_user);
+        await addHeadsGenealogy(current_root, left_new_user, right_new_user);
+        await modifyBranch(current_root, left_new_user, right_new_user);
 
-      new_root_container.push(left_new_user);
-      new_root_container.push(right_new_user);
-      root_container_counter++;
+        await payBonuses(left_new_user);
+        await payBonuses(right_new_user);
+
+        if (i == array_leaves.length - 1) {
+          await createHeads(mega_center, left_new_user, heads_info, count + 1);
+          await createHeads(mega_center, right_new_user, heads_info, count + 1);
+        }
+
+        new_root_container.push(left_new_user);
+        new_root_container.push(right_new_user);
+        root_container_counter++;
+      }
+      root_container = new_root_container;
     }
-    root_container = new_root_container;
   }
 }
 
-async function branchesAction(current_root, position, mega_center, code) {
+async function branchesAction(
+  current_root,
+  position,
+  mega_center,
+  code,
+  heads_info
+) {
   let child_user = new User({
-    username: mega_center.username + code,
+    username: mega_center.username + code + heads_info.username,
     password: bcrypt.hashSync("pureangelcoffee", 8),
     first_name: current_root.first_name,
-    last_name: mega_center.last_name + " " + code,
+    last_name: mega_center.last_name + " " + code + " " + heads_info.name,
     address: current_root.address,
     birthdate: current_root.birthdate,
     contact_number: current_root.contact_number,
@@ -517,7 +533,7 @@ async function branchesAction(current_root, position, mega_center, code) {
   let child_user_verification = new UserVerification({
     user_id: child_user._id,
     first_name: child_user.first_name,
-    last_name: mega_center.last_name + " " + code,
+    last_name: mega_center.last_name + " " + code + " " + heads_info.name,
     address: child_user.address,
     birthdate: child_user.birthdate,
     secret_code: current_root.secret_code_suffix + "-" + nanoid(10),
