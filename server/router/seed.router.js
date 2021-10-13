@@ -64,7 +64,7 @@ async function FifteenHeads(req, res) {
       {
         array: [1, 2, 4],
         name: "( 15 Heads )",
-        username: i.toString() + "-root-15-heads",
+        username: "-" + i.toString() + "-root-15-heads",
       },
     ];
 
@@ -83,14 +83,6 @@ SeedRouter.post(
 async function SevenHeads(req, res) {
   const body = req.body;
 
-  const heads_info = [
-    {
-      array: [1, 2],
-      name: "( 7 Heads )",
-      username: "-7-heads",
-    },
-  ];
-
   const mega_center = await User.findById(body.mega_center_id);
 
   for (let i = 3; i <= 6; i++) {
@@ -102,7 +94,7 @@ async function SevenHeads(req, res) {
       {
         array: [1, 2],
         name: "( 7 Heads )",
-        username: i.toString() + "-root-7-heads",
+        username: "-" + i.toString() + "-root-7-heads",
       },
     ];
 
