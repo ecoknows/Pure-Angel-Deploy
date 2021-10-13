@@ -61,9 +61,15 @@ async function FifteenHeads(req, res) {
     },
   ];
 
-  const current_head = await User.findById(body.user_id);
   const mega_center = await User.findById(body.mega_center_id);
-  await createHeads(mega_center, current_head, heads_info, 0);
+
+  for (let i = 15; i <= 30; i++) {
+    const current_head = await User.findOne({
+      user_name: body.username + i.toString() + "_15_heads",
+    });
+
+    await createHeads(mega_center, current_head, heads_info, 0);
+  }
 }
 
 SeedRouter.post(
@@ -86,7 +92,14 @@ async function SevenHeads(req, res) {
   ];
 
   const mega_center = await User.findById(body.mega_center_id);
-  await createHeads(mega_center, current_head, heads_info, 0);
+
+  for (let i = 3; i <= 6; i++) {
+    const current_head = await User.findOne({
+      user_name: body.username + i.toString() + "_7_heads",
+    });
+
+    await createHeads(mega_center, current_head, heads_info, 0);
+  }
 }
 
 SeedRouter.post(
@@ -109,7 +122,14 @@ async function ThreeHeads(req, res) {
   ];
 
   const mega_center = await User.findById(body.mega_center_id);
-  await createHeads(mega_center, current_head, heads_info, 0);
+
+  for (let i = 1; i <= 2; i++) {
+    const current_head = await User.findOne({
+      user_name: body.username + i.toString() + "_3_heads",
+    });
+
+    await createHeads(mega_center, current_head, heads_info, 0);
+  }
 }
 
 SeedRouter.post(

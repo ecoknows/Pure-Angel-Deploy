@@ -371,7 +371,7 @@ export async function createMegaCenters(left_admin, right_admin) {
     {
       username: "reggie",
       first_name: "Reggie",
-      last_name: "Villaraza",
+      last_name: "Campomanes",
       address: "311 D Lakandula St Tondo Manila",
       birthdate: "2021-10-05T17:32:39.730+00:00",
       contact_number: "09176345974",
