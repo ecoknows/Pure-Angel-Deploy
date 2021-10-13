@@ -503,7 +503,7 @@ async function branchesAction(
   heads_info
 ) {
   let child_user = new User({
-    username: mega_center.username + code + heads_info.username,
+    username: mega_center.username + "-" + code + heads_info.username,
     password: bcrypt.hashSync("pureangelcoffee", 8),
     first_name: current_root.first_name,
     last_name: mega_center.last_name + " " + code + " " + heads_info.name,

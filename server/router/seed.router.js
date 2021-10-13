@@ -29,7 +29,7 @@ async function SeedStructure(req, res) {
     {
       array: [1, 2, 4, 8],
       name: "( 31 Heads )",
-      username: "_31_heads",
+      username: "-31-heads",
     },
   ];
 
@@ -53,20 +53,20 @@ SeedRouter.post(
 async function FifteenHeads(req, res) {
   const body = req.body;
 
-  const heads_info = [
-    {
-      array: [1, 2, 4],
-      name: "( 15 Heads )",
-      username: "_15_heads",
-    },
-  ];
-
   const mega_center = await User.findById(body.mega_center_id);
 
   for (let i = 15; i <= 30; i++) {
     const current_head = await User.findOne({
-      username: body.username + i.toString() + "_31_heads",
+      username: body.username + i.toString() + "-31-heads",
     });
+
+    const heads_info = [
+      {
+        array: [1, 2, 4],
+        name: "( 15 Heads )",
+        username: i.toString() + "-root-15-heads",
+      },
+    ];
 
     await createHeads(mega_center, current_head, heads_info, 0);
   }
@@ -87,7 +87,7 @@ async function SevenHeads(req, res) {
     {
       array: [1, 2],
       name: "( 7 Heads )",
-      username: "_7_heads",
+      username: "-7-heads",
     },
   ];
 
@@ -95,8 +95,16 @@ async function SevenHeads(req, res) {
 
   for (let i = 3; i <= 6; i++) {
     const current_head = await User.findOne({
-      username: body.username + i.toString() + "_15_heads",
+      username: body.username + i.toString() + "-15-heads",
     });
+
+    const heads_info = [
+      {
+        array: [1, 2],
+        name: "( 7 Heads )",
+        username: i.toString() + "-root-7-heads",
+      },
+    ];
 
     await createHeads(mega_center, current_head, heads_info, 0);
   }
@@ -117,7 +125,7 @@ async function ThreeHeads(req, res) {
     {
       array: [1],
       name: "( 3 Heads )",
-      username: "_3_heads",
+      username: "-3-heads",
     },
   ];
 
@@ -125,7 +133,7 @@ async function ThreeHeads(req, res) {
 
   for (let i = 1; i <= 2; i++) {
     const current_head = await User.findOne({
-      username: body.username + i.toString() + "_7_heads",
+      username: body.username + i.toString() + "-7-heads",
     });
 
     await createHeads(mega_center, current_head, heads_info, 0);
