@@ -31,21 +31,6 @@ async function SeedStructure(req, res) {
       name: "( 31 Heads )",
       username: "_31_heads",
     },
-    {
-      array: [1, 2, 4],
-      name: "( 15 Heads )",
-      username: "_15_heads",
-    },
-    {
-      array: [1, 2],
-      name: "( 7 Heads )",
-      username: "_7_heads",
-    },
-    {
-      array: [1],
-      name: "( 3 Heads )",
-      username: "_3_heads",
-    },
   ];
 
   const mega_centers = await User.find({
@@ -61,6 +46,76 @@ SeedRouter.post(
   "/",
   expressAsyncHandler(async (req, res) => {
     SeedStructure(req, res);
+    res.send({ message: "Sucessfully Seed 31 Heads!" });
+  })
+);
+
+async function FifteenHeads(req, res) {
+  const body = req.body;
+
+  const heads_info = [
+    {
+      array: [1, 2, 4],
+      name: "( 15 Heads )",
+      username: "_15_heads",
+    },
+  ];
+
+  const current_head = await User.findById(body.user_id);
+  const mega_center = await User.findById(body.mega_center_id);
+  await createHeads(mega_center, current_head, heads_info, 0);
+}
+
+SeedRouter.post(
+  "/fifteen-heads",
+  expressAsyncHandler(async (req, res) => {
+    FifteenHeads(req, res);
+    res.send({ message: "Sucessfully Seed 31 Heads!" });
+  })
+);
+
+async function SevenHeads(req, res) {
+  const body = req.body;
+
+  const heads_info = [
+    {
+      array: [1, 2],
+      name: "( 7 Heads )",
+      username: "_7_heads",
+    },
+  ];
+
+  const mega_center = await User.findById(body.mega_center_id);
+  await createHeads(mega_center, current_head, heads_info, 0);
+}
+
+SeedRouter.post(
+  "/seven-heads",
+  expressAsyncHandler(async (req, res) => {
+    SevenHeads(req, res);
+    res.send({ message: "Sucessfully Seed 31 Heads!" });
+  })
+);
+
+async function ThreeHeads(req, res) {
+  const body = req.body;
+
+  const heads_info = [
+    {
+      array: [1],
+      name: "( 3 Heads )",
+      username: "_3_heads",
+    },
+  ];
+
+  const mega_center = await User.findById(body.mega_center_id);
+  await createHeads(mega_center, current_head, heads_info, 0);
+}
+
+SeedRouter.post(
+  "/three-heads",
+  expressAsyncHandler(async (req, res) => {
+    ThreeHeads(req, res);
     res.send({ message: "Sucessfully Seed 31 Heads!" });
   })
 );
