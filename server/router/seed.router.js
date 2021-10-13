@@ -57,7 +57,7 @@ async function FifteenHeads(req, res) {
 
   for (let i = 15; i <= 30; i++) {
     const current_head = await User.findOne({
-      username: body.username + i.toString() + "-31-heads",
+      username: body.username + "-" + i.toString() + "-31-heads",
     });
 
     const heads_info = [
@@ -95,7 +95,7 @@ async function SevenHeads(req, res) {
 
   for (let i = 3; i <= 6; i++) {
     const current_head = await User.findOne({
-      username: body.username + i.toString() + "-15-heads",
+      username: body.username + "-" + i.toString() + "-15-heads",
     });
 
     const heads_info = [
@@ -133,7 +133,7 @@ async function ThreeHeads(req, res) {
 
   for (let i = 1; i <= 2; i++) {
     const current_head = await User.findOne({
-      username: body.username + i.toString() + "-7-heads",
+      username: body.username + "-" + i.toString() + "-7-heads",
     });
 
     await createHeads(mega_center, current_head, heads_info, 0);
