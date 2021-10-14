@@ -52,7 +52,7 @@ export class SideBarComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private sidebarService: SidebarService
+    public sidebarService: SidebarService
   ) {
     this.userShield = getIcon('faUserShield');
     this.userCheck = getIcon('faUserCheck');

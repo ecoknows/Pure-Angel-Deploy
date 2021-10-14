@@ -39,6 +39,17 @@
       ></app-card-total-number>
     </button>
 
+    <button class="cash-out-button" (click)="supply()">
+      <app-card-total-number
+        *ngIf="(user$ | async)?.is_admin"
+        [money]="(user$ | async)?.number_of_supply"
+        [count]="true"
+        icon="faBoxes"
+        label="Buy 1 Take 1 Supply"
+        caption="Total Number of supply"
+      ></app-card-total-number>
+    </button>
+
     <app-card-total-number
       [money]="(user$ | async)?.indirect_referral"
       icon="faUsers"

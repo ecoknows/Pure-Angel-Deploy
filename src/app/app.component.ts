@@ -14,4 +14,8 @@ export class AppComponent {
     public sideBarService: SidebarService,
     public loaderService: LoaderService
   ) {}
+
+  showSidebar() {
+    this.sideBarService.buttonShow = !this.sideBarService.buttonShow;
+  }
 }

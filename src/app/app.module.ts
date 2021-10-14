@@ -10,6 +10,8 @@ import { environment } from '../environments/environment';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorService } from '@core/services/interceptor.service';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,6 +21,8 @@ import { InterceptorService } from '@core/services/interceptor.service';
     CoreModule,
     FeaturesModule,
     MatProgressBarModule,
+    MatIconModule,
+    MatButtonModule,
 
     StoreDevtoolsModule.instrument({
       maxAge: 25,

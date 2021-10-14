@@ -52,6 +52,7 @@ import { PurchaseVerificationComponent } from './admin/components/purchase-verif
 import { PurchaseDialogComponent } from './referrals/components/purchase/components/purchase-dialog/purchase-dialog.component';
 import { PurchaseVerificationDialogComponent } from './admin/purchase-verification-dialog/purchase-verification-dialog.component';
 import { AutomaticEquivalentRebatesComponent } from './referrals/components/automatic-equivalent-rebates/automatic-equivalent-rebates.component';
+import { SupplyDialogComponent } from './dashboard/components/supply-dialog/supply-dialog.component';
 
 @NgModule({
   declarations: [
@@ -87,6 +88,7 @@ import { AutomaticEquivalentRebatesComponent } from './referrals/components/auto
     PurchaseDialogComponent,
     PurchaseVerificationDialogComponent,
     AutomaticEquivalentRebatesComponent,
+    SupplyDialogComponent,
   ],
   imports: [
     NgxChartsModule,

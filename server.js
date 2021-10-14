@@ -16,6 +16,7 @@ import HistoryRouter from "./server/router/history.router.js";
 import MegaCenterRouter from "./server/router/mega-center.router.js";
 import PurchaseRouter from "./server/router/purchase.router.js";
 import AutomaticEquivalentRebatesRouter from "./server/router/automatic-equivalent-rebates.router.js";
+import UserSupplyRouter from "./server/router/user-supply.router.js";
 
 const __dirname = path.resolve();
 
@@ -40,6 +41,7 @@ app.use("/api/direct-referral", DirectReferralRouter);
 app.use("/api/indirect-referral", IndirectReferralRouter);
 app.use("/api/pairing-bonus", PairingBonusRouter);
 app.use("/api/user-cashouts", UserCashouts);
+app.use("/api/user-supply", UserSupplyRouter);
 app.use("/api/history", HistoryRouter);
 app.use("/api/purchase", PurchaseRouter);
 app.use("/api/aer", AutomaticEquivalentRebatesRouter);

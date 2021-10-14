@@ -1,4 +1,13 @@
-<nav class="side-nav-container">
+<nav
+  class="side-nav-container"
+  [style.display]="
+    sidebarService.buttonShow == undefined
+      ? undefined
+      : sidebarService.buttonShow == true
+      ? 'flex'
+      : undefined
+  "
+>
   <div class="side-nav">
     <div class="logo-container">
       <img src="assets/icons/logo.png" alt="logo" width="40px" />

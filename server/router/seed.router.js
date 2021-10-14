@@ -127,22 +127,35 @@ SeedRouter.post(
 async function ThreeHeads(req, res) {
   const body = req.body;
 
-  const heads_info = [
-    {
-      array: [1],
-      name: "( 3 Heads )",
-      username: "-3-heads",
-    },
-  ];
+  const mega_center = await User.findOne({
+    username: body.username,
+    is_mega_center: true,
+  });
 
-  const mega_center = await User.findById(body.mega_center_id);
+  //15 - 30
 
-  for (let i = 1; i <= 2; i++) {
-    const current_head = await User.findOne({
-      username: body.username + "-" + i.toString() + "-7-heads",
-    });
+  for (let root = 7; root <= 14; root++) {
+    for (let i = 3; i <= 6; i++) {
+      const current_head = await User.findOne({
+        username:
+          body.username +
+          "-" +
+          i.toString() +
+          "-" +
+          root.toString() +
+          "-root-7-heads",
+      });
 
-    await createHeads(mega_center, current_head, heads_info, 0);
+      const heads_info = [
+        {
+          array: [1, 2],
+          name: "( 7 Heads )",
+          username: "-" + i.toString() + "-root-3-heads",
+        },
+      ];
+
+      await createHeads(mega_center, current_head, heads_info, 0);
+    }
   }
 }
 

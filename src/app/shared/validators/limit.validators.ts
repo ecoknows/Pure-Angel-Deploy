@@ -21,6 +21,16 @@ export class LimitValidators {
       );
     };
   }
+
+  static limitSupply(control: AbstractControl): ValidationErrors | null {
+    if ((control.value as number) <= 0)
+      return {
+        supplyExceed: true,
+      };
+
+    return null;
+  }
+
   static limitPurchase(control: AbstractControl): ValidationErrors | null {
     if ((control.value as number) <= 0)
       return {

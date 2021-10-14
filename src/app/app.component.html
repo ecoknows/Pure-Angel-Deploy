@@ -2,8 +2,19 @@
   *ngIf="loaderService.isLoading | async"
   mode="indeterminate"
 ></mat-progress-bar>
+
 <app-side-bar *ngIf="sideBarService.visibility"></app-side-bar>
 
 <main [class.main-margin]="sideBarService.visibility" id="main">
+  <button
+    mat-mini-fab
+    color="accent"
+    class="menu-button"
+    (click)="showSidebar()"
+    aria-label="Example icon button with a menu icon"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+
   <router-outlet></router-outlet>
 </main>

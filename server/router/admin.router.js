@@ -155,37 +155,55 @@ AdminRouter.post(
   expressAsyncHandler(async (req, res) => {
     const body = req.body;
 
+    const user = req.user;
+
+    const userAccount = await User.findById(user._id);
+
     const purchase_to_approved = await Purchase.findById(body.purchase_id);
+    if (
+      userAccount &&
+      userAccount.number_of_supply >= purchase_to_approved.quantity
+    ) {
+      if (purchase_to_approved) {
+        const approved = purchase_to_approved.approved;
+        const checked = body.checked;
 
-    if (purchase_to_approved) {
-      const approved = purchase_to_approved.approved;
-      const checked = body.checked;
+        if (checked != approved) {
+          purchase_to_approved.approved = body.checked;
+          purchase_to_approved.remarks = body.remarks;
 
-      if (checked != approved) {
-        purchase_to_approved.approved = body.checked;
-        purchase_to_approved.remarks = body.remarks;
+          if (purchase_to_approved.approved) {
+            purchase_to_approved.approved_date = moment();
+            userAccount.number_of_supply =
+              userAccount.number_of_supply - purchase_to_approved.quantity;
+            await userAccount.save();
+          } else {
+            purchase_to_approved.approved_date = undefined;
+            userAccount.number_of_supply =
+              userAccount.number_of_supply + purchase_to_approved.quantity;
+            await userAccount.save();
+          }
 
-        if (purchase_to_approved.approved) {
-          purchase_to_approved.approved_date = moment();
+          const purchase_approved = await purchase_to_approved.save();
+
+          await payAutomaticEquivalentRebates(purchase_approved);
+
+          res.send({
+            message: "Successfully verify purchase!",
+          });
         } else {
-          purchase_to_approved.approved_date = undefined;
+          res.send({
+            message: "Already!",
+          });
         }
-
-        const purchase_approved = await purchase_to_approved.save();
-
-        await payAutomaticEquivalentRebates(purchase_approved);
-
-        res.send({
-          message: "Successfully verify purchase!",
-        });
       } else {
-        res.send({
-          message: "Already!",
+        res.status(401).send({
+          message: "Purchase is ID is invalid",
         });
       }
     } else {
       res.status(401).send({
-        message: "Purchase is ID is invalid",
+        message: "Out of stack",
       });
     }
   })

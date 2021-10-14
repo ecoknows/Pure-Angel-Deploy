@@ -15,6 +15,7 @@ import {
   faCheckCircle,
   faTimesCircle,
   faMoneyBillWave,
+  faBoxes,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { IconDefinition } from '@fortawesome/fontawesome-common-types';
@@ -53,6 +54,8 @@ export function getIcon(
       return faTimesCircle;
     case 'faMoneyBillWave':
       return faMoneyBillWave;
+    case 'faBoxes':
+      return faBoxes;
     case 'faSearch':
       return faSearch;
   }

@@ -20,6 +20,9 @@ export interface UserState {
   indirect_referral?: number;
   pairing_bonus?: number;
   automatic_equivalent_rebates?: number;
+  is_admin?: boolean;
+  is_owner?: boolean;
+  number_of_supply?: number;
 }
 
 export const USER_INITIAL_STATE: UserState = {};

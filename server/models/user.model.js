@@ -15,6 +15,8 @@ const userSchema = new mongoose.Schema(
     max_member_to_verify: { type: Number },
     member_that_verified: { type: Number },
 
+    number_of_supply: { type: Number },
+
     mega_center: {
       user_id: { type: String, index: true },
       first_name: { type: String },
