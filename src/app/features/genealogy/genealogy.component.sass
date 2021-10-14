@@ -1,11 +1,16 @@
+@import 'responsive'
 
 .genealogy-container
   padding: 20px 10px
   padding-left: 10px
   padding-right: 20px
 
+
 .genealogy-chart
   padding-top: 50px
+
+  @include media('<=lg')
+    padding-top: 150px
 
 .legend
   position: absolute
