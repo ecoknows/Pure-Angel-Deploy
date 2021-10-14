@@ -91,28 +91,28 @@ async function SevenHeads(req, res) {
     is_mega_center: true,
   });
 
-  for (let root = 15; root <= 30; root++) {
-    for (let i = 7; i <= 14; i++) {
-      const current_head = await User.findOne({
-        username:
-          body.username +
-          "-" +
-          i.toString() +
-          "-" +
-          root.toString() +
-          "-root-15-heads",
-      });
+  //15 - 30
 
-      const heads_info = [
-        {
-          array: [1, 2],
-          name: "( 7 Heads )",
-          username: "-" + i.toString() + "-root-7-heads",
-        },
-      ];
+  for (let i = 7; i <= 14; i++) {
+    const current_head = await User.findOne({
+      username:
+        body.username +
+        "-" +
+        i.toString() +
+        "-" +
+        body.root_number +
+        "-root-15-heads",
+    });
 
-      await createHeads(mega_center, current_head, heads_info, 0);
-    }
+    const heads_info = [
+      {
+        array: [1, 2],
+        name: "( 7 Heads )",
+        username: "-" + i.toString() + "-root-7-heads",
+      },
+    ];
+
+    await createHeads(mega_center, current_head, heads_info, 0);
   }
 }
 
