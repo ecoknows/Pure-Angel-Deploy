@@ -148,24 +148,24 @@ async function ThreeHeads(req, res) {
             root.toString() +
             "-root-7-heads",
         });
+
+        const heads_info = [
+          {
+            array: [1],
+            name: "( 3 Heads )",
+            username:
+              "-" +
+              x.toString() +
+              "-root-" +
+              i.toString() +
+              "-root-" +
+              root.toString() +
+              "-root-3-heads",
+          },
+        ];
+
+        await createHeads(mega_center, current_head, heads_info, 0);
       }
-
-      const heads_info = [
-        {
-          array: [1],
-          name: "( 3 Heads )",
-          username:
-            "-" +
-            x.toString() +
-            "-root-" +
-            i.toString() +
-            "-root-" +
-            root.toString() +
-            "-root-3-heads",
-        },
-      ];
-
-      await createHeads(mega_center, current_head, heads_info, 0);
     }
   }
 }
@@ -173,7 +173,7 @@ async function ThreeHeads(req, res) {
 SeedRouter.post(
   "/three-heads",
   expressAsyncHandler(async (req, res) => {
-    ThreeHeads(req, res);
+    await ThreeHeads(req, res);
     res.send({ message: "Sucessfully Seed 31 Heads!" });
   })
 );
