@@ -134,23 +134,34 @@ async function ThreeHeads(req, res) {
 
   //15 - 30
 
-  for (let root = 7; root <= 14; root++) {
-    for (let i = 3; i <= 6; i++) {
-      const current_head = await User.findOne({
-        username:
-          body.username +
-          "-" +
-          i.toString() +
-          "-" +
-          root.toString() +
-          "-root-7-heads",
-      });
+  for (let root = 15; root <= 30; root++) {
+    for (let i = 7; i <= 14; i++) {
+      for (let x = 3; x <= 6; x++) {
+        const current_head = await User.findOne({
+          username:
+            body.username +
+            "-" +
+            x.toString() +
+            "-" +
+            i.toString() +
+            "-root-" +
+            root.toString() +
+            "-root-7-heads",
+        });
+      }
 
       const heads_info = [
         {
-          array: [1, 2],
-          name: "( 7 Heads )",
-          username: "-" + i.toString() + "-root-3-heads",
+          array: [1],
+          name: "( 3 Heads )",
+          username:
+            "-" +
+            x.toString() +
+            "-root-" +
+            i.toString() +
+            "-root-" +
+            root.toString() +
+            "-root-3-heads",
         },
       ];
 
@@ -164,6 +175,48 @@ SeedRouter.post(
   expressAsyncHandler(async (req, res) => {
     ThreeHeads(req, res);
     res.send({ message: "Sucessfully Seed 31 Heads!" });
+  })
+);
+
+async function ModifySevenHeads(req, res, number) {
+  const users = await User.find({
+    last_name: "Tijada " + number.toString() + " ( 7 Heads )",
+  });
+  let count = 7;
+  let roots = 15;
+  for (let x = 0; x < users.length; x++) {
+    const user = await User.findById(users[x]._id);
+
+    user.username =
+      "analee-" +
+      number.toString() +
+      "-" +
+      count.toString() +
+      "-root-" +
+      roots.toString() +
+      "-root-7-heads";
+
+    await user.save();
+
+    if (count == 14) {
+      count = 7;
+      roots++;
+    } else {
+      count++;
+    }
+  }
+}
+
+SeedRouter.post(
+  "/modify-seven-heads",
+  expressAsyncHandler(async (req, res) => {
+    await ModifySevenHeads(req, res, 1);
+    await ModifySevenHeads(req, res, 2);
+    await ModifySevenHeads(req, res, 3);
+    await ModifySevenHeads(req, res, 4);
+    await ModifySevenHeads(req, res, 5);
+    await ModifySevenHeads(req, res, 6);
+    res.send({ message: "Sucessfully Modify 7 Heads" });
   })
 );
 
