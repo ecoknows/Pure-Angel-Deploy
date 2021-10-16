@@ -173,7 +173,7 @@ async function ThreeHeads(req, res) {
 SeedRouter.post(
   "/three-heads",
   expressAsyncHandler(async (req, res) => {
-    await ThreeHeads(req, res);
+    ThreeHeads(req, res);
     res.send({ message: "Sucessfully Seed 31 Heads!" });
   })
 );
