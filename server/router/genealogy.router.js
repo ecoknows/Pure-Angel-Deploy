@@ -89,7 +89,7 @@ GenealogyRouter.get(
     const root = await Genealogy.findOne({ user_id: req.user._id });
 
     if (root) {
-      await updateBranches(root);
+      await updateBranches(root, 0);
       res.send({
         message: "Sucessfully Fetch Genealogy!",
         data: root,

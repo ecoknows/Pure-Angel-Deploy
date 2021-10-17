@@ -134,7 +134,7 @@ async function ThreeHeads(req, res) {
 
   //15 - 30
 
-  for (let root = 15; root <= 30; root++) {
+  for (let root = body.start; root <= body.end; root++) {
     for (let i = 7; i <= 14; i++) {
       for (let x = 3; x <= 6; x++) {
         const current_head = await User.findOne({

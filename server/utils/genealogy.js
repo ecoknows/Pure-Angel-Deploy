@@ -422,13 +422,16 @@ export async function createChildUser(req, current_user, user_that_invite) {
   return child_user;
 }
 
-export async function updateBranches(root) {
+export async function updateBranches(root, counter) {
+  if (counter >= 1) {
+    return null;
+  }
   if (root.left_branch) {
     const branch = root.left_branch;
     const newBranch = await Genealogy.findOne({ user_id: branch.user_id });
     if (newBranch) {
       root.left_branch = newBranch;
-      await updateBranches(root.left_branch);
+      await updateBranches(root.left_branch, counter + 1);
     }
   }
 
@@ -437,7 +440,7 @@ export async function updateBranches(root) {
     const newBranch = await Genealogy.findOne({ user_id: branch.user_id });
     if (newBranch) {
       root.right_branch = newBranch;
-      await updateBranches(root.right_branch);
+      await updateBranches(root.right_branch, counter + 1);
     }
   }
 }
