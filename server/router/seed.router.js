@@ -174,7 +174,14 @@ SeedRouter.post(
   "/three-heads",
   expressAsyncHandler(async (req, res) => {
     ThreeHeads(req, res);
-    res.send({ message: "Sucessfully Seed 31 Heads!" });
+    res.send({
+      message:
+        "Sucessfully " +
+        "Start : " +
+        req.body.start.toString() +
+        " End: " +
+        req.body.end.toString(),
+    });
   })
 );
 
