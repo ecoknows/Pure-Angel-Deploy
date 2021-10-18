@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { setGenealogy } from '@core/redux/genealogy/genealogy.actions';
+import {
+  setGenealogy,
+  fetchRoot,
+} from '@core/redux/genealogy/genealogy.actions';
 import { Genealogy } from '@core/redux/genealogy/genealogy.model';
 import { setUserData } from '@core/redux/user/user.actions';
 import { environment } from '@env';
@@ -9,6 +12,8 @@ import { Store } from '@ngrx/store';
 import { AuthService } from './auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from '@shared/components';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateDialogComponent } from '@shared/components/create-dialog/create-dialog.component';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +25,8 @@ export class GenealogyService {
     private http: HttpClient,
     private authService: AuthService,
     private store: Store<{}>,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) {}
 
   fetchDefaultGenealogy() {
@@ -49,7 +55,7 @@ export class GenealogyService {
 
   fetchGenealogy() {
     this.http
-      .get<{ message: string; data: Genealogy }>(
+      .get<{ message: string; data: { root: Genealogy; leaves: Genealogy[] } }>(
         environment.api + 'api/genealogy/',
         {
           headers: this.authService.headers,
@@ -59,9 +65,49 @@ export class GenealogyService {
         let data = result.data;
 
         if (data) {
-          this.store.dispatch(setGenealogy({ genealogy: data }));
+          this.store.dispatch(setGenealogy({ genealogy: data.root }));
         } else {
           this.fetchDefaultGenealogy();
+        }
+      });
+  }
+
+  fetchLeaves(user_id: string | undefined, position: string) {
+    this.http
+      .post<{
+        message: string;
+        data: Genealogy;
+        isReach: boolean;
+      }>(
+        environment.api + 'api/genealogy/fetch-leave',
+        {
+          user_id,
+        },
+        {
+          headers: this.authService.headers,
+        }
+      )
+      .subscribe((response) => {
+        let data = response.data;
+
+        if (response.isReach) {
+          this.dialog.open(CreateDialogComponent, {
+            data: { position: position, root_id: user_id },
+          });
+        } else {
+          if (data) {
+            this._snackBar.openFromComponent(SnackbarComponent, {
+              duration: this.snackBarDuration * 1000,
+              verticalPosition: 'top',
+              horizontalPosition: 'center',
+              panelClass: ['snackbar-background'],
+              data: {
+                message: response.message,
+              },
+            });
+
+            this.store.dispatch(fetchRoot({ root: data }));
+          }
         }
       });
   }

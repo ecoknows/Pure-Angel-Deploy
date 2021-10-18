@@ -1,6 +1,7 @@
 import express from "express";
 import expressAsyncHandler from "express-async-handler";
 import User from "../models/user.model.js";
+import UserVerification from "../models/user.verification.model.js";
 import {
   modifyAdmin,
   createAdminUser,
@@ -227,4 +228,20 @@ SeedRouter.post(
   })
 );
 
+SeedRouter.post(
+  "/clear-unpaid",
+  expressAsyncHandler(async (req, res) => {
+    const users = await UserVerification.find({});
+
+    for (let i = 0; i < users.length; i++) {
+      const user = await UserVerification.findById(users[i]._id);
+
+      user.unpaid_income = 0;
+
+      await user.save();
+    }
+
+    res.send({ message: "Sucessfully Clear Unpaid" });
+  })
+);
 export default SeedRouter;

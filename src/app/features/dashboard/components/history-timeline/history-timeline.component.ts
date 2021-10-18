@@ -25,7 +25,7 @@ export class HistoryTimelineComponent implements OnInit {
   curve: any = curveBumpX;
 
   colorScheme: any = {
-    domain: ['#643E23'],
+    domain: ['#0c73c2'],
   };
 
   constructor(

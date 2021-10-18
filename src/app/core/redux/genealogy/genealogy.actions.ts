@@ -3,7 +3,12 @@ import { Genealogy } from './genealogy.model';
 
 export const setGenealogy = createAction(
   '[Genealogy Component] Set Item',
-  props<{ genealogy: Genealogy }>()
+  props<{ genealogy: Genealogy; leaves?: Genealogy[] }>()
+);
+
+export const fetchRoot = createAction(
+  '[Genealogy Component] fetchRoot',
+  props<{ root: Genealogy }>()
 );
 
 export const resetGenealogy = createAction('[Genealogy Component] Reset Item');

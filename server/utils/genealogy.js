@@ -422,16 +422,19 @@ export async function createChildUser(req, current_user, user_that_invite) {
   return child_user;
 }
 
-export async function updateBranches(root, counter) {
-  if (counter >= 1) {
-    return null;
-  }
+export async function updateBranches(root, leaves) {
   if (root.left_branch) {
     const branch = root.left_branch;
     const newBranch = await Genealogy.findOne({ user_id: branch.user_id });
     if (newBranch) {
       root.left_branch = newBranch;
-      await updateBranches(root.left_branch, counter + 1);
+
+      if (newBranch.left_branch.user_id) {
+        leaves.push(newBranch.left_branch);
+      }
+      if (newBranch.right_branch.user_id) {
+        leaves.push(newBranch.right_branch);
+      }
     }
   }
 
@@ -440,7 +443,13 @@ export async function updateBranches(root, counter) {
     const newBranch = await Genealogy.findOne({ user_id: branch.user_id });
     if (newBranch) {
       root.right_branch = newBranch;
-      await updateBranches(root.right_branch, counter + 1);
+
+      if (newBranch.left_branch.user_id) {
+        leaves.push(newBranch.left_branch);
+      }
+      if (newBranch.right_branch.user_id) {
+        leaves.push(newBranch.right_branch);
+      }
     }
   }
 }

@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Genealogy } from '@core/redux/genealogy/genealogy.model';
-import { MatDialog } from '@angular/material/dialog';
-import { CreateDialogComponent } from '@shared/components/create-dialog/create-dialog.component';
+import { GenealogyService } from '@core/services/genealogy.service';
 
 @Component({
   selector: 'genealogy-add',
@@ -12,11 +11,10 @@ export class GenealogyAddComponent {
   @Input('node') node!: Genealogy | undefined;
   @Input('position') position: 'left' | 'right' = 'left';
 
-  constructor(public dialog: MatDialog) {}
+  constructor(private genealogyService: GenealogyService) {}
 
   addDirectRefferal() {
-    this.dialog.open(CreateDialogComponent, {
-      data: { position: this.position, root_id: this.node?.user_id },
-    });
+    if (this.node)
+      this.genealogyService.fetchLeaves(this.node.user_id, this.position);
   }
 }

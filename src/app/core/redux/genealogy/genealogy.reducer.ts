@@ -1,20 +1,71 @@
 import { createReducer, on } from '@ngrx/store';
-import { setGenealogy, resetGenealogy } from './genealogy.actions';
+import { setGenealogy, resetGenealogy, fetchRoot } from './genealogy.actions';
 import { Genealogy } from './genealogy.model';
+import { cloneDeep } from 'lodash';
 
 export interface GenealogyState {
-  genealogy: Genealogy;
+  genealogy?: Genealogy;
 }
 
-export const GENEALOGY_INITIAL_STATE: GenealogyState = {
-  genealogy: {},
-};
+export const GENEALOGY_INITIAL_STATE: GenealogyState = {};
+
+function Recursion(
+  genealogy: Genealogy,
+  position: string,
+  root: Genealogy
+): any {
+  if (genealogy.left_branch) {
+    let isLast = Recursion(genealogy.left_branch, 'left', root);
+    if (isLast) {
+      if (root.user_id == genealogy.left_branch?.user_id) {
+        genealogy.left_branch = root;
+      }
+    }
+  } else if (position == 'left') {
+    return true;
+  }
+
+  if (genealogy.right_branch) {
+    let isLast = Recursion(genealogy.right_branch, 'right', root);
+    if (isLast) {
+      if (root.user_id == genealogy.right_branch?.user_id) {
+        genealogy.right_branch = root;
+      }
+    }
+  } else if (position == 'right') {
+    return true;
+  }
+
+  return false;
+}
 
 const GENEALOGY_REDUCER = createReducer(
   GENEALOGY_INITIAL_STATE,
-  on(setGenealogy, (state, { genealogy }) => ({
-    genealogy: { ...genealogy },
-  })),
+  on(fetchRoot, (state, { root }) => {
+    let _genealogy: any = cloneDeep({ ...state.genealogy });
+
+    if (root) {
+      Recursion(_genealogy, 'root', root);
+    }
+
+    return {
+      ...state,
+      genealogy: _genealogy,
+    };
+  }),
+  on(setGenealogy, (state, { genealogy, leaves }) => {
+    if (state.genealogy == undefined) {
+      return {
+        ...state,
+        genealogy,
+        leaves,
+      };
+    }
+
+    return {
+      ...state,
+    };
+  }),
   on(resetGenealogy, (state) => ({ ...state, genealogy: {} }))
 );
 

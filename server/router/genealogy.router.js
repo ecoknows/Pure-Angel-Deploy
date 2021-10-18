@@ -89,15 +89,35 @@ GenealogyRouter.get(
     const root = await Genealogy.findOne({ user_id: req.user._id });
 
     if (root) {
-      await updateBranches(root, 0);
+      const leaves = [];
+      await updateBranches(root, leaves);
       res.send({
         message: "Sucessfully Fetch Genealogy!",
+        data: { root, leaves },
+      });
+    } else {
+      res.status(401).send({
+        message: "Failed to Fetch Genealogy!",
+      });
+    }
+  })
+);
+
+GenealogyRouter.post(
+  "/fetch-leave",
+  verifyUserToken,
+  expressAsyncHandler(async (req, res) => {
+    const root = await Genealogy.findOne({ user_id: req.body.user_id });
+
+    if (root) {
+      res.send({
+        message: "There is an existing head",
         data: root,
       });
     } else {
       res.send({
-        message: "Failed to Fetch Genealogy!",
-        data: root,
+        message: "No more root!!",
+        isReach: true,
       });
     }
   })

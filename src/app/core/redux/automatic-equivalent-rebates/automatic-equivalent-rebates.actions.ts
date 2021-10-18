@@ -2,6 +2,6 @@ import { createAction, props } from '@ngrx/store';
 import { AutomaticEquivalentRebatesState } from './automatic-equivalent-rebates.reducers';
 
 export const setAutomaticEquivalentRebates = createAction(
-  '[Direct Referral Component] Fetch Item',
+  '[Automatic Equivalent Rebates Component] Automatic Equivalent Rebates Fetch Item',
   props<{ list: AutomaticEquivalentRebatesState[] }>()
 );
