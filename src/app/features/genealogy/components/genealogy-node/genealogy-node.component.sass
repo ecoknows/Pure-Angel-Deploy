@@ -1,12 +1,12 @@
 @import '../_theming'
-
+@import 'variable'
 
 
 .ngx-org
   &-image
     background-repeat: no-repeat
-    width: 2em
-    height: 2em
+    width: 2.5em
+    height: 2.5em
     margin-right: 0.5em
     background-color: white
     border-radius: 50%
@@ -29,3 +29,17 @@
   cursor: pointer
   display: flex
   align-items: center
+
+.info-div
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  padding: 20px
+  min-width: 120px
+  border-radius: 100%
+
+.icons
+  color: $primaryColor
+  font-size: 3rem
+  cursor: pointer

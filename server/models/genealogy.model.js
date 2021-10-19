@@ -3,9 +3,10 @@ import mongoose from "mongoose";
 const genealogySchema = new mongoose.Schema(
   {
     user_id: { type: String, index: true },
+
+    account_number: { type: String, index: true },
     first_name: { type: String, required: true },
     last_name: { type: String, required: true },
-    address: { type: String, required: true },
 
     left_count: { type: Number, default: 0 },
     right_count: { type: Number, default: 0 },
@@ -20,6 +21,11 @@ const genealogySchema = new mongoose.Schema(
     left_branch: {
       type: {
         user_id: { type: String, index: true },
+
+        account_number: { type: String, index: true },
+        first_name: { type: String, required: true },
+        last_name: { type: String, required: true },
+
         left_count: { type: Number, default: 0 },
         right_count: { type: Number, default: 0 },
 
@@ -29,10 +35,6 @@ const genealogySchema = new mongoose.Schema(
           last_name: { type: String },
           address: { type: String },
         },
-
-        first_name: { type: String, required: true },
-        last_name: { type: String, required: true },
-        address: { type: String, required: true },
 
         is_stockist: { type: Boolean },
         is_admin: { type: Boolean },
@@ -47,6 +49,11 @@ const genealogySchema = new mongoose.Schema(
     right_branch: {
       type: {
         user_id: { type: String, index: true },
+
+        account_number: { type: String, index: true },
+        first_name: { type: String, required: true },
+        last_name: { type: String, required: true },
+
         left_count: { type: Number, default: 0 },
         right_count: { type: Number, default: 0 },
 
@@ -56,10 +63,6 @@ const genealogySchema = new mongoose.Schema(
           last_name: { type: String },
           address: { type: String },
         },
-
-        first_name: { type: String, required: true },
-        last_name: { type: String, required: true },
-        address: { type: String, required: true },
 
         is_stockist: { type: Boolean },
         is_admin: { type: Boolean },

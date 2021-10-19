@@ -6,32 +6,34 @@
 
 <div
   [id]="root ? 'scroller' : undefined"
-  [ngClass]="
-    node?.is_owner
-      ? 'ngx-org-shadow-owner'
-      : node?.is_admin
-      ? 'ngx-org-shadow-admin'
-      : node?.is_mega_center
-      ? 'ngx-org-shadow-mega-center'
-      : node?.is_stockist
-      ? 'ngx-org-shadow-stockist'
-      : 'ngx-org-shadow'
-  "
-  class="ngx-org-box ngx-org-border ngx-org-background"
-  (click)="itemClick.emit(node)"
+  class="ngx-org-box ngx-org-background"
+  (click)="changeRoot()"
 >
   <div class="ngx-org-count-left">
     {{ node?.left_count ? node?.left_count : 0 }}
   </div>
   <div
-    class="ngx-org-image ngx-org-border"
-    [ngStyle]="{ 'background-image': 'url(\'' + 'assets/node.svg' + '\')' }"
-  ></div>
-  <div>
-    <div class="ngx-org-name">{{ node?.first_name }} {{ node?.last_name }}</div>
-    <div class="ngx-org-title">
-      {{ node?.address }}
+    class="info-div ngx-org-border"
+    [ngClass]="
+      node?.is_owner
+        ? 'ngx-org-shadow-owner'
+        : node?.is_admin
+        ? 'ngx-org-shadow-admin'
+        : node?.is_mega_center
+        ? 'ngx-org-shadow-mega-center'
+        : node?.is_stockist
+        ? 'ngx-org-shadow-stockist'
+        : 'ngx-org-shadow'
+    "
+  >
+    <div
+      class="ngx-org-image ngx-org-border"
+      [ngStyle]="{ 'background-image': 'url(\'' + 'assets/node.svg' + '\')' }"
+    ></div>
+    <div class="ngx-org-name">
+      {{ node?.first_name }} {{ last_initial(node?.last_name) }}.
     </div>
+    <div class="ngx-org-title">{{ node?.account_number }}</div>
   </div>
   <div class="ngx-org-count-right">
     {{ node?.right_count ? node?.right_count : 0 }}
@@ -39,3 +41,10 @@
 </div>
 
 <div ngClass="ngx-org-connector-{{ direction }}" class="ngx-org-border"></div>
+<div *ngIf="!node?.left_branch && !node?.right_branch">
+  <fa-icon
+    [icon]="faArrowCircleDown"
+    class="icons"
+    (click)="fetchDownward()"
+  ></fa-icon>
+</div>

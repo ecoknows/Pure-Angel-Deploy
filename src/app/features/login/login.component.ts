@@ -22,7 +22,7 @@ export class LoginComponent {
     private router: Router
   ) {
     this.form = fb.group({
-      username: ['', [Validators.required]],
+      account_number: ['', [Validators.required]],
       password: ['', [Validators.required]],
     });
 
@@ -31,9 +31,9 @@ export class LoginComponent {
 
   submit() {
     if (this.form.valid) {
-      let username = this.form.get('username');
+      let account_number = this.form.get('account_number');
       let password = this.form.get('password');
-      this.authService.login(username?.value, password?.value, this.form);
+      this.authService.login(account_number?.value, password?.value, this.form);
     }
   }
 }

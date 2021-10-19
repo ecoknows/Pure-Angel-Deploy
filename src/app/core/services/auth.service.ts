@@ -26,12 +26,12 @@ export class AuthService {
     private _snackBar: MatSnackBar
   ) {}
 
-  login(username: string, password: string, form: FormGroup) {
+  login(account_number: string, password: string, form: FormGroup) {
     this.http
       .post<{ message: string; userToken: string }>(
         environment.api + 'api/user/login',
         {
-          username,
+          account_number,
           password,
         }
       )

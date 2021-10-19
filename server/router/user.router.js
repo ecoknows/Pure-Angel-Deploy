@@ -11,7 +11,9 @@ const UserRouter = express.Router();
 UserRouter.post(
   "/login",
   expressAsyncHandler(async (req, res) => {
-    const user = await User.findOne({ username: req.body.username });
+    const user = await User.findOne({
+      account_number: req.body.account_number,
+    });
 
     if (user) {
       if (bcrypt.compareSync(req.body.password, user.password)) {
@@ -116,7 +118,7 @@ UserRouter.post(
     } else {
       let body = req.body;
       let ancestor = await new User({
-        username: body.username,
+        account_number: body.account_number,
         password: bcrypt.hashSync(body.password, 8),
 
         first_name: body.first_name,

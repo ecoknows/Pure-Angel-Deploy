@@ -12,9 +12,4 @@ export class GenealogyAddComponent {
   @Input('position') position: 'left' | 'right' = 'left';
 
   constructor(private genealogyService: GenealogyService) {}
-
-  addDirectRefferal() {
-    if (this.node)
-      this.genealogyService.fetchLeaves(this.node.user_id, this.position);
-  }
 }

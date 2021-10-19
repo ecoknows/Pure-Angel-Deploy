@@ -53,17 +53,10 @@ const GENEALOGY_REDUCER = createReducer(
       genealogy: _genealogy,
     };
   }),
-  on(setGenealogy, (state, { genealogy, leaves }) => {
-    if (state.genealogy == undefined) {
-      return {
-        ...state,
-        genealogy,
-        leaves,
-      };
-    }
-
+  on(setGenealogy, (state, { genealogy }) => {
     return {
       ...state,
+      genealogy,
     };
   }),
   on(resetGenealogy, (state) => ({ ...state, genealogy: {} }))

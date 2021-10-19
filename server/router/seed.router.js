@@ -2,6 +2,7 @@ import express from "express";
 import expressAsyncHandler from "express-async-handler";
 import User from "../models/user.model.js";
 import UserVerification from "../models/user.verification.model.js";
+import Genealogy from "../models/genealogy.model.js";
 import {
   modifyAdmin,
   createAdminUser,
@@ -244,4 +245,66 @@ SeedRouter.post(
     res.send({ message: "Sucessfully Clear Unpaid" });
   })
 );
+
+SeedRouter.post(
+  "/account-number",
+  expressAsyncHandler(async (req, res) => {
+    const users = await User.find({ first_name: req.body.first_name }).sort({
+      createdAt: 1,
+    });
+    await User.updateMany(
+      { first_name: req.body.first_name },
+      { $unset: { username: 1 } }
+    );
+
+    for (let i = 0; i < users.length; i++) {
+      const user = await User.findById(users[i]._id);
+
+      user.account_number = req.body.code + i.toString();
+
+      await user.save();
+    }
+
+    res.send({ message: "Sucessfully Updated Username" });
+  })
+);
+SeedRouter.post(
+  "/genealogy-account-number",
+  expressAsyncHandler(async (req, res) => {
+    const genealogies = await Genealogy.find({
+      first_name: req.body.first_name,
+    }).sort({
+      createdAt: 1,
+    });
+
+    for (let i = 0; i < genealogies.length; i++) {
+      const genealogy = await Genealogy.findById(genealogies[i]._id);
+
+      genealogy.account_number = req.body.code + i.toString();
+
+      const left_count = i * 2 + 1;
+      const right_count = i * 2 + 2;
+
+      genealogy.left_branch.account_number =
+        req.body.code + left_count.toString();
+      genealogy.right_branch.account_number =
+        req.body.code + right_count.toString();
+
+      if (genealogy.left_count > 0) {
+        const child_count = (genealogy.left_count + 1) / 2;
+
+        genealogy.left_branch.left_count = child_count - 1;
+        genealogy.left_branch.right_count = child_count - 1;
+
+        genealogy.right_branch.left_count = child_count - 1;
+        genealogy.right_branch.right_count = child_count - 1;
+      }
+
+      await genealogy.save();
+    }
+
+    res.send({ message: "Sucessfully Updated Genealogy" });
+  })
+);
+
 export default SeedRouter;

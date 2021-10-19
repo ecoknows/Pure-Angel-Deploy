@@ -4,6 +4,8 @@ import { UserState } from '@core/redux/user/user.reducer';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
+import { faArrowCircleDown } from '@fortawesome/free-solid-svg-icons';
+import { GenealogyService } from '@core/services/genealogy.service';
 @Component({
   selector: 'genealogy-node',
   templateUrl: './genealogy-node.component.html',
@@ -20,8 +22,27 @@ export class GenealogyNodeComponent {
   @Output('itemClick') itemClick = new EventEmitter<Genealogy>();
 
   user$: Observable<UserState>;
+  faArrowCircleDown = faArrowCircleDown;
 
-  constructor(private store: Store<{ userReducer: UserState }>) {
+  constructor(
+    private store: Store<{ userReducer: UserState }>,
+    private genealogyService: GenealogyService
+  ) {
     this.user$ = this.store.select('userReducer');
+  }
+
+  last_initial(value: string | undefined): string {
+    if (!value) {
+      return '';
+    }
+    return value.charAt(0);
+  }
+
+  fetchDownward() {
+    if (this.node) this.genealogyService.fetchLeaves(this.node.user_id);
+  }
+
+  changeRoot() {
+    if (this.node) this.genealogyService.viewChild(this.node.user_id);
   }
 }

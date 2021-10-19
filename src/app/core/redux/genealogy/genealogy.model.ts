@@ -6,6 +6,7 @@ export interface Genealogy {
   address?: string;
   right_branch?: Genealogy;
   left_branch?: Genealogy;
+  account_number?: string;
 
   is_stockist?: boolean;
   is_admin?: boolean;

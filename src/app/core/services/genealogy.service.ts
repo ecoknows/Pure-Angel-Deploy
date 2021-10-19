@@ -55,7 +55,7 @@ export class GenealogyService {
 
   fetchGenealogy() {
     this.http
-      .get<{ message: string; data: { root: Genealogy; leaves: Genealogy[] } }>(
+      .get<{ message: string; data: Genealogy }>(
         environment.api + 'api/genealogy/',
         {
           headers: this.authService.headers,
@@ -65,14 +65,37 @@ export class GenealogyService {
         let data = result.data;
 
         if (data) {
-          this.store.dispatch(setGenealogy({ genealogy: data.root }));
+          this.store.dispatch(setGenealogy({ genealogy: data }));
         } else {
           this.fetchDefaultGenealogy();
         }
       });
   }
 
-  fetchLeaves(user_id: string | undefined, position: string) {
+  viewChild(user_id: string | undefined) {
+    this.http
+      .post<{
+        message: string;
+        data: Genealogy;
+      }>(
+        environment.api + 'api/genealogy/view-child',
+        {
+          user_id,
+        },
+        {
+          headers: this.authService.headers,
+        }
+      )
+      .subscribe((result) => {
+        let data = result.data;
+
+        if (data) {
+          this.store.dispatch(setGenealogy({ genealogy: data }));
+        }
+      });
+  }
+
+  fetchLeaves(user_id: string | undefined) {
     this.http
       .post<{
         message: string;
@@ -90,24 +113,18 @@ export class GenealogyService {
       .subscribe((response) => {
         let data = response.data;
 
-        if (response.isReach) {
-          this.dialog.open(CreateDialogComponent, {
-            data: { position: position, root_id: user_id },
+        if (data) {
+          this._snackBar.openFromComponent(SnackbarComponent, {
+            duration: this.snackBarDuration * 1000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+            panelClass: ['snackbar-background'],
+            data: {
+              message: response.message,
+            },
           });
-        } else {
-          if (data) {
-            this._snackBar.openFromComponent(SnackbarComponent, {
-              duration: this.snackBarDuration * 1000,
-              verticalPosition: 'top',
-              horizontalPosition: 'center',
-              panelClass: ['snackbar-background'],
-              data: {
-                message: response.message,
-              },
-            });
 
-            this.store.dispatch(fetchRoot({ root: data }));
-          }
+          this.store.dispatch(fetchRoot({ root: data }));
         }
       });
   }

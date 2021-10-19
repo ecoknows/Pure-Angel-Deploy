@@ -3,7 +3,7 @@ import { Genealogy } from './genealogy.model';
 
 export const setGenealogy = createAction(
   '[Genealogy Component] Set Item',
-  props<{ genealogy: Genealogy; leaves?: Genealogy[] }>()
+  props<{ genealogy: Genealogy }>()
 );
 
 export const fetchRoot = createAction(
