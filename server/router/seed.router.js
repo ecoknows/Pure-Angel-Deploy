@@ -307,4 +307,52 @@ SeedRouter.post(
   })
 );
 
+SeedRouter.post(
+  "/leaders",
+  expressAsyncHandler(async (req, res) => {
+    const main_user = await User.findOne({
+      account_number: req.body.account_number,
+    });
+
+    main_user.free_account_leader = 31;
+
+    await main_user.save();
+
+    // 15 Heads
+    for (let i = 15; i <= 31; i++) {
+      const user = await User.findOne({
+        account_number: req.body.code + i.toString(),
+      });
+
+      user.free_account_leader = 15;
+
+      await user.save();
+    }
+
+    // 7 Heads
+    for (let i = 127; i <= 254; i++) {
+      const user = await User.findOne({
+        account_number: req.body.code + i.toString(),
+      });
+
+      user.free_account_leader = 7;
+
+      await user.save();
+    }
+
+    // 3 Heads
+    for (let i = 511; i <= 1022; i++) {
+      const user = await User.findOne({
+        account_number: req.body.code + i.toString(),
+      });
+
+      user.free_account_leader = 3;
+
+      await user.save();
+    }
+
+    res.send({ message: "Sucessfully Updated Username" });
+  })
+);
+
 export default SeedRouter;

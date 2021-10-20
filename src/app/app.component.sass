@@ -7,11 +7,20 @@ mat-progress-bar
 
 main
   height: 100vh
-  // padding: 10px 10px
-  // padding-left: 20px
-  // padding-right: 20px
   overflow: auto
 
+  @include media('<=lg')
+    padding-top: 60px
+
+.example-spacer
+  flex: 1 1 auto
+
+.mat-toolbar
+  display: none
+
+  @include media('<=lg')
+    display: flex
+    position: fixed
 
 .main-margin
     @include media('>lg')
@@ -25,3 +34,11 @@ main
 
   @include media('>lg')
     display: none
+
+mat-drawer
+  background: transparent
+  min-width: 170px
+
+.big-screen-side-bar
+    @include media('<=lg')
+      display: none

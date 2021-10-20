@@ -3,18 +3,46 @@
   mode="indeterminate"
 ></mat-progress-bar>
 
-<app-side-bar *ngIf="sideBarService.visibility"></app-side-bar>
+<mat-drawer-container>
+  <mat-drawer #drawer mode="over">
+    <app-side-bar
+      *ngIf="sideBarService.visibility"
+      [drawer]="drawer"
+    ></app-side-bar>
+  </mat-drawer>
 
-<main [class.main-margin]="sideBarService.visibility" id="main">
-  <button
-    mat-mini-fab
-    color="accent"
-    class="menu-button"
-    (click)="showSidebar()"
-    aria-label="Example icon button with a menu icon"
-  >
-    <mat-icon>menu</mat-icon>
-  </button>
+  <mat-toolbar color="primary">
+    <button
+      mat-icon-button
+      class="example-icon"
+      aria-label="Example icon-button with menu icon"
+    >
+      <mat-icon (click)="drawer.toggle()">menu</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      class="example-icon"
+      aria-label="Example icon-button with share icon"
+    >
+      <mat-icon>coffee</mat-icon>
+    </button>
+    <span>Pure Angel Coffee</span>
+    <span class="example-spacer"></span>
+    <button
+      mat-icon-button
+      class="example-icon"
+      aria-label="Example icon-button with share icon"
+    >
+      <mat-icon>person_add</mat-icon>
+    </button>
+  </mat-toolbar>
 
-  <router-outlet></router-outlet>
-</main>
+  <app-side-bar
+    *ngIf="sideBarService.visibility"
+    class="big-screen-side-bar"
+  ></app-side-bar>
+
+  <main [class.main-margin]="sideBarService.visibility" id="main">
+    <router-outlet></router-outlet>
+  </main>
+</mat-drawer-container>

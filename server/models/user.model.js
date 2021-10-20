@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
-    username: { type: String, index: true },
     account_number: { type: String, index: true },
     password: { type: String, index: true },
 
@@ -17,6 +16,8 @@ const userSchema = new mongoose.Schema(
     member_that_verified: { type: Number },
 
     number_of_supply: { type: Number },
+
+    free_account_leader: { type: Number },
 
     mega_center: {
       user_id: { type: String, index: true },

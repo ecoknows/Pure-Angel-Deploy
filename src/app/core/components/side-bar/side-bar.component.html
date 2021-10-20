@@ -19,6 +19,7 @@
           *ngIf="checkIfAdmin"
           routerLinkActive="active"
           routerLink="/admin"
+          (click)="drawer?.toggle()"
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <div class="top-illusion"></div>
@@ -37,6 +38,7 @@
           *ngIf="checkIfMegaCenter"
           routerLinkActive="active"
           routerLink="/mega-center"
+          (click)="drawer?.toggle()"
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <div class="top-illusion"></div>
@@ -55,6 +57,7 @@
           *ngFor="let menu of menus"
           routerLinkActive="active"
           routerLink="{{ menu.url }}"
+          (click)="drawer?.toggle()"
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <div class="top-illusion"></div>

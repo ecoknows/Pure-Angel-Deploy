@@ -7,7 +7,6 @@ import User from "../models/user.model.js";
 import UserVerification from "../models/user.verification.model.js";
 
 export async function updateUserAuthentication(update_info, existing_user) {
-  existing_user.username = update_info.username;
   existing_user.first_name = update_info.first_name;
   existing_user.last_name = update_info.last_name;
   existing_user.birthdate = update_info.birthdate;

@@ -9,6 +9,7 @@ import { SidebarService } from '@core/services/sidebar.service';
 })
 export class AppComponent {
   title = 'pure-angel-coffee';
+  showFiller = false;
 
   constructor(
     public sideBarService: SidebarService,

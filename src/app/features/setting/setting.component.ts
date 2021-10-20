@@ -24,14 +24,6 @@ export class SettingComponent implements OnInit {
     private store: Store<{ userReducer: UserState }>
   ) {
     this.form = fb.group({
-      username: [
-        '',
-        [
-          Validators.required,
-          Validators.maxLength(25),
-          Validators.minLength(4),
-        ],
-      ],
       old_password: ['', [Validators.maxLength(25), Validators.minLength(8)]],
       new_password: ['', [Validators.maxLength(25), Validators.minLength(8)]],
       first_name: [
@@ -78,7 +70,6 @@ export class SettingComponent implements OnInit {
   }
 
   submit() {
-    let username = this.form.get('username')?.value;
     let old_password = this.form.get('old_password')?.value;
     let new_password = this.form.get('new_password')?.value;
     let first_name = this.form.get('first_name')?.value;
@@ -88,7 +79,6 @@ export class SettingComponent implements OnInit {
     let contact_number = this.form.get('contact_number')?.value;
 
     let updatePerson = {
-      username,
       old_password,
       new_password,
       first_name,

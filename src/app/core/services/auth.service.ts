@@ -164,7 +164,6 @@ export class AuthService {
   }
 
   updateUser(update_info: {
-    username?: string;
     old_password?: string;
     new_password?: string;
     first_name?: string;

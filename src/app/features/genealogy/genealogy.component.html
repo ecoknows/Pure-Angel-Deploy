@@ -7,36 +7,6 @@
       : undefined
   "
 >
-  <div class="legend">
-    <ul>
-      <li>
-        <div class="circle circle-owner"></div>
-        <span class="owner"> Owner </span>
-      </li>
-      <li>
-        <div class="circle circle-admin"></div>
-        <span class="admin"> Admin</span>
-      </li>
-      <li>
-        <div class="circle circle-mega-center"></div>
-        <span class="mega-center"> Mega Center</span>
-      </li>
-    </ul>
-    <ul>
-      <li>
-        <div class="circle circle-stockist"></div>
-        <span class="stockist"> Stockist</span>
-      </li>
-      <li>
-        <div class="circle circle-member"></div>
-        <span class="member"> Member</span>
-      </li>
-    </ul>
-    <button mat-stroked-button (click)="scrollToRoot()" color="primary">
-      Click to scroll to main root
-    </button>
-  </div>
-
   <div class="genealogy-chart">
     <genealogy-chart
       [nodes]="(genealogy$ | async)?.genealogy"

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuthService } from '@core/services/auth.service';
 import { SidebarService } from '@core/services/sidebar.service';
@@ -18,6 +18,7 @@ import { getIcon } from '@shared/components/icons';
   styleUrls: ['./side-bar.component.sass'],
 })
 export class SideBarComponent implements OnInit {
+  @Input('drawer') drawer: any;
   menus = [
     {
       url: '',
