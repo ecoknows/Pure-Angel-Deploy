@@ -466,7 +466,7 @@ export async function createHeads(
 ) {
   if (count < heads_info.length) {
     let root_container = [root_head];
-    let code = 1;
+    let code = 2;
     let counter = 1;
 
     const array_leaves = heads_info[count].array;
