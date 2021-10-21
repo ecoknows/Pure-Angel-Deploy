@@ -8,7 +8,8 @@ import { nanoid } from "nanoid";
 
 export async function modifyBranchCountOfRoot(
   root_user_verification_id,
-  direction
+  direction,
+  old_genealogy
 ) {
   const root_genealogy = await Genealogy.findOne({
     user_id: root_user_verification_id,
@@ -17,8 +18,16 @@ export async function modifyBranchCountOfRoot(
   if (root_genealogy) {
     if (direction == "left") {
       root_genealogy.left_count = root_genealogy.left_count + 1;
+      if (old_genealogy) {
+        root_genealogy.left_branch.left_count = old_genealogy.left_count;
+        root_genealogy.left_branch.right_count = old_genealogy.right_count;
+      }
     } else if (direction == "right") {
       root_genealogy.right_count = root_genealogy.right_count + 1;
+      if (old_genealogy) {
+        root_genealogy.right_branch.left_count = old_genealogy.left_count;
+        root_genealogy.right_branch.right_count = old_genealogy.right_count;
+      }
     }
     await root_genealogy.save();
 
@@ -29,7 +38,8 @@ export async function modifyBranchCountOfRoot(
     if (root_user_verification) {
       await modifyBranchCountOfRoot(
         root_user_verification.root_user_genealogy.user_id,
-        root_user_verification.root_user_genealogy.position
+        root_user_verification.root_user_genealogy.position,
+        root_genealogy
       );
     }
   }

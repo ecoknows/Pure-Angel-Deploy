@@ -206,8 +206,8 @@ export async function modifyAdmin(owner, left_admin, right_admin) {
   await addPairingBonus(left_admin, left_admin);
   await addPairingBonus(right_admin, right_admin);
 
-  await modifyBranchCountOfRoot(owner._id, "left");
-  await modifyBranchCountOfRoot(owner._id, "right");
+  await modifyBranchCountOfRoot(owner._id, "left", undefined);
+  await modifyBranchCountOfRoot(owner._id, "right", undefined);
 }
 
 async function addOwnerGenealogy(owner, left_admin, right_admin) {
@@ -284,8 +284,8 @@ async function modifyMegaCenter(admin, left_mega_center, right_mega_center) {
   await addPairingBonus(left_mega_center, left_mega_center);
   await addPairingBonus(right_mega_center, right_mega_center);
 
-  await modifyBranchCountOfRoot(admin._id, "left");
-  await modifyBranchCountOfRoot(admin._id, "right");
+  await modifyBranchCountOfRoot(admin._id, "left", undefined);
+  await modifyBranchCountOfRoot(admin._id, "right", undefined);
 }
 
 async function addAdminGenealogy(admin, left_mega_center, right_mega_center) {
@@ -449,8 +449,8 @@ async function modifyBranch(root, left_branch, right_branch) {
   await addPairingBonus(left_branch, left_branch);
   await addPairingBonus(right_branch, right_branch);
 
-  await modifyBranchCountOfRoot(root._id, "left");
-  await modifyBranchCountOfRoot(root._id, "right");
+  await modifyBranchCountOfRoot(root._id, "left", undefined);
+  await modifyBranchCountOfRoot(root._id, "right", undefined);
 }
 
 export async function createHeads(

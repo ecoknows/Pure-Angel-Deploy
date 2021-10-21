@@ -46,7 +46,11 @@ GenealogyRouter.post(
         );
 
         await addPairingBonus(child_user, child_user);
-        await modifyBranchCountOfRoot(current_user._id, req.body.position);
+        await modifyBranchCountOfRoot(
+          current_user._id,
+          req.body.position,
+          undefined
+        );
         res.send({ message: "Successfully Added New Direct Referral" });
       } else {
         res
@@ -73,7 +77,11 @@ GenealogyRouter.post(
 
       await addPairingBonus(child_user, child_user);
 
-      await modifyBranchCountOfRoot(current_user._id, req.body.position);
+      await modifyBranchCountOfRoot(
+        current_user._id,
+        req.body.position,
+        undefined
+      );
 
       res.send({ message: "Successfully Added New Direct Referral" });
     } else {
