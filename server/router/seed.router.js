@@ -78,15 +78,20 @@ async function FifteenHeads(req, res) {
     },
   ];
 
-  await createHeads(
-    mega_center,
-    current_head,
-    heads_info,
-    0,
-    7,
-    req.body.leader + 1,
-    req.body.ending_code
-  );
+  let ending_code = req.body.ending_code;
+
+  for (let i = req.body.leader; i <= req.body.last_leader; i += 15) {
+    await createHeads(
+      mega_center,
+      current_head,
+      heads_info,
+      0,
+      7,
+      i + 1,
+      ending_code
+    );
+    ending_code += 112;
+  }
 }
 
 SeedRouter.post(
