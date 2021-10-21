@@ -69,7 +69,14 @@ async function FifteenHeads(req, res) {
     },
   ];
 
-  await createHeads(mega_center, current_head, heads_info, 0, 7, 512);
+  await createHeads(
+    mega_center,
+    current_head,
+    heads_info,
+    0,
+    7,
+    req.body.starting_code
+  );
 }
 
 SeedRouter.post(

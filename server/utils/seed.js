@@ -291,6 +291,7 @@ async function modifyMegaCenter(admin, left_mega_center, right_mega_center) {
 async function addAdminGenealogy(admin, left_mega_center, right_mega_center) {
   const genealogy = new Genealogy({
     user_id: admin._id,
+    account_number: admin.account_number,
 
     is_admin: true,
 
@@ -318,6 +319,7 @@ async function addAdminGenealogy(admin, left_mega_center, right_mega_center) {
       first_name: left_mega_center.first_name,
       last_name: left_mega_center.last_name,
       address: left_mega_center.address,
+      account_number: left_mega_center.account_number,
 
       is_mega_center: true,
     },
@@ -335,6 +337,7 @@ async function addAdminGenealogy(admin, left_mega_center, right_mega_center) {
       first_name: right_mega_center.first_name,
       last_name: right_mega_center.last_name,
       address: right_mega_center.address,
+      account_number: right_mega_center.account_number,
 
       is_mega_center: true,
     },
