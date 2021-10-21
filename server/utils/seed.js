@@ -21,7 +21,7 @@ export async function createOwner() {
 
   if (check_if_ancestor_exist == undefined) {
     let ancestor = await new User({
-      username: "teresita",
+      account_number: "PACOWNER",
       password: bcrypt.hashSync("pureangelcoffee", 8),
 
       first_name: "Teresita",
@@ -54,7 +54,7 @@ export async function createOwner() {
 
 export async function createAdminUser(owner, position, index) {
   let child_user = new User({
-    username: "adminteresita" + index,
+    account_number: "PACADMIN" + index,
     password: bcrypt.hashSync("pureangelcoffee", 8),
     first_name: "Teresita",
     last_name: "Negrido Admin " + index,
@@ -126,7 +126,8 @@ export async function createAdminUser(owner, position, index) {
 
 async function createMegaCenterUser(user_info, admin, position) {
   let child_user = new User({
-    username: user_info.username,
+    account_number: user_info.account_number,
+    user_number: user_info.user_number,
     password: bcrypt.hashSync("pureangelcoffee", 8),
     first_name: user_info.first_name,
     last_name: user_info.last_name,
@@ -218,6 +219,7 @@ async function addOwnerGenealogy(owner, left_admin, right_admin) {
     first_name: owner.first_name,
     last_name: owner.last_name,
     address: owner.address,
+    account_number: "PACOWNER",
 
     left_branch: {
       user_id: left_admin._id,
@@ -230,6 +232,7 @@ async function addOwnerGenealogy(owner, left_admin, right_admin) {
       first_name: left_admin.first_name,
       last_name: left_admin.last_name,
       address: left_admin.address,
+      account_number: "PACADMIN1",
 
       is_stockist: left_admin.is_stockist,
       is_admin: left_admin.is_admin,
@@ -247,6 +250,7 @@ async function addOwnerGenealogy(owner, left_admin, right_admin) {
       first_name: right_admin.first_name,
       last_name: right_admin.last_name,
       address: right_admin.address,
+      account_number: "PACADMIN2",
 
       is_stockist: right_admin.is_stockist,
       is_admin: right_admin.is_admin,
@@ -355,13 +359,14 @@ export async function payBonuses(user) {
 export async function createMegaCenters(left_admin, right_admin) {
   const teresita_mega_center = await createMegaCenterUser(
     {
-      username: "teresita",
+      account_number: "PAC01",
+      user_number: 1,
       first_name: "Teresita",
       last_name: "Negrido",
       address: "311 D Lakandula St Tondo Manila",
       birthdate: "2021-10-05T17:32:39.730+00:00",
       contact_number: "09169644560",
-      secret_code_suffix: "NSPAC",
+      secret_code_suffix: "PAC",
     },
     left_admin,
     "left"
@@ -369,13 +374,14 @@ export async function createMegaCenters(left_admin, right_admin) {
 
   const reggie_mega_center = await createMegaCenterUser(
     {
-      username: "reggie",
+      account_number: "MLA01",
+      user_number: 1,
       first_name: "Reggie",
       last_name: "Campomanes",
-      address: "311 D Lakandula St Tondo Manila",
+      address: "Philippines",
       birthdate: "2021-10-05T17:32:39.730+00:00",
       contact_number: "09176345974",
-      secret_code_suffix: "NSMLA",
+      secret_code_suffix: "MLA",
     },
     left_admin,
     "right"
@@ -387,13 +393,14 @@ export async function createMegaCenters(left_admin, right_admin) {
 
   const marcelo_mega_center = await createMegaCenterUser(
     {
-      username: "marcelo",
+      account_number: "CAL01",
+      user_number: 1,
       first_name: "Marcelo",
       last_name: "Loterte",
-      address: "311 D Lakandula St Tondo Manila",
+      address: "Philippines",
       birthdate: "2021-10-05T17:32:39.730+00:00",
       contact_number: "09474133884",
-      secret_code_suffix: "NSCAL",
+      secret_code_suffix: "CAL",
     },
     right_admin,
     "left"
@@ -401,13 +408,14 @@ export async function createMegaCenters(left_admin, right_admin) {
 
   const analee_mega_center = await createMegaCenterUser(
     {
-      username: "analee",
+      account_number: "AKL01",
+      user_number: 1,
       first_name: "Analee",
       last_name: "Tijada",
-      address: "311 D Lakandula St Tondo Manila",
+      address: "Philippines",
       birthdate: "2021-10-05T17:32:39.730+00:00",
       contact_number: "09187145091",
-      secret_code_suffix: "NSAKL",
+      secret_code_suffix: "AKL",
     },
     right_admin,
     "right"
@@ -445,35 +453,43 @@ async function modifyBranch(root, left_branch, right_branch) {
   await modifyBranchCountOfRoot(root._id, "right");
 }
 
-export async function createHeads(mega_center, root_head, heads_info, count) {
-  let root_container = [root_head];
-  let code = 1;
-
+export async function createHeads(
+  mega_center,
+  root_head,
+  heads_info,
+  count,
+  skip_code,
+  starting_code
+) {
   if (count < heads_info.length) {
+    let root_container = [root_head];
+    let code = 1;
+    let counter = 1;
+
     const array_leaves = heads_info[count].array;
 
     for (let i = 0; i < array_leaves.length; i++) {
       let new_root_container = [];
       let root_container_counter = 0;
+
+      if (i == array_leaves.length - 1) {
+        counter = skip_code;
+        code = starting_code;
+      }
+
       for (let y = 0; y < array_leaves[i]; y++) {
         const current_root = root_container[root_container_counter];
 
-        const left_new_user = await branchesAction(
-          current_root,
-          "left",
-          mega_center,
-          code,
-          heads_info[count]
-        );
-        code++;
+        const left_new_user = await branchesAction(current_root, "left", code);
+        code = code + counter;
+
         const right_new_user = await branchesAction(
           current_root,
           "right",
-          mega_center,
-          code,
-          heads_info[count]
+          code
         );
-        code++;
+
+        code = code + counter;
 
         await addHeadsGenealogy(current_root, left_new_user, right_new_user);
         await modifyBranch(current_root, left_new_user, right_new_user);
@@ -482,8 +498,22 @@ export async function createHeads(mega_center, root_head, heads_info, count) {
         await payBonuses(right_new_user);
 
         if (i == array_leaves.length - 1) {
-          await createHeads(mega_center, left_new_user, heads_info, count + 1);
-          await createHeads(mega_center, right_new_user, heads_info, count + 1);
+          await createHeads(
+            mega_center,
+            left_new_user,
+            heads_info,
+            count + 1,
+            skip_code,
+            starting_code
+          );
+          await createHeads(
+            mega_center,
+            right_new_user,
+            heads_info,
+            count + 1,
+            skip_code,
+            starting_code
+          );
         }
 
         new_root_container.push(left_new_user);
@@ -495,18 +525,13 @@ export async function createHeads(mega_center, root_head, heads_info, count) {
   }
 }
 
-async function branchesAction(
-  current_root,
-  position,
-  mega_center,
-  code,
-  heads_info
-) {
+async function branchesAction(current_root, position, code) {
   let child_user = new User({
-    username: mega_center.username + "-" + code + heads_info.username,
+    account_number: current_root.secret_code_suffix + "0" + code.toString(),
+    user_number: code,
     password: bcrypt.hashSync("pureangelcoffee", 8),
     first_name: current_root.first_name,
-    last_name: mega_center.last_name + " " + code + " " + heads_info.name,
+    last_name: current_root.last_name,
     address: current_root.address,
     birthdate: current_root.birthdate,
     contact_number: current_root.contact_number,
@@ -533,7 +558,7 @@ async function branchesAction(
   let child_user_verification = new UserVerification({
     user_id: child_user._id,
     first_name: child_user.first_name,
-    last_name: mega_center.last_name + " " + code + " " + heads_info.name,
+    last_name: child_user.last_name,
     address: child_user.address,
     birthdate: child_user.birthdate,
     secret_code: current_root.secret_code_suffix + "-" + nanoid(10),
@@ -575,6 +600,7 @@ async function branchesAction(
 async function addHeadsGenealogy(current_root, left_branch, right_branch) {
   const genealogy = new Genealogy({
     user_id: current_root._id,
+    account_number: current_root.account_number,
 
     first_name: current_root.first_name,
     last_name: current_root.last_name,
@@ -590,6 +616,7 @@ async function addHeadsGenealogy(current_root, left_branch, right_branch) {
 
     left_branch: {
       user_id: left_branch._id,
+      account_number: left_branch.account_number,
 
       user_that_invite: {
         user_id: current_root._id,
@@ -605,6 +632,7 @@ async function addHeadsGenealogy(current_root, left_branch, right_branch) {
 
     right_branch: {
       user_id: right_branch._id,
+      account_number: right_branch.account_number,
 
       user_that_invite: {
         user_id: current_root._id,

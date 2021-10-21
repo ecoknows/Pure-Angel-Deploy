@@ -29,9 +29,7 @@ async function SeedStructure(req, res) {
 
   const heads_info = [
     {
-      array: [1, 2, 4, 8],
-      name: "( 31 Heads )",
-      username: "-31-heads",
+      array: [1, 2, 4, 8, 16],
     },
   ];
 
@@ -40,7 +38,7 @@ async function SeedStructure(req, res) {
   });
 
   for (let i = 0; i < mega_centers.length; i++) {
-    await createHeads(mega_centers[i], mega_centers[i], heads_info, 0);
+    await createHeads(mega_centers[i], mega_centers[i], heads_info, 0, 15, 32);
   }
 }
 
@@ -56,32 +54,29 @@ async function FifteenHeads(req, res) {
   const body = req.body;
 
   const mega_center = await User.findOne({
-    username: body.username,
+    account_number: body.account_number,
     is_mega_center: true,
   });
 
-  for (let i = 15; i <= 30; i++) {
-    const current_head = await User.findOne({
-      username: body.username + "-" + i.toString() + "-31-heads",
-    });
+  // 32 497 + 15
+  const current_head = await User.findOne({
+    account_number: mega_center.secret_code_suffix + "0" + req.body.leader,
+  });
 
-    const heads_info = [
-      {
-        array: [1, 2, 4],
-        name: "( 15 Heads )",
-        username: "-" + i.toString() + "-root-15-heads",
-      },
-    ];
+  const heads_info = [
+    {
+      array: [1, 2, 4, 8],
+    },
+  ];
 
-    await createHeads(mega_center, current_head, heads_info, 0);
-  }
+  await createHeads(mega_center, current_head, heads_info, 0, 7, 512);
 }
 
 SeedRouter.post(
   "/fifteen-heads",
   expressAsyncHandler(async (req, res) => {
     FifteenHeads(req, res);
-    res.send({ message: "Sucessfully Seed 31 Heads!" });
+    res.send({ message: "Sucessfully Seed 15 Heads!" });
   })
 );
 
@@ -89,32 +84,22 @@ async function SevenHeads(req, res) {
   const body = req.body;
 
   const mega_center = await User.findOne({
-    username: body.username,
+    account_number: body.account_number,
     is_mega_center: true,
   });
 
-  //15 - 30
-
-  for (let i = 7; i <= 14; i++) {
+  for (let i = 47; i <= 62; i++) {
     const current_head = await User.findOne({
-      username:
-        body.username +
-        "-" +
-        i.toString() +
-        "-" +
-        body.root_number +
-        "-root-15-heads",
+      account_number: mega_center.secret_code_suffix + "0" + i.toString(),
     });
 
     const heads_info = [
       {
-        array: [1, 2],
-        name: "( 7 Heads )",
-        username: "-" + i.toString() + "-root-7-heads",
+        array: [1, 2, 4],
       },
     ];
 
-    await createHeads(mega_center, current_head, heads_info, 0);
+    await createHeads(mega_center, current_head, heads_info, 0, 3);
   }
 }
 
@@ -130,43 +115,24 @@ async function ThreeHeads(req, res) {
   const body = req.body;
 
   const mega_center = await User.findOne({
-    username: body.username,
+    account_number: body.account_number,
     is_mega_center: true,
   });
-
-  //15 - 30
 
   for (let root = body.start; root <= body.end; root++) {
     for (let i = 7; i <= 14; i++) {
       for (let x = 3; x <= 6; x++) {
         const current_head = await User.findOne({
-          username:
-            body.username +
-            "-" +
-            x.toString() +
-            "-" +
-            i.toString() +
-            "-root-" +
-            root.toString() +
-            "-root-7-heads",
+          account_number: mega_center.secret_code_suffix + "0" + i.toString(),
         });
 
         const heads_info = [
           {
             array: [1],
-            name: "( 3 Heads )",
-            username:
-              "-" +
-              x.toString() +
-              "-root-" +
-              i.toString() +
-              "-root-" +
-              root.toString() +
-              "-root-3-heads",
           },
         ];
 
-        await createHeads(mega_center, current_head, heads_info, 0);
+        await createHeads(mega_center, current_head, heads_info, 0, 1);
       }
     }
   }
@@ -261,6 +227,7 @@ SeedRouter.post(
       const user = await User.findById(users[i]._id);
 
       user.account_number = req.body.code + i.toString();
+      user.secret_code_suffix = req.body.code;
 
       await user.save();
     }
@@ -273,17 +240,20 @@ SeedRouter.post(
   expressAsyncHandler(async (req, res) => {
     const genealogies = await Genealogy.find({
       first_name: req.body.first_name,
-    }).sort({
-      createdAt: 1,
     });
 
     for (let i = 0; i < genealogies.length; i++) {
       const genealogy = await Genealogy.findById(genealogies[i]._id);
 
-      genealogy.account_number = req.body.code + i.toString();
+      const user = await User.findById(genealogy.user_id);
+      const leader_number = parseInt(
+        user.account_number.substring(req.body.code.length)
+      );
 
-      const left_count = i * 2 + 1;
-      const right_count = i * 2 + 2;
+      genealogy.account_number = user.account_number;
+
+      const left_count = leader_number * 2 + 1;
+      const right_count = leader_number * 2 + 2;
 
       genealogy.left_branch.account_number =
         req.body.code + left_count.toString();
