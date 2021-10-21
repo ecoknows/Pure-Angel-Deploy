@@ -84,8 +84,8 @@ async function FifteenHeads(req, res) {
     heads_info,
     0,
     7,
-    req.body.starting_code,
-    req.body.leader + 1
+    req.body.leader + 1,
+    req.body.ending_code
   );
 }
 
