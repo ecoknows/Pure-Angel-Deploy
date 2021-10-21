@@ -462,11 +462,12 @@ export async function createHeads(
   heads_info,
   count,
   skip_code,
-  starting_code
+  starting_code,
+  ending_code
 ) {
   if (count < heads_info.length) {
     let root_container = [root_head];
-    let code = 2;
+    let code = starting_code;
     let counter = 1;
 
     const array_leaves = heads_info[count].array;
@@ -477,7 +478,7 @@ export async function createHeads(
 
       if (i == array_leaves.length - 1) {
         counter = skip_code;
-        code = starting_code;
+        code = ending_code;
       }
 
       for (let y = 0; y < array_leaves[i]; y++) {
@@ -507,7 +508,8 @@ export async function createHeads(
             heads_info,
             count + 1,
             skip_code,
-            starting_code
+            starting_code,
+            ending_code
           );
           await createHeads(
             mega_center,
@@ -515,7 +517,8 @@ export async function createHeads(
             heads_info,
             count + 1,
             skip_code,
-            starting_code
+            starting_code,
+            ending_code
           );
         }
 

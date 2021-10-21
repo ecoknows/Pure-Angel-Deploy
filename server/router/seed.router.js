@@ -38,7 +38,15 @@ async function SeedStructure(req, res) {
   });
 
   for (let i = 0; i < mega_centers.length; i++) {
-    await createHeads(mega_centers[i], mega_centers[i], heads_info, 0, 15, 32);
+    await createHeads(
+      mega_centers[i],
+      mega_centers[i],
+      heads_info,
+      0,
+      15,
+      2,
+      32
+    );
   }
 }
 
@@ -60,7 +68,8 @@ async function FifteenHeads(req, res) {
 
   // 32 497 + 15
   const current_head = await User.findOne({
-    account_number: mega_center.secret_code_suffix + "0" + req.body.leader,
+    account_number:
+      mega_center.secret_code_suffix + "0" + req.body.leader.toString(),
   });
 
   const heads_info = [
@@ -75,7 +84,8 @@ async function FifteenHeads(req, res) {
     heads_info,
     0,
     7,
-    req.body.starting_code
+    req.body.starting_code,
+    req.body.leader + 1
   );
 }
 

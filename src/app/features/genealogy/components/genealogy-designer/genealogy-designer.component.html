@@ -37,6 +37,21 @@
     </div>
   </ng-container>
 
+  <ng-container *ngIf="node?.left_branch == undefined && node?.right_branch">
+    <genealogy-add [node]="node" position="left"></genealogy-add>
+  </ng-container>
+
+  <ng-container *ngIf="node?.right_branch == undefined && node?.left_branch">
+    <genealogy-add [node]="node" position="right"></genealogy-add>
+  </ng-container>
+
+  <ng-container
+    *ngIf="node?.left_branch == undefined && node?.right_branch == undefined"
+  >
+    <genealogy-add [node]="node" position="left"></genealogy-add>
+    <genealogy-add [node]="node" position="right"></genealogy-add>
+  </ng-container>
+
   <ng-container *ngIf="node?.right_branch">
     <div
       ngClass="ngx-org-org-container-{{ direction }}"
