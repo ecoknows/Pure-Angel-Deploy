@@ -66,7 +66,7 @@ async function FifteenHeads(req, res) {
     is_mega_center: true,
   });
 
-  // 32 497 + 15
+  // 32 497 + 15 okayes
   const current_head = await User.findOne({
     account_number:
       mega_center.secret_code_suffix + "0" + req.body.leader.toString(),
