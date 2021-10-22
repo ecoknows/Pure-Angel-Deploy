@@ -138,7 +138,7 @@ SeedRouter.post(
   "/seven-heads",
   expressAsyncHandler(async (req, res) => {
     SevenHeads(req, res);
-    res.send({ message: "Sucessfully Seed 31 Heads!" });
+    res.send({ message: "Sucessfully Seed 7 Heads!" });
   })
 );
 

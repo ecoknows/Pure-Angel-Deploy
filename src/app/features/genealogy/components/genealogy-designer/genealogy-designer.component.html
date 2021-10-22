@@ -37,17 +37,15 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="node?.left_branch == undefined && node?.right_branch">
+  <ng-container *ngIf="node?.left_count == 0 && node?.right_count != 0">
     <genealogy-add [node]="node" position="left"></genealogy-add>
   </ng-container>
 
-  <ng-container *ngIf="node?.right_branch == undefined && node?.left_branch">
+  <ng-container *ngIf="node?.right_count == 0 && node?.left_count != 0">
     <genealogy-add [node]="node" position="right"></genealogy-add>
   </ng-container>
 
-  <ng-container
-    *ngIf="node?.left_branch == undefined && node?.right_branch == undefined"
-  >
+  <ng-container *ngIf="node?.left_count == 0 && node?.right_count == 0">
     <genealogy-add [node]="node" position="left"></genealogy-add>
     <genealogy-add [node]="node" position="right"></genealogy-add>
   </ng-container>

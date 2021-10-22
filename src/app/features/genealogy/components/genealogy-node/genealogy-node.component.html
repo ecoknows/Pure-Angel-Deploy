@@ -41,7 +41,14 @@
 </div>
 
 <div ngClass="ngx-org-connector-{{ direction }}" class="ngx-org-border"></div>
-<div *ngIf="!node?.left_branch && !node?.right_branch">
+<div
+  *ngIf="
+    !node?.left_branch &&
+    !node?.right_branch &&
+    node?.left_count != 0 &&
+    node?.right_count != 0
+  "
+>
   <fa-icon
     [icon]="faArrowCircleDown"
     class="icons"
