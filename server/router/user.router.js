@@ -168,87 +168,87 @@ UserRouter.post(
             existing_user
           );
 
-          if (existing_user.free_account_leader == 31) {
-            for (let i = 1; i <= 30; i++) {
-              const user_to_verify = await User.findOne({
-                account_number:
-                  existing_user.secret_code_suffix.substring(2) + i.toString(),
-              });
+          // if (existing_user.free_account_leader == 31) {
+          //   for (let i = 1; i <= 30; i++) {
+          //     const user_to_verify = await User.findOne({
+          //       account_number:
+          //         existing_user.secret_code_suffix.substring(2) + i.toString(),
+          //     });
 
-              await updateUserAuthentication(update_info, user_to_verify);
-            }
-          } else if (existing_user.free_account_leader == 15) {
-            const code = existing_user.secret_code_suffix.substring(2);
-            const leader_number = parseInt(
-              existing_user.account_number.substring(code.length)
-            );
+          //     await updateUserAuthentication(update_info, user_to_verify);
+          //   }
+          // } else if (existing_user.free_account_leader == 15) {
+          //   const code = existing_user.secret_code_suffix.substring(2);
+          //   const leader_number = parseInt(
+          //     existing_user.account_number.substring(code.length)
+          //   );
 
-            const first_level = leader_number * 2 + 1;
+          //   const first_level = leader_number * 2 + 1;
 
-            for (let i = first_level; i <= first_level + 1; i++) {
-              const user_to_verify = await User.findOne({
-                account_number: code + i.toString(),
-              });
-              await updateUserAuthentication(update_info, user_to_verify);
-            }
+          //   for (let i = first_level; i <= first_level + 1; i++) {
+          //     const user_to_verify = await User.findOne({
+          //       account_number: code + i.toString(),
+          //     });
+          //     await updateUserAuthentication(update_info, user_to_verify);
+          //   }
 
-            const second_level = first_level * 2 + 1;
+          //   const second_level = first_level * 2 + 1;
 
-            for (let i = second_level; i <= second_level + 3; i++) {
-              const user_to_verify = await User.findOne({
-                account_number: code + i.toString(),
-              });
-              await updateUserAuthentication(update_info, user_to_verify);
-            }
+          //   for (let i = second_level; i <= second_level + 3; i++) {
+          //     const user_to_verify = await User.findOne({
+          //       account_number: code + i.toString(),
+          //     });
+          //     await updateUserAuthentication(update_info, user_to_verify);
+          //   }
 
-            const third_level = second_level * 2 + 1;
+          //   const third_level = second_level * 2 + 1;
 
-            for (let i = third_level; i <= third_level + 7; i++) {
-              const user_to_verify = await User.findOne({
-                account_number: code + i.toString(),
-              });
-              await updateUserAuthentication(update_info, user_to_verify);
-            }
-          } else if (existing_user.free_account_leader == 7) {
-            const code = existing_user.secret_code_suffix.substring(2);
+          //   for (let i = third_level; i <= third_level + 7; i++) {
+          //     const user_to_verify = await User.findOne({
+          //       account_number: code + i.toString(),
+          //     });
+          //     await updateUserAuthentication(update_info, user_to_verify);
+          //   }
+          // } else if (existing_user.free_account_leader == 7) {
+          //   const code = existing_user.secret_code_suffix.substring(2);
 
-            const leader_number = parseInt(
-              existing_user.account_number.substring(code.length)
-            );
+          //   const leader_number = parseInt(
+          //     existing_user.account_number.substring(code.length)
+          //   );
 
-            const first_level = leader_number * 2 + 1;
+          //   const first_level = leader_number * 2 + 1;
 
-            for (let i = first_level; i <= first_level + 1; i++) {
-              const user_to_verify = await User.findOne({
-                account_number: code + i.toString(),
-              });
-              await updateUserAuthentication(update_info, user_to_verify);
-            }
+          //   for (let i = first_level; i <= first_level + 1; i++) {
+          //     const user_to_verify = await User.findOne({
+          //       account_number: code + i.toString(),
+          //     });
+          //     await updateUserAuthentication(update_info, user_to_verify);
+          //   }
 
-            const second_level = first_level * 2 + 1;
+          //   const second_level = first_level * 2 + 1;
 
-            for (let i = second_level; i <= second_level + 3; i++) {
-              const user_to_verify = await User.findOne({
-                account_number: code + i.toString(),
-              });
-              await updateUserAuthentication(update_info, user_to_verify);
-            }
-          } else if (existing_user.free_account_leader == 3) {
-            const code = existing_user.secret_code_suffix.substring(2);
+          //   for (let i = second_level; i <= second_level + 3; i++) {
+          //     const user_to_verify = await User.findOne({
+          //       account_number: code + i.toString(),
+          //     });
+          //     await updateUserAuthentication(update_info, user_to_verify);
+          //   }
+          // } else if (existing_user.free_account_leader == 3) {
+          //   const code = existing_user.secret_code_suffix.substring(2);
 
-            const leader_number = parseInt(
-              existing_user.account_number.substring(code.length)
-            );
+          //   const leader_number = parseInt(
+          //     existing_user.account_number.substring(code.length)
+          //   );
 
-            const first_level = leader_number * 2 + 1;
+          //   const first_level = leader_number * 2 + 1;
 
-            for (let i = first_level; i <= first_level + 1; i++) {
-              const user_to_verify = await User.findOne({
-                account_number: code + i.toString(),
-              });
-              await updateUserAuthentication(update_info, user_to_verify);
-            }
-          }
+          //   for (let i = first_level; i <= first_level + 1; i++) {
+          //     const user_to_verify = await User.findOne({
+          //       account_number: code + i.toString(),
+          //     });
+          //     await updateUserAuthentication(update_info, user_to_verify);
+          //   }
+          // }
 
           res.send({
             message: "Successfully Updated the User",
@@ -263,87 +263,87 @@ UserRouter.post(
           existing_user
         );
 
-        if (existing_user.free_account_leader == 31) {
-          for (let i = 1; i <= 30; i++) {
-            const user_to_verify = await User.findOne({
-              account_number:
-                existing_user.secret_code_suffix.substring(2) + i.toString(),
-            });
+        // if (existing_user.free_account_leader == 31) {
+        //   for (let i = 1; i <= 30; i++) {
+        //     const user_to_verify = await User.findOne({
+        //       account_number:
+        //         existing_user.secret_code_suffix.substring(2) + i.toString(),
+        //     });
 
-            await updateUserAuthentication(update_info, user_to_verify);
-          }
-        } else if (existing_user.free_account_leader == 15) {
-          const code = existing_user.secret_code_suffix.substring(2);
-          const leader_number = parseInt(
-            existing_user.account_number.substring(code.length)
-          );
+        //     await updateUserAuthentication(update_info, user_to_verify);
+        //   }
+        // } else if (existing_user.free_account_leader == 15) {
+        //   const code = existing_user.secret_code_suffix.substring(2);
+        //   const leader_number = parseInt(
+        //     existing_user.account_number.substring(code.length)
+        //   );
 
-          const first_level = leader_number * 2 + 1;
+        //   const first_level = leader_number * 2 + 1;
 
-          for (let i = first_level; i <= first_level + 1; i++) {
-            const user_to_verify = await User.findOne({
-              account_number: code + i.toString(),
-            });
-            await updateUserAuthentication(update_info, user_to_verify);
-          }
+        //   for (let i = first_level; i <= first_level + 1; i++) {
+        //     const user_to_verify = await User.findOne({
+        //       account_number: code + i.toString(),
+        //     });
+        //     await updateUserAuthentication(update_info, user_to_verify);
+        //   }
 
-          const second_level = first_level * 2 + 1;
+        //   const second_level = first_level * 2 + 1;
 
-          for (let i = second_level; i <= second_level + 3; i++) {
-            const user_to_verify = await User.findOne({
-              account_number: code + i.toString(),
-            });
-            await updateUserAuthentication(update_info, user_to_verify);
-          }
+        //   for (let i = second_level; i <= second_level + 3; i++) {
+        //     const user_to_verify = await User.findOne({
+        //       account_number: code + i.toString(),
+        //     });
+        //     await updateUserAuthentication(update_info, user_to_verify);
+        //   }
 
-          const third_level = second_level * 2 + 1;
+        //   const third_level = second_level * 2 + 1;
 
-          for (let i = third_level; i <= third_level + 7; i++) {
-            const user_to_verify = await User.findOne({
-              account_number: code + i.toString(),
-            });
-            await updateUserAuthentication(update_info, user_to_verify);
-          }
-        } else if (existing_user.free_account_leader == 7) {
-          const code = existing_user.secret_code_suffix.substring(2);
+        //   for (let i = third_level; i <= third_level + 7; i++) {
+        //     const user_to_verify = await User.findOne({
+        //       account_number: code + i.toString(),
+        //     });
+        //     await updateUserAuthentication(update_info, user_to_verify);
+        //   }
+        // } else if (existing_user.free_account_leader == 7) {
+        //   const code = existing_user.secret_code_suffix.substring(2);
 
-          const leader_number = parseInt(
-            existing_user.account_number.substring(code.length)
-          );
+        //   const leader_number = parseInt(
+        //     existing_user.account_number.substring(code.length)
+        //   );
 
-          const first_level = leader_number * 2 + 1;
+        //   const first_level = leader_number * 2 + 1;
 
-          for (let i = first_level; i <= first_level + 1; i++) {
-            const user_to_verify = await User.findOne({
-              account_number: code + i.toString(),
-            });
-            await updateUserAuthentication(update_info, user_to_verify);
-          }
+        //   for (let i = first_level; i <= first_level + 1; i++) {
+        //     const user_to_verify = await User.findOne({
+        //       account_number: code + i.toString(),
+        //     });
+        //     await updateUserAuthentication(update_info, user_to_verify);
+        //   }
 
-          const second_level = first_level * 2 + 1;
+        //   const second_level = first_level * 2 + 1;
 
-          for (let i = second_level; i <= second_level + 3; i++) {
-            const user_to_verify = await User.findOne({
-              account_number: code + i.toString(),
-            });
-            await updateUserAuthentication(update_info, user_to_verify);
-          }
-        } else if (existing_user.free_account_leader == 3) {
-          const code = existing_user.secret_code_suffix.substring(2);
+        //   for (let i = second_level; i <= second_level + 3; i++) {
+        //     const user_to_verify = await User.findOne({
+        //       account_number: code + i.toString(),
+        //     });
+        //     await updateUserAuthentication(update_info, user_to_verify);
+        //   }
+        // } else if (existing_user.free_account_leader == 3) {
+        //   const code = existing_user.secret_code_suffix.substring(2);
 
-          const leader_number = parseInt(
-            existing_user.account_number.substring(code.length)
-          );
+        //   const leader_number = parseInt(
+        //     existing_user.account_number.substring(code.length)
+        //   );
 
-          const first_level = leader_number * 2 + 1;
+        //   const first_level = leader_number * 2 + 1;
 
-          for (let i = first_level; i <= first_level + 1; i++) {
-            const user_to_verify = await User.findOne({
-              account_number: code + i.toString(),
-            });
-            await updateUserAuthentication(update_info, user_to_verify);
-          }
-        }
+        //   for (let i = first_level; i <= first_level + 1; i++) {
+        //     const user_to_verify = await User.findOne({
+        //       account_number: code + i.toString(),
+        //     });
+        //     await updateUserAuthentication(update_info, user_to_verify);
+        //   }
+        // }
 
         res.send({
           message: "Successfully Updated the User",
