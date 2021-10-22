@@ -266,6 +266,7 @@ SeedRouter.post(
     res.send({ message: "Sucessfully Updated Username" });
   })
 );
+
 SeedRouter.post(
   "/genealogy-account-number",
   expressAsyncHandler(async (req, res) => {
