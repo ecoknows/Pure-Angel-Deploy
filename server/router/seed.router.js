@@ -103,14 +103,33 @@ SeedRouter.post(
 async function SevenHeads(req, res) {
   const body = req.body;
 
+  const codigs = [
+    { leader: 512, last_leader: 729, ending_code: 4096 },
+    { leader: 736, last_leader: 953, ending_code: 4864 },
+    { leader: 960, last_leader: 1177, ending_code: 5632 },
+    { leader: 1184, last_leader: 1401, ending_code: 6400 },
+    { leader: 1408, last_leader: 1625, ending_code: 7168 },
+    { leader: 1632, last_leader: 1849, ending_code: 7936 },
+    { leader: 1856, last_leader: 2073, ending_code: 8704 },
+    { leader: 2080, last_leader: 2297, ending_code: 9472 },
+    { leader: 2304, last_leader: 2521, ending_code: 10240 },
+    { leader: 2528, last_leader: 2745, ending_code: 11008 },
+    { leader: 2752, last_leader: 2969, ending_code: 11776 },
+    { leader: 3424, last_leader: 3641, ending_code: 14080 },
+    { leader: 3648, last_leader: 3865, ending_code: 14848 },
+    { leader: 3872, last_leader: 4089, ending_code: 15616 },
+  ];
+
   const mega_center = await User.findOne({
     account_number: body.account_number,
     is_mega_center: true,
   });
 
-  let ending_code = req.body.ending_code;
+  let number = req.body.number;
 
-  for (let i = req.body.leader; i <= req.body.last_leader; i += 7) {
+  let ending_code = codigs[number].ending_code;
+
+  for (let i = codigs[number].leader; i <= codigs[number].last_leader; i += 7) {
     const current_head = await User.findOne({
       account_number: mega_center.secret_code_suffix + "0" + i.toString(),
     });
