@@ -108,7 +108,9 @@ async function SevenHeads(req, res) {
     is_mega_center: true,
   });
 
-  for (let i = 47; i <= 62; i++) {
+  let ending_code = req.body.ending_code;
+
+  for (let i = req.body.leader; i <= req.body.last_leader; i += 7) {
     const current_head = await User.findOne({
       account_number: mega_center.secret_code_suffix + "0" + i.toString(),
     });
@@ -119,7 +121,16 @@ async function SevenHeads(req, res) {
       },
     ];
 
-    await createHeads(mega_center, current_head, heads_info, 0, 3);
+    await createHeads(
+      mega_center,
+      current_head,
+      heads_info,
+      0,
+      3,
+      i + 1,
+      ending_code
+    );
+    ending_code += 24;
   }
 }
 
