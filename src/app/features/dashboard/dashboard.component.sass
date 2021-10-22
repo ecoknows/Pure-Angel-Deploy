@@ -4,17 +4,22 @@
 .cash-out-button
   padding: 0
 
+  @include media('<lg')
+    width: 100%
+
+
+
 h1
     font-size: 1.6em
 
     @include media('<lg')
-      font-size: 1em
+      font-size: 1.3rem
 h2
     font-size: 0.9em
     font-weight: normal
 
     @include media('<lg')
-      font-size: 0.8em
+      font-size: 1rem
 
 .dashboard-top-info
     display: flex
@@ -26,19 +31,25 @@ h2
     height: 110px
     width: 100%
     border-radius: 20px
-    background-color: $primaryColor
+    background-color: white
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2)
 
     @include media('<lg')
       height: 90px
+      justify-content: center
+      flex-direction: column
 
     .greetings, .total-assets
-        color: white
+        color: fontColor
         line-height: 1.4
 
 
     .total-assets
         h2, h1
             text-align: end
+
+        @include media('<lg')
+          display: none
 
 .dashboard-container
   padding: 10px 10px
@@ -60,8 +71,7 @@ h2
         margin-bottom: 20px
 
     @include media('<lg')
-      flex-wrap: wrap
-      justify-content: center
+      flex-direction: column
 
       app-card-total-number
         margin-right: 20px

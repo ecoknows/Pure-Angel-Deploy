@@ -1,12 +1,14 @@
 <div class="card">
   <div class="container">
-    <fa-icon [icon]="icon" class="icons"></fa-icon>
-    <h1>
-      <ng-container *ngIf="!count"
-        >₱ {{ money | number: "1.2-2" }}</ng-container
-      >
-      <ng-container *ngIf="count">{{ money }}</ng-container>
-    </h1>
+    <div class="money">
+      <fa-icon [icon]="icon" class="icons"></fa-icon>
+      <h1>
+        <ng-container *ngIf="!count"
+          >₱ {{ money | number: "1.2-2" }}</ng-container
+        >
+        <ng-container *ngIf="count">{{ money }}</ng-container>
+      </h1>
+    </div>
     <h2>{{ label }}</h2>
     <h3>{{ caption }}</h3>
   </div>
