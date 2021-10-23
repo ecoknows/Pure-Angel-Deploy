@@ -6,6 +6,22 @@ import PairingBonus from "../models/pairing-bonus.model.js";
 import User from "../models/user.model.js";
 import UserVerification from "../models/user.verification.model.js";
 
+export async function UpdateFreeAccounts(updated_user, update_info) {
+  if (updated_user.free_account_leader) {
+    const user_number = updated_user.user_number + 1;
+    const ending_number =
+      updated_user.user_number + updated_user.free_account_leader;
+
+    for (let i = user_number; i < ending_number; i++) {
+      const user_to_verify = await User.findOne({
+        account_number: updated_user.secret_code_suffix + "0" + i.toString(),
+      });
+
+      updateUserAuthentication(update_info, user_to_verify);
+    }
+  }
+}
+
 export async function updateUserAuthentication(update_info, existing_user) {
   existing_user.first_name = update_info.first_name;
   existing_user.last_name = update_info.last_name;

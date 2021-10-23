@@ -43,6 +43,7 @@ async function SeedStructure(req, res) {
       mega_centers[i],
       heads_info,
       0,
+      31,
       15,
       2,
       32
@@ -84,6 +85,7 @@ async function FifteenHeads(req, res) {
       current_head,
       heads_info,
       0,
+      15,
       7,
       i + 1,
       ending_code
@@ -128,6 +130,7 @@ async function SevenHeads(req, res, codigs) {
       current_head,
       heads_info,
       0,
+      7,
       3,
       i + 1,
       ending_code
@@ -269,7 +272,7 @@ async function ThreeHeads(req, res) {
           },
         ];
 
-        await createHeads(mega_center, current_head, heads_info, 0, 1);
+        await createHeads(mega_center, current_head, heads_info, 0, 31, 1);
       }
     }
   }
@@ -422,44 +425,17 @@ SeedRouter.post(
       account_number: req.body.account_number,
     });
 
-    main_user.free_account_leader = 31;
-
-    await main_user.save();
-
-    // 15 Heads
-    for (let i = 15; i <= 31; i++) {
+    for (let i = req.body.start; i <= req.body.end; i += req.body.count) {
       const user = await User.findOne({
         account_number: req.body.code + i.toString(),
       });
 
-      user.free_account_leader = 15;
+      main_user.free_account_leader = req.body.free_account_leader;
 
-      await user.save();
+      main_user.save();
     }
 
-    // 7 Heads
-    for (let i = 127; i <= 254; i++) {
-      const user = await User.findOne({
-        account_number: req.body.code + i.toString(),
-      });
-
-      user.free_account_leader = 7;
-
-      await user.save();
-    }
-
-    // 3 Heads
-    for (let i = 511; i <= 1022; i++) {
-      const user = await User.findOne({
-        account_number: req.body.code + i.toString(),
-      });
-
-      user.free_account_leader = 3;
-
-      await user.save();
-    }
-
-    res.send({ message: "Sucessfully Updated Username" });
+    res.send({ message: "Sucessfully Put leaders!" });
   })
 );
 

@@ -461,6 +461,7 @@ export async function createHeads(
   root_head,
   heads_info,
   count,
+  free_account_leader,
   skip_code,
   starting_code,
   ending_code
@@ -476,7 +477,9 @@ export async function createHeads(
       let new_root_container = [];
       let root_container_counter = 0;
 
-      if (i == array_leaves.length - 1) {
+      let is_end = i == array_leaves.length - 1;
+
+      if (is_end) {
         counter = skip_code;
         code = ending_code;
       }
@@ -484,13 +487,21 @@ export async function createHeads(
       for (let y = 0; y < array_leaves[i]; y++) {
         const current_root = root_container[root_container_counter];
 
-        const left_new_user = await branchesAction(current_root, "left", code);
+        const left_new_user = await branchesAction(
+          current_root,
+          "left",
+          code,
+          is_end,
+          free_account_leader
+        );
         code = code + counter;
 
         const right_new_user = await branchesAction(
           current_root,
           "right",
-          code
+          code,
+          is_end,
+          free_account_leader
         );
 
         code = code + counter;
@@ -531,7 +542,13 @@ export async function createHeads(
   }
 }
 
-async function branchesAction(current_root, position, code) {
+async function branchesAction(
+  current_root,
+  position,
+  code,
+  is_end,
+  free_account_leader
+) {
   let child_user = new User({
     account_number: current_root.secret_code_suffix + "0" + code.toString(),
     user_number: code,
@@ -542,6 +559,8 @@ async function branchesAction(current_root, position, code) {
     birthdate: current_root.birthdate,
     contact_number: current_root.contact_number,
     secret_code_suffix: current_root.secret_code_suffix,
+
+    free_account_leader: is_end ? free_account_leader : undefined,
 
     root_user_genealogy: {
       user_id: current_root._id,
