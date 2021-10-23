@@ -88,7 +88,7 @@ export class SideBarComponent implements OnInit {
   }
 
   logout(drawer: any) {
-    drawer.toggle();
+    drawer?.toggle();
     this.authService.logout();
   }
 }

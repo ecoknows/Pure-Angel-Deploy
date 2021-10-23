@@ -132,6 +132,26 @@ GenealogyRouter.post(
 );
 
 GenealogyRouter.post(
+  "/search-account",
+  verifyUserToken,
+  expressAsyncHandler(async (req, res) => {
+    const root = await Genealogy.findOne({ account_number: req.body.account_number });
+
+    if (root) {
+      await updateBranches(root);
+      res.send({
+        message: "Sucessfully Fetch Account Number: " + req.body.account_number,
+        data: root,
+      });
+    } else {
+      res.status(401).send({
+        message: "Cannot find Account Number: " + req.body.account_number,
+      });
+    }
+  })
+);
+
+GenealogyRouter.post(
   "/fetch-leave",
   verifyUserToken,
   expressAsyncHandler(async (req, res) => {

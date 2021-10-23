@@ -37,5 +37,6 @@ export class SearchComponent {
   }
   submit() {
     let direct_referral = this.form.get('direct_referral')?.value;
+    this.genealogyService.searchAccount(direct_referral);
   }
 }

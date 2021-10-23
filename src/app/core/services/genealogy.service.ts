@@ -96,6 +96,51 @@ export class GenealogyService {
       });
   }
 
+  searchAccount(account_number : string | undefined){
+    
+    this.http
+      .post<{
+        message: string;
+        data: Genealogy;
+      }>(
+        environment.api + 'api/genealogy/search-account',
+        {
+          account_number,
+        },
+        {
+          headers: this.authService.headers,
+        }
+      )
+      .subscribe((response) => {
+        let data = response.data;
+
+        if (data) {
+          this._snackBar.openFromComponent(SnackbarComponent, {
+            duration: this.snackBarDuration * 1000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+            panelClass: ['snackbar-background'],
+            data: {
+              message: response.message,
+            },
+          });
+          this.store.dispatch(setGenealogy({ genealogy: data }));
+        }
+      }, (error)=>{
+
+          this._snackBar.openFromComponent(SnackbarComponent, {
+            duration: this.snackBarDuration * 1000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+            panelClass: ['snackbar-background'],
+            data: {
+              message: error.error.message,
+              error: true,
+            },
+          });
+      });
+  }
+
   fetchLeaves(user_id: string | undefined) {
     this.http
       .post<{
@@ -117,7 +162,7 @@ export class GenealogyService {
         if (data) {
           this._snackBar.openFromComponent(SnackbarComponent, {
             duration: this.snackBarDuration * 1000,
-            verticalPosition: 'bottom',
+            verticalPosition: 'top',
             horizontalPosition: 'center',
             panelClass: ['snackbar-background'],
             data: {
@@ -149,7 +194,7 @@ export class GenealogyService {
         (response) => {
           this._snackBar.openFromComponent(SnackbarComponent, {
             duration: this.snackBarDuration * 1000,
-            verticalPosition: 'bottom',
+            verticalPosition: 'top',
             horizontalPosition: 'center',
             panelClass: ['snackbar-background'],
             data: {
@@ -162,7 +207,7 @@ export class GenealogyService {
         (error) => {
           this._snackBar.openFromComponent(SnackbarComponent, {
             duration: this.snackBarDuration * 1000,
-            verticalPosition: 'bottom',
+            verticalPosition: 'top',
             horizontalPosition: 'center',
             panelClass: ['snackbar-background'],
             data: {
