@@ -144,104 +144,106 @@ SeedRouter.post(
         leader: 512,
         last_leader: 729,
         ending_code: 4096,
-        expected_total_number: 4543,
+        expected_total_number: 448,
       },
       {
         leader: 736,
         last_leader: 953,
         ending_code: 4864,
-        expected_total_number: 4991,
+        expected_total_number: 896,
       },
       {
         leader: 960,
         last_leader: 1177,
         ending_code: 5632,
-        expected_total_number: 5439,
+        expected_total_number: 1344,
       },
       {
         leader: 1184,
         last_leader: 1401,
         ending_code: 6400,
-        expected_total_number: 5887,
+        expected_total_number: 1792,
       },
       {
         leader: 1408,
         last_leader: 1625,
         ending_code: 7168,
-        expected_total_number: 6335,
+        expected_total_number: 2240,
       },
       {
         leader: 1632,
         last_leader: 1849,
         ending_code: 7936,
-        expected_total_number: 6783,
+        expected_total_number: 2688,
       },
       {
         leader: 1856,
         last_leader: 2073,
         ending_code: 8704,
-        expected_total_number: 7231,
+        expected_total_number: 3136,
       },
       {
         leader: 2080,
         last_leader: 2297,
         ending_code: 9472,
-        expected_total_number: 7679,
+        expected_total_number: 3584,
       },
       {
         leader: 2304,
         last_leader: 2521,
         ending_code: 10240,
-        expected_total_number: 8127,
+        expected_total_number: 4032,
       },
       {
         leader: 2528,
         last_leader: 2745,
         ending_code: 11008,
-        expected_total_number: 8575,
+        expected_total_number: 4480,
       },
       {
         leader: 2752,
         last_leader: 2969,
         ending_code: 11776,
-        expected_total_number: 9023,
+        expected_total_number: 4928,
       },
       {
         leader: 2976,
         last_leader: 3193,
         ending_code: 12544,
-        expected_total_number: 9471,
+        expected_total_number: 5376,
       },
       {
         leader: 3200,
         last_leader: 3417,
         ending_code: 13312,
-        expected_total_number: 9919,
+        expected_total_number: 5824,
       },
       {
         leader: 3424,
         last_leader: 3641,
         ending_code: 14080,
-        expected_total_number: 10367,
+        expected_total_number: 6272,
       },
       {
         leader: 3648,
         last_leader: 3865,
         ending_code: 14848,
-        expected_total_number: 10815,
+        expected_total_number: 6720,
       },
       {
         leader: 3872,
         last_leader: 4089,
         ending_code: 15616,
-        expected_total_number: 11263,
+        expected_total_number: 7168,
       },
     ];
 
     SevenHeads(req, res, codigs);
     res.send({
       message: "Sucessfully Seed 7 Heads!",
-      expected_total_number: codigs[req.body.number].expected_total_number,
+      expected_total_number:
+        codigs[req.body.number].expected_total_number +
+        req.body.last_total_ending,
     });
   })
 );
