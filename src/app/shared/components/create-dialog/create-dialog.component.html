@@ -1,101 +1,81 @@
-<h1 mat-dialog-title>Add Direct Referral</h1>
+<h1 mat-dialog-title>Add New Account</h1>
 <form [formGroup]="form" (ngSubmit)="submit()">
   <div mat-dialog-content>
-    <div class="dialog-input-row">
-      <mat-form-field>
-        <mat-label>First Name</mat-label>
-        <input required matInput formControlName="first_name" />
-        <mat-error *ngIf="form.get('first_name')?.hasError('pattern')">
-          symbols are not allowed
-        </mat-error>
-        <mat-error *ngIf="form.get('first_name')?.hasError('maxlength')">
-          25 letters only
-        </mat-error>
-        <mat-error *ngIf="form.get('first_name')?.hasError('minlength')">
-          minimum length is 2 letters
-        </mat-error>
-        <mat-error *ngIf="form.get('first_name')?.hasError('required')">
-          First Name is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
+    <mat-form-field>
+      <mat-label>First Name</mat-label>
+      <input required matInput formControlName="first_name" />
+      <mat-error *ngIf="form.get('first_name')?.hasError('pattern')">
+        symbols are not allowed
+      </mat-error>
+      <mat-error *ngIf="form.get('first_name')?.hasError('maxlength')">
+        25 letters only
+      </mat-error>
+      <mat-error *ngIf="form.get('first_name')?.hasError('minlength')">
+        minimum length is 2 letters
+      </mat-error>
+      <mat-error *ngIf="form.get('first_name')?.hasError('required')">
+        First Name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Last Name</mat-label>
-        <input required matInput formControlName="last_name" />
+    <mat-form-field>
+      <mat-label>Last Name</mat-label>
+      <input required matInput formControlName="last_name" />
 
-        <mat-error *ngIf="form.get('last_name')?.hasError('pattern')">
-          symbols and numbers are not allowed
-        </mat-error>
-        <mat-error *ngIf="form.get('last_name')?.hasError('maxlength')">
-          25 letters only
-        </mat-error>
-        <mat-error *ngIf="form.get('last_name')?.hasError('minlength')">
-          minimum length is 2 letters
-        </mat-error>
-        <mat-error *ngIf="form.get('last_name')?.hasError('required')">
-          Last Name is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-    </div>
+      <mat-error *ngIf="form.get('last_name')?.hasError('pattern')">
+        symbols and numbers are not allowed
+      </mat-error>
+      <mat-error *ngIf="form.get('last_name')?.hasError('maxlength')">
+        25 letters only
+      </mat-error>
+      <mat-error *ngIf="form.get('last_name')?.hasError('minlength')">
+        minimum length is 2 letters
+      </mat-error>
+      <mat-error *ngIf="form.get('last_name')?.hasError('required')">
+        Last Name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
 
-    <div class="dialog-input-row">
-      <mat-form-field>
-        <mat-label>Phone Number</mat-label>
-        <input required matInput formControlName="contact_number" />
-        <mat-error *ngIf="form.get('contact_number')?.hasError('pattern')">
-          letters and symbols are not allowed.
-        </mat-error>
-        <mat-error
-          *ngIf="
-            form.get('contact_number')?.hasError('maxlength') ||
-            form.get('contact_number')?.hasError('minlength')
-          "
-        >
-          11 numbers only
-        </mat-error>
-        <mat-error *ngIf="form.get('contact_number')?.hasError('required')">
-          Phone Number is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Birthdate</mat-label>
-        <input
-          required
-          #inputBirthdate
-          (focus)="birthdate.open()"
-          matInput
-          formControlName="birthdate"
-          [matDatepicker]="birthdate"
-        />
-        <mat-datepicker-toggle
-          matSuffix
-          [for]="birthdate"
-        ></mat-datepicker-toggle>
-        <mat-datepicker
-          #birthdate
-          (closed)="inputBirthdate.blur()"
-        ></mat-datepicker>
-        <mat-error *ngIf="form.get('birthdate')?.hasError('required')">
-          Birthdate is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-    </div>
+    <mat-form-field>
+      <mat-label>Phone Number</mat-label>
+      <input required matInput formControlName="contact_number" />
+      <mat-error *ngIf="form.get('contact_number')?.hasError('pattern')">
+        letters and symbols are not allowed.
+      </mat-error>
+      <mat-error
+        *ngIf="
+          form.get('contact_number')?.hasError('maxlength') ||
+          form.get('contact_number')?.hasError('minlength')
+        "
+      >
+        11 numbers only
+      </mat-error>
+      <mat-error *ngIf="form.get('contact_number')?.hasError('required')">
+        Phone Number is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
 
-    <div>
-      <mat-form-field class="address-form">
-        <mat-label>Address</mat-label>
-        <input required matInput formControlName="address" />
-        <mat-error *ngIf="form.get('address')?.hasError('maxlength')">
-          50 letters only
-        </mat-error>
-        <mat-error *ngIf="form.get('address')?.hasError('minlength')">
-          minimum length is 2 letters
-        </mat-error>
-        <mat-error *ngIf="form.get('address')?.hasError('required')">
-          Address is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-    </div>
+    <mat-form-field>
+      <mat-label>Direct Referral Account Number</mat-label>
+      <input
+        required
+        matInput
+        formControlName="direct_referral"
+        oninput="this.value = this.value.toUpperCase()"
+      />
+      <mat-error *ngIf="form.get('direct_referral')?.hasError('pattern')">
+        Invalid input...
+      </mat-error>
+      <mat-error *ngIf="form.get('direct_referral')?.hasError('maxlength')">
+        25 letters only
+      </mat-error>
+      <mat-error *ngIf="form.get('direct_referral')?.hasError('minlength')">
+        minimum length is 2 letters
+      </mat-error>
+      <mat-error *ngIf="form.get('direct_referral')?.hasError('required')">
+        Direct Referral is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
   </div>
 
   <div mat-dialog-actions>

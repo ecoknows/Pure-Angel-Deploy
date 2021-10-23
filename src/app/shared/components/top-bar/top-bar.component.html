@@ -1,0 +1,27 @@
+<mat-toolbar color="primary">
+  <button
+    mat-icon-button
+    class="example-icon"
+    aria-label="Example icon-button with menu icon"
+  >
+    <mat-icon (click)="drawer.toggle()">menu</mat-icon>
+  </button>
+  <button
+    mat-icon-button
+    class="example-icon"
+    aria-label="Example icon-button with share icon"
+  >
+    <mat-icon>coffee</mat-icon>
+  </button>
+  <span>PAC</span>
+  <span class="example-spacer"></span>
+
+  <button
+    mat-icon-button
+    class="example-icon"
+    aria-label="Example icon-button with share icon"
+    (click)="viewAccount()"
+  >
+    <mat-icon>search</mat-icon>
+  </button>
+</mat-toolbar>

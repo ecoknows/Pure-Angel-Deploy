@@ -4,6 +4,7 @@
   [node]="node"
   [hasParent]="hasParent"
   [direction]="direction"
+  [is_admin]="user?.is_admin || user?.is_owner"
   [root]="root"
   (itemClick)="itemClick.emit($event)"
 >
@@ -28,6 +29,7 @@
       </div>
 
       <genealogy-designer
+        [user]="user"
         [node]="node?.left_branch"
         [hasParent]="true"
         [direction]="direction"
@@ -37,15 +39,33 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="node?.left_count == 0 && node?.right_count != 0">
+  <ng-container
+    *ngIf="
+      node?.left_count == 0 &&
+      node?.right_count != 0 &&
+      (user?.is_admin || user?.is_owner)
+    "
+  >
     <genealogy-add [node]="node" position="left"></genealogy-add>
   </ng-container>
 
-  <ng-container *ngIf="node?.right_count == 0 && node?.left_count != 0">
+  <ng-container
+    *ngIf="
+      node?.right_count == 0 &&
+      node?.left_count != 0 &&
+      (user?.is_admin || user?.is_owner)
+    "
+  >
     <genealogy-add [node]="node" position="right"></genealogy-add>
   </ng-container>
 
-  <ng-container *ngIf="node?.left_count == 0 && node?.right_count == 0">
+  <ng-container
+    *ngIf="
+      node?.left_count == 0 &&
+      node?.right_count == 0 &&
+      (user?.is_admin || user?.is_owner)
+    "
+  >
     <genealogy-add [node]="node" position="left"></genealogy-add>
     <genealogy-add [node]="node" position="right"></genealogy-add>
   </ng-container>
@@ -68,6 +88,7 @@
       </div>
 
       <genealogy-designer
+        [user]="user"
         [node]="node?.right_branch"
         [hasParent]="true"
         [direction]="direction"

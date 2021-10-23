@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
 import { SidebarService } from '@core/services/sidebar.service';
+import { TopBarService } from '@core/services/top-bar.service';
 import { CommonErrorStateMatcher } from '@shared/validators/login.validators';
 
 @Component({
@@ -19,6 +20,7 @@ export class LoginComponent {
     private authService: AuthService,
     private fb: FormBuilder,
     private sideBarService: SidebarService,
+    private topBarService: TopBarService,
     private router: Router
   ) {
     this.form = fb.group({
@@ -27,6 +29,7 @@ export class LoginComponent {
     });
 
     this.sideBarService.hide();
+    this.topBarService.hide();
   }
 
   submit() {

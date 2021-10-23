@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LoaderService } from '@core/services/loader.service';
 import { SidebarService } from '@core/services/sidebar.service';
+import { TopBarService } from '@core/services/top-bar.service';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ export class AppComponent {
 
   constructor(
     public sideBarService: SidebarService,
+    public topBarService: TopBarService,
     public loaderService: LoaderService
   ) {}
 

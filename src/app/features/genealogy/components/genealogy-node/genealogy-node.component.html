@@ -40,7 +40,11 @@
   </div>
 </div>
 
-<div ngClass="ngx-org-connector-{{ direction }}" class="ngx-org-border"></div>
+<div
+  ngClass="ngx-org-connector-{{ direction }}"
+  class="ngx-org-border"
+  *ngIf="(node?.left_count == 0 && node?.right_count != 0) || is_admin"
+></div>
 <div
   *ngIf="
     !node?.left_branch &&

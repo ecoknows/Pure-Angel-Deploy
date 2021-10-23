@@ -1,0 +1,39 @@
+<h1 mat-dialog-title>Search Account Number</h1>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div mat-dialog-content>
+    <mat-form-field>
+      <mat-label> Account Number</mat-label>
+      <input
+        required
+        matInput
+        formControlName="direct_referral"
+        oninput="this.value = this.value.toUpperCase()"
+      />
+      <mat-error *ngIf="form.get('direct_referral')?.hasError('pattern')">
+        Invalid input...
+      </mat-error>
+      <mat-error *ngIf="form.get('direct_referral')?.hasError('maxlength')">
+        25 letters only
+      </mat-error>
+      <mat-error *ngIf="form.get('direct_referral')?.hasError('minlength')">
+        minimum length is 2 letters
+      </mat-error>
+      <mat-error *ngIf="form.get('direct_referral')?.hasError('required')">
+        Direct Referral is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close>Cancel</button>
+    <button
+      mat-raised-button
+      mat-dialog-close
+      color="primary"
+      type="submit"
+      [disabled]="form.invalid"
+    >
+      Search
+    </button>
+  </div>
+</form>

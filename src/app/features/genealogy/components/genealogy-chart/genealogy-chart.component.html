@@ -2,6 +2,7 @@
   <ng-container>
     <div class="ngx-org-self-{{ direction }}">
       <genealogy-designer
+        [user]="user"
         [node]="nodes"
         [direction]="direction"
         (itemClick)="itemClick.emit($event)"

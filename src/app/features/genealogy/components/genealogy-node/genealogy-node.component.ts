@@ -1,4 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  AfterViewInit,
+} from '@angular/core';
 import { Genealogy } from '@core/redux/genealogy/genealogy.model';
 import { UserState } from '@core/redux/user/user.reducer';
 import { Store } from '@ngrx/store';
@@ -11,9 +17,10 @@ import { GenealogyService } from '@core/services/genealogy.service';
   templateUrl: './genealogy-node.component.html',
   styleUrls: ['./genealogy-node.component.sass'],
 })
-export class GenealogyNodeComponent {
+export class GenealogyNodeComponent implements AfterViewInit {
   @Input('root') root = false;
   @Input('node') node!: Genealogy;
+  @Input('is_admin') is_admin!: boolean | undefined;
 
   @Input('hasParent') hasParent = false;
 
@@ -31,6 +38,19 @@ export class GenealogyNodeComponent {
     this.user$ = this.store.select('userReducer');
   }
 
+  ngAfterViewInit(): void {
+    if (this.genealogyService.autoScroll) {
+      let scroller: any = document.getElementById('scroller');
+      if (scroller) {
+        scroller.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+          inline: 'center',
+        });
+      }
+    }
+  }
+
   last_initial(value: string | undefined): string {
     if (!value) {
       return '';
@@ -39,7 +59,10 @@ export class GenealogyNodeComponent {
   }
 
   fetchDownward() {
-    if (this.node) this.genealogyService.fetchLeaves(this.node.user_id);
+    if (this.node) {
+      this.genealogyService.autoScroll = false;
+      this.genealogyService.fetchLeaves(this.node.user_id);
+    }
   }
 
   changeRoot() {

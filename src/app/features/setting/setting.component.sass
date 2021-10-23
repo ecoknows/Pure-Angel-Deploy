@@ -1,12 +1,15 @@
 @import 'variable'
+@import 'responsive'
+
 
 .setting-container
-  padding: 10px 10px
-  padding-left: 10px
-  padding-right: 20px
+  padding: 20px
+
+  @include media('<=lg')
+    padding-top: 70px
+
 
 .action
-  width: 400px
   display: flex
   justify-content: flex-end
 
@@ -18,4 +21,4 @@
   color: $primaryColor
 
 mat-form-field
-  width: 400px
+  width: 100%

@@ -10,33 +10,7 @@
       [drawer]="drawer"
     ></app-side-bar>
   </mat-drawer>
-
-  <mat-toolbar color="primary">
-    <button
-      mat-icon-button
-      class="example-icon"
-      aria-label="Example icon-button with menu icon"
-    >
-      <mat-icon (click)="drawer.toggle()">menu</mat-icon>
-    </button>
-    <button
-      mat-icon-button
-      class="example-icon"
-      aria-label="Example icon-button with share icon"
-    >
-      <mat-icon>coffee</mat-icon>
-    </button>
-    <span>Pure Angel Coffee</span>
-    <span class="example-spacer"></span>
-    <button
-      mat-icon-button
-      class="example-icon"
-      aria-label="Example icon-button with share icon"
-    >
-      <mat-icon>person_add</mat-icon>
-    </button>
-  </mat-toolbar>
-
+  <app-top-bar [drawer]="drawer" *ngIf="topBarService.visibility"></app-top-bar>
   <app-side-bar
     *ngIf="sideBarService.visibility"
     class="big-screen-side-bar"

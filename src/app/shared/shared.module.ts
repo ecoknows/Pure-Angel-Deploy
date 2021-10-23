@@ -19,6 +19,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TimelineChartComponent } from './components/timeline-chart/timeline-chart.component';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
+import { TopBarComponent } from './components/top-bar/top-bar.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +33,8 @@ import { SnackbarComponent } from './components/snackbar/snackbar.component';
     CreateDialogComponent,
     TimelineChartComponent,
     SnackbarComponent,
+    TopBarComponent,
+    SearchComponent,
   ],
   imports: [
     FontAwesomeModule,
@@ -42,12 +48,15 @@ import { SnackbarComponent } from './components/snackbar/snackbar.component';
     MatDatepickerModule,
     MatNativeDateModule,
     ReactiveFormsModule,
+    MatToolbarModule,
+    MatIconModule,
   ],
   exports: [
     CardTotalNumberComponent,
     TableComponent,
     ButtonComponent,
     InputComponent,
+    TopBarComponent,
   ],
 })
 export class SharedModule {}

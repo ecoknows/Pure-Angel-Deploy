@@ -43,14 +43,7 @@ export class CreateDialogComponent {
           Validators.pattern('^[a-zA-Z-0-9 ]*$'),
         ],
       ],
-      address: [
-        '',
-        [
-          Validators.required,
-          Validators.maxLength(50),
-          Validators.minLength(2),
-        ],
-      ],
+
       contact_number: [
         '',
         [
@@ -60,22 +53,27 @@ export class CreateDialogComponent {
           Validators.pattern('^[0-9]*$'),
         ],
       ],
-      birthdate: ['', [Validators.required]],
+      direct_referral: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(25),
+          Validators.minLength(2),
+          Validators.pattern('^[A-Z]*$'),
+        ],
+      ],
     });
   }
   submit() {
     let first_name = this.form.get('first_name')?.value;
     let last_name = this.form.get('last_name')?.value;
-    let birthdate = this.form.get('birthdate')?.value;
-    let address = this.form.get('address')?.value;
     let contact_number = this.form.get('contact_number')?.value;
+    let direct_referral = this.form.get('direct_referral')?.value;
 
     const person = {
-      root_id: this.data.root_id,
+      direct_referral,
       first_name,
       last_name,
-      birthdate,
-      address,
       contact_number,
       position: this.data.position,
     };

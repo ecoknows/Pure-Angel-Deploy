@@ -9,6 +9,7 @@
 >
   <div class="genealogy-chart">
     <genealogy-chart
+      [user]="user$ | async"
       [nodes]="(genealogy$ | async)?.genealogy"
       direction="vertical"
     ></genealogy-chart>

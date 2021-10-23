@@ -3,7 +3,7 @@ import { resetUserData, setUserData } from './user.actions';
 
 export interface UserState {
   _id?: string;
-  username?: string;
+  account_number?: string;
   first_name?: string;
   last_name?: string;
   address?: string;

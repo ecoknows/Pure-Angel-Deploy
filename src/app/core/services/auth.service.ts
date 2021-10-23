@@ -11,6 +11,7 @@ import { environment } from '@env';
 import { FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from '@shared/components';
+import { TopBarService } from './top-bar.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +23,7 @@ export class AuthService {
     private http: HttpClient,
     private router: Router,
     private sideBarService: SidebarService,
+    public topBarService: TopBarService,
     private store: Store<{}>,
     private _snackBar: MatSnackBar
   ) {}
@@ -42,6 +44,7 @@ export class AuthService {
             localStorage.setItem('user-token', userToken);
             this.router.navigate(['/']);
             this.sideBarService.show();
+            this.topBarService.show();
             this.resetStates();
           }
         },

@@ -20,6 +20,7 @@ import { CreateDialogComponent } from '@shared/components/create-dialog/create-d
 })
 export class GenealogyService {
   snackBarDuration = 2;
+  autoScroll = true;
 
   constructor(
     private http: HttpClient,
@@ -116,7 +117,7 @@ export class GenealogyService {
         if (data) {
           this._snackBar.openFromComponent(SnackbarComponent, {
             duration: this.snackBarDuration * 1000,
-            verticalPosition: 'top',
+            verticalPosition: 'bottom',
             horizontalPosition: 'center',
             panelClass: ['snackbar-background'],
             data: {
@@ -130,11 +131,9 @@ export class GenealogyService {
   }
 
   addGenealogy(person: {
-    root_id: string;
+    direct_referral: string;
     first_name: string;
     last_name: string;
-    birthdate: string;
-    address: string;
     contact_number: string;
     position: string;
   }) {
@@ -150,7 +149,7 @@ export class GenealogyService {
         (response) => {
           this._snackBar.openFromComponent(SnackbarComponent, {
             duration: this.snackBarDuration * 1000,
-            verticalPosition: 'top',
+            verticalPosition: 'bottom',
             horizontalPosition: 'center',
             panelClass: ['snackbar-background'],
             data: {
@@ -163,7 +162,7 @@ export class GenealogyService {
         (error) => {
           this._snackBar.openFromComponent(SnackbarComponent, {
             duration: this.snackBarDuration * 1000,
-            verticalPosition: 'top',
+            verticalPosition: 'bottom',
             horizontalPosition: 'center',
             panelClass: ['snackbar-background'],
             data: {

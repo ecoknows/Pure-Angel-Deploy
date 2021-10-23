@@ -10,10 +10,8 @@ import { environment } from '../environments/environment';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorService } from '@core/services/interceptor.service';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,10 +21,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     CoreModule,
     FeaturesModule,
     MatProgressBarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatToolbarModule,
     MatSidenavModule,
+    SharedModule,
 
     StoreDevtoolsModule.instrument({
       maxAge: 25,
