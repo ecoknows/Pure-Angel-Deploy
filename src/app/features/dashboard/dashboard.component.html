@@ -11,7 +11,7 @@
           Hello,
           {{ (user$ | async)?.first_name + " " + (user$ | async)?.last_name }}
         </h1>
-        <h2>Account Number: {{(user$ | async)?.account_number}} </h2>
+        <h2>Account Number: {{ (user$ | async)?.account_number }}</h2>
       </div>
 
       <div class="total-assets">
@@ -23,7 +23,7 @@
               : "0.00"
           }}
         </h1>
-        <h2>Unpaid Income</h2>
+        <h2>Unclaimed Income</h2>
       </div>
     </div>
   </div>
@@ -42,7 +42,7 @@
       <app-card-total-number
         [money]="(user$ | async)?.unpaid_income"
         icon="faCashRegister"
-        label="Cashout Unpaid Income"
+        label="Unclaimed Income"
         caption="Click to cashout"
       ></app-card-total-number>
     </button>

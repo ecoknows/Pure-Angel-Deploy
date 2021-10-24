@@ -43,7 +43,7 @@ async function SeedStructure(req, res) {
       mega_centers[i],
       heads_info,
       0,
-      31,
+      15,
       15,
       2,
       32
@@ -85,7 +85,7 @@ async function FifteenHeads(req, res) {
       current_head,
       heads_info,
       0,
-      15,
+      7,
       7,
       i + 1,
       ending_code
@@ -130,7 +130,7 @@ async function SevenHeads(req, res, codigs) {
       current_head,
       heads_info,
       0,
-      7,
+      3,
       3,
       i + 1,
       ending_code
@@ -421,18 +421,15 @@ SeedRouter.post(
 SeedRouter.post(
   "/leaders",
   expressAsyncHandler(async (req, res) => {
-    const main_user = await User.findOne({
-      account_number: req.body.account_number,
-    });
-
     for (let i = req.body.start; i <= req.body.end; i += req.body.count) {
       const user = await User.findOne({
-        account_number: req.body.code + i.toString(),
+        account_number: req.body.code + "0" + i.toString(),
       });
 
-      main_user.free_account_leader = req.body.free_account_leader;
+      console.log("not null : ", !(user == null), " number: ", i);
+      // user.free_account_leader = req.body.free_account_leader;
 
-      main_user.save();
+      // await user.save();
     }
 
     res.send({ message: "Sucessfully Put leaders!" });

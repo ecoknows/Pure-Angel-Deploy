@@ -14,7 +14,6 @@ import { AdminService } from './services/admin.service';
   styleUrls: ['./admin.component.sass'],
 })
 export class AdminComponent implements OnInit {
-  verification$: Observable<VerificationState[]>;
   authentication$: Observable<AuthenticationState[]>;
   cashouts$: Observable<CashoutsState[]>;
   purchases$: Observable<PurchaseState[]>;
@@ -23,13 +22,11 @@ export class AdminComponent implements OnInit {
     private authService: AuthService,
     private adminService: AdminService,
     private store: Store<{
-      verificationReducer: VerificationState[];
       authenticationReducer: AuthenticationState[];
       cashoutsReducer: CashoutsState[];
       purchaseReducer: PurchaseState[];
     }>
   ) {
-    this.verification$ = this.store.select('verificationReducer');
     this.authentication$ = this.store.select('authenticationReducer');
     this.cashouts$ = this.store.select('cashoutsReducer');
     this.purchases$ = this.store.select('purchaseReducer');
@@ -37,7 +34,6 @@ export class AdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.fetchUserIncome();
-    this.adminService.fetchVerificationTable();
     this.adminService.fetchAuthenticationTable();
     this.adminService.fetchCashoutsTable();
     this.adminService.fetchPurchasesTable();

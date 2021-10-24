@@ -14,6 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from '@shared/components';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateDialogComponent } from '@shared/components/create-dialog/create-dialog.component';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +28,8 @@ export class GenealogyService {
     private authService: AuthService,
     private store: Store<{}>,
     private _snackBar: MatSnackBar,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) {}
 
   fetchDefaultGenealogy() {
@@ -96,8 +98,7 @@ export class GenealogyService {
       });
   }
 
-  searchAccount(account_number : string | undefined){
-    
+  searchAccount(account_number: string | undefined) {
     this.http
       .post<{
         message: string;
@@ -111,23 +112,25 @@ export class GenealogyService {
           headers: this.authService.headers,
         }
       )
-      .subscribe((response) => {
-        let data = response.data;
+      .subscribe(
+        (response) => {
+          let data = response.data;
 
-        if (data) {
-          this._snackBar.openFromComponent(SnackbarComponent, {
-            duration: this.snackBarDuration * 1000,
-            verticalPosition: 'top',
-            horizontalPosition: 'center',
-            panelClass: ['snackbar-background'],
-            data: {
-              message: response.message,
-            },
-          });
-          this.store.dispatch(setGenealogy({ genealogy: data }));
-        }
-      }, (error)=>{
-
+          if (data) {
+            this.router.navigate(['/genealogy']);
+            this._snackBar.openFromComponent(SnackbarComponent, {
+              duration: this.snackBarDuration * 1000,
+              verticalPosition: 'top',
+              horizontalPosition: 'center',
+              panelClass: ['snackbar-background'],
+              data: {
+                message: response.message,
+              },
+            });
+            this.store.dispatch(setGenealogy({ genealogy: data }));
+          }
+        },
+        (error) => {
           this._snackBar.openFromComponent(SnackbarComponent, {
             duration: this.snackBarDuration * 1000,
             verticalPosition: 'top',
@@ -138,7 +141,8 @@ export class GenealogyService {
               error: true,
             },
           });
-      });
+        }
+      );
   }
 
   fetchLeaves(user_id: string | undefined) {

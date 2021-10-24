@@ -1,0 +1,17 @@
+@import 'responsive'
+
+.main-top
+  @include media('<lg')
+    flex-direction: column
+    justify-content: space-between
+    align-items: flex-start
+
+  .end
+    display: flex
+    justify-content: center
+    align-items: center
+
+
+    @include media('<lg')
+      display: block
+      width: 90%

@@ -1,3 +1,14 @@
+@import 'responsive'
+
+.main-top
+  @include media('<lg')
+    flex-direction: column
+    justify-content: space-between
+    align-items: flex-start
+
+  .end
+    @include media('<lg')
+      width: 100%
 
 .chekbox-margin
   margin-right: 10px
