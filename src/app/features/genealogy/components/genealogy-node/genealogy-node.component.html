@@ -12,22 +12,20 @@
   <div class="ngx-org-count-left">
     {{ node?.left_count ? node?.left_count : 0 }}
   </div>
-  <div
-    class="info-div ngx-org-border"
-    [ngClass]="
-      node?.is_owner
-        ? 'ngx-org-shadow-owner'
-        : node?.is_admin
-        ? 'ngx-org-shadow-admin'
-        : node?.is_mega_center
-        ? 'ngx-org-shadow-mega-center'
-        : node?.is_stockist
-        ? 'ngx-org-shadow-stockist'
-        : 'ngx-org-shadow'
-    "
-  >
+  <div class="info-div">
     <div
-      class="ngx-org-image ngx-org-border"
+      class="ngx-org-image"
+      [ngClass]="
+        node?.is_owner
+          ? 'ngx-org-border-owner'
+          : node?.is_admin
+          ? 'ngx-org-border-admin'
+          : node?.is_mega_center
+          ? 'ngx-org-border-mega-center'
+          : node?.is_stockist
+          ? 'ngx-org-border-stockist'
+          : 'ngx-org-border-default'
+      "
       [ngStyle]="{ 'background-image': 'url(\'' + 'assets/node.svg' + '\')' }"
     ></div>
     <div class="ngx-org-name">
