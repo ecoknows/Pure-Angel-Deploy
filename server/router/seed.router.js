@@ -251,7 +251,7 @@ SeedRouter.post(
   })
 );
 
-async function ThreeHeads(req, res) {
+async function ThreeHeads(req, res, codigs) {
   const body = req.body;
 
   const mega_center = await User.findOne({
@@ -259,36 +259,123 @@ async function ThreeHeads(req, res) {
     is_mega_center: true,
   });
 
-  for (let root = body.start; root <= body.end; root++) {
-    for (let i = 7; i <= 14; i++) {
-      for (let x = 3; x <= 6; x++) {
-        const current_head = await User.findOne({
-          account_number: mega_center.secret_code_suffix + "0" + i.toString(),
-        });
+  let number = req.body.number;
 
-        const heads_info = [
-          {
-            array: [1],
-          },
-        ];
+  for (let i = codigs[number].leader; i <= codigs[number].last_leader; i += 3) {
+    const current_head = await User.findOne({
+      account_number: mega_center.secret_code_suffix + "0" + i.toString(),
+    });
 
-        await createHeads(mega_center, current_head, heads_info, 0, 31, 1);
-      }
-    }
+    const heads_info = [
+      {
+        array: [1],
+      },
+    ];
+
+    await createHeads(
+      mega_center,
+      current_head,
+      heads_info,
+      0,
+      undefined,
+      null,
+      i + 1,
+      null
+    );
   }
 }
 
 SeedRouter.post(
   "/three-heads",
   expressAsyncHandler(async (req, res) => {
-    ThreeHeads(req, res);
+    const codigs = [
+      {
+        leader: 4096,
+        last_leader: 5038,
+        ending_code: 4096,
+        expected_total_number: 630,
+      },
+      {
+        leader: 5041,
+        last_leader: 5983,
+        ending_code: 11656,
+        expected_total_number: 1260,
+      },
+      {
+        leader: 5986,
+        last_leader: 6928,
+        ending_code: 19216,
+        expected_total_number: 1890,
+      },
+      {
+        leader: 6931,
+        last_leader: 7873,
+        ending_code: 26776,
+        expected_total_number: 2520,
+      },
+      {
+        leader: 7876,
+        last_leader: 8818,
+        ending_code: 34336,
+        expected_total_number: 3150,
+      },
+      {
+        leader: 8821,
+        last_leader: 9763,
+        ending_code: 41896,
+        expected_total_number: 3780,
+      },
+      {
+        leader: 9766,
+        last_leader: 10708,
+        ending_code: 49456,
+        expected_total_number: 4410,
+      },
+      {
+        leader: 10711,
+        last_leader: 11653,
+        ending_code: 57016,
+        expected_total_number: 5040,
+      },
+      {
+        leader: 11656,
+        last_leader: 12598,
+        ending_code: 64576,
+        expected_total_number: 5670,
+      },
+      {
+        leader: 12601,
+        last_leader: 13543,
+        ending_code: 72136,
+        expected_total_number: 6300,
+      },
+      {
+        leader: 13546,
+        last_leader: 14488,
+        ending_code: 79696,
+        expected_total_number: 6930,
+      },
+      {
+        leader: 14491,
+        last_leader: 15433,
+        ending_code: 87256,
+        expected_total_number: 7560,
+      },
+      {
+        leader: 15436,
+        last_leader: 16381,
+        ending_code: 94816,
+        expected_total_number: 8190,
+      },
+    ];
+
+    ThreeHeads(req, res, codigs);
+
     res.send({
-      message:
-        "Sucessfully " +
-        "Start : " +
-        req.body.start.toString() +
-        " End: " +
-        req.body.end.toString(),
+      message: "Sucessfully Seed 3 Heads!",
+      expected_total_number:
+        codigs[req.body.number].expected_total_number +
+        req.body.last_total_ending,
     });
   })
 );

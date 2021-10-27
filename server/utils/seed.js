@@ -479,7 +479,7 @@ export async function createHeads(
 
       let is_end = i == array_leaves.length - 1;
 
-      if (is_end) {
+      if (is_end && ending_code) {
         counter = skip_code;
         code = ending_code;
       }
