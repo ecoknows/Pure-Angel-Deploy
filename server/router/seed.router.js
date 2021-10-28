@@ -289,115 +289,110 @@ SeedRouter.post(
   "/three-heads",
   expressAsyncHandler(async (req, res) => {
     const codigs = [
-      // {
-      //   leader: 4096,
-      //   last_leader: 4678,
-      //   expected_total_number: 390,
-      // },
-      // {
-      //   leader: 4681,
-      //   last_leader: 5263,
-      //   expected_total_number: 780,
-      // },
-      // {
-      //   leader: 5266,
-      //   last_leader: 5848,
-      //   expected_total_number: 1170,
-      // },
-      // {
-      //   leader: 5851,
-      //   last_leader: 6433,
-      //   expected_total_number: 1560,
-      // },
-      // {
-      //   leader: 6436,
-      //   last_leader: 7018,
-      //   expected_total_number: 1950,
-      // },
-      // {
-      //   leader: 7021,
-      //   last_leader: 7603,
-      //   expected_total_number: 2340,
-      // },
-      // {
-      //   leader: 7606,
-      //   last_leader: 8188,
-      //   expected_total_number: 2730,
-      // },
-      // {
-      //   leader: 8191,
-      //   last_leader: 8773,
-      //   expected_total_number: 3120,
-      // },
-      // {
-      //   leader: 8776,
-      //   last_leader: 9358,
-      //   expected_total_number: 3510,
-      // },
-      // {
-      //   leader: 9361,
-      //   last_leader: 9943,
-      //   expected_total_number: 3900,
-      // },
-      // {
-      //   leader: 9946,
-      //   last_leader: 10528,
-      //   expected_total_number: 4290,
-      // },
-      // {
-      //   leader: 10531,
-      //   last_leader: 11113,
-      //   expected_total_number: 4680,
-      // },
-      // {
-      //   leader: 11116,
-      //   last_leader: 11698,
-      //   expected_total_number: 5070,
-      // },
-      // {
-      //   leader: 11701,
-      //   last_leader: 12283,
-      //   expected_total_number: 5460,
-      // },
-      // {
-      //   leader: 12286,
-      //   last_leader: 12868,
-      //   expected_total_number: 5850,
-      // },
-      // {
-      //   leader: 12871,
-      //   last_leader: 13453,
-      //   expected_total_number: 6240,
-      // },
-      // {
-      //   leader: 13456,
-      //   last_leader: 14038,
-      //   expected_total_number: 6630,
-      // },
-      // {
-      //   leader: 14041,
-      //   last_leader: 14623,
-      //   expected_total_number: 7020,
-      // },
-      // {
-      //   leader: 14626,
-      //   last_leader: 15208,
-      //   expected_total_number: 7410,
-      // },
-      // {
-      //   leader: 15211,
-      //   last_leader: 15793,
-      //   expected_total_number: 7800,
-      // },
-      // {
-      //   leader: 15796,
-      //   last_leader: 16381,
-      //   expected_total_number: 8190,
-      // },
       {
-        leader: 16381,
+        leader: 4096,
+        last_leader: 4678,
+        expected_total_number: 390,
+      },
+      {
+        leader: 4681,
+        last_leader: 5263,
+        expected_total_number: 780,
+      },
+      {
+        leader: 5266,
+        last_leader: 5848,
+        expected_total_number: 1170,
+      },
+      {
+        leader: 5851,
+        last_leader: 6433,
+        expected_total_number: 1560,
+      },
+      {
+        leader: 6436,
+        last_leader: 7018,
+        expected_total_number: 1950,
+      },
+      {
+        leader: 7021,
+        last_leader: 7603,
+        expected_total_number: 2340,
+      },
+      {
+        leader: 7606,
+        last_leader: 8188,
+        expected_total_number: 2730,
+      },
+      {
+        leader: 8191,
+        last_leader: 8773,
+        expected_total_number: 3120,
+      },
+      {
+        leader: 8776,
+        last_leader: 9358,
+        expected_total_number: 3510,
+      },
+      {
+        leader: 9361,
+        last_leader: 9943,
+        expected_total_number: 3900,
+      },
+      {
+        leader: 9946,
+        last_leader: 10528,
+        expected_total_number: 4290,
+      },
+      {
+        leader: 10531,
+        last_leader: 11113,
+        expected_total_number: 4680,
+      },
+      {
+        leader: 11116,
+        last_leader: 11698,
+        expected_total_number: 5070,
+      },
+      {
+        leader: 11701,
+        last_leader: 12283,
+        expected_total_number: 5460,
+      },
+      {
+        leader: 12286,
+        last_leader: 12868,
+        expected_total_number: 5850,
+      },
+      {
+        leader: 12871,
+        last_leader: 13453,
+        expected_total_number: 6240,
+      },
+      {
+        leader: 13456,
+        last_leader: 14038,
+        expected_total_number: 6630,
+      },
+      {
+        leader: 14041,
+        last_leader: 14623,
+        expected_total_number: 7020,
+      },
+      {
+        leader: 14626,
+        last_leader: 15208,
+        expected_total_number: 7410,
+      },
+      {
+        leader: 15211,
+        last_leader: 15793,
+        expected_total_number: 7800,
+      },
+      {
+        leader: 15796,
         last_leader: 16381,
-        expected_total_number: 2,
+        expected_total_number: 8192,
       },
     ];
 
