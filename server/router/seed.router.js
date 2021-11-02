@@ -540,10 +540,9 @@ SeedRouter.post(
         account_number: req.body.code + "0" + i.toString(),
       });
 
-      console.log("not null : ", !(user == null), " number: ", i);
-      // user.free_account_leader = req.body.free_account_leader;
+      user.free_account_leader = req.body.free_account_leader;
 
-      // await user.save();
+      await user.save();
     }
 
     res.send({ message: "Sucessfully Put leaders!" });
