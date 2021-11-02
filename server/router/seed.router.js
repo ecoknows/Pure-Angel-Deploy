@@ -532,17 +532,21 @@ SeedRouter.post(
   })
 );
 
+async function AssignLeaders(req, i) {
+  const user = await User.findOne({
+    account_number: req.body.code + "0" + i.toString(),
+  });
+
+  user.free_account_leader = req.body.free_account_leader;
+
+  user.save();
+}
+
 SeedRouter.post(
   "/leaders",
   expressAsyncHandler(async (req, res) => {
     for (let i = req.body.start; i <= req.body.end; i += req.body.count) {
-      const user = await User.findOne({
-        account_number: req.body.code + "0" + i.toString(),
-      });
-
-      user.free_account_leader = req.body.free_account_leader;
-
-      await user.save();
+      AssignLeaders(req, i);
     }
 
     res.send({ message: "Sucessfully Put leaders!" });
