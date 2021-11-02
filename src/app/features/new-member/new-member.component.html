@@ -2,7 +2,7 @@
   <div class="legend">
     <strong>AVAILABLE PINS :</strong>
     <span *ngIf="(user$ | async)?.number_of_pin">
-      {{ (user$ | async)?.number_of_pin }}
+      {{ (user$ | async)?.number_of_pin }} PINS
     </span>
     <span
       *ngIf="
@@ -13,9 +13,9 @@
       Out of Stock</span
     >
     <div style="margin-top: 5px" *ngIf="(user$ | async)?.number_of_pin">
+      <strong>PINS RANGE :</strong>
       <span>
-        PINS (
-        {{ pinRange(user$ | async) }} )
+        {{ pinRange(user$ | async) }}
       </span>
     </div>
   </div>

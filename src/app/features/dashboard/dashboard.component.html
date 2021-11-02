@@ -29,74 +29,93 @@
   </div>
 
   <div class="dashboard-bottom-info">
-    <app-card-total-number
-      [money]="(user$ | async)?.overall_income"
-      icon="faFunnelDollar"
-      label="Overall Income"
-      caption="Income since registration"
-    ></app-card-total-number>
+    <div class="name">
+      <div>
+        <h4>Incomes</h4>
+        <ul>
+          <li>Direct Referral</li>
+          <li>Indirect Referral</li>
+          <li>Pairing Bonus</li>
+          <li>AE Rebates</li>
+          <mat-divider></mat-divider>
+          <li class="primary">Total Income</li>
+          <li class="primary">Unclaimed Income</li>
+        </ul>
+      </div>
 
-    <button class="cash-out-button" (click)="cashout()">
-      <app-card-total-number
-        [money]="(user$ | async)?.unpaid_income"
-        icon="faCashRegister"
-        label="Unclaimed Income"
-        caption="Click to cashout"
-      ></app-card-total-number>
-    </button>
+      <div style="margin-top: 40px">
+        <h4>Status</h4>
+        <ul>
+          <li>Member</li>
+          <li>Stockist</li>
+          <li>Mega Center</li>
+          <mat-divider></mat-divider>
+          <li class="primary">Total Members</li>
+        </ul>
+      </div>
+    </div>
 
-    <button class="cash-out-button" (click)="supply()">
-      <app-card-total-number
-        *ngIf="(user$ | async)?.is_admin"
-        [money]="(user$ | async)?.number_of_supply"
-        [count]="true"
-        icon="faBoxes"
-        label="Buy 1 Take 1 Supply"
-        caption="Total Number of supply"
-      ></app-card-total-number>
-    </button>
+    <div class="amount">
+      <div>
+        <h4>Amount</h4>
 
-    <app-card-total-number
-      [money]="(user$ | async)?.indirect_referral"
-      icon="faUsers"
-      label="Indirect Referral"
-      caption="Total Income"
-    ></app-card-total-number>
+        <ul>
+          <li>
+            <strong
+              >₱ {{ (user$ | async)?.direct_referral | number: "1.2-2" }}
+            </strong>
+          </li>
+          <li>
+            <strong
+              >₱ {{ (user$ | async)?.indirect_referral | number: "1.2-2" }}
+            </strong>
+          </li>
+          <li>
+            <strong
+              >₱ {{ (user$ | async)?.pairing_bonus | number: "1.2-2" }}
+            </strong>
+          </li>
+          <li>
+            <strong
+              >₱
+              {{
+                (user$ | async)?.automatic_equivalent_rebates | number: "1.2-2"
+              }}
+            </strong>
+          </li>
+          <mat-divider></mat-divider>
+          <li>
+            <strong
+              >₱ {{ (user$ | async)?.overall_income | number: "1.2-2" }}
+            </strong>
+          </li>
+          <li>
+            <strong
+              >₱ {{ (user$ | async)?.unpaid_income | number: "1.2-2" }}
+            </strong>
+          </li>
+        </ul>
+      </div>
 
-    <app-card-total-number
-      [money]="(user$ | async)?.direct_referral"
-      icon="faUsers"
-      label="Direct Referral"
-      caption="Total Income"
-    ></app-card-total-number>
+      <div style="margin-top: 40px">
+        <h4>Amount</h4>
 
-    <app-card-total-number
-      [money]="(user$ | async)?.pairing_bonus"
-      icon="faCommentsDollar"
-      label="Pairing Bonus"
-      caption="Total Income"
-    ></app-card-total-number>
-
-    <app-card-total-number
-      [money]="(user$ | async)?.automatic_equivalent_rebates"
-      icon="faHandHoldingUsd"
-      label="Automatic Equivalent Rebates"
-      caption="Total Income"
-    ></app-card-total-number>
-
-    <app-card-total-number
-      [money]="(user$ | async)?.automatic_equivalent_rebates"
-      icon="faReceipt"
-      label="Pairing Product Voucher"
-      caption="Total Income"
-    ></app-card-total-number>
-
-    <app-card-total-number
-      [money]="(user$ | async)?.automatic_equivalent_rebates"
-      [count]="true"
-      icon="faStreetView"
-      label="Stockist"
-      caption="Total Number of People"
-    ></app-card-total-number>
+        <ul>
+          <li>
+            <strong>0</strong>
+          </li>
+          <li>
+            <strong>0</strong>
+          </li>
+          <li>
+            <strong>0</strong>
+          </li>
+          <mat-divider></mat-divider>
+          <li>
+            <strong>0</strong>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
