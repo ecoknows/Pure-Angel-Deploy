@@ -452,15 +452,7 @@ SeedRouter.post(
 SeedRouter.post(
   "/clear-unpaid",
   expressAsyncHandler(async (req, res) => {
-    const users = await UserVerification.find({});
-
-    for (let i = 0; i < users.length; i++) {
-      const user = await UserVerification.findById(users[i]._id);
-
-      user.unpaid_income = 0;
-
-      user.save();
-    }
+    await UserVerification.updateMany({}, { unpaid_income: 0 });
 
     res.send({ message: "Sucessfully Clear Unpaid" });
   })
