@@ -61,3 +61,11 @@ export const checkIfMegaCenter = (req, res, next) => {
     res.status(401).send({ message: "Invalid Mega Center Token" });
   }
 };
+
+export const checkIfAdminStockMega = (req, res, next) => {
+  if (req.user.is_admin || req.user.is_mega_center || req.user.is_stockist) {
+    next();
+  } else {
+    res.status(401).send({ message: "Invalid Admin Token" });
+  }
+};

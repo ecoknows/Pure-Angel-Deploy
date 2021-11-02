@@ -5,7 +5,7 @@ const pairingBonusSchema = new mongoose.Schema(
     user_id: { type: String, required: true, index: true },
     first_name: { type: String, required: true },
     last_name: { type: String, required: true },
-    address: { type: String, required: true },
+    address: { type: String },
 
     left: {
       user_id: { type: String, index: true },

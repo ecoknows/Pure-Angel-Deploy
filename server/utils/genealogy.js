@@ -6,6 +6,8 @@ import IndirectReferral from "../models/indirect-referral.model.js";
 import PairingBonus from "../models/pairing-bonus.model.js";
 import { nanoid } from "nanoid";
 
+import bcrypt from "bcryptjs";
+
 export async function modifyBranchCountOfRoot(
   root_user_verification_id,
   direction,
@@ -203,17 +205,17 @@ export async function addIndirectReferral(
 
 export async function updateGenealogy(genealogy, child_user, req) {
   const position = req.body.position;
-  const id_of_the_user_that_invite = req.user._id;
 
   if (position == "left") {
     genealogy.left_branch = {
       user_id: child_user._id,
+      account_number: child_user.account_number,
 
       user_that_invite: {
-        user_id: id_of_the_user_that_invite,
-        first_name: req.user.first_name,
-        last_name: req.user.last_name,
-        address: req.user.address,
+        user_id: child_user.user_that_invite.user_id,
+        first_name: child_user.user_that_invite.first_name,
+        last_name: child_user.user_that_invite.last_name,
+        address: child_user.user_that_invite.address,
       },
 
       first_name: child_user.first_name,
@@ -224,12 +226,13 @@ export async function updateGenealogy(genealogy, child_user, req) {
   } else if (position == "right") {
     genealogy.right_branch = {
       user_id: child_user._id,
+      account_number: child_user.account_number,
 
       user_that_invite: {
-        user_id: id_of_the_user_that_invite,
-        first_name: req.user.first_name,
-        last_name: req.user.last_name,
-        address: req.user.address,
+        user_id: child_user.user_that_invite.user_id,
+        first_name: child_user.user_that_invite.first_name,
+        last_name: child_user.user_that_invite.last_name,
+        address: child_user.user_that_invite.address,
       },
       first_name: child_user.first_name,
       last_name: child_user.last_name,
@@ -246,40 +249,43 @@ export async function addNewGenealogy(
   req
 ) {
   const position = req.body.position;
-  const id_of_the_user_that_invite = req.user._id;
-  const user_that_invite = await UserVerification.findOne({
+
+  const user_verification = await UserVerification.findOne({
     user_id: current_user._id,
   });
 
   if (position == "left") {
     genealogy = new Genealogy({
       user_id: current_user._id,
+      account_number: current_user.account_number,
+      first_name: current_user.first_name,
+      last_name: current_user.last_name,
+      address: current_user.address,
 
       is_stockist: current_user.is_stockist,
       is_admin: current_user.is_admin,
       is_mega_center: current_user.is_mega_center,
       is_owner: current_user.is_owner,
 
-      user_that_invite: user_that_invite?.id_of_the_user_that_invite
+      user_that_invite: user_verification?.user_that_invite
         ? {
-            user_id: user_that_invite.id_of_the_user_that_invite,
-            first_name: user_that_invite.first_name,
-            last_name: user_that_invite.last_name,
-            address: user_that_invite.address,
+            user_id: user_verification.user_that_invite.user_id,
+            first_name: user_verification.user_that_invite.first_name,
+            last_name: user_verification.user_that_invite.last_name,
+            address: user_verification.user_that_invite.address,
           }
         : undefined,
 
-      first_name: current_user.first_name,
-      last_name: current_user.last_name,
-      address: current_user.address,
       left_branch: {
         user_id: child_user._id,
+        account_number: child_user.account_number,
         user_that_invite: {
-          user_id: id_of_the_user_that_invite,
-          first_name: req.user.first_name,
-          last_name: req.user.last_name,
-          address: req.user.address,
+          user_id: child_user.user_that_invite.user_id,
+          first_name: child_user.user_that_invite.first_name,
+          last_name: child_user.user_that_invite.last_name,
+          address: child_user.user_that_invite.address,
         },
+
         first_name: child_user.first_name,
         last_name: child_user.last_name,
         address: child_user.address,
@@ -293,31 +299,37 @@ export async function addNewGenealogy(
   } else if (position == "right") {
     genealogy = new Genealogy({
       user_id: current_user._id,
+      account_number: current_user.account_number,
       first_name: current_user.first_name,
+      last_name: current_user.last_name,
+      address: current_user.address,
+      account_number: current_user.account_number,
 
       is_stockist: current_user.is_stockist,
       is_admin: current_user.is_admin,
       is_mega_center: current_user.is_mega_center,
       is_owner: current_user.is_owner,
 
-      user_that_invite: user_that_invite?.id_of_the_user_that_invite
+      user_that_invite: user_verification?.user_that_invite
         ? {
-            user_id: user_that_invite.id_of_the_user_that_invite,
-            first_name: user_that_invite.first_name,
-            last_name: user_that_invite.last_name,
-            address: user_that_invite.address,
+            user_id: user_verification.user_that_invite.user_id,
+            first_name: user_verification.user_that_invite.first_name,
+            last_name: user_verification.user_that_invite.last_name,
+            address: user_verification.user_that_invite.address,
           }
         : undefined,
-      last_name: current_user.last_name,
-      address: current_user.address,
+
       right_branch: {
         user_id: child_user._id,
+        account_number: child_user.account_number,
+
         user_that_invite: {
-          user_id: id_of_the_user_that_invite,
-          first_name: req.user.first_name,
-          last_name: req.user.last_name,
-          address: req.user.address,
+          user_id: child_user.user_that_invite.user_id,
+          first_name: child_user.user_that_invite.first_name,
+          last_name: child_user.user_that_invite.last_name,
+          address: child_user.user_that_invite.address,
         },
+
         first_name: child_user.first_name,
         last_name: child_user.last_name,
         address: child_user.address,
@@ -336,11 +348,16 @@ export async function createChildUser(req, current_user, user_that_invite) {
 
   const position = body.position;
 
+  const password = nanoid(10);
+
   let child_user = new User({
+    account_number: body.account_number,
+    password: bcrypt.hashSync(password, 8),
+    user_number: body.user_number,
+
     first_name: body.first_name,
     last_name: body.last_name,
-    address: body.address,
-    birthdate: body.birthdate,
+
     contact_number: body.contact_number,
     secret_code_suffix: user_that_invite.secret_code_suffix,
 
@@ -380,9 +397,6 @@ export async function createChildUser(req, current_user, user_that_invite) {
     user_id: child_user._id,
     first_name: child_user.first_name,
     last_name: child_user.last_name,
-    address: child_user.address,
-    birthdate: child_user.birthdate,
-    secret_code: user_that_invite.secret_code_suffix + "-" + nanoid(10),
 
     mega_center: user_that_invite?.is_mega_center
       ? {

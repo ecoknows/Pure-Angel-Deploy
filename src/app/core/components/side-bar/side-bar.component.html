@@ -35,9 +35,9 @@
         </li>
 
         <li
-          *ngIf="checkIfMegaCenter"
+          *ngIf="checkIfMegaStockAdmin"
           routerLinkActive="active"
-          routerLink="/mega-center"
+          routerLink="/new-member"
           (click)="drawer?.toggle()"
           [routerLinkActiveOptions]="{ exact: true }"
         >
@@ -45,8 +45,46 @@
           <div class="icon-container">
             <div class="icon-illusion">
               <div>
-                <fa-icon [icon]="userCheck" class="icons"></fa-icon>
-                <span>Mega Center</span>
+                <fa-icon [icon]="faUserPlus" class="icons"></fa-icon>
+                <span>New Member</span>
+              </div>
+            </div>
+          </div>
+          <div class="bottom-illusion"></div>
+        </li>
+
+        <li
+          *ngIf="checkIfMegaStockAdmin"
+          routerLinkActive="active"
+          routerLink="/new-order"
+          (click)="drawer?.toggle()"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="top-illusion"></div>
+          <div class="icon-container">
+            <div class="icon-illusion">
+              <div>
+                <fa-icon [icon]="faReceipt" class="icons"></fa-icon>
+                <span>New Order</span>
+              </div>
+            </div>
+          </div>
+          <div class="bottom-illusion"></div>
+        </li>
+
+        <li
+          *ngIf="checkIfMegaStockAdmin"
+          routerLinkActive="active"
+          routerLink="/stock-inventory"
+          (click)="drawer?.toggle()"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="top-illusion"></div>
+          <div class="icon-container">
+            <div class="icon-illusion">
+              <div>
+                <fa-icon [icon]="faCalculator" class="icons"></fa-icon>
+                <span>Stock Inventory</span>
               </div>
             </div>
           </div>

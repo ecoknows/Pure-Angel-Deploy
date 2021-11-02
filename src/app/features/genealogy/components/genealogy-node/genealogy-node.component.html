@@ -41,16 +41,10 @@
 <div
   ngClass="ngx-org-connector-{{ direction }}"
   class="ngx-org-border"
-  *ngIf="(node?.left_count == 0 && node?.right_count != 0) || is_admin"
+  *ngIf="node?.left_count != 0 || node?.right_count != 0"
 ></div>
-<div
-  *ngIf="
-    !node?.left_branch &&
-    !node?.right_branch &&
-    node?.left_count != 0 &&
-    node?.right_count != 0
-  "
->
+
+<div *ngIf="isLeave">
   <fa-icon
     [icon]="faArrowCircleDown"
     class="icons"

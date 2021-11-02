@@ -53,6 +53,13 @@ import { PurchaseDialogComponent } from './referrals/components/purchase/compone
 import { PurchaseVerificationDialogComponent } from './admin/purchase-verification-dialog/purchase-verification-dialog.component';
 import { AutomaticEquivalentRebatesComponent } from './referrals/components/automatic-equivalent-rebates/automatic-equivalent-rebates.component';
 import { SupplyDialogComponent } from './dashboard/components/supply-dialog/supply-dialog.component';
+import { NewMemberComponent } from './new-member/new-member.component';
+import { NewOrderComponent } from './new-order/new-order.component';
+import { MatListModule } from '@angular/material/list';
+import { CreateNewPinComponent } from './admin/components/create-new-pin/create-new-pin.component';
+import { MatRippleModule } from '@angular/material/core';
+import { StockInventoryComponent } from './stock-inventory/stock-inventory.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
@@ -89,6 +96,10 @@ import { SupplyDialogComponent } from './dashboard/components/supply-dialog/supp
     PurchaseVerificationDialogComponent,
     AutomaticEquivalentRebatesComponent,
     SupplyDialogComponent,
+    NewMemberComponent,
+    NewOrderComponent,
+    CreateNewPinComponent,
+    StockInventoryComponent,
   ],
   imports: [
     NgxChartsModule,
@@ -102,6 +113,7 @@ import { SupplyDialogComponent } from './dashboard/components/supply-dialog/supp
     FormsModule,
     ReactiveFormsModule,
     MatDividerModule,
+    MatListModule,
     MatStepperModule,
     MatDatepickerModule,
     MatNativeDateModule,
@@ -111,6 +123,8 @@ import { SupplyDialogComponent } from './dashboard/components/supply-dialog/supp
     MatCheckboxModule,
     MatIconModule,
     MatSnackBarModule,
+    MatRippleModule,
+    MatButtonToggleModule,
   ],
 })
 export class FeaturesModule {}

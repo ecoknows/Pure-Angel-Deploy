@@ -4,10 +4,15 @@ import { PageNotFoundComponent } from '@core/components/page-not-found/page-not-
 import { AuthGuardService } from '@core/guards/auth-guard.service';
 import { LoginGuardService } from '@core/guards/login-guard.service';
 import { AuthService } from '@core/services/auth.service';
+import { MegaStockAdminGuardService } from '@core/services/mega-stock-admin-guard.service';
 import { AdminComponent } from '@features/admin/admin.component';
+import { CreateNewPinComponent } from '@features/admin/components/create-new-pin/create-new-pin.component';
 import { AdminGuardService } from '@features/admin/services/admin-guard.service';
 import { MegaCenterComponent } from '@features/mega-center/mega-center.component';
 import { MegaCenterGuardService } from '@features/mega-center/services/mega-center-guard.service';
+import { NewMemberComponent } from '@features/new-member/new-member.component';
+import { NewOrderComponent } from '@features/new-order/new-order.component';
+import { StockInventoryComponent } from '@features/stock-inventory/stock-inventory.component';
 
 import {
   DashboardComponent,
@@ -36,20 +41,20 @@ const routes: Routes = [
     canActivate: [LoginGuardService],
   },
   {
-    path: 'notifications',
-    component: NotificationsComponent,
-    canActivate: [AuthGuardService],
-  },
-  {
     path: 'genealogy',
     component: GenealogyComponent,
     canActivate: [AuthGuardService],
   },
-  {
-    path: 'referrals',
-    component: ReferralsComponent,
-    canActivate: [AuthGuardService],
-  },
+  // {
+  //   path: 'notifications',
+  //   component: NotificationsComponent,
+  //   canActivate: [AuthGuardService],
+  // },
+  // {
+  //   path: 'referrals',
+  //   component: ReferralsComponent,
+  //   canActivate: [AuthGuardService],
+  // },
   {
     path: 'setting',
     component: SettingComponent,
@@ -61,9 +66,24 @@ const routes: Routes = [
     canActivate: [AdminGuardService],
   },
   {
-    path: 'mega-center',
-    component: MegaCenterComponent,
-    canActivate: [MegaCenterGuardService],
+    path: 'admin/create-new-pin',
+    component: CreateNewPinComponent,
+    canActivate: [AdminGuardService],
+  },
+  {
+    path: 'new-member',
+    component: NewMemberComponent,
+    canActivate: [MegaStockAdminGuardService],
+  },
+  {
+    path: 'new-order',
+    component: NewOrderComponent,
+    canActivate: [MegaStockAdminGuardService],
+  },
+  {
+    path: 'stock-inventory',
+    component: StockInventoryComponent,
+    canActivate: [MegaStockAdminGuardService],
   },
   {
     path: '**',

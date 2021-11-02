@@ -8,13 +8,13 @@ const userSchema = new mongoose.Schema(
 
     first_name: { type: String, required: true, index: true },
     last_name: { type: String, required: true, index: true },
-    address: { type: String, required: true, index: true },
-    birthdate: { type: String, required: true, index: true },
+    address: { type: String, index: true },
+    birthdate: { type: String, index: true },
     contact_number: { type: String, required: true, index: true },
     secret_code_suffix: { type: String, required: true },
 
-    max_member_to_verify: { type: Number },
-    member_that_verified: { type: Number },
+    ending_pin: { type: Number },
+    number_of_pin: { type: Number },
 
     number_of_supply: { type: Number },
 

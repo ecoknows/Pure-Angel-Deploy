@@ -1,16 +1,10 @@
-<mat-tab-group>
-  <mat-tab label="Authentication"
-    ><app-authentication [rows]="authentication$ | async"></app-authentication>
-  </mat-tab>
-  <mat-tab label="Cashouts Verifications"
-    ><app-cashouts-verification
-      [rows]="cashouts$ | async"
-    ></app-cashouts-verification>
-  </mat-tab>
-  <mat-tab label="Purchases Verifications">
-    <app-purchase-verification
-      [rows]="purchases$ | async"
-    ></app-purchase-verification>
-  </mat-tab>
-</mat-tab-group>
-`
+<mat-list role="list">
+  <mat-list-item matRipple routerLink="/admin/create-new-pin"
+    >Create new PIN</mat-list-item
+  >
+  <mat-divider></mat-divider>
+  <mat-list-item matRipple>Create Center</mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item matRipple>Upgrade Account</mat-list-item>
+  <mat-divider></mat-divider>
+</mat-list>

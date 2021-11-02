@@ -68,4 +68,25 @@ export class GenealogyNodeComponent implements AfterViewInit {
   changeRoot() {
     if (this.node) this.genealogyService.viewChild(this.node.user_id);
   }
+
+  get isLeave() {
+    if (
+      this.node.left_count &&
+      this.node?.left_count > 0 &&
+      !this.node.left_branch &&
+      !this.node.right_branch
+    ) {
+      return true;
+    }
+
+    if (
+      this.node.right_count &&
+      this.node?.right_count > 0 &&
+      !this.node.left_branch &&
+      !this.node.right_branch
+    ) {
+      return true;
+    }
+    return false;
+  }
 }

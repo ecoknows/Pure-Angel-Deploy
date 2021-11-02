@@ -24,4 +24,5 @@ export interface Genealogy {
   cssClass?: string;
   image?: string;
   title?: string;
+  newly_created?: boolean;
 }

@@ -14,6 +14,8 @@ import { memberVerificationReducer } from './mega-center/member-verification.red
 import { userPurchaseReducer } from './purchase/user-purchase.reducers';
 import { purchaseReducer } from './admin/purchase-verification/purchase.reducers';
 import { automaticEquivalentRebatesReducer } from './automatic-equivalent-rebates/automatic-equivalent-rebates.reducers';
+import { createNewPinReducer } from './create-new-pin/create-new-pin.reducers';
+import { newMemberReducer } from './new-member/new-member.reducers';
 
 const reducer: object = {
   directReferralReducer: directReferralReducer,
@@ -26,6 +28,8 @@ const reducer: object = {
 
   genealogyReducer: genealogyReducer,
   userReducer: userReducer,
+  createNewPinReducer: createNewPinReducer,
+  newMemberReducer: newMemberReducer,
 
   verificationReducer: verificationReducer,
   memberVerificationReducer: memberVerificationReducer,

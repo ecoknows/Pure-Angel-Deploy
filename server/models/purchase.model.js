@@ -6,7 +6,7 @@ const purchaseSchema = new mongoose.Schema(
     first_name: { type: String, required: true },
     last_name: { type: String, required: true },
     contact_number: { type: String, required: true },
-    address: { type: String, required: true },
+    address: { type: String },
 
     user_that_invite: {
       user_id: { type: String },

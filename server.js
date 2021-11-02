@@ -17,6 +17,8 @@ import MegaCenterRouter from "./server/router/mega-center.router.js";
 import PurchaseRouter from "./server/router/purchase.router.js";
 import AutomaticEquivalentRebatesRouter from "./server/router/automatic-equivalent-rebates.router.js";
 import UserSupplyRouter from "./server/router/user-supply.router.js";
+import CreateNewPinRouter from "./server/router/create-new-pin.router.js";
+import NewMemberRouter from "./server/router/new-member.router.js";
 
 const __dirname = path.resolve();
 
@@ -45,6 +47,9 @@ app.use("/api/user-supply", UserSupplyRouter);
 app.use("/api/history", HistoryRouter);
 app.use("/api/purchase", PurchaseRouter);
 app.use("/api/aer", AutomaticEquivalentRebatesRouter);
+
+app.use("/api/create-new-pin", CreateNewPinRouter);
+app.use("/api/new-member", NewMemberRouter);
 
 app.use("/api/seed", SeedRouter);
 

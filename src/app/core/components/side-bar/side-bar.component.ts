@@ -6,9 +6,12 @@ import {
   faDesktop,
   faBell,
   faUsers,
+  faCalculator,
+  faUserPlus,
   faTree,
   faCog,
   faSignOutAlt,
+  faReceipt,
 } from '@fortawesome/free-solid-svg-icons';
 import { getIcon } from '@shared/components/icons';
 
@@ -30,16 +33,16 @@ export class SideBarComponent implements OnInit {
       name: 'Genealogy',
       icon: faTree,
     },
-    {
-      url: 'referrals',
-      name: 'Referrals',
-      icon: faUsers,
-    },
-    {
-      url: 'notifications',
-      name: 'Notifications',
-      icon: faBell,
-    },
+    // {
+    //   url: 'referrals',
+    //   name: 'Referrals',
+    //   icon: faUsers,
+    // },
+    // {
+    //   url: 'notifications',
+    //   name: 'Notifications',
+    //   icon: faBell,
+    // },
     {
       url: 'setting',
       name: 'Setting',
@@ -49,6 +52,9 @@ export class SideBarComponent implements OnInit {
 
   userShield: any;
   userCheck: any;
+  faUserPlus = faUserPlus;
+  faReceipt = faReceipt;
+  faCalculator = faCalculator;
   logoutIcon = faSignOutAlt;
 
   constructor(
@@ -81,6 +87,19 @@ export class SideBarComponent implements OnInit {
     if (token) {
       const user = helper.decodeToken(token);
       if (user.is_mega_center) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  get checkIfMegaStockAdmin() {
+    const helper = new JwtHelperService();
+    const token = this.authService.userToken;
+
+    if (token) {
+      const user = helper.decodeToken(token);
+      if (user.is_mega_center || user.is_stockist || user.is_admin) {
         return true;
       }
     }

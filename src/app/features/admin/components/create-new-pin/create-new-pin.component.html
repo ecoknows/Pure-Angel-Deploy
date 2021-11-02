@@ -1,0 +1,83 @@
+<mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Find Account Number</ng-template>
+      <mat-form-field appearance="fill">
+        <mat-label>Account Number</mat-label>
+        <input
+          matInput
+          placeholder="Ex. MLA023"
+          formControlName="accountNumber"
+          required
+        />
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>How many PINS</ng-template>
+      <mat-form-field appearance="fill">
+        <mat-label>Number of PINS</mat-label>
+        <input
+          matInput
+          formControlName="addedPin"
+          placeholder="Ex. 10"
+          type="number"
+          required
+        />
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="searchAccount(stepper)">Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <h1>Almost done...</h1>
+    <h2>Please double check before creating</h2>
+    <ul>
+      <li>
+        Status :
+        <span *ngIf="(createNewPin$ | async)?.is_mega_center">
+          Mega Center
+        </span>
+        <span *ngIf="(createNewPin$ | async)?.is_stockist"> Stockist </span>
+        <span *ngIf="(createNewPin$ | async)?.is_admin"> Admin </span>
+      </li>
+      <li>
+        Name :
+        <span>
+          {{
+            (createNewPin$ | async)?.first_name +
+              " " +
+              (createNewPin$ | async)?.last_name
+          }}
+        </span>
+      </li>
+      <li>
+        Contact Number :
+        <span> {{ (createNewPin$ | async)?.contact_number }}</span>
+      </li>
+      <li>
+        Added PINS :
+        <span>{{ secondFormGroup.get("addedPin")?.value }} Pins</span>
+      </li>
+      <li>
+        New PINS :
+        <span *ngIf="(createNewPin$ | async)?.ending_pin"
+          >PAC0{{ startingPin((createNewPin$ | async)?.ending_pin) }} to PAC0{{
+            endingPin((createNewPin$ | async)?.ending_pin)
+          }}</span
+        >
+      </li>
+    </ul>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="createPIN()">Done</button>
+    </div>
+  </mat-step>
+</mat-stepper>
