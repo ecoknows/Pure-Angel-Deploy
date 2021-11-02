@@ -39,11 +39,35 @@ UserRouter.get(
   verifyUserToken,
   expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id);
+    const user_verification = await UserVerification.findOne({
+      user_id: user._id,
+    });
 
-    if (user) {
+    if (user && user_verification) {
       res.send({
         message: "Successfully fetch User",
         data: user,
+      });
+    } else {
+      res.send({
+        message: "Failed to fetch!",
+      });
+    }
+  })
+);
+
+UserRouter.get(
+  "/user-details-verification",
+  verifyUserToken,
+  expressAsyncHandler(async (req, res) => {
+    const user_verification = await UserVerification.findOne({
+      user_id: req.user._id,
+    });
+
+    if (user_verification) {
+      res.send({
+        message: "Successfully fetch User",
+        data: user_verification,
       });
     } else {
       res.send({

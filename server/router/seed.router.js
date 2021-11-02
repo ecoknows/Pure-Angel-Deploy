@@ -459,7 +459,7 @@ SeedRouter.post(
 
       user.unpaid_income = 0;
 
-      await user.save();
+      user.save();
     }
 
     res.send({ message: "Sucessfully Clear Unpaid" });
@@ -553,4 +553,15 @@ SeedRouter.post(
   })
 );
 
+SeedRouter.post(
+  "/check-leaders",
+  expressAsyncHandler(async (req, res) => {
+    const leaders = await User.find({
+      secret_code_suffix: req.body.code,
+      free_account_leader: req.body.free_account_leader,
+    });
+
+    res.send({ message: "Sucessfully Put leaders!", leaders: leaders.length });
+  })
+);
 export default SeedRouter;

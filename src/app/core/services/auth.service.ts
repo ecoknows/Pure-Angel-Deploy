@@ -137,6 +137,19 @@ export class AuthService {
           this.store.dispatch(setUserData({ user: data }));
         }
       });
+    this.http
+      .get<{ message: string; data: UserState }>(
+        environment.api + 'api/user/user-details-verification',
+        {
+          headers: this.headers,
+        }
+      )
+      .subscribe((response) => {
+        const data = response.data;
+        if (data) {
+          this.store.dispatch(setUserData({ user: data }));
+        }
+      });
   }
 
   fetchUserData() {

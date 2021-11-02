@@ -26,6 +26,13 @@ const userVerificationSchema = new mongoose.Schema(
     pairing_bonus_count: { type: Number, default: 0 },
     starting_date_of_pairing_exceeded: { type: Date },
 
+    stock_coffee: { type: Number },
+    stock_soap: { type: Number },
+
+    number_of_members: { type: Number },
+    number_of_stockist: { type: Number },
+    number_of_mega_center: { type: Number },
+
     mega_center: {
       user_id: { type: String, index: true },
       first_name: { type: String },

@@ -20,6 +20,13 @@ export interface UserState {
   overall_income?: number;
   unpaid_income?: number;
 
+  stock_coffee?: number;
+  stock_soap?: number;
+
+  number_of_members?: number;
+  number_of_stockist?: number;
+  number_of_mega_center?: number;
+
   direct_referral?: number;
   indirect_referral?: number;
   pairing_bonus?: number;
