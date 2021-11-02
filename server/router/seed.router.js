@@ -454,6 +454,8 @@ SeedRouter.post(
   expressAsyncHandler(async (req, res) => {
     await UserVerification.updateMany({}, { unpaid_income: 0 });
 
+    //unpaid
+
     res.send({ message: "Sucessfully Clear Unpaid" });
   })
 );
