@@ -38,4 +38,24 @@ export class DashboardComponent implements OnInit {
   supply() {
     this.dialog.open(SupplyDialogComponent);
   }
+
+  totalInventory(user: UserState | null) {
+    let coffee_income = 0;
+    let soap_income = 0;
+    if (user?.inventory && user?.inventory?.coffee_income) {
+      coffee_income = user?.inventory?.coffee_income;
+    }
+    if (user?.inventory && user?.inventory?.soap_income) {
+      soap_income = user?.inventory?.soap_income;
+    }
+
+    return coffee_income + soap_income;
+  }
+
+  isMegaAdminStock(user: UserState | null) {
+    if (user?.is_admin || user?.is_mega_center || user?.is_stockist) {
+      return true;
+    }
+    return false;
+  }
 }

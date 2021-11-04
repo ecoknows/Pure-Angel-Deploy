@@ -43,14 +43,13 @@
         </ul>
       </div>
 
-      <div style="margin-top: 40px">
-        <h4>Status</h4>
+      <div style="margin-top: 40px" *ngIf="isMegaAdminStock(user$ | async)">
+        <h4>Inventory Income</h4>
         <ul>
-          <li>Member</li>
-          <li>Stockist</li>
-          <li>Mega Center</li>
+          <li>Coffee Income</li>
+          <li>Soap Income</li>
           <mat-divider></mat-divider>
-          <li class="primary">Total Members</li>
+          <li class="primary">Total Income</li>
         </ul>
       </div>
     </div>
@@ -97,22 +96,36 @@
         </ul>
       </div>
 
-      <div style="margin-top: 40px">
+      <div style="margin-top: 40px" *ngIf="isMegaAdminStock(user$ | async)">
         <h4>Amount</h4>
 
         <ul>
           <li>
-            <strong>0</strong>
+            <strong
+              >₱
+              {{
+                (user$ | async)?.inventory?.coffee_income
+                  ? ((user$ | async)?.inventory?.coffee_income
+                    | number: "1.2-2")
+                  : (0 | number: "1.2-2")
+              }}</strong
+            >
           </li>
           <li>
-            <strong>0</strong>
-          </li>
-          <li>
-            <strong>0</strong>
+            <strong
+              >₱
+              {{
+                (user$ | async)?.inventory?.soap_income
+                  ? ((user$ | async)?.inventory?.soap_income | number: "1.2-2")
+                  : (0 | number: "1.2-2")
+              }}</strong
+            >
           </li>
           <mat-divider></mat-divider>
           <li>
-            <strong>0</strong>
+            <strong
+              >₱ {{ totalInventory(user$ | async) | number: "1.2-2" }}</strong
+            >
           </li>
         </ul>
       </div>

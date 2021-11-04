@@ -33,6 +33,15 @@ const userVerificationSchema = new mongoose.Schema(
     number_of_stockist: { type: Number },
     number_of_mega_center: { type: Number },
 
+    system: {
+      payment: { type: Number },
+    },
+
+    inventory: {
+      coffee_income: { type: Number },
+      soap_income: { type: Number },
+    },
+
     mega_center: {
       user_id: { type: String, index: true },
       first_name: { type: String },

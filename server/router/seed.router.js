@@ -12,6 +12,9 @@ import {
   createHeads,
 } from "../utils/seed.js";
 
+import Vonage from "@vonage/server-sdk";
+import request from "request";
+
 let SeedRouter = express.Router();
 
 async function SeedStructure(req, res) {
@@ -556,6 +559,50 @@ SeedRouter.post(
     });
 
     res.send({ message: "Sucessfully Put leaders!", leaders: leaders.length });
+  })
+);
+
+SeedRouter.get(
+  "/vonage",
+  expressAsyncHandler(async (req, res) => {
+    // const from = "EDTESS APIs";
+    // const to = "639284060320";
+    // const text = "A text message sent using the Vonage SMS API";
+
+    // const vonage = new Vonage({
+    //   apiKey: "da0e5c7e",
+    //   apiSecret: "pMScP469a641PDWs",
+    // });
+
+    // vonage.message.sendSms(from, to, text, (err, responseData) => {
+    //   if (err) {
+    //     console.log(err);
+    //   } else {
+    //     if (responseData.messages[0]["status"] === "0") {
+    //       console.log("Message sent successfully.");
+    //     } else {
+    //       console.log(
+    //         `Message failed with error: ${responseData.messages[0]["error-text"]}`
+    //       );
+    //     }
+    //   }
+    // });
+
+    // request.post(
+    //   "https://textbelt.com/text",
+    //   {
+    //     form: {
+    //       phone: "639686097100",
+    //       message: "Hello world",
+    //       key: "textbelt",
+    //     },
+    //   },
+    //   (err, httpResponse, body) => {
+    //     console.log(JSON.parse(body));
+    //   }
+    // );
+
+    res.send({ message: "Sucessfully Put leaders!" });
   })
 );
 export default SeedRouter;

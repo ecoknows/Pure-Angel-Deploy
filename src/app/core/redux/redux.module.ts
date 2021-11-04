@@ -15,7 +15,10 @@ import { userPurchaseReducer } from './purchase/user-purchase.reducers';
 import { purchaseReducer } from './admin/purchase-verification/purchase.reducers';
 import { automaticEquivalentRebatesReducer } from './automatic-equivalent-rebates/automatic-equivalent-rebates.reducers';
 import { createNewPinReducer } from './create-new-pin/create-new-pin.reducers';
-import { newMemberReducer } from './new-member/new-member.reducers';
+import {
+  searchAccountReducer,
+  searchGenealogyReducer,
+} from './search-account/search-account.reducers';
 
 const reducer: object = {
   directReferralReducer: directReferralReducer,
@@ -29,7 +32,8 @@ const reducer: object = {
   genealogyReducer: genealogyReducer,
   userReducer: userReducer,
   createNewPinReducer: createNewPinReducer,
-  newMemberReducer: newMemberReducer,
+  searchAccountReducer: searchAccountReducer,
+  searchGenealogyReducer: searchGenealogyReducer,
 
   verificationReducer: verificationReducer,
   memberVerificationReducer: memberVerificationReducer,

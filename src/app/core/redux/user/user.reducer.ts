@@ -31,9 +31,17 @@ export interface UserState {
   indirect_referral?: number;
   pairing_bonus?: number;
   automatic_equivalent_rebates?: number;
+  number_of_supply?: number;
+
+  inventory?: {
+    coffee_income: number;
+    soap_income: number;
+  };
+
   is_admin?: boolean;
   is_owner?: boolean;
-  number_of_supply?: number;
+  is_stockist?: boolean;
+  is_mega_center?: boolean;
 }
 
 export const USER_INITIAL_STATE: UserState = {};

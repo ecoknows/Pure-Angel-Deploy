@@ -16,8 +16,6 @@ const userSchema = new mongoose.Schema(
     ending_pin: { type: Number },
     number_of_pin: { type: Number },
 
-    number_of_supply: { type: Number },
-
     free_account_leader: { type: Number },
 
     mega_center: {

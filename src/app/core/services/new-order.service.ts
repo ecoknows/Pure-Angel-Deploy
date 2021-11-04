@@ -1,11 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Genealogy } from '@core/redux/genealogy/genealogy.model';
-import {
-  resetSearchGenealogy,
-  setSearchGenealogy,
-} from '@core/redux/search-account/search-account.actions';
+import { setSearchAccount } from '@core/redux/search-account/search-account.actions';
+import { UserState } from '@core/redux/user/user.reducer';
 import { environment } from '@env';
 import { Store } from '@ngrx/store';
 import { SnackbarComponent } from '@shared/components';
@@ -14,7 +11,7 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class NewMemberService {
+export class NewOrderService {
   snackBarDuration = 2;
 
   constructor(
@@ -24,22 +21,30 @@ export class NewMemberService {
     private _snackBar: MatSnackBar
   ) {}
 
-  searchGenealogy(account_number: string) {
+  order(
+    order_info: {
+      buyer: string;
+      coffee_ordered: number;
+      soap_ordered: number;
+      package: string;
+    },
+    stepper: any,
+    secondFormGroup: any
+  ) {
+    if (order_info.package == 'b1t1') {
+      order_info.coffee_ordered = order_info.coffee_ordered * 2;
+    }
+
     this.http
-      .post<{ message: string; data: Genealogy }>(
-        environment.api + 'api/new-member/search-genealogy',
-        { account_number },
+      .post<{ message: string }>(
+        environment.api + 'api/new-order/order',
+        {
+          ...order_info,
+        },
         { headers: this.authService.headers }
       )
       .subscribe(
         (response) => {
-          let data = response.data;
-
-          if (data == null) {
-            data = { newly_created: true };
-          }
-          this.store.dispatch(setSearchGenealogy({ genealogy: data }));
-
           this._snackBar.openFromComponent(SnackbarComponent, {
             duration: this.snackBarDuration * 1000,
             verticalPosition: 'top',
@@ -48,6 +53,13 @@ export class NewMemberService {
             data: {
               message: response.message,
             },
+          });
+          this.authService.fetchUserDetails();
+          stepper.reset();
+          secondFormGroup.patchValue({
+            coffee_quantity: 0,
+            soap_quantity: 0,
+            package: 'b1t1',
           });
         },
         (error) => {
@@ -65,40 +77,33 @@ export class NewMemberService {
       );
   }
 
-  createMember(
-    member_info: {
-      account_number: string | null;
-      user_number: number | null;
-      place_under_account: string | null;
-      referral_account: string | null;
-      first_name: string | null;
-      last_name: string | null;
-      contact_number: string | null;
-      position: string | null;
-    },
-    stepper: any
-  ) {
+  searchAccount(account_number: string, stepper: any) {
     this.http
-      .post<{ message: string }>(
-        environment.api + 'api/new-member/create-member',
-        { ...member_info },
+      .post<{ message: string; data: UserState }>(
+        environment.api + 'api/new-order/search-account',
+        {
+          account_number,
+        },
         { headers: this.authService.headers }
       )
       .subscribe(
         (response) => {
-          this._snackBar.openFromComponent(SnackbarComponent, {
-            duration: this.snackBarDuration * 1000,
-            verticalPosition: 'top',
-            horizontalPosition: 'center',
-            panelClass: ['snackbar-background'],
-            data: {
-              message: response.message,
-            },
-          });
+          const data = response.data;
 
-          stepper.reset();
-          this.authService.fetchUserDetails();
-          this.store.dispatch(resetSearchGenealogy());
+          if (data) {
+            this._snackBar.openFromComponent(SnackbarComponent, {
+              duration: this.snackBarDuration * 1000,
+              verticalPosition: 'top',
+              horizontalPosition: 'center',
+              panelClass: ['snackbar-background'],
+              data: {
+                message: response.message,
+              },
+            });
+
+            this.store.dispatch(setSearchAccount({ user: data }));
+            stepper.next();
+          }
         },
         (error) => {
           this._snackBar.openFromComponent(SnackbarComponent, {

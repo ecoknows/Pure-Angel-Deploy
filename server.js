@@ -20,6 +20,7 @@ import UserSupplyRouter from "./server/router/user-supply.router.js";
 import CreateNewPinRouter from "./server/router/create-new-pin.router.js";
 import NewMemberRouter from "./server/router/new-member.router.js";
 import StockInventoryRouter from "./server/router/stock-inventory.router.js";
+import NewOrderRouter from "./server/router/new-order.router.js";
 
 const __dirname = path.resolve();
 
@@ -51,6 +52,7 @@ app.use("/api/aer", AutomaticEquivalentRebatesRouter);
 
 app.use("/api/create-new-pin", CreateNewPinRouter);
 app.use("/api/new-member", NewMemberRouter);
+app.use("/api/new-order", NewOrderRouter);
 app.use("/api/stock-inventory", StockInventoryRouter);
 
 app.use("/api/seed", SeedRouter);

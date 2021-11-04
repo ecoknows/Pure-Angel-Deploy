@@ -6,3 +6,4 @@ export const PAIRING_PRODUCT_VOUCHER_PAYMENT = 150;
 export const AUTOMATIC_EQUIVALENT_REBATES_PAYMENT = 5;
 
 export const PRODUCT_VALUE = 350;
+export const B1T1_PRICE = 350;

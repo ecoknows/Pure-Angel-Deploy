@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CreateNewPinState } from '@core/redux/create-new-pin/create-new-pin.reducers';
 import { Genealogy } from '@core/redux/genealogy/genealogy.model';
-import { GenealogyState } from '@core/redux/genealogy/genealogy.reducer';
 import { UserState } from '@core/redux/user/user.reducer';
 import { AuthService } from '@core/services/auth.service';
-import { CreateNewPinService } from '@core/services/create-new-pin.service';
 import { NewMemberService } from '@core/services/new-member.service';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -28,11 +25,11 @@ export class NewMemberComponent implements OnInit {
     private newMemberService: NewMemberService,
     private authService: AuthService,
     private store: Store<{
-      newMemberReducer: Genealogy;
+      searchGenealogyReducer: Genealogy;
       userReducer: UserState;
     }>
   ) {
-    this.placeUnder$ = this.store.select('newMemberReducer');
+    this.placeUnder$ = this.store.select('searchGenealogyReducer');
     this.user$ = this.store.select('userReducer');
   }
 
