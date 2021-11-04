@@ -353,6 +353,7 @@ export async function createChildUser(req, current_user, user_that_invite) {
   let child_user = new User({
     account_number: body.account_number,
     password: bcrypt.hashSync(password, 8),
+    temporary_password: password,
     user_number: body.user_number,
 
     first_name: body.first_name,

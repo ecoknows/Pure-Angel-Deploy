@@ -4,6 +4,7 @@ const userSchema = new mongoose.Schema(
   {
     account_number: { type: String, index: true },
     password: { type: String, index: true },
+    temporary_password: { type: String },
     user_number: { type: Number },
 
     first_name: { type: String, required: true, index: true },
