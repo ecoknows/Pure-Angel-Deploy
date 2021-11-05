@@ -44,7 +44,7 @@ NewOrderRouter.post(
     const soap_ordered = body.soap_ordered;
 
     if (seller && buyer) {
-      const coffee_total_price = coffee_ordered * B1T1_PRICE;
+      const coffee_total_price = (coffee_ordered / 2) * B1T1_PRICE;
       const soap_total_price = soap_ordered * B1T1_PRICE;
 
       seller.stock_coffee = seller.stock_coffee
