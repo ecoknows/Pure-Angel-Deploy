@@ -7,6 +7,7 @@ import { AuthService } from '@core/services/auth.service';
 import { MegaStockAdminGuardService } from '@core/services/mega-stock-admin-guard.service';
 import { AdminComponent } from '@features/admin/admin.component';
 import { CreateNewPinComponent } from '@features/admin/components/create-new-pin/create-new-pin.component';
+import { UpgradeAccountComponent } from '@features/admin/components/upgrade-account/upgrade-account.component';
 import { AdminGuardService } from '@features/admin/services/admin-guard.service';
 import { MegaCenterComponent } from '@features/mega-center/mega-center.component';
 import { MegaCenterGuardService } from '@features/mega-center/services/mega-center-guard.service';
@@ -70,6 +71,12 @@ const routes: Routes = [
     component: CreateNewPinComponent,
     canActivate: [AdminGuardService],
   },
+  {
+    path: 'admin/upgrade-account',
+    component: UpgradeAccountComponent,
+    canActivate: [AdminGuardService],
+  },
+
   {
     path: 'new-member',
     component: NewMemberComponent,

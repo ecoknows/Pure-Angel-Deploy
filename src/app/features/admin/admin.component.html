@@ -1,10 +1,12 @@
 <mat-list role="list">
-  <mat-list-item matRipple routerLink="/admin/create-new-pin"
+  <mat-list-item matRipple routerLink="create-new-pin"
     >Create new PIN</mat-list-item
   >
   <mat-divider></mat-divider>
-  <mat-list-item matRipple>Create Center</mat-list-item>
-  <mat-divider></mat-divider>
-  <mat-list-item matRipple>Upgrade Account</mat-list-item>
+  <mat-list-item matRipple routerLink="upgrade-account"
+    >Upgrade Account</mat-list-item
+  >
   <mat-divider></mat-divider>
 </mat-list>
+
+<router-outlet></router-outlet>

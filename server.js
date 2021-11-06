@@ -21,6 +21,7 @@ import CreateNewPinRouter from "./server/router/create-new-pin.router.js";
 import NewMemberRouter from "./server/router/new-member.router.js";
 import StockInventoryRouter from "./server/router/stock-inventory.router.js";
 import NewOrderRouter from "./server/router/new-order.router.js";
+import UpgradeAccountRouter from "./server/router/upgrade-account.router.js";
 
 const __dirname = path.resolve();
 
@@ -51,6 +52,7 @@ app.use("/api/purchase", PurchaseRouter);
 app.use("/api/aer", AutomaticEquivalentRebatesRouter);
 
 app.use("/api/create-new-pin", CreateNewPinRouter);
+app.use("/api/upgrade-account", UpgradeAccountRouter);
 app.use("/api/new-member", NewMemberRouter);
 app.use("/api/new-order", NewOrderRouter);
 app.use("/api/stock-inventory", StockInventoryRouter);

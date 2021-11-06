@@ -17,6 +17,7 @@
       </div>
     </form>
   </mat-step>
+
   <mat-step [stepControl]="secondFormGroup">
     <form [formGroup]="secondFormGroup">
       <ng-template matStepLabel>Account Details.</ng-template>
@@ -63,68 +64,96 @@
         </li>
       </ul>
 
-      <mat-form-field appearance="fill">
-        <mat-label>Number of PINS</mat-label>
+      <mat-button-toggle-group
+        name="fontStyle"
+        aria-label="Font Style"
+        style="margin-bottom: 20px"
+        formControlName="status"
+      >
+        <mat-button-toggle value="member">Member</mat-button-toggle>
+        <mat-button-toggle value="stockist">Stockist</mat-button-toggle>
+        <mat-button-toggle value="mega-center">Mega Center</mat-button-toggle>
+      </mat-button-toggle-group>
+
+      <mat-form-field
+        appearance="fill"
+        *ngIf="secondFormGroup.get('status')?.value == 'mega-center'"
+      >
+        <mat-label>Assign Area</mat-label>
         <input
           matInput
-          formControlName="addedPin"
-          placeholder="Ex. 10"
-          type="number"
-          required
+          placeholder="Ex. AKL"
+          formControlName="assign_area"
+          oninput="this.value = this.value.toUpperCase()"
         />
       </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Back</button>
-        <button mat-button (click)="searchAccount(stepper)">Next</button>
+        <button mat-button (click)="checkIfMegaCenter(stepper)">Next</button>
       </div>
     </form>
   </mat-step>
+
   <mat-step>
     <ng-template matStepLabel>Done</ng-template>
     <h1>Almost done...</h1>
-    <h2>Please double check before creating PIN</h2>
-    <ul>
+    <h2>Please double check before upgrading this account</h2>
+    <ul style="margin: 20px 0 10px 0">
       <li>
-        Status :
-        <span *ngIf="(searchAccount$ | async)?.is_mega_center">
-          Mega Center
-        </span>
-        <span *ngIf="(searchAccount$ | async)?.is_stockist"> Stockist </span>
-        <span *ngIf="(searchAccount$ | async)?.is_admin"> Admin </span>
+        Account # :
+        <span> {{ (searchAccount$ | async)?.account_number }} </span>
       </li>
       <li>
         Name :
         <span>
-          {{
-            (searchAccount$ | async)?.first_name +
-              " " +
-              (searchAccount$ | async)?.last_name
-          }}
+          {{ (searchAccount$ | async)?.first_name }}
+          {{ (searchAccount$ | async)?.last_name }}
+        </span>
+      </li>
+      <li>
+        Address :
+        <span>
+          {{ (searchAccount$ | async)?.address }}
         </span>
       </li>
       <li>
         Contact Number :
-        <span> {{ (searchAccount$ | async)?.contact_number }}</span>
+        <span>
+          {{ (searchAccount$ | async)?.contact_number }}
+        </span>
       </li>
       <li>
-        Added PINS :
-        <span>{{ secondFormGroup.get("addedPin")?.value }} Pins</span>
+        Current Status :
+        <span *ngIf="(searchAccount$ | async)?.is_mega_center"
+          >Mega Center</span
+        >
+        <span *ngIf="(searchAccount$ | async)?.is_stockist">Stockist</span>
+        <span *ngIf="(searchAccount$ | async)?.is_admin">Admin</span>
+        <span
+          *ngIf="
+            (searchAccount$ | async)?.is_stockist == undefined &&
+            (searchAccount$ | async)?.is_mega_center == undefined &&
+            (searchAccount$ | async)?.is_admin == undefined
+          "
+          >Member</span
+        >
       </li>
       <li>
-        New PINS :
-        <span *ngIf="(searchAccount$ | async)?.ending_pin != undefined"
-          >{{ (searchAccount$ | async)?.secret_code_suffix || 0 }}0{{
-            startingPin((searchAccount$ | async)?.ending_pin || 1)
-          }}
-          to {{ (searchAccount$ | async)?.secret_code_suffix || 0 }}0{{
-            endingPin((searchAccount$ | async)?.ending_pin || 1)
-          }}</span
+        New Status :
+        <span *ngIf="secondFormGroup.get('status')?.value == 'stockist'"
+          >Stockist</span
+        >
+        <span *ngIf="secondFormGroup.get('status')?.value == 'mega-center'"
+          >Mega Center</span
+        >
+        <span *ngIf="secondFormGroup.get('status')?.value == 'member'"
+          >Member</span
         >
       </li>
     </ul>
-    <div>
+    <div *ngIf="searchAccount$ | async as user">
       <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="createPIN()">Done</button>
+      <button mat-button (click)="upgrade(user, stepper)">Done</button>
     </div>
   </mat-step>
 </mat-stepper>

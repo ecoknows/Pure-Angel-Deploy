@@ -1,32 +1,30 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { setSearchAccount } from '@core/redux/search-account/search-account.actions';
 import { UserState } from '@core/redux/user/user.reducer';
 import { environment } from '@env';
 import { Store } from '@ngrx/store';
-import { AuthService } from './auth.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from '@shared/components';
-import { Router } from '@angular/router';
-import { setSearchAccount } from '@core/redux/search-account/search-account.actions';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CreateNewPinService {
+export class UpgradeAccountService {
   snackBarDuration = 2;
 
   constructor(
     private http: HttpClient,
     private authService: AuthService,
     private store: Store<{}>,
-    private _snackBar: MatSnackBar,
-    private router: Router
+    private _snackBar: MatSnackBar
   ) {}
 
   searchAccount(account_number: string, stepper: any) {
     this.http
       .post<{ message: string; data: UserState }>(
-        environment.api + 'api/create-new-pin/search-account',
+        environment.api + 'api/upgrade-account/search-account',
         { account_number },
         { headers: this.authService.headers }
       )
@@ -34,10 +32,7 @@ export class CreateNewPinService {
         (response) => {
           const data = response.data;
 
-          if (
-            data &&
-            (data.is_mega_center || data.is_stockist || data.is_admin)
-          ) {
+          if (data) {
             stepper.next();
             this.store.dispatch(setSearchAccount({ user: data }));
           }
@@ -57,11 +52,18 @@ export class CreateNewPinService {
       );
   }
 
-  createPin(account_number: string, number_of_pin: number) {
+  upgrade(
+    account_info: {
+      account_id: string;
+      status: string;
+      assign_area: string | undefined;
+    },
+    stepper: any
+  ) {
     this.http
       .post<{ message: string }>(
-        environment.api + 'api/create-new-pin/assign-pin',
-        { account_number, number_of_pin },
+        environment.api + 'api/upgrade-account/upgrade',
+        { ...account_info },
         { headers: this.authService.headers }
       )
       .subscribe(
@@ -75,7 +77,8 @@ export class CreateNewPinService {
               message: response.message,
             },
           });
-          this.router.navigate(['/admin']);
+
+          stepper.reset();
         },
         (error) => {
           this._snackBar.openFromComponent(SnackbarComponent, {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CreateNewPinState } from '@core/redux/create-new-pin/create-new-pin.reducers';
+import { UserState } from '@core/redux/user/user.reducer';
 import { CreateNewPinService } from '@core/services/create-new-pin.service';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -14,19 +14,21 @@ export class CreateNewPinComponent implements OnInit {
   isLinear = true;
   firstFormGroup!: FormGroup;
   secondFormGroup!: FormGroup;
-  createNewPin$: Observable<CreateNewPinState>;
+  searchAccount$: Observable<UserState>;
 
   constructor(
     private _formBuilder: FormBuilder,
     private createNewPinService: CreateNewPinService,
-    private store: Store<{ createNewPinReducer: CreateNewPinState }>
+    private store: Store<{
+      searchAccountReducer: UserState;
+    }>
   ) {
-    this.createNewPin$ = this.store.select('createNewPinReducer');
+    this.searchAccount$ = this.store.select('searchAccountReducer');
   }
 
   ngOnInit() {
     this.firstFormGroup = this._formBuilder.group({
-      accountNumber: ['', Validators.required],
+      account_number: ['', Validators.required],
     });
     this.secondFormGroup = this._formBuilder.group({
       addedPin: ['', Validators.required],
@@ -34,15 +36,19 @@ export class CreateNewPinComponent implements OnInit {
   }
 
   searchAccount(stepper: any) {
-    const accountNumber = this.firstFormGroup.get('accountNumber')?.value;
-    const addedPin = this.secondFormGroup.get('addedPin')?.value;
-    this.createNewPinService.findAccount(accountNumber, stepper);
+    const account_number = this.firstFormGroup.get('account_number')?.value;
+
+    if (account_number) {
+      this.createNewPinService.searchAccount(account_number, stepper);
+    }
   }
 
   createPIN() {
-    const accountNumber = this.firstFormGroup.get('accountNumber')?.value;
+    const account_number = this.firstFormGroup.get('account_number')?.value;
     const addedPin = this.secondFormGroup.get('addedPin')?.value;
-    this.createNewPinService.createPin(accountNumber, addedPin);
+    if (account_number && addedPin) {
+      this.createNewPinService.createPin(account_number, addedPin);
+    }
   }
 
   startingPin(endingPin: number | undefined) {

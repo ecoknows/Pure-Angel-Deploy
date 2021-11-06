@@ -43,6 +43,7 @@ export class GenealogyService {
         setGenealogy({
           genealogy: {
             user_id: user._id,
+            account_number: user.account_number,
             first_name: user.first_name,
             last_name: user.last_name,
             address: user.address,
@@ -64,15 +65,20 @@ export class GenealogyService {
           headers: this.authService.headers,
         }
       )
-      .subscribe((result) => {
-        let data = result.data;
+      .subscribe(
+        (result) => {
+          let data = result.data;
 
-        if (data) {
-          this.store.dispatch(setGenealogy({ genealogy: data }));
-        } else {
+          if (data) {
+            this.store.dispatch(setGenealogy({ genealogy: data }));
+          } else {
+            this.fetchDefaultGenealogy();
+          }
+        },
+        (error) => {
           this.fetchDefaultGenealogy();
         }
-      });
+      );
   }
 
   viewChild(user_id: string | undefined) {

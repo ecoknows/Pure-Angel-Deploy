@@ -60,6 +60,7 @@ import { CreateNewPinComponent } from './admin/components/create-new-pin/create-
 import { MatRippleModule } from '@angular/material/core';
 import { StockInventoryComponent } from './stock-inventory/stock-inventory.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { UpgradeAccountComponent } from './admin/components/upgrade-account/upgrade-account.component';
 
 @NgModule({
   declarations: [
@@ -100,6 +101,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     NewOrderComponent,
     CreateNewPinComponent,
     StockInventoryComponent,
+    UpgradeAccountComponent,
   ],
   imports: [
     NgxChartsModule,

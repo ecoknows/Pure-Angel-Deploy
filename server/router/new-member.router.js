@@ -59,7 +59,7 @@ NewMemberRouter.post(
       user &&
       place_under_user &&
       referral_user &&
-      user.ending_pin &&
+      user.ending_pin >= 0 &&
       user.number_of_pin
     ) {
       user.ending_pin = user.ending_pin + 1;

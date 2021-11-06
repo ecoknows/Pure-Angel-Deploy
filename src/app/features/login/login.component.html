@@ -9,6 +9,7 @@
             placeholder="Type account number"
             formControlName="account_number"
             [errorStateMatcher]="matcher"
+            oninput="this.value = this.value.toUpperCase()"
           />
           <mat-error *ngIf="form.get('username')?.hasError('required')">
             Account Number is <strong>required</strong>

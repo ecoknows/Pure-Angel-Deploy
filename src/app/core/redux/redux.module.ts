@@ -14,7 +14,6 @@ import { memberVerificationReducer } from './mega-center/member-verification.red
 import { userPurchaseReducer } from './purchase/user-purchase.reducers';
 import { purchaseReducer } from './admin/purchase-verification/purchase.reducers';
 import { automaticEquivalentRebatesReducer } from './automatic-equivalent-rebates/automatic-equivalent-rebates.reducers';
-import { createNewPinReducer } from './create-new-pin/create-new-pin.reducers';
 import {
   searchAccountReducer,
   searchGenealogyReducer,
@@ -31,7 +30,6 @@ const reducer: object = {
 
   genealogyReducer: genealogyReducer,
   userReducer: userReducer,
-  createNewPinReducer: createNewPinReducer,
   searchAccountReducer: searchAccountReducer,
   searchGenealogyReducer: searchGenealogyReducer,
 
