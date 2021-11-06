@@ -31,10 +31,6 @@ export class NewOrderService {
     stepper: any,
     secondFormGroup: any
   ) {
-    if (order_info.package == 'b1t1') {
-      order_info.coffee_ordered = order_info.coffee_ordered * 2;
-    }
-
     this.http
       .post<{ message: string }>(
         environment.api + 'api/new-order/order',

@@ -4,7 +4,6 @@ import { AuthService } from '@core/services/auth.service';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Genealogy } from '@core/redux/genealogy/genealogy.model';
 import { NewOrderService } from '@core/services/new-order.service';
 
 @Component({
@@ -93,13 +92,31 @@ export class NewOrderComponent implements OnInit {
       );
     }
 
+    if (package_taken == 'b2t3' && coffee_quantity) {
+      return (
+        (coffee_quantity * 2).toString() +
+        ' + ' +
+        (coffee_quantity * 3).toString() +
+        ' ( ' +
+        (coffee_quantity * 5).toString() +
+        ' Boxes )'
+      );
+    }
+
     return '0 Boxes';
   }
 
   total() {
     const coffee_quantity = this.secondFormGroup.get('coffee_quantity')?.value;
+    const package_order = this.secondFormGroup.get('package')?.value;
 
-    if (coffee_quantity) return coffee_quantity * 350;
+    if (coffee_quantity && package_order) {
+      if (package_order == 'b1t1') {
+        return coffee_quantity * 350;
+      } else {
+        return coffee_quantity * 700;
+      }
+    }
 
     return 0;
   }

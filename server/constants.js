@@ -5,5 +5,8 @@ export const PAIRING_BONUS_PAYMENT = 150;
 export const PAIRING_PRODUCT_VOUCHER_PAYMENT = 150;
 export const AUTOMATIC_EQUIVALENT_REBATES_PAYMENT = 5;
 
-export const PRODUCT_VALUE = 350;
 export const B1T1_PRICE = 350;
+export const B2T3_PRICE = 700;
+
+export const COFFEE_PACKAGE_PER_PIN = 5;
+export const SOAP_PACKAGE_PER_PIN = 4;

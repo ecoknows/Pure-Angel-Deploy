@@ -46,6 +46,7 @@
             placeholder="Ex. PAC0123"
             formControlName="account_number"
             required
+            oninput="this.value = this.value.toUpperCase()"
           />
         </mat-form-field>
 
@@ -95,9 +96,7 @@
           formControlName="package"
         >
           <mat-button-toggle value="b1t1">Buy 1 Take 1</mat-button-toggle>
-          <mat-button-toggle value="b2t3" disabled
-            >Buy 2 Take 3</mat-button-toggle
-          >
+          <mat-button-toggle value="b2t3">Buy 2 Take 3</mat-button-toggle>
         </mat-button-toggle-group>
 
         <mat-form-field appearance="fill">

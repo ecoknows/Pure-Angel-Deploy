@@ -1,6 +1,6 @@
 import express from "express";
 import expressAsyncHandler from "express-async-handler";
-import { PRODUCT_VALUE } from "../constants.js";
+import { B1T1_PRICE } from "../constants.js";
 import Purchase from "../models/purchase.model.js";
 import User from "../models/user.model.js";
 import { verifyUserToken } from "../utils.js";
@@ -56,7 +56,7 @@ PurchaseRouter.post(
         },
 
         quantity: body.quantity,
-        value: body.quantity * PRODUCT_VALUE,
+        value: body.quantity * B1T1_PRICE,
       });
 
       await purchase.save();
