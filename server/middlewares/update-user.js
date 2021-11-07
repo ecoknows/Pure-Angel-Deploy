@@ -1,12 +1,40 @@
+import User from "../models/user.model.js";
+import bcrypt from "bcryptjs";
 import Cashout from "../models/cashout.model.js";
 import DirectReferral from "../models/direct-referral.model.js";
 import Genealogy from "../models/genealogy.model.js";
 import IndirectReferral from "../models/indirect-referral.model.js";
 import PairingBonus from "../models/pairing-bonus.model.js";
-import User from "../models/user.model.js";
 import UserVerification from "../models/user.verification.model.js";
 
-export async function UpdateFreeAccounts(updated_user, update_info) {
+export async function initializeUpdateUser(req, res, next) {
+  const existing_user = await User.findById(req.user._id);
+
+  if (existing_user) {
+    req.existing_user = existing_user;
+    next();
+  } else {
+    res.status(404).send({ message: "Cannot Find user" });
+  }
+}
+
+export async function updateUserAndFreeAccounts(req, res, next) {
+  const update_info = req.body.update_info;
+  const existing_user = req.existing_user;
+
+  const updated_user = await updateUserAuthentication(
+    update_info,
+    existing_user
+  );
+
+  req.updated_user = updated_user;
+
+  await UpdateFreeAccounts(updated_user, update_info);
+
+  next();
+}
+
+async function UpdateFreeAccounts(updated_user, update_info) {
   if (updated_user.free_account_leader) {
     const user_number = updated_user.user_number + 1;
     const ending_number =
@@ -22,12 +50,19 @@ export async function UpdateFreeAccounts(updated_user, update_info) {
   }
 }
 
-export async function updateUserAuthentication(update_info, existing_user) {
+async function updateUserAuthentication(update_info, existing_user) {
   existing_user.first_name = update_info.first_name;
   existing_user.last_name = update_info.last_name;
   existing_user.birthdate = update_info.birthdate;
   existing_user.address = update_info.address;
   existing_user.contact_number = update_info.contact_number;
+
+  if (update_info.new_password) {
+    if (bcrypt.compareSync(update_info.old_password, existing_user.password)) {
+      existing_user.password = bcrypt.hashSync(update_info.new_password, 8);
+      await existing_user.save();
+    }
+  }
 
   const updated_user = await existing_user.save();
 

@@ -3,18 +3,6 @@ import UserVerification from "../models/user.verification.model.js";
 import User from "../models/user.model.js";
 import Genealogy from "../models/genealogy.model.js";
 import { nanoid } from "nanoid";
-import {
-  payIndirectReferral,
-  payDirectReferral,
-  checkIfThereIsPairingBonus,
-} from "../utils/admin.js";
-
-import {
-  addDirectReferral,
-  addIndirectReferral,
-  addPairingBonus,
-  modifyBranchCountOfRoot,
-} from "./genealogy.js";
 
 export async function createOwner() {
   let check_if_ancestor_exist = await User.findOne({ is_ancestor: true });

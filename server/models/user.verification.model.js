@@ -10,7 +10,7 @@ const userVerificationSchema = new mongoose.Schema(
 
     secret_code: { type: String },
 
-    verified: { type: Boolean, default: false },
+    verified: { type: Boolean, default: true },
 
     direct_referral: { type: Number, default: 0 },
     indirect_referral: { type: Number, default: 0 },

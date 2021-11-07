@@ -4,7 +4,10 @@ import { verifyUserToken, generateUserToken } from "../utils.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import UserVerification from "../models/user.verification.model.js";
-import { UpdateFreeAccounts, updateUserAuthentication } from "../utils/user.js";
+import {
+  initializeUpdateUser,
+  updateUserAndFreeAccounts,
+} from "../middlewares/update-user.js";
 
 const UserRouter = express.Router();
 
@@ -77,49 +80,13 @@ UserRouter.get(
 UserRouter.post(
   "/update-user",
   verifyUserToken,
+  initializeUpdateUser,
+  updateUserAndFreeAccounts,
   expressAsyncHandler(async (req, res) => {
-    const user = req.user;
-    const update_info = req.body.update_info;
-
-    const existing_user = await User.findById(user._id);
-
-    if (existing_user) {
-      if (update_info.new_password) {
-        if (
-          bcrypt.compareSync(update_info.old_password, existing_user.password)
-        ) {
-          existing_user.password = bcrypt.hashSync(update_info.new_password, 8);
-
-          const updated_user = await updateUserAuthentication(
-            update_info,
-            existing_user
-          );
-
-          await UpdateFreeAccounts(updated_user, update_info);
-
-          res.send({
-            message: "Successfully Updated the User",
-            userToken: generateUserToken(updated_user),
-          });
-        } else {
-          res.status(404).send({ message: "Old password doesn't match" });
-        }
-      } else {
-        const updated_user = await updateUserAuthentication(
-          update_info,
-          existing_user
-        );
-
-        await UpdateFreeAccounts(updated_user, update_info);
-
-        res.send({
-          message: "Successfully Updated the User",
-          userToken: generateUserToken(updated_user),
-        });
-      }
-    } else {
-      res.status(404).send({ message: "Cannot Find user" });
-    }
+    res.send({
+      message: "Successfully Updated the User",
+      userToken: generateUserToken(req.updated_user),
+    });
   })
 );
 
