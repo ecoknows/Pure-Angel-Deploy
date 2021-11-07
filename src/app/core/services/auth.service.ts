@@ -110,19 +110,6 @@ export class AuthService {
     this.resetStates();
   }
 
-  fetchUserIncome() {
-    const helper = new JwtHelperService();
-    const token = this.userToken;
-
-    this.fetchIncome();
-
-    if (token) {
-      const user = helper.decodeToken(token);
-
-      this.store.dispatch(setUserData({ user }));
-    }
-  }
-
   fetchUserDetails() {
     this.http
       .get<{ message: string; data: UserState }>(
@@ -161,22 +148,6 @@ export class AuthService {
 
       this.store.dispatch(setUserData({ user }));
     }
-  }
-
-  fetchIncome() {
-    this.http
-      .get<{ message: string; data: UserState }>(
-        environment.api + 'api/user/income',
-        {
-          headers: this.headers,
-        }
-      )
-      .subscribe((response) => {
-        const data = response.data;
-        if (data) {
-          this.store.dispatch(setUserData({ user: data }));
-        }
-      });
   }
 
   updateUser(update_info: {

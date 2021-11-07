@@ -1,8 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { setUserCashoutsTable } from '@core/redux/cashouts/user-cashouts.actions';
-import { UserCashoutsState } from '@core/redux/cashouts/user-cashouts.reducers';
 import { environment } from '@env';
 import { Store } from '@ngrx/store';
 import { AuthService } from './auth.service';
@@ -12,7 +10,6 @@ import { SnackbarComponent } from '@shared/components';
   providedIn: 'root',
 })
 export class UserCashoutsService {
-  cache!: UserCashoutsState[];
   snackBarDuration = 2;
 
   constructor(
@@ -21,23 +18,6 @@ export class UserCashoutsService {
     private store: Store<{}>,
     private _snackBar: MatSnackBar
   ) {}
-
-  fetchUserCashouts() {
-    this.http
-      .get<{ message: string; data: UserCashoutsState[] }>(
-        environment.api + 'api/user-cashouts/',
-        {
-          headers: this.authService.headers,
-        }
-      )
-      .subscribe((response) => {
-        const data = response.data;
-
-        if (data) {
-          this.store.dispatch(setUserCashoutsTable({ list: data }));
-        }
-      });
-  }
 
   cashout(amount: number) {
     this.http
@@ -61,8 +41,6 @@ export class UserCashoutsService {
               message: response.message,
             },
           });
-
-          this.authService.fetchIncome();
         },
         (error) => {
           this._snackBar.openFromComponent(SnackbarComponent, {

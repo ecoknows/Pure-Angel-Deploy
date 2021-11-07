@@ -6,8 +6,6 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { CashoutDialogComponent } from './components/cashout-dialog/cashout-dialog.component';
-import { SupplyDialogComponent } from './components/supply-dialog/supply-dialog.component';
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -27,16 +25,11 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.fetchUserDetails();
-    this.authService.fetchUserIncome();
     this.genealogyService.fetchGenealogy();
   }
 
   cashout() {
     this.dialog.open(CashoutDialogComponent);
-  }
-
-  supply() {
-    this.dialog.open(SupplyDialogComponent);
   }
 
   totalInventory(user: UserState | null) {

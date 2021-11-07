@@ -19,9 +19,7 @@ import {
   DashboardComponent,
   LoginComponent,
   NotificationsComponent,
-  ReferralsComponent,
   GenealogyComponent,
-  RegistrationComponent,
   SettingComponent,
 } from './features';
 
@@ -34,11 +32,6 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    canActivate: [LoginGuardService],
-  },
-  {
-    path: 'register',
-    component: RegistrationComponent,
     canActivate: [LoginGuardService],
   },
   {

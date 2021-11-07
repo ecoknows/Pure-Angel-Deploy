@@ -605,4 +605,19 @@ SeedRouter.get(
     res.send({ message: "Sucessfully Put leaders!" });
   })
 );
+
+SeedRouter.get(
+  "/test-async",
+  test_async,
+  expressAsyncHandler(async (req, res) => {
+    res.send({ message: "Sucessfully Put leaders!" });
+  })
+);
+
+async function test_async(req, res, next) {
+  const user = await User.findOne({ account_number: "PACOWNER" });
+  // res.send({ message: "Nope", user: user });
+  next();
+}
+
 export default SeedRouter;

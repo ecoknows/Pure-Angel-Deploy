@@ -12,16 +12,16 @@ const userVerificationSchema = new mongoose.Schema(
 
     verified: { type: Boolean, default: false },
 
+    direct_referral: { type: Number, default: 0 },
+    indirect_referral: { type: Number, default: 0 },
+    pairing_bonus: { type: Number, default: 0 },
+    automatic_equivalent_rebates: { type: Number, default: 0 },
+
     overall_income: { type: Number, default: 0 },
     unpaid_income: { type: Number, default: 0 },
 
     pairing_product_voucher: { type: Number, default: 0 },
     stockist: { type: Number, default: 0 },
-
-    direct_referral: { type: Number, default: 0 },
-    indirect_referral: { type: Number, default: 0 },
-    pairing_bonus: { type: Number, default: 0 },
-    automatic_equivalent_rebates: { type: Number, default: 0 },
 
     pairing_bonus_count: { type: Number, default: 0 },
     starting_date_of_pairing_exceeded: { type: Date },
@@ -33,13 +33,11 @@ const userVerificationSchema = new mongoose.Schema(
     number_of_stockist: { type: Number },
     number_of_mega_center: { type: Number },
 
+    pin_income: { type: Number },
+    repeat_purchase_income: { type: Number },
+
     system: {
       payment: { type: Number },
-    },
-
-    inventory: {
-      coffee_income: { type: Number },
-      soap_income: { type: Number },
     },
 
     mega_center: {

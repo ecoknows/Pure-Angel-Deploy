@@ -10,3 +10,6 @@ export const B2T3_PRICE = 700;
 
 export const COFFEE_PACKAGE_PER_PIN = 5;
 export const SOAP_PACKAGE_PER_PIN = 4;
+
+export const ADMIN_PIN_INCOME = 45;
+export const ADMIN_REPEAT_PURCHASE_INCOME = 5;
