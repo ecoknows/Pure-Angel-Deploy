@@ -15,6 +15,8 @@ import {
 import Vonage from "@vonage/server-sdk";
 import request from "request";
 
+import moment from "moment";
+
 let SeedRouter = express.Router();
 
 async function SeedStructure(req, res) {
@@ -608,16 +610,20 @@ SeedRouter.get(
 
 SeedRouter.get(
   "/test-async",
-  test_async,
   expressAsyncHandler(async (req, res) => {
-    res.send({ message: "Sucessfully Put leaders!" });
+    var now = moment("2021-11-10T03:20:55.241Z"); //todays date
+
+    var end = moment("2021-11-09T03:20:56.241Z"); // another date
+
+    var duration = moment.duration(now.diff(end));
+    var days = duration.asDays();
+
+    res.send({
+      current_date: moment(),
+      date: days,
+    });
+    // res.send({ message: "Sucessfully Put leaders!" });
   })
 );
-
-async function test_async(req, res, next) {
-  const user = await User.findOne({ account_number: "PACOWNER" });
-  // res.send({ message: "Nope", user: user });
-  next();
-}
 
 export default SeedRouter;

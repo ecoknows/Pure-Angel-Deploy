@@ -12,11 +12,9 @@ import IndirectReferralRouter from "./server/router/indirect-referral.router.js"
 import PairingBonusRouter from "./server/router/pairing-bonus.router.js";
 import SeedRouter from "./server/router/seed.router.js";
 import UserCashouts from "./server/router/user-cashouts.router.js";
-import HistoryRouter from "./server/router/history.router.js";
 import MegaCenterRouter from "./server/router/mega-center.router.js";
 import PurchaseRouter from "./server/router/purchase.router.js";
 import AutomaticEquivalentRebatesRouter from "./server/router/automatic-equivalent-rebates.router.js";
-import UserSupplyRouter from "./server/router/user-supply.router.js";
 import CreateNewPinRouter from "./server/router/create-new-pin.router.js";
 import NewMemberRouter from "./server/router/new-member.router.js";
 import StockInventoryRouter from "./server/router/stock-inventory.router.js";
@@ -46,8 +44,7 @@ app.use("/api/direct-referral", DirectReferralRouter);
 app.use("/api/indirect-referral", IndirectReferralRouter);
 app.use("/api/pairing-bonus", PairingBonusRouter);
 app.use("/api/user-cashouts", UserCashouts);
-app.use("/api/user-supply", UserSupplyRouter);
-app.use("/api/history", HistoryRouter);
+
 app.use("/api/purchase", PurchaseRouter);
 app.use("/api/aer", AutomaticEquivalentRebatesRouter);
 

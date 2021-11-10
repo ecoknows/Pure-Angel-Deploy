@@ -14,6 +14,9 @@ import {
   recurModifyBranchCountOfRoot,
   recurPairingBonus,
   updateGenealogy,
+  checkTotalIncome,
+  newMemberIncome,
+  unpaidIncome,
 } from "../middlewares/new-member.js";
 
 import Genealogy from "../models/genealogy.model.js";
@@ -45,6 +48,25 @@ NewMemberRouter.post(
 );
 
 NewMemberRouter.post(
+  "/search-account",
+  verifyUserToken,
+  expressAsyncHandler(async (req, res) => {
+    const searched_account = await User.findOne({
+      account_number: req.body.account_number,
+    });
+
+    if (searched_account) {
+      res.send({
+        message: "Successfully Search Account",
+        data: searched_account,
+      });
+    } else {
+      res.status(404).send({ message: "That Account is Invalid" });
+    }
+  })
+);
+
+NewMemberRouter.post(
   "/create-member",
   verifyUserToken,
   checkIfAdminStockMega,
@@ -58,6 +80,9 @@ NewMemberRouter.post(
   recurIndirectReferral,
   recurPairingBonus,
   recurModifyBranchCountOfRoot,
+  checkTotalIncome,
+  newMemberIncome,
+  unpaidIncome,
   payDirectReferral,
   payIndirectReferral,
   checkIfThereIsPairingBonus,

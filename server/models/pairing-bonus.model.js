@@ -21,7 +21,9 @@ const pairingBonusSchema = new mongoose.Schema(
       address: { type: String },
     },
 
-    income: { type: String, default: 0 },
+    payed: { type: Boolean, default: false },
+    income_type: { type: String },
+    income: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

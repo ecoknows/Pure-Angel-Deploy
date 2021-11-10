@@ -13,12 +13,18 @@
       <div>
         <h4 class="primary">
           {{
-            (user$ | async)?.stock_coffee ? (user$ | async)?.stock_coffee : 0
+            (user$ | async)?.stock_coffee == undefined
+              ? 0
+              : (user$ | async)?.stock_coffee
           }}
           box
         </h4>
         <h4 class="primary">
-          {{ (user$ | async)?.stock_coffee ? (user$ | async)?.stock_soap : 0 }}
+          {{
+            (user$ | async)?.stock_soap == undefined
+              ? 0
+              : (user$ | async)?.stock_soap
+          }}
           box
         </h4>
       </div>

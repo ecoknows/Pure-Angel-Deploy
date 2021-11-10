@@ -5,7 +5,10 @@ import { Genealogy } from '@core/redux/genealogy/genealogy.model';
 import {
   resetSearchGenealogy,
   setSearchGenealogy,
+  setSearchPlaceUnderAccount,
+  setSearchReferralAccount,
 } from '@core/redux/search-account/search-account.actions';
+import { UserState } from '@core/redux/user/user.reducer';
 import { environment } from '@env';
 import { Store } from '@ngrx/store';
 import { SnackbarComponent } from '@shared/components';
@@ -23,6 +26,10 @@ export class NewMemberService {
     private store: Store<{}>,
     private _snackBar: MatSnackBar
   ) {}
+
+  resetGenealogy() {
+    this.store.dispatch(resetSearchGenealogy());
+  }
 
   searchGenealogy(account_number: string) {
     this.http
@@ -63,6 +70,38 @@ export class NewMemberService {
           });
         }
       );
+  }
+
+  searchReferralAccount(account_number: string) {
+    this.http
+      .post<{ message: string; data: UserState }>(
+        environment.api + 'api/new-member/search-account',
+        { account_number },
+        { headers: this.authService.headers }
+      )
+      .subscribe((response) => {
+        let data = response.data;
+
+        if (data) {
+          this.store.dispatch(setSearchReferralAccount({ user: data }));
+        }
+      });
+  }
+
+  searchPlaceUnderAccount(account_number: string) {
+    this.http
+      .post<{ message: string; data: UserState }>(
+        environment.api + 'api/new-member/search-account',
+        { account_number },
+        { headers: this.authService.headers }
+      )
+      .subscribe((response) => {
+        let data = response.data;
+
+        if (data) {
+          this.store.dispatch(setSearchPlaceUnderAccount({ user: data }));
+        }
+      });
   }
 
   createMember(

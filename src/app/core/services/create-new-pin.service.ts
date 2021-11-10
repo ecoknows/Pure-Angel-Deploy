@@ -25,7 +25,10 @@ export class CreateNewPinService {
 
   searchAccount(account_number: string, stepper: any) {
     this.http
-      .post<{ message: string; data: UserState }>(
+      .post<{
+        message: string;
+        data: { user: UserState; user_verification: UserState };
+      }>(
         environment.api + 'api/create-new-pin/search-account',
         { account_number },
         { headers: this.authService.headers }
@@ -33,13 +36,17 @@ export class CreateNewPinService {
       .subscribe(
         (response) => {
           const data = response.data;
-
           if (
             data &&
-            (data.is_mega_center || data.is_stockist || data.is_admin)
+            (data.user.is_mega_center ||
+              data.user.is_stockist ||
+              data.user.is_admin)
           ) {
             stepper.next();
-            this.store.dispatch(setSearchAccount({ user: data }));
+            this.store.dispatch(setSearchAccount({ user: data.user }));
+            this.store.dispatch(
+              setSearchAccount({ user: data.user_verification })
+            );
           }
         },
         (error) => {

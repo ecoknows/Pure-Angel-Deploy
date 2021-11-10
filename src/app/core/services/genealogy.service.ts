@@ -184,48 +184,4 @@ export class GenealogyService {
         }
       });
   }
-
-  addGenealogy(person: {
-    direct_referral: string;
-    first_name: string;
-    last_name: string;
-    contact_number: string;
-    position: string;
-  }) {
-    this.http
-      .post<{ message: string }>(
-        environment.api + 'api/genealogy/add',
-        person,
-        {
-          headers: this.authService.headers,
-        }
-      )
-      .subscribe(
-        (response) => {
-          this._snackBar.openFromComponent(SnackbarComponent, {
-            duration: this.snackBarDuration * 1000,
-            verticalPosition: 'top',
-            horizontalPosition: 'center',
-            panelClass: ['snackbar-background'],
-            data: {
-              message: response.message,
-            },
-          });
-
-          this.fetchGenealogy();
-        },
-        (error) => {
-          this._snackBar.openFromComponent(SnackbarComponent, {
-            duration: this.snackBarDuration * 1000,
-            verticalPosition: 'top',
-            horizontalPosition: 'center',
-            panelClass: ['snackbar-background'],
-            data: {
-              message: error.error.message,
-              error: true,
-            },
-          });
-        }
-      );
-  }
 }

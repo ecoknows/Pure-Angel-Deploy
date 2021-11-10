@@ -19,6 +19,8 @@ export class NewMemberComponent implements OnInit {
 
   placeUnder$: Observable<Genealogy>;
   user$: Observable<UserState>;
+  referralUser$: Observable<UserState>;
+  placeUnderUser$: Observable<UserState>;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -27,10 +29,14 @@ export class NewMemberComponent implements OnInit {
     private store: Store<{
       searchGenealogyReducer: Genealogy;
       userReducer: UserState;
+      searchReferralAccountReducer: UserState;
+      searchPlaceUnderAccountReducer: UserState;
     }>
   ) {
     this.placeUnder$ = this.store.select('searchGenealogyReducer');
     this.user$ = this.store.select('userReducer');
+    this.referralUser$ = this.store.select('searchReferralAccountReducer');
+    this.placeUnderUser$ = this.store.select('searchPlaceUnderAccountReducer');
   }
 
   ngOnInit() {
@@ -45,6 +51,7 @@ export class NewMemberComponent implements OnInit {
       position: ['', Validators.required],
     });
     this.authService.fetchUserDetails();
+    this.newMemberService.resetGenealogy();
   }
 
   createMember(user: UserState | null, stepper: any) {
@@ -82,7 +89,25 @@ export class NewMemberComponent implements OnInit {
     const place_under_account = this.secondFormGroup.get(
       'place_under_account'
     )?.value;
+
+    this.secondFormGroup.get('position')?.setValue('');
+
     this.newMemberService.searchGenealogy(place_under_account);
+  }
+
+  searchAccounts(stepper: any) {
+    const referral_account =
+      this.secondFormGroup.get('referral_account')?.value;
+    const place_under_account = this.secondFormGroup.get(
+      'place_under_account'
+    )?.value;
+
+    if (referral_account && place_under_account) {
+      this.newMemberService.searchReferralAccount(referral_account);
+      this.newMemberService.searchPlaceUnderAccount(place_under_account);
+
+      stepper.next();
+    }
   }
 
   isLeft(place_under: Genealogy | null): boolean {
@@ -94,6 +119,7 @@ export class NewMemberComponent implements OnInit {
     }
     return true;
   }
+
   isRight(place_under: Genealogy | null): boolean {
     if (
       (place_under?.user_id && place_under?.right_branch == undefined) ||

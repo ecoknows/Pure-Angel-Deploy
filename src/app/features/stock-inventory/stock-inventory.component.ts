@@ -24,8 +24,8 @@ export class StockInventoryComponent implements OnInit {
   ) {
     this.user$ = this.store.select('userReducer');
     this.form = this.fb.group({
-      stock_coffee: [''],
-      stock_soap: [''],
+      stock_coffee: [undefined],
+      stock_soap: [undefined],
     });
   }
 

@@ -10,9 +10,19 @@ import {
   INDIRECT_REFERRAL_LIMIT,
   INDIRECT_REFERRAL_PAYMENT,
   PAIRING_BONUS_PAYMENT,
+  ADMIN_NEW_MEMBER_INCOME,
+  MEGA_CENTER_NEW_MEMBER_INCOME,
+  STOCKIST_NEW_MEMBER_INCOME,
+  PAIRING_BONUS_MAX_COUNT_PER_DAY,
+  PAIRING_BONUS_TYPE,
+  PAIRING_PRODUCT_VOUCHER_PAYMENT,
+  PRODUCT_VOUCHER_TYPE,
 } from "../constants.js";
 import IndirectReferral from "../models/indirect-referral.model.js";
 import PairingBonus from "../models/pairing-bonus.model.js";
+import NewMemberIncome from "../models/new-member-income.model.js";
+
+import moment from "moment";
 
 export async function initializeNewMember(req, res, next) {
   const body = req.body;
@@ -173,8 +183,13 @@ export async function createChildVerification(req, res, next) {
 
 export async function updateGenealogy(req, res, next) {
   const position = req.body.position;
-  const genealogy = req.genealogy;
+  const place_under_user = req.place_under_user;
   const child_user = req.child_user;
+  const genealogy = await Genealogy.findOne({
+    user_id: place_under_user._id,
+  });
+
+  req.genealogy = genealogy;
 
   if (genealogy) {
     if (position == "left") {
@@ -193,7 +208,7 @@ export async function updateGenealogy(req, res, next) {
         last_name: child_user.last_name,
         address: child_user.address,
       };
-      await genealogy.save();
+      req.genealogy = await genealogy.save();
     } else if (position == "right") {
       genealogy.right_branch = {
         user_id: child_user._id,
@@ -450,17 +465,75 @@ export async function checkIfThereIsPairingBonus(req, res, next) {
         user_id: pairingBonus.right.user_id,
       });
 
-      if (left.verified && right.verified) {
-        user.pairing_bonus = user.pairing_bonus + PAIRING_BONUS_PAYMENT;
-        pairingBonus.income = PAIRING_BONUS_PAYMENT;
-
-        user.overall_income = user.overall_income + PAIRING_BONUS_PAYMENT;
-        user.unpaid_income = user.unpaid_income + PAIRING_BONUS_PAYMENT;
-        await pairingBonus.save();
-        await user.save();
+      if (left.verified && right.verified && pairingBonus.payed == false) {
+        await updatePairingStatus(user, pairingBonus);
       }
     }
   }
+
+  next();
+}
+
+export async function checkTotalIncome(req, res, next) {
+  const user = req.user;
+
+  if (user.is_mega_center) {
+    req.total_income = MEGA_CENTER_NEW_MEMBER_INCOME;
+  } else if (user.is_stockist) {
+    req.total_income = STOCKIST_NEW_MEMBER_INCOME;
+  } else if (user.is_admin) {
+    req.total_income = ADMIN_NEW_MEMBER_INCOME;
+  }
+
+  next();
+}
+
+export async function newMemberIncome(req, res, next) {
+  const user = req.user;
+
+  const total_income = req.total_income;
+
+  if (user.is_mega_center || user.is_stockist || user.is_admin) {
+    const user_verification = await UserVerification.findOne({
+      user_id: user._id,
+    });
+    if (user_verification.new_member_income) {
+      user_verification.new_member_income =
+        user_verification.new_member_income + total_income;
+
+      user_verification.overall_income =
+        user_verification.overall_income + total_income;
+
+      user_verification.unpaid_income =
+        user_verification.unpaid_income + total_income;
+    } else {
+      user_verification.new_member_income = total_income;
+
+      user_verification.overall_income =
+        user_verification.overall_income + total_income;
+
+      user_verification.unpaid_income =
+        user_verification.unpaid_income + total_income;
+    }
+
+    await user_verification.save();
+
+    await createNewMemberIncome(req);
+  }
+
+  next();
+}
+
+export async function unpaidIncome(req, res, next) {
+  const user = req.user;
+  const total_income = req.total_income;
+
+  if (total_income) {
+    user.unpaid_income = user.unpaid_income + total_income;
+    user.overall_income = user.overall_income + total_income;
+  }
+
+  await user.save();
 
   next();
 }
@@ -674,5 +747,83 @@ async function indirectReferralRecursion(
         count + 1
       );
     }
+  }
+}
+
+async function createNewMemberIncome(req) {
+  const user = req.user;
+  const child_user = req.child_user;
+  const total_income = req.total_income;
+
+  const newMemberIncome = await NewMemberIncome({
+    user_id: user._id,
+    first_name: user.first_name,
+    last_name: user.last_name,
+    address: user.address,
+
+    new_member: {
+      user_id: child_user._id,
+      first_name: child_user.first_name,
+      last_name: child_user.last_name,
+      address: child_user.address,
+
+      is_stockist: child_user.is_stockist,
+      is_admin: child_user.is_admin,
+      is_mega_center: child_user.is_mega_center,
+    },
+
+    income: total_income,
+  });
+
+  await newMemberIncome.save();
+}
+
+async function updatePairingStatus(user, pairingBonus) {
+  const today = moment();
+  let days = null;
+
+  if (user.starting_date_of_first_paired) {
+    const starting_date_of_first_paired = moment(
+      user.starting_date_of_first_paired
+    );
+
+    const duration = moment.duration(today.diff(starting_date_of_first_paired));
+    days = parseInt(duration.asDays());
+  }
+
+  if (
+    (user.pairing_bonus_paired_count + 1) %
+      (PAIRING_BONUS_MAX_COUNT_PER_DAY + 1) ==
+      0 &&
+    days == null
+  ) {
+    user.starting_date_of_first_paired = moment();
+
+    user.product_voucher =
+      user.product_voucher + PAIRING_PRODUCT_VOUCHER_PAYMENT;
+
+    pairingBonus.income = PAIRING_BONUS_PAYMENT;
+
+    pairingBonus.income_type = PRODUCT_VOUCHER_TYPE;
+    pairingBonus.payed = true;
+
+    await pairingBonus.save();
+    await user.save();
+  } else if (days > 0 || days == null) {
+    user.starting_date_of_first_paired = undefined;
+
+    user.pairing_bonus_paired_count = user.pairing_bonus_paired_count + 1;
+
+    user.pairing_bonus = user.pairing_bonus + PAIRING_BONUS_PAYMENT;
+    pairingBonus.income = PAIRING_BONUS_PAYMENT;
+
+    user.overall_income = user.overall_income + PAIRING_BONUS_PAYMENT;
+    user.unpaid_income = user.unpaid_income + PAIRING_BONUS_PAYMENT;
+
+    pairingBonus.income_type = PAIRING_BONUS_TYPE;
+    pairingBonus.payed = true;
+
+    await pairingBonus.save();
+    await user.save();
   }
 }

@@ -18,16 +18,22 @@
     padding: 0.25em
 
 h1
-    font-size: 1.6em
+  font-size: 1.6em
 
-    @include media('<lg')
-      font-size: 1.1rem
+  @include media('<lg')
+    font-size: 1.1rem
 h2
-    font-size: 0.9em
-    font-weight: normal
+  font-size: 0.9em
+  font-weight: normal
 
-    @include media('<lg')
-      font-size: 1rem
+  @include media('<lg')
+    font-size: 1rem
+
+
+h5
+  font-size: 0.95em
+  font-weight: 600
+
 
 .dashboard-top-info
   display: flex
@@ -86,18 +92,24 @@ li
     display: flex
     margin-top: 10px
     padding: 10px
+    flex-direction: column
 
-    .name
-      flex: 1
+    .row
+      display: flex
+      justify-content: space-between
+      margin-bottom: 6px
 
-      .primary
-        color: $primaryColor
-        font-weight: 500
+      .income
+        max-width: 200px
 
-    .amount
-      flex: 1
-      text-align: end
+      .amount
 
-      li
-        text-align: end
+        h5
+          font-size: 0.95em
+          font-weight: bold
+
+        .primary
+          color: $primaryColor
+          font-weight: bold
+
 

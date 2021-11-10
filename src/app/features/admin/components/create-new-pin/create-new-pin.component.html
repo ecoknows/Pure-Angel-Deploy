@@ -107,19 +107,40 @@
         <span> {{ (searchAccount$ | async)?.contact_number }}</span>
       </li>
       <li>
-        Added PINS :
-        <span>{{ secondFormGroup.get("addedPin")?.value }} Pins</span>
+        Total PINS :
+        <span
+          >{{ (searchAccount$ | async)?.number_of_pin || 0 }} +
+          {{ secondFormGroup.get("addedPin")?.value }} (
+          {{ totalPins(searchAccount$ | async) }} Pins )</span
+        >
       </li>
       <li>
         New PINS :
         <span *ngIf="(searchAccount$ | async)?.ending_pin != undefined"
           >{{ (searchAccount$ | async)?.secret_code_suffix || 0 }}0{{
-            startingPin((searchAccount$ | async)?.ending_pin || 1)
+            startingPin(searchAccount$ | async)
           }}
           to {{ (searchAccount$ | async)?.secret_code_suffix || 0 }}0{{
-            endingPin((searchAccount$ | async)?.ending_pin || 1)
+            endingPin(searchAccount$ | async)
           }}</span
         >
+      </li>
+      <mat-divider style="margin-bottom: 10px"></mat-divider>
+      <li>
+        Your Coffee Box :
+        <span>{{ yourCoffeeBox(user$ | async) }}</span>
+      </li>
+      <li>
+        Your Soap Box :
+        <span> {{ yourSoapBox(user$ | async) }}</span>
+      </li>
+      <li>
+        Buyer Coffee Box :
+        <span>{{ buyerCoffeeBox(searchAccount$ | async) }}</span>
+      </li>
+      <li>
+        Buyer Soap Box :
+        <span> {{ buyerSoapBox(searchAccount$ | async) }}</span>
       </li>
     </ul>
     <div>

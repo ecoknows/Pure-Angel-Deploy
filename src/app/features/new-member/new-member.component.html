@@ -125,7 +125,7 @@
 
         <div>
           <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
+          <button mat-button (click)="searchAccounts(stepper)">Next</button>
         </div>
       </form>
     </mat-step>
@@ -147,15 +147,51 @@
           Contact Number : <span>{{ NewMemberInfo.contact_number }}</span>
         </li>
         <li>
-          Referral Account # : <span>{{ NewMemberInfo.referral_account }}</span>
-        </li>
-        <li>
-          Place Under Account # :
-          <span>{{ NewMemberInfo.place_under_account }}</span>
-        </li>
-        <li>
           Position :
           <span>{{ NewMemberInfo.position == "left" ? "Left" : "Right" }}</span>
+        </li>
+
+        <mat-divider style="margin-bottom: 10px"></mat-divider>
+        <li>
+          Referral Account # :
+          <span>{{ (referralUser$ | async)?.account_number }}</span>
+        </li>
+        <li>
+          Name :
+          <span>{{
+            (referralUser$ | async)?.first_name +
+              " " +
+              (referralUser$ | async)?.last_name
+          }}</span>
+        </li>
+        <li>
+          Address : <span>{{ (referralUser$ | async)?.address }}</span>
+        </li>
+        <li>
+          Contact Number :
+          <span>{{ (referralUser$ | async)?.contact_number }}</span>
+        </li>
+
+        <mat-divider style="margin-bottom: 10px"></mat-divider>
+        <li>
+          Place Under Account # :
+          <span>{{ (placeUnderUser$ | async)?.account_number }}</span>
+        </li>
+
+        <li>
+          Name :
+          <span>{{
+            (placeUnderUser$ | async)?.first_name +
+              " " +
+              (placeUnderUser$ | async)?.last_name
+          }}</span>
+        </li>
+        <li>
+          Address : <span>{{ (placeUnderUser$ | async)?.address }}</span>
+        </li>
+        <li>
+          Contact Number :
+          <span>{{ (placeUnderUser$ | async)?.contact_number }}</span>
         </li>
       </ul>
       <div *ngIf="user$ | async as user">

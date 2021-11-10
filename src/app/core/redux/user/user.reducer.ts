@@ -23,6 +23,18 @@ export interface UserState {
   stock_coffee?: number;
   stock_soap?: number;
 
+  b1t1_ae_rebates?: number;
+  b2t3_ae_rebates?: number;
+
+  b1t1_income?: number;
+  b2t3_income?: number;
+
+  b1t1_stockist_encode_new_order?: number;
+  b2t3_stockist_encode_new_order?: number;
+
+  stockist_repeat_purchase_coffee?: number;
+  stockist_repeat_purchase_soap?: number;
+
   number_of_members?: number;
   number_of_stockist?: number;
   number_of_mega_center?: number;
@@ -31,7 +43,8 @@ export interface UserState {
   indirect_referral?: number;
   pairing_bonus?: number;
   automatic_equivalent_rebates?: number;
-  number_of_supply?: number;
+  new_member_income?: number;
+  product_voucher?: number;
 
   inventory?: {
     coffee_income: number;

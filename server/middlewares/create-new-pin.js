@@ -1,9 +1,4 @@
-import {
-  ADMIN_PIN_INCOME,
-  ADMIN_REPEAT_PURCHASE_INCOME,
-  COFFEE_PACKAGE_PER_PIN,
-  SOAP_PACKAGE_PER_PIN,
-} from "../constants.js";
+import { COFFEE_PACKAGE_PER_PIN, SOAP_PACKAGE_PER_PIN } from "../constants.js";
 import User from "../models/user.model.js";
 import UserVerification from "../models/user.verification.model.js";
 
@@ -98,57 +93,6 @@ export async function updateAdminStock(req, res, next) {
 
   admin_user.stock_coffee = admin_user.stock_coffee - total_coffee_added;
   admin_user.stock_soap = admin_user.stock_soap - total_soap_added;
-
-  await admin_user.save();
-
-  next();
-}
-
-export async function pinIncome(req, res, next) {
-  const admin_user = req.admin_user;
-  const number_of_pin = req.number_of_pin;
-  const total_income = number_of_pin * ADMIN_PIN_INCOME;
-
-  if (admin_user.pin_income) {
-    admin_user.pin_income = admin_user.pin_income + total_income;
-  } else {
-    admin_user.pin_income = total_income;
-  }
-
-  req.total_income = req.total_income + admin_user.pin_income;
-
-  await admin_user.save();
-
-  next();
-}
-
-export async function repeatPurchaseIncome(req, res, next) {
-  const admin_user = req.admin_user;
-  const number_of_pin = req.number_of_pin;
-  const total_income = number_of_pin * ADMIN_REPEAT_PURCHASE_INCOME;
-
-  if (admin_user.repeat_purchase_income) {
-    admin_user.repeat_purchase_income =
-      admin_user.repeat_purchase_income + total_income;
-  } else {
-    admin_user.repeat_purchase_income = total_income;
-  }
-
-  req.total_income = req.total_income + admin_user.repeat_purchase_income;
-
-  await admin_user.save();
-
-  next();
-}
-
-export async function unpaidIncome(req, res, next) {
-  const admin_user = req.admin_user;
-  const total_income = req.total_income;
-
-  if (total_income) {
-    admin_user.unpaid_income = admin_user.unpaid_income + total_income;
-    admin_user.overall_income = admin_user.overall_income + total_income;
-  }
 
   await admin_user.save();
 

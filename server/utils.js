@@ -12,7 +12,6 @@ export const generateUserToken = (user) => {
       contact_number: user.contact_number,
       is_stockist: user.is_stockist,
       is_admin: user.is_admin,
-      is_ancestor: user.is_ancestor,
       is_mega_center: user.is_mega_center,
       is_owner: user.is_owner,
     },

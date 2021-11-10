@@ -20,11 +20,9 @@ const userVerificationSchema = new mongoose.Schema(
     overall_income: { type: Number, default: 0 },
     unpaid_income: { type: Number, default: 0 },
 
-    pairing_product_voucher: { type: Number, default: 0 },
-    stockist: { type: Number, default: 0 },
-
-    pairing_bonus_count: { type: Number, default: 0 },
-    starting_date_of_pairing_exceeded: { type: Date },
+    pairing_bonus_paired_count: { type: Number, default: 0 },
+    starting_date_of_first_paired: { type: Date },
+    product_voucher: { type: Number, default: 0 },
 
     stock_coffee: { type: Number },
     stock_soap: { type: Number },
@@ -33,8 +31,19 @@ const userVerificationSchema = new mongoose.Schema(
     number_of_stockist: { type: Number },
     number_of_mega_center: { type: Number },
 
-    pin_income: { type: Number },
-    repeat_purchase_income: { type: Number },
+    new_member_income: { type: Number },
+
+    b1t1_ae_rebates: { type: Number, default: 0 },
+    b2t3_ae_rebates: { type: Number, default: 0 },
+
+    b1t1_income: { type: Number },
+    b2t3_income: { type: Number },
+
+    b1t1_stockist_encode_new_order: { type: Number },
+    b2t3_stockist_encode_new_order: { type: Number },
+
+    stockist_repeat_purchase_coffee: { type: Number },
+    stockist_repeat_purchase_soap: { type: Number },
 
     system: {
       payment: { type: Number },

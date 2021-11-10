@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema(
     address: { type: String, index: true },
     birthdate: { type: String, index: true },
     contact_number: { type: String, required: true, index: true },
+
     secret_code_suffix: { type: String, required: true },
 
     ending_pin: { type: Number },

@@ -77,6 +77,5 @@ export class CreateDialogComponent {
       contact_number,
       position: this.data.position,
     };
-    this.genealogyService.addGenealogy(person);
   }
 }

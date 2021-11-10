@@ -29,105 +29,224 @@
   </div>
 
   <div class="dashboard-bottom-info">
-    <div class="name">
+    <div class="row">
       <div>
         <h4>Incomes</h4>
-        <ul>
-          <li>Direct Referral</li>
-          <li>Indirect Referral</li>
-          <li>Pairing Bonus</li>
-          <li>AE Rebates</li>
-          <mat-divider></mat-divider>
-          <li class="primary">Total Income</li>
-          <li class="primary">Unclaimed Income</li>
-        </ul>
       </div>
-
-      <div style="margin-top: 40px" *ngIf="isMegaAdminStock(user$ | async)">
-        <h4>Inventory Income</h4>
-        <ul>
-          <li>Coffee Income</li>
-          <li>Soap Income</li>
-          <mat-divider></mat-divider>
-          <li class="primary">Total Income</li>
-        </ul>
+      <div>
+        <h4>Ammount</h4>
       </div>
     </div>
 
-    <div class="amount">
-      <div>
-        <h4>Amount</h4>
-
-        <ul>
-          <li>
-            <strong
-              >₱ {{ (user$ | async)?.direct_referral | number: "1.2-2" }}
-            </strong>
-          </li>
-          <li>
-            <strong
-              >₱ {{ (user$ | async)?.indirect_referral | number: "1.2-2" }}
-            </strong>
-          </li>
-          <li>
-            <strong
-              >₱ {{ (user$ | async)?.pairing_bonus | number: "1.2-2" }}
-            </strong>
-          </li>
-          <li>
-            <strong
-              >₱
-              {{
-                (user$ | async)?.automatic_equivalent_rebates | number: "1.2-2"
-              }}
-            </strong>
-          </li>
-          <mat-divider></mat-divider>
-          <li>
-            <strong
-              >₱ {{ (user$ | async)?.overall_income | number: "1.2-2" }}
-            </strong>
-          </li>
-          <li>
-            <strong
-              >₱ {{ (user$ | async)?.unpaid_income | number: "1.2-2" }}
-            </strong>
-          </li>
-        </ul>
+    <div class="row">
+      <div class="income">
+        <h5>Direct Referral</h5>
       </div>
 
-      <div style="margin-top: 40px" *ngIf="isMegaAdminStock(user$ | async)">
-        <h4>Amount</h4>
+      <div class="amount">
+        <h5>₱ {{ (user$ | async)?.direct_referral | number: "1.2-2" }}</h5>
+      </div>
+    </div>
 
-        <ul>
-          <li>
-            <strong
-              >₱
-              {{
-                (user$ | async)?.inventory?.coffee_income
-                  ? ((user$ | async)?.inventory?.coffee_income
-                    | number: "1.2-2")
-                  : (0 | number: "1.2-2")
-              }}</strong
-            >
-          </li>
-          <li>
-            <strong
-              >₱
-              {{
-                (user$ | async)?.inventory?.soap_income
-                  ? ((user$ | async)?.inventory?.soap_income | number: "1.2-2")
-                  : (0 | number: "1.2-2")
-              }}</strong
-            >
-          </li>
-          <mat-divider></mat-divider>
-          <li>
-            <strong
-              >₱ {{ totalInventory(user$ | async) | number: "1.2-2" }}</strong
-            >
-          </li>
-        </ul>
+    <div class="row">
+      <div class="income">
+        <h5>Indirect Referral</h5>
+      </div>
+
+      <div class="amount">
+        <h5>₱ {{ (user$ | async)?.indirect_referral | number: "1.2-2" }}</h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="income">
+        <h5>Pairing Bonus</h5>
+      </div>
+
+      <div class="amount">
+        <h5>₱ {{ (user$ | async)?.pairing_bonus | number: "1.2-2" }}</h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="income">
+        <h5>AE Rebates ( B1T1 )</h5>
+      </div>
+
+      <div class="amount">
+        <h5>
+          ₱
+          {{ (user$ | async)?.b1t1_ae_rebates | number: "1.2-2" }}
+        </h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="income">
+        <h5>AE Rebates ( B2T3 )</h5>
+      </div>
+
+      <div class="amount">
+        <h5>
+          ₱
+          {{ (user$ | async)?.b2t3_ae_rebates | number: "1.2-2" }}
+        </h5>
+      </div>
+    </div>
+    <mat-divider
+      *ngIf="(user$ | async)?.is_mega_center || (user$ | async)?.is_stockist"
+    ></mat-divider>
+
+    <div
+      class="row"
+      *ngIf="(user$ | async)?.is_mega_center || (user$ | async)?.is_stockist"
+    >
+      <div class="income">
+        <h5>New Member Income</h5>
+      </div>
+
+      <div class="amount">
+        <h5>
+          ₱
+          {{ (user$ | async)?.new_member_income || 0 | number: "1.2-2" }}
+        </h5>
+      </div>
+    </div>
+
+    <div
+      class="row"
+      *ngIf="(user$ | async)?.is_mega_center || (user$ | async)?.is_stockist"
+    >
+      <div class="income">
+        <h5>B1T1 New Order Income</h5>
+      </div>
+
+      <div class="amount">
+        <h5>
+          ₱
+          {{ (user$ | async)?.b1t1_income || 0 | number: "1.2-2" }}
+        </h5>
+      </div>
+    </div>
+
+    <div
+      class="row"
+      *ngIf="(user$ | async)?.is_mega_center || (user$ | async)?.is_stockist"
+    >
+      <div class="income">
+        <h5>B2T3 New Order Income</h5>
+      </div>
+
+      <div class="amount">
+        <h5>
+          ₱
+          {{ (user$ | async)?.b2t3_income || 0 | number: "1.2-2" }}
+        </h5>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="(user$ | async)?.is_mega_center">
+      <div class="income">
+        <h5>B1T1 Stockist Encode New Order Income</h5>
+      </div>
+
+      <div class="amount">
+        <h5>
+          ₱
+          {{
+            (user$ | async)?.b1t1_stockist_encode_new_order || 0
+              | number: "1.2-2"
+          }}
+        </h5>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="(user$ | async)?.is_mega_center">
+      <div class="income">
+        <h5>B2T3 Stockist Encode New Order Income</h5>
+      </div>
+
+      <div class="amount">
+        <h5>
+          ₱
+          {{
+            (user$ | async)?.b2t3_stockist_encode_new_order || 0
+              | number: "1.2-2"
+          }}
+        </h5>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="(user$ | async)?.is_mega_center">
+      <div class="income">
+        <h5>Stockist Repeat Purchase Coffee Income</h5>
+      </div>
+
+      <div class="amount">
+        <h5>
+          ₱
+          {{
+            (user$ | async)?.stockist_repeat_purchase_coffee || 0
+              | number: "1.2-2"
+          }}
+        </h5>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="(user$ | async)?.is_mega_center">
+      <div class="income">
+        <h5>Stockist Repeat Purchase Soap Income</h5>
+      </div>
+
+      <div class="amount">
+        <h5>
+          ₱
+          {{
+            (user$ | async)?.stockist_repeat_purchase_soap || 0
+              | number: "1.2-2"
+          }}
+        </h5>
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div class="row">
+      <div class="income">
+        <h5>Total Income</h5>
+      </div>
+
+      <div class="amount">
+        <h5 class="primary">
+          ₱
+          {{ (user$ | async)?.overall_income | number: "1.2-2" }}
+        </h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="income">
+        <h5>Unclaimed Income</h5>
+      </div>
+
+      <div class="amount">
+        <h5 class="primary">
+          ₱
+          {{ (user$ | async)?.unpaid_income | number: "1.2-2" }}
+        </h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="income">
+        <h5>Pairing Voucher</h5>
+      </div>
+
+      <div class="amount">
+        <h5 class="primary">
+          ₱
+          {{ (user$ | async)?.product_voucher | number: "1.2-2" }}
+        </h5>
       </div>
     </div>
   </div>

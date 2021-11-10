@@ -13,10 +13,16 @@ StockInventoryRouter.post(
     let user = await UserVerification.findOne({ user_id: req.user._id });
 
     if (user) {
-      if (req.body.stock_coffee) user.stock_coffee = req.body.stock_coffee;
+      if (req.body.stock_coffee != undefined && req.body.stock_coffee >= 0) {
+        user.stock_coffee = req.body.stock_coffee;
+      }
 
-      if (req.body.stock_soap) user.stock_soap = req.body.stock_soap;
+      if (req.body.stock_soap != undefined && req.body.stock_soap >= 0) {
+        user.stock_soap = req.body.stock_soap;
+      }
+
       await user.save();
+
       res.send({
         message: "Successfully Restock! Item",
       });

@@ -5,12 +5,16 @@ import { genealogyReducer } from './genealogy/genealogy.reducer';
 import {
   searchAccountReducer,
   searchGenealogyReducer,
+  searchReferralAccountReducer,
+  searchPlaceUnderAccountReducer,
 } from './search-account/search-account.reducers';
 
 const reducer: object = {
   genealogyReducer: genealogyReducer,
   userReducer: userReducer,
   searchAccountReducer: searchAccountReducer,
+  searchReferralAccountReducer: searchReferralAccountReducer,
+  searchPlaceUnderAccountReducer: searchPlaceUnderAccountReducer,
   searchGenealogyReducer: searchGenealogyReducer,
 };
 
