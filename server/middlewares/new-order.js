@@ -11,6 +11,8 @@ import {
   B2T3_PRICE,
   B2T3_STOCKIST_ENCODE_NEW_ORDER,
   B2T3_STOCKIST_INCOME,
+  SOAP_B1T1_PRICE,
+  SOAP_B2T3_PRICE,
   STOCKIST_REPEAT_PURCHASE_COFFEE,
   STOCKIST_REPEAT_PURCHASE_SOAP,
 } from "../constants.js";
@@ -38,10 +40,10 @@ export async function orderBuy1Take1(req, res, next) {
 
   if (body.package == "b1t1") {
     req.coffee_ordered = body.coffee_ordered * 2;
-    req.soap_ordered = body.soap_ordered;
+    req.soap_ordered = body.soap_ordered * 2;
 
     req.coffee_total_price = body.coffee_ordered * B1T1_PRICE;
-    req.soap_total_price = req.soap_ordered * B1T1_PRICE;
+    req.soap_total_price = req.soap_ordered * SOAP_B1T1_PRICE;
   }
 
   next();
@@ -52,10 +54,10 @@ export async function orderBuy2Take3(req, res, next) {
 
   if (body.package == "b2t3") {
     req.coffee_ordered = body.coffee_ordered * 2 + body.coffee_ordered * 3;
-    req.soap_ordered = body.soap_ordered;
+    req.soap_ordered = body.soap_ordered * 2 + body.soap_ordered * 3;
 
     req.coffee_total_price = body.coffee_ordered * B2T3_PRICE;
-    req.soap_total_price = req.soap_ordered * B2T3_PRICE;
+    req.soap_total_price = req.soap_ordered * SOAP_B2T3_PRICE;
   }
 
   next();
@@ -114,6 +116,7 @@ export async function updateBuyerStock(req, res, next) {
   buyer.stock_coffee = buyer.stock_coffee
     ? buyer.stock_coffee + coffee_ordered
     : coffee_ordered;
+
   buyer.stock_soap = buyer.stock_soap
     ? buyer.stock_soap + soap_ordered
     : soap_ordered;

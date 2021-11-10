@@ -106,15 +106,83 @@ export class NewOrderComponent implements OnInit {
     return '0 Boxes';
   }
 
-  total() {
-    const coffee_quantity = this.secondFormGroup.get('coffee_quantity')?.value;
+  orderSoap() {
+    const package_taken = this.secondFormGroup.get('package')?.value;
+    const soap_quantity = this.secondFormGroup.get('soap_quantity')?.value;
+
+    if (package_taken == 'b1t1' && soap_quantity) {
+      return (
+        soap_quantity.toString() +
+        ' + ' +
+        soap_quantity.toString() +
+        ' ( ' +
+        (soap_quantity * 2).toString() +
+        ' Boxes )'
+      );
+    }
+
+    if (package_taken == 'b2t3' && soap_quantity) {
+      return (
+        (soap_quantity * 2).toString() +
+        ' + ' +
+        (soap_quantity * 3).toString() +
+        ' ( ' +
+        (soap_quantity * 5).toString() +
+        ' Boxes )'
+      );
+    }
+
+    return '0 Boxes';
+  }
+
+  coffeeTotal() {
+    const coffee_quantity =
+      this.secondFormGroup.get('coffee_quantity')?.value || 0;
     const package_order = this.secondFormGroup.get('package')?.value;
 
     if (coffee_quantity && package_order) {
       if (package_order == 'b1t1') {
         return coffee_quantity * 350;
-      } else {
+      }
+
+      if (package_order == 'b2t3') {
         return coffee_quantity * 700;
+      }
+    }
+
+    return 0;
+  }
+
+  soapTotal() {
+    const soap_quantity = this.secondFormGroup.get('soap_quantity')?.value;
+    const package_order = this.secondFormGroup.get('package')?.value;
+
+    if (package_order) {
+      if (package_order == 'b1t1') {
+        return soap_quantity * 120;
+      }
+
+      if (package_order == 'b2t3') {
+        return soap_quantity * 240;
+      }
+    }
+
+    return 0;
+  }
+
+  total() {
+    const soap_quantity = this.secondFormGroup.get('soap_quantity')?.value || 0;
+    const coffee_quantity =
+      this.secondFormGroup.get('coffee_quantity')?.value || 0;
+    const package_order = this.secondFormGroup.get('package')?.value;
+
+    if (package_order) {
+      if (package_order == 'b1t1') {
+        return soap_quantity * 120 + coffee_quantity * 350;
+      }
+
+      if (package_order == 'b2t3') {
+        return soap_quantity * 240 + coffee_quantity * 350;
       }
     }
 

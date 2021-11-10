@@ -160,19 +160,16 @@
 
         <li>
           Ordered Soap:
-          <span
-            >{{
-              secondFormGroup.get("soap_quantity")?.value
-                ? secondFormGroup.get("soap_quantity")?.value
-                : "0"
-            }}
-            Boxes</span
-          >
+          <span>{{ orderSoap() }}</span>
         </li>
 
         <li>
           Total:
-          <span>₱ {{ total() | number: "1.2-2" }}</span>
+          <span
+            >₱ {{ coffeeTotal() | number: "1.2-2" }} + ₱
+            {{ soapTotal() | number: "1.2-2" }} ( ₱
+            {{ total() | number: "1.2-2" }} )</span
+          >
         </li>
       </ul>
       <div *ngIf="searchAccount$ | async as searchAccount">
