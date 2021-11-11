@@ -49,7 +49,7 @@ export async function orderBuy1Take1(req, res, next) {
     req.soap_ordered = body.soap_ordered * 2;
 
     req.coffee_total_price = body.coffee_ordered * COFFEE_B1T1_SRP;
-    req.soap_total_price = req.soap_ordered * SOAP_B1T1_SRP;
+    req.soap_total_price = body.soap_ordered * SOAP_B1T1_SRP;
   }
 
   next();
@@ -63,7 +63,7 @@ export async function orderBuy2Take3(req, res, next) {
     req.soap_ordered = body.soap_ordered * 2 + body.soap_ordered * 3;
 
     req.coffee_total_price = body.coffee_ordered * COFFEE_B2T3_SRP;
-    req.soap_total_price = req.soap_ordered * SOAP_B2T3_SRP;
+    req.soap_total_price = body.soap_ordered * SOAP_B2T3_SRP;
   }
 
   next();
@@ -159,6 +159,7 @@ export async function createPurchase(req, res, next) {
   const coffee_total_price = req.coffee_total_price;
   const body = req.body;
   const buyer = req.buyer;
+  const seller = req.seller;
 
   if (coffee_ordered) {
     const newPurchase = await Purchase({
@@ -171,7 +172,12 @@ export async function createPurchase(req, res, next) {
       quantity: coffee_ordered,
       value: coffee_total_price,
 
-      user_that_invite: buyer.user_that_invite,
+      seller: {
+        user_id: seller.user_id,
+        first_name: seller.first_name,
+        last_name: seller.last_name,
+        address: seller.address,
+      },
     });
 
     await newPurchase.save();
@@ -188,7 +194,12 @@ export async function createPurchase(req, res, next) {
       quantity: soap_ordered,
       value: soap_total_price,
 
-      user_that_invite: buyer.user_that_invite,
+      seller: {
+        user_id: seller.user_id,
+        first_name: seller.first_name,
+        last_name: seller.last_name,
+        address: seller.address,
+      },
     });
 
     await newPurchase.save();
@@ -252,6 +263,7 @@ export async function purchaseIncome(req, res, next) {
     if (user.is_mega_center) {
       const coffee_total_income =
         COFFEE_B1T1_MEGA_CENTER_INCOME * body.coffee_ordered;
+
       const soap_total_income =
         SOAP_B1T1_MEGA_CENTER_INCOME * body.soap_ordered;
 
@@ -268,13 +280,10 @@ export async function purchaseIncome(req, res, next) {
     } else if (user.is_stockist) {
       const coffee_total_income =
         COFFEE_B1T1_STOCKIST_INCOME * body.coffee_ordered;
+
       const soap_total_income = SOAP_B1T1_STOCKIST_INCOME * body.soap_ordered;
 
       const total_income = coffee_total_income + soap_total_income;
-
-      seller.b1t1_income = seller.b1t1_income
-        ? seller.b1t1_income + total_income
-        : total_income;
 
       seller.b1t1_income = seller.b1t1_income
         ? seller.b1t1_income + total_income
@@ -309,6 +318,7 @@ export async function purchaseIncome(req, res, next) {
       const soap_total_income = SOAP_B2T3_STOCKIST_INCOME * body.soap_ordered;
 
       const total_income = coffee_total_income + soap_total_income;
+
       seller.b2t3_income = seller.b2t3_income
         ? seller.b2t3_income + total_income
         : total_income;

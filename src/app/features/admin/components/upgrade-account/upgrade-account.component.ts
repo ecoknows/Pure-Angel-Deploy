@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from '@shared/components';
+import { resetSearchAccount } from '@core/redux/search-account/search-account.actions';
 
 @Component({
   selector: 'app-upgrade-account',
@@ -38,6 +39,8 @@ export class UpgradeAccountComponent implements OnInit {
       status: ['', Validators.required],
       assign_area: [''],
     });
+
+    this.store.dispatch(resetSearchAccount());
   }
 
   upgrade(search_account: UserState, stepper: any) {
@@ -58,8 +61,9 @@ export class UpgradeAccountComponent implements OnInit {
 
   searchAccount(stepper: any) {
     const account_number = this.firstFormGroup.get('account_number')?.value;
-
     if (account_number) {
+      this.store.dispatch(resetSearchAccount());
+
       this.upgradeAccountService.searchAccount(account_number, stepper);
     }
   }

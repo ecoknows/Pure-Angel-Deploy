@@ -14,6 +14,13 @@ const purchaseSchema = new mongoose.Schema(
       address: { type: String },
     },
 
+    seller: {
+      user_id: { type: String },
+      first_name: { type: String },
+      last_name: { type: String },
+      address: { type: String },
+    },
+
     package: { type: String },
     product: { type: String, required: true },
     quantity: { type: Number, required: true },

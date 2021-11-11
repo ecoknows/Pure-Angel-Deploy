@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { setSearchAccount } from '@core/redux/search-account/search-account.actions';
+import {
+  resetSearchAccount,
+  setSearchAccount,
+} from '@core/redux/search-account/search-account.actions';
 import { UserState } from '@core/redux/user/user.reducer';
 import { environment } from '@env';
 import { Store } from '@ngrx/store';

@@ -164,7 +164,7 @@
         </li>
 
         <li>
-          Total:
+          Total Price:
           <span
             >₱ {{ coffeeTotal() | number: "1.2-2" }} + ₱
             {{ soapTotal() | number: "1.2-2" }} ( ₱
@@ -193,7 +193,7 @@
         </li>
 
         <li>
-          Rebates Receive
+          Referral Rebates
           <ng-container *ngIf="secondFormGroup.get('package')?.value == 'b1t1'">
             ( B1T1 )
           </ng-container>
@@ -201,9 +201,34 @@
             ( B2T3 )
           </ng-container>
           :
-          <span>₱ {{ rebates() | number: "1.2-2" }}</span>
+          <span>₱ {{ referralRebates() | number: "1.2-2" }}</span>
+        </li>
+        <mat-divider style="margin-bottom: 10px"></mat-divider>
+        <li>
+          Receive Income ( For You ) :
+          <span
+            >₱
+            {{
+              totalReceiveIncome(user$ | async, referralUser$ | async)
+                | number: "1.2-2"
+            }}</span
+          >
+        </li>
+        <li>
+          New Order Rebates :
+          <span>₱ {{ sellerRebates(user$ | async) | number: "1.2-2" }}</span>
+        </li>
+        <li>
+          AE Rebates ( If self referral ) :
+          <span
+            >₱
+            {{
+              AERebates(user$ | async, referralUser$ | async) | number: "1.2-2"
+            }}</span
+          >
         </li>
       </ul>
+
       <div *ngIf="searchAccount$ | async as searchAccount">
         <button mat-button matStepperPrevious>Back</button>
         <button mat-button (click)="order(searchAccount, stepper)">Done</button>

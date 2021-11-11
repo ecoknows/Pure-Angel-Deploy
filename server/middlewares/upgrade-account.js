@@ -36,8 +36,9 @@ export async function upgradeToMegaCenter(req, res, next) {
   const searched_account = req.searched_account;
 
   if (body.status == "mega-center") {
-    searched_account.is_stockist = true;
-    searched_account.is_mega_center = undefined;
+    searched_account.is_mega_center = true;
+    searched_account.secret_code_suffix = body.assign_area;
+    searched_account.is_stockist = undefined;
     await searched_account.save();
   }
   next();
