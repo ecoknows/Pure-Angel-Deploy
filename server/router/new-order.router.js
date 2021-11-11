@@ -26,9 +26,11 @@ NewOrderRouter.post(
     });
 
     if (user) {
+      const referral_user = await User.findById(user.user_that_invite.user_id);
+
       res.send({
         message: "Successfully Search User",
-        data: user,
+        data: { user, referral_user },
       });
     } else {
       res.status(401).send({

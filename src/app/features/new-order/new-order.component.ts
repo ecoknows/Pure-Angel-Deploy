@@ -18,6 +18,7 @@ export class NewOrderComponent implements OnInit {
 
   user$: Observable<UserState>;
   searchAccount$: Observable<UserState>;
+  referralUser$: Observable<UserState>;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -25,11 +26,13 @@ export class NewOrderComponent implements OnInit {
     private authService: AuthService,
     private store: Store<{
       searchAccountReducer: UserState;
+      searchReferralAccountReducer: UserState;
       userReducer: UserState;
     }>
   ) {
     this.user$ = this.store.select('userReducer');
     this.searchAccount$ = this.store.select('searchAccountReducer');
+    this.referralUser$ = this.store.select('searchReferralAccountReducer');
   }
 
   ngOnInit(): void {
@@ -206,5 +209,23 @@ export class NewOrderComponent implements OnInit {
         this.secondFormGroup
       );
     }
+  }
+
+  rebates() {
+    const coffee_ordered = this.secondFormGroup.get('coffee_quantity')?.value;
+    const soap_ordered = this.secondFormGroup.get('soap_quantity')?.value;
+    const package_order = this.secondFormGroup.get('package')?.value;
+
+    if (package_order) {
+      if (package_order == 'b1t1') {
+        return coffee_ordered * 5 + soap_ordered * 2;
+      }
+
+      if (package_order == 'b2t3') {
+        return coffee_ordered * 12.5 + soap_ordered * 2;
+      }
+    }
+
+    return 0;
   }
 }

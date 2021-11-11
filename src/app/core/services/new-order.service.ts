@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { setSearchAccount } from '@core/redux/search-account/search-account.actions';
+import {
+  setSearchAccount,
+  setSearchReferralAccount,
+} from '@core/redux/search-account/search-account.actions';
 import { UserState } from '@core/redux/user/user.reducer';
 import { environment } from '@env';
 import { Store } from '@ngrx/store';
@@ -75,7 +78,10 @@ export class NewOrderService {
 
   searchAccount(account_number: string, stepper: any) {
     this.http
-      .post<{ message: string; data: UserState }>(
+      .post<{
+        message: string;
+        data: { user: UserState; referral_user: UserState };
+      }>(
         environment.api + 'api/new-order/search-account',
         {
           account_number,
@@ -97,7 +103,10 @@ export class NewOrderService {
               },
             });
 
-            this.store.dispatch(setSearchAccount({ user: data }));
+            this.store.dispatch(setSearchAccount({ user: data.user }));
+            this.store.dispatch(
+              setSearchReferralAccount({ user: data.referral_user })
+            );
             stepper.next();
           }
         },
