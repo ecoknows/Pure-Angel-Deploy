@@ -1,20 +1,26 @@
 import UserVerification from "../models/user.verification.model.js";
 import User from "../models/user.model.js";
 import {
-  B1T1_AE_REBATES,
-  B1T1_MEGA_CENTER_INCOME,
-  B1T1_PRICE,
+  COFFEE_B1T1_AE_REBATES,
+  COFFEE_B1T1_MEGA_CENTER_INCOME,
+  COFFEE_B1T1_SRP,
   B1T1_STOCKIST_ENCODE_NEW_ORDER,
-  B1T1_STOCKIST_INCOME,
-  B2T3_AE_REBATES,
-  B2T3_MEGA_CENTER_INCOME,
-  B2T3_PRICE,
+  COFFEE_B1T1_STOCKIST_INCOME,
+  COFFEE_B2T3_AE_REBATES,
+  COFFEE_B2T3_MEGA_CENTER_INCOME,
+  COFFEE_B2T3_SRP,
   B2T3_STOCKIST_ENCODE_NEW_ORDER,
-  B2T3_STOCKIST_INCOME,
-  SOAP_B1T1_PRICE,
-  SOAP_B2T3_PRICE,
+  COFFEE_B2T3_STOCKIST_INCOME,
+  SOAP_B1T1_SRP,
+  SOAP_B2T3_SRP,
   STOCKIST_REPEAT_PURCHASE_COFFEE,
   STOCKIST_REPEAT_PURCHASE_SOAP,
+  SOAP_B1T1_MEGA_CENTER_INCOME,
+  SOAP_B1T1_STOCKIST_INCOME,
+  SOAP_B2T3_MEGA_CENTER_INCOME,
+  SOAP_B2T3_STOCKIST_INCOME,
+  SOAP_B1T1_AE_REBATES,
+  SOAP_B2T3_AE_REBATES,
 } from "../constants.js";
 import Purchase from "../models/purchase.model.js";
 
@@ -42,8 +48,8 @@ export async function orderBuy1Take1(req, res, next) {
     req.coffee_ordered = body.coffee_ordered * 2;
     req.soap_ordered = body.soap_ordered * 2;
 
-    req.coffee_total_price = body.coffee_ordered * B1T1_PRICE;
-    req.soap_total_price = req.soap_ordered * SOAP_B1T1_PRICE;
+    req.coffee_total_price = body.coffee_ordered * COFFEE_B1T1_SRP;
+    req.soap_total_price = req.soap_ordered * SOAP_B1T1_SRP;
   }
 
   next();
@@ -56,8 +62,8 @@ export async function orderBuy2Take3(req, res, next) {
     req.coffee_ordered = body.coffee_ordered * 2 + body.coffee_ordered * 3;
     req.soap_ordered = body.soap_ordered * 2 + body.soap_ordered * 3;
 
-    req.coffee_total_price = body.coffee_ordered * B2T3_PRICE;
-    req.soap_total_price = req.soap_ordered * SOAP_B2T3_PRICE;
+    req.coffee_total_price = body.coffee_ordered * COFFEE_B2T3_SRP;
+    req.soap_total_price = req.soap_ordered * SOAP_B2T3_SRP;
   }
 
   next();
@@ -200,7 +206,10 @@ export async function automaticEquivalentRebatesIncome(req, res, next) {
 
   if (referral_verification) {
     if (body.package == "b1t1") {
-      const total_income = body.coffee_ordered * B1T1_AE_REBATES;
+      const coffee_total_income = body.coffee_ordered * COFFEE_B1T1_AE_REBATES;
+      const soap_total_income = body.soap_ordered * SOAP_B1T1_AE_REBATES;
+
+      const total_income = coffee_total_income + soap_total_income;
 
       referral_verification.b1t1_ae_rebates =
         referral_verification.b1t1_ae_rebates + total_income;
@@ -213,7 +222,11 @@ export async function automaticEquivalentRebatesIncome(req, res, next) {
 
       await referral_verification.save();
     } else if (body.package == "b2t3") {
-      const total_income = body.coffee_ordered * B2T3_AE_REBATES;
+      const coffee_total_income = body.coffee_ordered * COFFEE_B2T3_AE_REBATES;
+      const soap_total_income = body.soap_ordered * SOAP_B2T3_AE_REBATES;
+
+      const total_income = coffee_total_income + soap_total_income;
+
       referral_verification.b2t3_ae_rebates =
         referral_verification.b2t3_ae_rebates + total_income;
 
@@ -237,7 +250,12 @@ export async function purchaseIncome(req, res, next) {
 
   if (body.package == "b1t1") {
     if (user.is_mega_center) {
-      const total_income = B1T1_MEGA_CENTER_INCOME * body.coffee_ordered;
+      const coffee_total_income =
+        COFFEE_B1T1_MEGA_CENTER_INCOME * body.coffee_ordered;
+      const soap_total_income =
+        SOAP_B1T1_MEGA_CENTER_INCOME * body.soap_ordered;
+
+      const total_income = coffee_total_income + soap_total_income;
 
       seller.b1t1_income = seller.b1t1_income
         ? seller.b1t1_income + total_income
@@ -248,7 +266,11 @@ export async function purchaseIncome(req, res, next) {
 
       await seller.save();
     } else if (user.is_stockist) {
-      const total_income = B1T1_STOCKIST_INCOME * body.coffee_ordered;
+      const coffee_total_income =
+        COFFEE_B1T1_STOCKIST_INCOME * body.coffee_ordered;
+      const soap_total_income = SOAP_B1T1_STOCKIST_INCOME * body.soap_ordered;
+
+      const total_income = coffee_total_income + soap_total_income;
 
       seller.b1t1_income = seller.b1t1_income
         ? seller.b1t1_income + total_income
@@ -265,7 +287,12 @@ export async function purchaseIncome(req, res, next) {
     }
   } else if (body.package == "b2t3") {
     if (user.is_mega_center) {
-      const total_income = B2T3_MEGA_CENTER_INCOME * body.coffee_ordered;
+      const coffee_total_income =
+        COFFEE_B2T3_MEGA_CENTER_INCOME * body.coffee_ordered;
+      const soap_total_income =
+        SOAP_B2T3_MEGA_CENTER_INCOME * body.soap_ordered;
+
+      const total_income = coffee_total_income + soap_total_income;
 
       seller.b2t3_income = seller.b2t3_income
         ? seller.b2t3_income + total_income
@@ -276,6 +303,12 @@ export async function purchaseIncome(req, res, next) {
 
       await seller.save();
     } else if (user.is_stockist) {
+      const coffee_total_income =
+        COFFEE_B2T3_STOCKIST_INCOME * body.coffee_ordered;
+
+      const soap_total_income = SOAP_B2T3_STOCKIST_INCOME * body.soap_ordered;
+
+      const total_income = coffee_total_income + soap_total_income;
       seller.b2t3_income = seller.b2t3_income
         ? seller.b2t3_income + total_income
         : total_income;

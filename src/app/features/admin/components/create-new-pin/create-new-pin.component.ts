@@ -4,6 +4,10 @@ import { UserState } from '@core/redux/user/user.reducer';
 import { AuthService } from '@core/services/auth.service';
 import { CreateNewPinService } from '@core/services/create-new-pin.service';
 import { Store } from '@ngrx/store';
+import {
+  COFFEE_PACKAGE_PER_PIN,
+  SOAP_PACKAGE_PER_PIN,
+} from '@server/constants';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -98,7 +102,7 @@ export class CreateNewPinComponent implements OnInit {
     if (user) {
       if (user.stock_coffee != undefined) {
         const addedPin = this.secondFormGroup.get('addedPin')?.value;
-        const minusCoffeeBox = addedPin * 5;
+        const minusCoffeeBox = addedPin * COFFEE_PACKAGE_PER_PIN;
         const totalCoffeeBox = user.stock_coffee - minusCoffeeBox;
         return (
           user.stock_coffee.toString() +
@@ -118,7 +122,7 @@ export class CreateNewPinComponent implements OnInit {
     if (user) {
       if (user.stock_soap != undefined) {
         const addedPin = this.secondFormGroup.get('addedPin')?.value;
-        const minusSoapBox = addedPin * 4;
+        const minusSoapBox = addedPin * SOAP_PACKAGE_PER_PIN;
         const totalSoapBox = user.stock_soap - minusSoapBox;
         return (
           user.stock_soap.toString() +
@@ -138,7 +142,7 @@ export class CreateNewPinComponent implements OnInit {
     if (user) {
       if (user.stock_coffee != undefined) {
         const addedPin = this.secondFormGroup.get('addedPin')?.value;
-        const addedCoffeBox = addedPin * 5;
+        const addedCoffeBox = addedPin * COFFEE_PACKAGE_PER_PIN;
         const totalCoffeeBox = user.stock_coffee + addedCoffeBox;
         return (
           user.stock_coffee.toString() +
@@ -150,7 +154,7 @@ export class CreateNewPinComponent implements OnInit {
         );
       } else {
         const addedPin = this.secondFormGroup.get('addedPin')?.value;
-        const addedCoffeBox = addedPin * 5;
+        const addedCoffeBox = addedPin * COFFEE_PACKAGE_PER_PIN;
         const totalCoffeeBox = addedCoffeBox;
         return (
           '0 + ' +
@@ -169,7 +173,7 @@ export class CreateNewPinComponent implements OnInit {
     if (user) {
       if (user.stock_soap != undefined) {
         const addedPin = this.secondFormGroup.get('addedPin')?.value;
-        const addedSoapBox = addedPin * 4;
+        const addedSoapBox = addedPin * SOAP_PACKAGE_PER_PIN;
         const totalSoapBox = user.stock_soap + addedSoapBox;
         return (
           user.stock_soap.toString() +

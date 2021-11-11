@@ -5,6 +5,16 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NewOrderService } from '@core/services/new-order.service';
+import {
+  COFFEE_B1T1_AE_REBATES,
+  COFFEE_B1T1_SRP,
+  COFFEE_B2T3_AE_REBATES,
+  COFFEE_B2T3_SRP,
+  SOAP_B1T1_AE_REBATES,
+  SOAP_B1T1_SRP,
+  SOAP_B2T3_AE_REBATES,
+  SOAP_B2T3_SRP,
+} from '@server/constants';
 
 @Component({
   selector: 'app-new-order',
@@ -145,11 +155,11 @@ export class NewOrderComponent implements OnInit {
 
     if (coffee_quantity && package_order) {
       if (package_order == 'b1t1') {
-        return coffee_quantity * 350;
+        return coffee_quantity * COFFEE_B1T1_SRP;
       }
 
       if (package_order == 'b2t3') {
-        return coffee_quantity * 700;
+        return coffee_quantity * COFFEE_B2T3_SRP;
       }
     }
 
@@ -162,11 +172,11 @@ export class NewOrderComponent implements OnInit {
 
     if (package_order) {
       if (package_order == 'b1t1') {
-        return soap_quantity * 120;
+        return soap_quantity * SOAP_B1T1_SRP;
       }
 
       if (package_order == 'b2t3') {
-        return soap_quantity * 240;
+        return soap_quantity * SOAP_B2T3_SRP;
       }
     }
 
@@ -181,11 +191,15 @@ export class NewOrderComponent implements OnInit {
 
     if (package_order) {
       if (package_order == 'b1t1') {
-        return soap_quantity * 120 + coffee_quantity * 350;
+        return (
+          soap_quantity * SOAP_B1T1_SRP + coffee_quantity * COFFEE_B1T1_SRP
+        );
       }
 
       if (package_order == 'b2t3') {
-        return soap_quantity * 240 + coffee_quantity * 700;
+        return (
+          soap_quantity * SOAP_B2T3_SRP + coffee_quantity * COFFEE_B2T3_SRP
+        );
       }
     }
 
@@ -218,11 +232,17 @@ export class NewOrderComponent implements OnInit {
 
     if (package_order) {
       if (package_order == 'b1t1') {
-        return coffee_ordered * 5 + soap_ordered * 2;
+        return (
+          coffee_ordered * COFFEE_B1T1_AE_REBATES +
+          soap_ordered * SOAP_B1T1_AE_REBATES
+        );
       }
 
       if (package_order == 'b2t3') {
-        return coffee_ordered * 12.5 + soap_ordered * 2;
+        return (
+          coffee_ordered * COFFEE_B2T3_AE_REBATES +
+          soap_ordered * SOAP_B2T3_AE_REBATES
+        );
       }
     }
 
