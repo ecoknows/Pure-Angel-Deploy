@@ -185,7 +185,7 @@ export class NewOrderComponent implements OnInit {
       }
 
       if (package_order == 'b2t3') {
-        return soap_quantity * 240 + coffee_quantity * 350;
+        return soap_quantity * 240 + coffee_quantity * 700;
       }
     }
 
