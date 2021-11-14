@@ -215,8 +215,12 @@
           >
         </li>
         <li>
-          New Order Rebates :
-          <span>₱ {{ sellerRebates(user$ | async) | number: "1.2-2" }}</span>
+          Coffee Rebates :
+          <span>₱ {{ coffeeRebates(user$ | async) | number: "1.2-2" }}</span>
+        </li>
+        <li>
+          Soap Rebates :
+          <span>₱ {{ soapRebates(user$ | async) | number: "1.2-2" }}</span>
         </li>
         <li>
           AE Rebates ( If self referral ) :

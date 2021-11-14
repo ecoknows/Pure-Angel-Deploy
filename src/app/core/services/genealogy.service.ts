@@ -13,7 +13,6 @@ import { AuthService } from './auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from '@shared/components';
 import { MatDialog } from '@angular/material/dialog';
-import { CreateDialogComponent } from '@shared/components/create-dialog/create-dialog.component';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -21,14 +20,12 @@ import { Router } from '@angular/router';
 })
 export class GenealogyService {
   snackBarDuration = 2;
-  autoScroll = true;
 
   constructor(
     private http: HttpClient,
     private authService: AuthService,
     private store: Store<{}>,
     private _snackBar: MatSnackBar,
-    private dialog: MatDialog,
     private router: Router
   ) {}
 
@@ -104,6 +101,28 @@ export class GenealogyService {
       });
   }
 
+  viewParent(user_id: string | undefined) {
+    this.http
+      .post<{
+        message: string;
+        data: Genealogy;
+      }>(
+        environment.api + 'api/genealogy/view-parent',
+        {
+          user_id,
+        },
+        {
+          headers: this.authService.headers,
+        }
+      )
+      .subscribe((result) => {
+        let data = result.data;
+
+        if (data) {
+          this.store.dispatch(setGenealogy({ genealogy: data }));
+        }
+      });
+  }
   searchAccount(account_number: string | undefined) {
     this.http
       .post<{

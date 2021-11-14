@@ -34,6 +34,5 @@ export class GenealogyComponent implements OnInit {
   ngOnInit(): void {
     this.genealogyService.fetchGenealogy();
     this.authService.fetchUserData();
-    this.genealogyService.autoScroll = true;
   }
 }

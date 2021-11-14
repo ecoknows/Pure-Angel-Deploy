@@ -50,6 +50,36 @@ GenealogyRouter.post(
 );
 
 GenealogyRouter.post(
+  "/view-parent",
+  verifyUserToken,
+  expressAsyncHandler(async (req, res) => {
+    const user = await User.findById(req.body.user_id);
+
+    if (user) {
+      const root = await Genealogy.findOne({
+        user_id: user.root_user_genealogy.user_id,
+      });
+
+      if (root) {
+        await updateBranches(root);
+        res.send({
+          message: "Sucessfully Fetch Genealogy!",
+          data: root,
+        });
+      } else {
+        res.status(401).send({
+          message: "Failed to Fetch Genealogy!",
+        });
+      }
+    } else {
+      res.status(401).send({
+        message: "Failed to Fetch Genealogy! User doesn't exist",
+      });
+    }
+  })
+);
+
+GenealogyRouter.post(
   "/search-account",
   verifyUserToken,
   expressAsyncHandler(async (req, res) => {

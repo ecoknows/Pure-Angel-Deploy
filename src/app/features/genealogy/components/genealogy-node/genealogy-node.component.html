@@ -1,7 +1,14 @@
+<fa-icon
+  [icon]="faArrowAltCircleUp"
+  class="icons"
+  (click)="viewParent()"
+  *ngIf="isRoot(user$ | async) && hasParent == false"
+></fa-icon>
+
 <div
   ngClass="ngx-org-connector-{{ direction }}"
   class="ngx-org-border"
-  *ngIf="hasParent"
+  *ngIf="hasParent || isRoot(user$ | async)"
 ></div>
 
 <div

@@ -21,6 +21,7 @@ import {
   SOAP_B2T3_STOCKIST_INCOME,
   SOAP_B1T1_AE_REBATES,
   SOAP_B2T3_AE_REBATES,
+  ADMIN_PURCHASE_INCOME,
 } from "../constants.js";
 import Purchase from "../models/purchase.model.js";
 
@@ -262,16 +263,19 @@ export async function purchaseIncome(req, res, next) {
   if (body.package == "b1t1") {
     if (user.is_mega_center) {
       const coffee_total_income =
-        COFFEE_B1T1_MEGA_CENTER_INCOME * body.coffee_ordered;
+        COFFEE_B1T1_MEGA_CENTER_INCOME * req.coffee_ordered;
 
-      const soap_total_income =
-        SOAP_B1T1_MEGA_CENTER_INCOME * body.soap_ordered;
+      const soap_total_income = SOAP_B1T1_MEGA_CENTER_INCOME * req.soap_ordered;
 
       const total_income = coffee_total_income + soap_total_income;
 
-      seller.b1t1_income = seller.b1t1_income
-        ? seller.b1t1_income + total_income
-        : total_income;
+      seller.coffee_income = seller.coffee_income
+        ? seller.coffee_income + coffee_total_income
+        : coffee_total_income;
+
+      seller.soap_income = seller.soap_income
+        ? seller.soap_income + soap_total_income
+        : soap_total_income;
 
       seller.overall_income = seller.overall_income + total_income;
       seller.unpaid_income = seller.unpaid_income + total_income;
@@ -279,33 +283,58 @@ export async function purchaseIncome(req, res, next) {
       await seller.save();
     } else if (user.is_stockist) {
       const coffee_total_income =
-        COFFEE_B1T1_STOCKIST_INCOME * body.coffee_ordered;
+        COFFEE_B1T1_STOCKIST_INCOME * req.coffee_ordered;
 
-      const soap_total_income = SOAP_B1T1_STOCKIST_INCOME * body.soap_ordered;
+      const soap_total_income = SOAP_B1T1_STOCKIST_INCOME * req.soap_ordered;
 
       const total_income = coffee_total_income + soap_total_income;
 
-      seller.b1t1_income = seller.b1t1_income
-        ? seller.b1t1_income + total_income
-        : total_income;
+      seller.coffee_income = seller.coffee_income
+        ? seller.coffee_income + coffee_total_income
+        : coffee_total_income;
+
+      seller.soap_income = seller.soap_income
+        ? seller.soap_income + soap_total_income
+        : soap_total_income;
 
       seller.overall_income = seller.overall_income + total_income;
       seller.unpaid_income = seller.unpaid_income + total_income;
 
+      await seller.save();
+    } else if (user.is_admin) {
+      const coffee_total_income = ADMIN_PURCHASE_INCOME * req.coffee_ordered;
+
+      const soap_total_income = ADMIN_PURCHASE_INCOME * req.soap_ordered;
+
+      const total_income = coffee_total_income + soap_total_income;
+
+      seller.coffee_income = seller.coffee_income
+        ? seller.coffee_income + coffee_total_income
+        : coffee_total_income;
+
+      seller.soap_income = seller.soap_income
+        ? seller.soap_income + soap_total_income
+        : soap_total_income;
+
+      seller.overall_income = seller.overall_income + total_income;
+      seller.unpaid_income = seller.unpaid_income + total_income;
       await seller.save();
     }
   } else if (body.package == "b2t3") {
     if (user.is_mega_center) {
       const coffee_total_income =
-        COFFEE_B2T3_MEGA_CENTER_INCOME * body.coffee_ordered;
-      const soap_total_income =
-        SOAP_B2T3_MEGA_CENTER_INCOME * body.soap_ordered;
+        COFFEE_B2T3_MEGA_CENTER_INCOME * req.coffee_ordered;
+      const soap_total_income = SOAP_B2T3_MEGA_CENTER_INCOME * req.soap_ordered;
 
       const total_income = coffee_total_income + soap_total_income;
 
-      seller.b2t3_income = seller.b2t3_income
-        ? seller.b2t3_income + total_income
-        : total_income;
+      seller.coffee_income = seller.coffee_income
+        ? seller.coffee_income + coffee_total_income
+        : coffee_total_income;
+
+      seller.soap_income = seller.soap_income
+        ? seller.soap_income + soap_total_income
+        : soap_total_income;
 
       seller.overall_income = seller.overall_income + total_income;
       seller.unpaid_income = seller.unpaid_income + total_income;
@@ -313,19 +342,41 @@ export async function purchaseIncome(req, res, next) {
       await seller.save();
     } else if (user.is_stockist) {
       const coffee_total_income =
-        COFFEE_B2T3_STOCKIST_INCOME * body.coffee_ordered;
+        COFFEE_B2T3_STOCKIST_INCOME * req.coffee_ordered;
 
-      const soap_total_income = SOAP_B2T3_STOCKIST_INCOME * body.soap_ordered;
+      const soap_total_income = SOAP_B2T3_STOCKIST_INCOME * req.soap_ordered;
 
       const total_income = coffee_total_income + soap_total_income;
 
-      seller.b2t3_income = seller.b2t3_income
-        ? seller.b2t3_income + total_income
-        : total_income;
+      seller.coffee_income = seller.coffee_income
+        ? seller.coffee_income + coffee_total_income
+        : coffee_total_income;
+
+      seller.soap_income = seller.soap_income
+        ? seller.soap_income + soap_total_income
+        : soap_total_income;
 
       seller.overall_income = seller.overall_income + total_income;
       seller.unpaid_income = seller.unpaid_income + total_income;
 
+      await seller.save();
+    } else if (user.is_admin) {
+      const coffee_total_income = ADMIN_PURCHASE_INCOME * req.coffee_ordered;
+
+      const soap_total_income = ADMIN_PURCHASE_INCOME * req.soap_ordered;
+
+      const total_income = coffee_total_income + soap_total_income;
+
+      seller.coffee_income = seller.coffee_income
+        ? seller.coffee_income + coffee_total_income
+        : coffee_total_income;
+
+      seller.soap_income = seller.soap_income
+        ? seller.soap_income + soap_total_income
+        : soap_total_income;
+
+      seller.overall_income = seller.overall_income + total_income;
+      seller.unpaid_income = seller.unpaid_income + total_income;
       await seller.save();
     }
   }

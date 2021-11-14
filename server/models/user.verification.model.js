@@ -36,8 +36,8 @@ const userVerificationSchema = new mongoose.Schema(
     b1t1_ae_rebates: { type: Number, default: 0 },
     b2t3_ae_rebates: { type: Number, default: 0 },
 
-    b1t1_income: { type: Number },
-    b2t3_income: { type: Number },
+    coffee_income: { type: Number },
+    soap_income: { type: Number },
 
     b1t1_stockist_encode_new_order: { type: Number },
     b2t3_stockist_encode_new_order: { type: Number },

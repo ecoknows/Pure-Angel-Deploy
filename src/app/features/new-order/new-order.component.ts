@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NewOrderService } from '@core/services/new-order.service';
 import {
-  ADMIN_REPEAT_PURCHASE_INCOME,
+  ADMIN_PURCHASE_INCOME,
   COFFEE_B1T1_AE_REBATES,
   COFFEE_B1T1_MEGA_CENTER_INCOME,
   COFFEE_B1T1_SRP,
@@ -246,11 +246,11 @@ export class NewOrderComponent implements OnInit {
       if (package_order == 'b1t1') {
         const coffee_rebates =
           user?.account_number == referral_account?.account_number
-            ? coffee_ordered * COFFEE_B1T1_AE_REBATES
+            ? coffee_ordered * 2 * COFFEE_B1T1_AE_REBATES
             : 0;
         const soap_rebates =
           user?.account_number == referral_account?.account_number
-            ? soap_ordered * SOAP_B1T1_AE_REBATES
+            ? soap_ordered * 2 * SOAP_B1T1_AE_REBATES
             : 0;
 
         const total_rebates = coffee_rebates + soap_rebates;
@@ -269,8 +269,8 @@ export class NewOrderComponent implements OnInit {
           );
         } else if (user?.is_admin) {
           return (
-            coffee_ordered * ADMIN_REPEAT_PURCHASE_INCOME +
-            soap_ordered * ADMIN_REPEAT_PURCHASE_INCOME +
+            coffee_ordered * 2 * ADMIN_PURCHASE_INCOME +
+            soap_ordered * 2 * ADMIN_PURCHASE_INCOME +
             total_rebates
           );
         }
@@ -279,11 +279,11 @@ export class NewOrderComponent implements OnInit {
       if (package_order == 'b2t3') {
         const coffee_rebates =
           user?.account_number == referral_account?.account_number
-            ? coffee_ordered * COFFEE_B2T3_AE_REBATES
+            ? coffee_ordered * 5 * COFFEE_B2T3_AE_REBATES
             : 0;
         const soap_rebates =
           user?.account_number == referral_account?.account_number
-            ? soap_ordered * SOAP_B2T3_AE_REBATES
+            ? soap_ordered * 5 * SOAP_B2T3_AE_REBATES
             : 0;
 
         const total_rebates = coffee_rebates + soap_rebates;
@@ -301,8 +301,8 @@ export class NewOrderComponent implements OnInit {
           );
         } else if (user?.is_admin) {
           return (
-            coffee_ordered * ADMIN_REPEAT_PURCHASE_INCOME +
-            soap_ordered * ADMIN_REPEAT_PURCHASE_INCOME +
+            coffee_ordered * 5 * ADMIN_PURCHASE_INCOME +
+            soap_ordered * 5 * ADMIN_PURCHASE_INCOME +
             total_rebates
           );
         }
@@ -312,47 +312,57 @@ export class NewOrderComponent implements OnInit {
     return 0;
   }
 
-  sellerRebates(user: UserState | null) {
+  coffeeRebates(user: UserState | null) {
     const coffee_ordered = this.secondFormGroup.get('coffee_quantity')?.value;
+    const package_order = this.secondFormGroup.get('package')?.value;
+
+    if (package_order) {
+      if (package_order == 'b1t1') {
+        if (user?.is_mega_center) {
+          return coffee_ordered * COFFEE_B1T1_MEGA_CENTER_INCOME;
+        } else if (user?.is_stockist) {
+          return coffee_ordered * COFFEE_B1T1_STOCKIST_INCOME;
+        } else if (user?.is_admin) {
+          return coffee_ordered * 2 * ADMIN_PURCHASE_INCOME;
+        }
+      }
+
+      if (package_order == 'b2t3') {
+        if (user?.is_mega_center) {
+          return coffee_ordered * COFFEE_B2T3_MEGA_CENTER_INCOME;
+        } else if (user?.is_stockist) {
+          return coffee_ordered * COFFEE_B2T3_STOCKIST_INCOME;
+        } else if (user?.is_admin) {
+          return coffee_ordered * 5 * ADMIN_PURCHASE_INCOME;
+        }
+      }
+    }
+
+    return 0;
+  }
+
+  soapRebates(user: UserState | null) {
     const soap_ordered = this.secondFormGroup.get('soap_quantity')?.value;
     const package_order = this.secondFormGroup.get('package')?.value;
 
     if (package_order) {
       if (package_order == 'b1t1') {
         if (user?.is_mega_center) {
-          return (
-            coffee_ordered * COFFEE_B1T1_MEGA_CENTER_INCOME +
-            soap_ordered * SOAP_B1T1_MEGA_CENTER_INCOME
-          );
+          return soap_ordered * SOAP_B1T1_MEGA_CENTER_INCOME;
         } else if (user?.is_stockist) {
-          return (
-            coffee_ordered * COFFEE_B1T1_STOCKIST_INCOME +
-            soap_ordered * SOAP_B1T1_STOCKIST_INCOME
-          );
+          return soap_ordered * SOAP_B1T1_STOCKIST_INCOME;
         } else if (user?.is_admin) {
-          return (
-            coffee_ordered * ADMIN_REPEAT_PURCHASE_INCOME +
-            soap_ordered * ADMIN_REPEAT_PURCHASE_INCOME
-          );
+          return soap_ordered * 2 * ADMIN_PURCHASE_INCOME;
         }
       }
 
       if (package_order == 'b2t3') {
         if (user?.is_mega_center) {
-          return (
-            coffee_ordered * COFFEE_B2T3_MEGA_CENTER_INCOME +
-            soap_ordered * SOAP_B2T3_MEGA_CENTER_INCOME
-          );
+          return soap_ordered * SOAP_B2T3_MEGA_CENTER_INCOME;
         } else if (user?.is_stockist) {
-          return (
-            coffee_ordered * COFFEE_B2T3_STOCKIST_INCOME +
-            soap_ordered * SOAP_B2T3_STOCKIST_INCOME
-          );
+          return soap_ordered * SOAP_B2T3_STOCKIST_INCOME;
         } else if (user?.is_admin) {
-          return (
-            coffee_ordered * ADMIN_REPEAT_PURCHASE_INCOME +
-            soap_ordered * ADMIN_REPEAT_PURCHASE_INCOME
-          );
+          return soap_ordered * 5 * ADMIN_PURCHASE_INCOME;
         }
       }
     }
@@ -369,11 +379,11 @@ export class NewOrderComponent implements OnInit {
       if (package_order == 'b1t1') {
         const coffee_rebates =
           user?.account_number == referral_account?.account_number
-            ? coffee_ordered * COFFEE_B1T1_AE_REBATES
+            ? coffee_ordered * 2 * COFFEE_B1T1_AE_REBATES
             : 0;
         const soap_rebates =
           user?.account_number == referral_account?.account_number
-            ? soap_ordered * SOAP_B1T1_AE_REBATES
+            ? soap_ordered * 2 * SOAP_B1T1_AE_REBATES
             : 0;
 
         const total_rebates = coffee_rebates + soap_rebates;
@@ -389,11 +399,11 @@ export class NewOrderComponent implements OnInit {
       if (package_order == 'b2t3') {
         const coffee_rebates =
           user?.account_number == referral_account?.account_number
-            ? coffee_ordered * COFFEE_B2T3_AE_REBATES
+            ? coffee_ordered * 5 * COFFEE_B2T3_AE_REBATES
             : 0;
         const soap_rebates =
           user?.account_number == referral_account?.account_number
-            ? soap_ordered * SOAP_B2T3_AE_REBATES
+            ? soap_ordered * 5 * SOAP_B2T3_AE_REBATES
             : 0;
 
         const total_rebates = coffee_rebates + soap_rebates;
@@ -418,15 +428,15 @@ export class NewOrderComponent implements OnInit {
     if (package_order) {
       if (package_order == 'b1t1') {
         return (
-          coffee_ordered * COFFEE_B1T1_AE_REBATES +
-          soap_ordered * SOAP_B1T1_AE_REBATES
+          coffee_ordered * 2 * COFFEE_B1T1_AE_REBATES +
+          soap_ordered * 2 * SOAP_B1T1_AE_REBATES
         );
       }
 
       if (package_order == 'b2t3') {
         return (
-          coffee_ordered * COFFEE_B2T3_AE_REBATES +
-          soap_ordered * SOAP_B2T3_AE_REBATES
+          coffee_ordered * 5 * COFFEE_B2T3_AE_REBATES +
+          soap_ordered * 5 * SOAP_B2T3_AE_REBATES
         );
       }
     }

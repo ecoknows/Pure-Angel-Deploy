@@ -30,7 +30,7 @@ export const SOAP_B2T3_AE_REBATES = 2;
 export const COFFEE_PACKAGE_PER_PIN = 5;
 export const SOAP_PACKAGE_PER_PIN = 4;
 
-export const ADMIN_REPEAT_PURCHASE_INCOME = 5;
+export const ADMIN_PURCHASE_INCOME = 5;
 
 export const ADMIN_NEW_MEMBER_INCOME = 45;
 export const MEGA_CENTER_NEW_MEMBER_INCOME = 300;

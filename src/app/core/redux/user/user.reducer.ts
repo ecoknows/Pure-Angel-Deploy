@@ -26,8 +26,8 @@ export interface UserState {
   b1t1_ae_rebates?: number;
   b2t3_ae_rebates?: number;
 
-  b1t1_income?: number;
-  b2t3_income?: number;
+  coffee_income?: number;
+  soap_income?: number;
 
   b1t1_stockist_encode_new_order?: number;
   b2t3_stockist_encode_new_order?: number;

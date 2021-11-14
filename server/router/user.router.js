@@ -25,13 +25,13 @@ UserRouter.post(
           userToken: generateUserToken(user),
         });
       } else {
-        // res.send({
-        //   message: "Successfully Login",
-        //   userToken: generateUserToken(user),
-        // });
-        res.status(401).send({
-          message: "Failed Login",
+        res.send({
+          message: "Successfully Login",
+          userToken: generateUserToken(user),
         });
+        // res.status(401).send({
+        //   message: "Failed Login",
+        // });
       }
     } else {
       res.status(401).send({
