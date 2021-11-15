@@ -246,11 +246,11 @@ export class NewOrderComponent implements OnInit {
       if (package_order == 'b1t1') {
         const coffee_rebates =
           user?.account_number == referral_account?.account_number
-            ? coffee_ordered * 2 * COFFEE_B1T1_AE_REBATES
+            ? coffee_ordered * COFFEE_B1T1_AE_REBATES
             : 0;
         const soap_rebates =
           user?.account_number == referral_account?.account_number
-            ? soap_ordered * 2 * SOAP_B1T1_AE_REBATES
+            ? soap_ordered * SOAP_B1T1_AE_REBATES
             : 0;
 
         const total_rebates = coffee_rebates + soap_rebates;
@@ -428,15 +428,15 @@ export class NewOrderComponent implements OnInit {
     if (package_order) {
       if (package_order == 'b1t1') {
         return (
-          coffee_ordered * 2 * COFFEE_B1T1_AE_REBATES +
-          soap_ordered * 2 * SOAP_B1T1_AE_REBATES
+          coffee_ordered * COFFEE_B1T1_AE_REBATES +
+          soap_ordered * SOAP_B1T1_AE_REBATES
         );
       }
 
       if (package_order == 'b2t3') {
         return (
-          coffee_ordered * 5 * COFFEE_B2T3_AE_REBATES +
-          soap_ordered * 5 * SOAP_B2T3_AE_REBATES
+          coffee_ordered * COFFEE_B2T3_AE_REBATES +
+          soap_ordered * SOAP_B2T3_AE_REBATES
         );
       }
     }

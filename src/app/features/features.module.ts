@@ -42,6 +42,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { StockInventoryComponent } from './stock-inventory/stock-inventory.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { UpgradeAccountComponent } from './admin/components/upgrade-account/upgrade-account.component';
+import { IncomeHistoryComponent } from './income-history/income-history.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { UpgradeAccountComponent } from './admin/components/upgrade-account/upgr
     StockInventoryComponent,
     UpgradeAccountComponent,
     CashoutDialogComponent,
+    IncomeHistoryComponent,
   ],
   imports: [
     NgxChartsModule,

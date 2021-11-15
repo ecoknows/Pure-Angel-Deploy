@@ -21,6 +21,7 @@ import {
   NotificationsComponent,
   GenealogyComponent,
   SettingComponent,
+  IncomeHistoryComponent,
 } from './features';
 
 const routes: Routes = [
@@ -37,6 +38,11 @@ const routes: Routes = [
   {
     path: 'genealogy',
     component: GenealogyComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: 'incomes',
+    component: IncomeHistoryComponent,
     canActivate: [AuthGuardService],
   },
   // {

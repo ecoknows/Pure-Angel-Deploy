@@ -1,29 +1,29 @@
 import mongoose from "mongoose";
 
-const repeatPurchaseSchema = new mongoose.Schema(
+const soapStockistRepeatPurchase = new mongoose.Schema(
   {
     user_id: { type: String, required: true, index: true },
     first_name: { type: String, required: true },
     last_name: { type: String, required: true },
     address: { type: String },
 
-    user_that_order: {
+    stockist: {
       user_id: { type: String, required: true },
       first_name: { type: String, required: true },
       last_name: { type: String, required: true },
       address: { type: String },
-
-      is_stockist: { type: Boolean },
-      is_admin: { type: Boolean },
-      is_mega_center: { type: Boolean },
     },
 
-    quantity: { type: Number },
-    income: { type: Number, default: 0 },
+    package: { type: String },
+    quantity: { type: Number, required: true, default: 0 },
+    value: { type: Number, required: true, default: 0 },
   },
   { timestamps: true }
 );
 
-const RepeatPurchase = mongoose.model("RepeatPurchase", repeatPurchaseSchema);
+const SoapStockistRepeatPurchase = mongoose.model(
+  "SoapStockistRepeatPurchase",
+  soapStockistRepeatPurchase
+);
 
-export default RepeatPurchase;
+export default SoapStockistRepeatPurchase;

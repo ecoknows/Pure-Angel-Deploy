@@ -44,3 +44,6 @@ export const STOCKIST_REPEAT_PURCHASE_SOAP = 2.5;
 
 export const B1T1_STOCKIST_ENCODE_NEW_ORDER = 10;
 export const B2T3_STOCKIST_ENCODE_NEW_ORDER = 25;
+
+export const COFFEE = "coffee";
+export const SOAP = "soap";
