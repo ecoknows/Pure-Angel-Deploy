@@ -1,0 +1,55 @@
+<ul>
+  <li>
+    Account # :
+    <span> {{ (searchAccount$ | async)?.account_number }} </span>
+  </li>
+  <li>
+    Name :
+    <span>
+      {{ (searchAccount$ | async)?.first_name }}
+      {{ (searchAccount$ | async)?.last_name }}
+    </span>
+  </li>
+  <li>
+    Status :
+    <span *ngIf="(searchAccount$ | async)?.is_mega_center">Mega Center</span>
+    <span *ngIf="(searchAccount$ | async)?.is_stockist">Stockist</span>
+    <span *ngIf="(searchAccount$ | async)?.is_admin">Admin</span>
+    <span
+      *ngIf="
+        (searchAccount$ | async)?.is_stockist == undefined &&
+        (searchAccount$ | async)?.is_mega_center == undefined &&
+        (searchAccount$ | async)?.is_admin == undefined
+      "
+      >Member</span
+    >
+  </li>
+  <li>
+    Package :
+    <span *ngIf="secondFormGroup.get('package')?.value == 'b1t1'"
+      >Buy 1 Take 1</span
+    >
+    <span *ngIf="secondFormGroup.get('package')?.value == 'b2t3'"
+      >Buy 2 Take 3</span
+    >
+  </li>
+
+  <li>
+    Ordered Coffee:
+    <span>{{ orderCoffee() }}</span>
+  </li>
+
+  <li>
+    Ordered Soap:
+    <span>{{ orderSoap() }}</span>
+  </li>
+
+  <li>
+    Total Price:
+    <span
+      >₱ {{ coffeeTotal() | number: "1.2-2" }} + ₱
+      {{ soapTotal() | number: "1.2-2" }} ( ₱
+      {{ total() | number: "1.2-2" }} )</span
+    >
+  </li>
+</ul>

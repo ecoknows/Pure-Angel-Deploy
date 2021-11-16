@@ -7,6 +7,7 @@ import {
   searchGenealogyReducer,
   searchReferralAccountReducer,
   searchPlaceUnderAccountReducer,
+  searchMegaCenterAccountReducer,
 } from './search-account/search-account.reducers';
 
 const reducer: object = {
@@ -14,6 +15,7 @@ const reducer: object = {
   userReducer: userReducer,
   searchAccountReducer: searchAccountReducer,
   searchReferralAccountReducer: searchReferralAccountReducer,
+  searchMegaCenterAccountReducer: searchMegaCenterAccountReducer,
   searchPlaceUnderAccountReducer: searchPlaceUnderAccountReducer,
   searchGenealogyReducer: searchGenealogyReducer,
 };

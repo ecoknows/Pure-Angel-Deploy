@@ -1,0 +1,34 @@
+<ul>
+  <li>
+    <ng-container *ngIf="(user$ | async)?.is_admin"> Admin </ng-container>
+    <ng-container *ngIf="(user$ | async)?.is_mega_center">
+      Mega Center
+    </ng-container>
+    <ng-container *ngIf="(user$ | async)?.is_stockist"> Stockist </ng-container>
+    Income ( For You ) :
+    <span
+      >₱
+      {{
+        totalReceiveIncome(user$ | async, referralUser$ | async)
+          | number: "1.2-2"
+      }}</span
+    >
+  </li>
+  <li>
+    Coffee Rebates :
+    <span>₱ {{ coffeeRebates(user$ | async) | number: "1.2-2" }}</span>
+  </li>
+  <li>
+    Soap Rebates :
+    <span>₱ {{ soapRebates(user$ | async) | number: "1.2-2" }}</span>
+  </li>
+  <li>
+    AE Rebates ( If self referral ) :
+    <span
+      >₱
+      {{
+        AERebates(user$ | async, referralUser$ | async) | number: "1.2-2"
+      }}</span
+    >
+  </li>
+</ul>

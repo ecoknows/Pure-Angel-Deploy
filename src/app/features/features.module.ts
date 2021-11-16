@@ -43,6 +43,10 @@ import { StockInventoryComponent } from './stock-inventory/stock-inventory.compo
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { UpgradeAccountComponent } from './admin/components/upgrade-account/upgrade-account.component';
 import { IncomeHistoryComponent } from './income-history/income-history.component';
+import { BuyerInfoComponent } from './new-order/components/buyer-info/buyer-info.component';
+import { ReferralInfoComponent } from './new-order/components/referral-info/referral-info.component';
+import { SellerInfoComponent } from './new-order/components/seller-info/seller-info.component';
+import { MegaCenterInfoComponent } from './new-order/components/mega-center-info/mega-center-info.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +69,10 @@ import { IncomeHistoryComponent } from './income-history/income-history.componen
     UpgradeAccountComponent,
     CashoutDialogComponent,
     IncomeHistoryComponent,
+    BuyerInfoComponent,
+    ReferralInfoComponent,
+    SellerInfoComponent,
+    MegaCenterInfoComponent,
   ],
   imports: [
     NgxChartsModule,

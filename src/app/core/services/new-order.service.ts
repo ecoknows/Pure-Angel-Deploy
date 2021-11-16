@@ -4,6 +4,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   setSearchAccount,
   setSearchReferralAccount,
+  resetSearchAccount,
+  resetSearchReferralAccount,
+  setSearchMegaCenterAccount,
+  resetSearchMegaCenterAccount,
 } from '@core/redux/search-account/search-account.actions';
 import { UserState } from '@core/redux/user/user.reducer';
 import { environment } from '@env';
@@ -27,8 +31,8 @@ export class NewOrderService {
   order(
     order_info: {
       buyer: string;
-      coffee_ordered: number;
-      soap_ordered: number;
+      coffee_package: number;
+      soap_package: number;
       package: string;
     },
     stepper: any,
@@ -76,11 +80,21 @@ export class NewOrderService {
       );
   }
 
+  resetAccounts() {
+    this.store.dispatch(resetSearchAccount());
+    this.store.dispatch(resetSearchReferralAccount());
+    this.store.dispatch(resetSearchMegaCenterAccount());
+  }
+
   searchAccount(account_number: string, stepper: any) {
     this.http
       .post<{
         message: string;
-        data: { user: UserState; referral_user: UserState };
+        data: {
+          user: UserState;
+          referral_user: UserState;
+          mega_center_user: UserState;
+        };
       }>(
         environment.api + 'api/new-order/search-account',
         {
@@ -104,9 +118,21 @@ export class NewOrderService {
             });
 
             this.store.dispatch(setSearchAccount({ user: data.user }));
-            this.store.dispatch(
-              setSearchReferralAccount({ user: data.referral_user })
-            );
+
+            if (data.referral_user) {
+              this.store.dispatch(
+                setSearchReferralAccount({ user: data.referral_user })
+              );
+              if (data.mega_center_user) {
+                this.store.dispatch(
+                  setSearchMegaCenterAccount({ user: data.mega_center_user })
+                );
+              }
+            } else if (data.mega_center_user) {
+              this.store.dispatch(
+                setSearchReferralAccount({ user: data.mega_center_user })
+              );
+            }
             stepper.next();
           }
         },

@@ -24,6 +24,14 @@ export const resetSearchReferralAccount = createAction(
   '[Reset Referral Account] Reset Account'
 );
 
+export const setSearchMegaCenterAccount = createAction(
+  '[Search Mega Center Account] Set Account',
+  props<{ user: UserState }>()
+);
+export const resetSearchMegaCenterAccount = createAction(
+  '[Reset Mega Center Account] Reset Account'
+);
+
 export const setSearchPlaceUnderAccount = createAction(
   '[Search PlaceUnder Account] Set Account',
   props<{ user: UserState }>()
