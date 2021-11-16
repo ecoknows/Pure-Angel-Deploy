@@ -38,7 +38,11 @@
       </div>
     </div>
 
-    <div class="row">
+    <div
+      class="row"
+      [routerLink]="['/incomes']"
+      [queryParams]="{ income: 'direct-referral' }"
+    >
       <div class="income">
         <h5>Direct Referral</h5>
       </div>
@@ -48,7 +52,11 @@
       </div>
     </div>
 
-    <div class="row">
+    <div
+      class="row"
+      [routerLink]="['/incomes']"
+      [queryParams]="{ income: 'indirect-referral' }"
+    >
       <div class="income">
         <h5>Indirect Referral</h5>
       </div>
@@ -58,7 +66,11 @@
       </div>
     </div>
 
-    <div class="row">
+    <div
+      class="row"
+      [routerLink]="['/incomes']"
+      [queryParams]="{ income: 'pairing-bonus' }"
+    >
       <div class="income">
         <h5>Pairing Bonus</h5>
       </div>
@@ -70,6 +82,8 @@
 
     <div
       class="row"
+      [routerLink]="['/incomes']"
+      [queryParams]="{ income: 'ae-rebates-b1t1' }"
       *ngIf="
         (user$ | async)?.is_admin == undefined ||
         (user$ | async)?.is_admin == false
@@ -89,6 +103,8 @@
 
     <div
       class="row"
+      [routerLink]="['/incomes']"
+      [queryParams]="{ income: 'ae-rebates-b2t3' }"
       *ngIf="
         (user$ | async)?.is_admin == undefined ||
         (user$ | async)?.is_admin == false
@@ -116,6 +132,8 @@
 
     <div
       class="row"
+      [routerLink]="['/incomes']"
+      [queryParams]="{ income: 'new-member' }"
       *ngIf="
         (user$ | async)?.is_mega_center ||
         (user$ | async)?.is_stockist ||
@@ -136,6 +154,8 @@
 
     <div
       class="row"
+      [routerLink]="['/incomes']"
+      [queryParams]="{ income: 'coffee-income' }"
       *ngIf="
         (user$ | async)?.is_mega_center ||
         (user$ | async)?.is_stockist ||
@@ -156,6 +176,8 @@
 
     <div
       class="row"
+      [routerLink]="['/incomes']"
+      [queryParams]="{ income: 'soap-income' }"
       *ngIf="
         (user$ | async)?.is_mega_center ||
         (user$ | async)?.is_stockist ||
@@ -174,7 +196,12 @@
       </div>
     </div>
 
-    <div class="row" *ngIf="(user$ | async)?.is_mega_center">
+    <div
+      class="row"
+      *ngIf="(user$ | async)?.is_mega_center"
+      [routerLink]="['/incomes']"
+      [queryParams]="{ income: 'stockist-new-order-b1t1' }"
+    >
       <div class="income">
         <h5>B1T1 Stockist Encode New Order Income</h5>
       </div>
@@ -190,7 +217,12 @@
       </div>
     </div>
 
-    <div class="row" *ngIf="(user$ | async)?.is_mega_center">
+    <div
+      class="row"
+      *ngIf="(user$ | async)?.is_mega_center"
+      [routerLink]="['/incomes']"
+      [queryParams]="{ income: 'stockist-new-order-b2t3' }"
+    >
       <div class="income">
         <h5>B2T3 Stockist Encode New Order Income</h5>
       </div>
@@ -206,7 +238,12 @@
       </div>
     </div>
 
-    <div class="row" *ngIf="(user$ | async)?.is_mega_center">
+    <div
+      class="row"
+      *ngIf="(user$ | async)?.is_mega_center"
+      [routerLink]="['/incomes']"
+      [queryParams]="{ income: 'stockist-repeat-purchase-coffee' }"
+    >
       <div class="income">
         <h5>Stockist Repeat Purchase Coffee Income</h5>
       </div>
@@ -222,7 +259,12 @@
       </div>
     </div>
 
-    <div class="row" *ngIf="(user$ | async)?.is_mega_center">
+    <div
+      class="row"
+      *ngIf="(user$ | async)?.is_mega_center"
+      [routerLink]="['/incomes']"
+      [queryParams]="{ income: 'stockist-repeat-purchase-soap' }"
+    >
       <div class="income">
         <h5>Stockist Repeat Purchase Soap Income</h5>
       </div>

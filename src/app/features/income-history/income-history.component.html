@@ -1,3 +1,58 @@
 <div class="income-history">
-  <div class="row"></div>
+  <h1 class="legend">
+    <ng-container *ngIf="title == 'indirect-referral'"
+      >Indirect Referral</ng-container
+    >
+    <ng-container *ngIf="title == 'direct-referral'"
+      >Direct Referral</ng-container
+    >
+    <ng-container *ngIf="title == 'pairing-bonus'">Pairing Bonus</ng-container>
+    <ng-container *ngIf="title == 'ae-rebates-b1t1'"
+      >AE Rebates B1T1</ng-container
+    >
+    <ng-container *ngIf="title == 'ae-rebates-b2t3'"
+      >AE Rebates B2T3</ng-container
+    >
+    <ng-container *ngIf="title == 'new-member'">New Member Income</ng-container>
+    <ng-container *ngIf="title == 'coffee-income'">Coffee Income</ng-container>
+    <ng-container *ngIf="title == 'soap-income'">Soap Income</ng-container>
+    <ng-container *ngIf="title == '
+    stockist-new-order-b1t1'"
+      >B1T1 Stockist Encode New Order Income</ng-container
+    >
+    <ng-container *ngIf="title == '
+    stockist-new-order-b2t3'"
+      >B2T3 Stockist Encode New Order Income</ng-container
+    >
+    <ng-container *ngIf="title == '
+    stockist-repeat-purchase-coffee'"
+      >Stockist Repeat Purchase Coffee Income</ng-container
+    >
+    <ng-container *ngIf="title == '
+    stockist-repeat-purchase-soap'"
+      >Stockist Repeat Purchase Soap Income</ng-container
+    >
+  </h1>
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef>Date</th>
+      <td mat-cell *matCellDef="let element">{{ element.date }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="income">
+      <th mat-header-cell *matHeaderCellDef>Income</th>
+      <td mat-cell *matCellDef="let element" class="primary">
+        ₱ {{ element.income | number: "1.2-2" }}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
 </div>

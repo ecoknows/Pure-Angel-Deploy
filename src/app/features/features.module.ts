@@ -47,6 +47,7 @@ import { BuyerInfoComponent } from './new-order/components/buyer-info/buyer-info
 import { ReferralInfoComponent } from './new-order/components/referral-info/referral-info.component';
 import { SellerInfoComponent } from './new-order/components/seller-info/seller-info.component';
 import { MegaCenterInfoComponent } from './new-order/components/mega-center-info/mega-center-info.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -98,6 +99,7 @@ import { MegaCenterInfoComponent } from './new-order/components/mega-center-info
     MatSnackBarModule,
     MatRippleModule,
     MatButtonToggleModule,
+    MatTableModule,
   ],
 })
 export class FeaturesModule {}
