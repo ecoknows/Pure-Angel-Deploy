@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 
 const userVerificationSchema = new mongoose.Schema(
   {
+    account_number: { type: String },
+
     user_id: { type: String, required: true },
     first_name: { type: String, required: true },
     last_name: { type: String, required: true },
@@ -76,6 +78,11 @@ const userVerificationSchema = new mongoose.Schema(
       last_name: { type: String },
       address: { type: String },
     },
+
+    is_stockist: { type: Boolean },
+    is_admin: { type: Boolean },
+    is_mega_center: { type: Boolean },
+    is_owner: { type: Boolean },
   },
   {
     timestamps: true,

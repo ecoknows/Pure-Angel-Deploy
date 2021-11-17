@@ -19,6 +19,8 @@ import NewMemberRouter from "./server/router/new-member.router.js";
 import StockInventoryRouter from "./server/router/stock-inventory.router.js";
 import NewOrderRouter from "./server/router/new-order.router.js";
 import UpgradeAccountRouter from "./server/router/upgrade-account.router.js";
+import IncomeHistoryRouter from "./server/router/income-history.router.js";
+import GivePinToStockistRouter from "./server/router/give-pin-to-stockist.router.js";
 
 const __dirname = path.resolve();
 
@@ -46,7 +48,11 @@ app.use("/api/user-cashouts", UserCashouts);
 
 app.use("/api/aer", AutomaticEquivalentRebatesRouter);
 
+app.use("/api/income-history", IncomeHistoryRouter);
+
 app.use("/api/create-new-pin", CreateNewPinRouter);
+app.use("/api/give-pin-to-stockist", GivePinToStockistRouter);
+
 app.use("/api/upgrade-account", UpgradeAccountRouter);
 app.use("/api/new-member", NewMemberRouter);
 app.use("/api/new-order", NewOrderRouter);

@@ -118,12 +118,12 @@
       </li>
       <li>
         New PINS :
-        <span *ngIf="(searchAccount$ | async)?.ending_pin != undefined"
-          >{{ (searchAccount$ | async)?.secret_code_suffix || 0 }}0{{
-            startingPin(searchAccount$ | async)
+        <span *ngIf="(user$ | async)?.ending_pin != undefined"
+          >{{ (user$ | async)?.secret_code_suffix || 0 }}0{{
+            startingPin(searchAccount$ | async, user$ | async)
           }}
           to {{ (searchAccount$ | async)?.secret_code_suffix || 0 }}0{{
-            endingPin(searchAccount$ | async)
+            endingPin(searchAccount$ | async, user$ | async)
           }}</span
         >
       </li>
@@ -147,7 +147,7 @@
     </ul>
     <div>
       <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="createPIN()">Done</button>
+      <button mat-button (click)="givePIN(stepper)">Done</button>
     </div>
   </mat-step>
 </mat-stepper>

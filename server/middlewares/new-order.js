@@ -40,9 +40,14 @@ export async function initializeNewOrder(req, res, next) {
   const buyer = await UserVerification.findOne({ user_id: body.buyer });
   const seller = await UserVerification.findOne({ user_id: user._id });
 
+  const seller_user = await User.findById(seller.user_id);
+  const buyer_user = await User.findById(buyer.user_id);
+
   if (seller && buyer) {
     req.buyer = buyer;
     req.seller = seller;
+    req.buyer_user = buyer_user;
+    req.seller_user = seller_user;
 
     next();
   } else {
@@ -292,6 +297,8 @@ export async function automaticEquivalentRebatesIncome(req, res, next) {
 export async function purchaseIncome(req, res, next) {
   const seller = req.seller;
   const buyer = req.buyer;
+  const seller_user = req.seller_user;
+  const buyer_user = req.buyer_user;
   const user = req.user;
   const body = req.body;
 
@@ -317,16 +324,16 @@ export async function purchaseIncome(req, res, next) {
       seller.unpaid_income = seller.unpaid_income + total_income;
 
       await CoffeeIncomeRebates(
-        seller,
-        buyer,
+        seller_user,
+        buyer_user,
         "b1t1",
         body.coffee_package,
         coffee_total_income
       );
 
       await SoapIncomeRebates(
-        seller,
-        buyer,
+        seller_user,
+        buyer_user,
         "b1t1",
         body.soap_package,
         soap_total_income
@@ -353,16 +360,16 @@ export async function purchaseIncome(req, res, next) {
       seller.unpaid_income = seller.unpaid_income + total_income;
 
       await CoffeeIncomeRebates(
-        seller,
-        buyer,
+        seller_user,
+        buyer_user,
         "b1t1",
         body.coffee_package,
         coffee_total_income
       );
 
       await SoapIncomeRebates(
-        seller,
-        buyer,
+        seller_user,
+        buyer_user,
         "b1t1",
         body.soap_package,
         soap_total_income
@@ -388,16 +395,16 @@ export async function purchaseIncome(req, res, next) {
       seller.unpaid_income = seller.unpaid_income + total_income;
 
       await CoffeeIncomeRebates(
-        seller,
-        buyer,
+        seller_user,
+        buyer_user,
         "b1t1",
         body.coffee_package,
         coffee_total_income
       );
 
       await SoapIncomeRebates(
-        seller,
-        buyer,
+        seller_user,
+        buyer_user,
         "b1t1",
         body.soap_package,
         soap_total_income
@@ -426,16 +433,16 @@ export async function purchaseIncome(req, res, next) {
       seller.unpaid_income = seller.unpaid_income + total_income;
 
       await CoffeeIncomeRebates(
-        seller,
-        buyer,
+        seller_user,
+        buyer_user,
         "b2t3",
         body.coffee_package,
         coffee_total_income
       );
 
       await SoapIncomeRebates(
-        seller,
-        buyer,
+        seller_user,
+        buyer_user,
         "b2t3",
         body.soap_package,
         soap_total_income
@@ -462,16 +469,16 @@ export async function purchaseIncome(req, res, next) {
       seller.unpaid_income = seller.unpaid_income + total_income;
 
       await CoffeeIncomeRebates(
-        seller,
-        buyer,
+        seller_user,
+        buyer_user,
         "b2t3",
         body.coffee_package,
         coffee_total_income
       );
 
       await SoapIncomeRebates(
-        seller,
-        buyer,
+        seller_user,
+        buyer_user,
         "b2t3",
         body.soap_package,
         soap_total_income
@@ -497,16 +504,16 @@ export async function purchaseIncome(req, res, next) {
       seller.unpaid_income = seller.unpaid_income + total_income;
 
       await CoffeeIncomeRebates(
-        seller,
-        buyer,
+        seller_user,
+        buyer_user,
         "b2t3",
         body.coffee_package,
         coffee_total_income
       );
 
       await SoapIncomeRebates(
-        seller,
-        buyer,
+        seller_user,
+        buyer_user,
         "b2t3",
         body.soap_package,
         soap_total_income
@@ -767,23 +774,25 @@ async function AERebatesCreate(
 }
 
 async function CoffeeIncomeRebates(
-  seller,
-  buyer,
+  seller_user,
+  buyer_user,
   package_type,
   quantity,
   value
 ) {
   const coffeeIncome = await CoffeeIncome({
-    user_id: seller.user_id,
-    first_name: seller.first_name,
-    last_name: seller.last_name,
-    address: seller.address,
+    account_number: seller_user.account_number,
+    user_id: seller_user._id,
+    first_name: seller_user.first_name,
+    last_name: seller_user.last_name,
+    address: seller_user.address,
 
     buyer: {
-      user_id: buyer.user_id,
-      first_name: buyer.first_name,
-      last_name: buyer.last_name,
-      address: buyer.address,
+      account_number: buyer_user.account_number,
+      user_id: buyer_user._id,
+      first_name: buyer_user.first_name,
+      last_name: buyer_user.last_name,
+      address: buyer_user.address,
     },
 
     package: package_type,
@@ -794,18 +803,26 @@ async function CoffeeIncomeRebates(
   await coffeeIncome.save();
 }
 
-async function SoapIncomeRebates(seller, buyer, package_type, quantity, value) {
+async function SoapIncomeRebates(
+  seller_user,
+  buyer_user,
+  package_type,
+  quantity,
+  value
+) {
   const soapIncome = await SoapIncome({
-    user_id: seller.user_id,
-    first_name: seller.first_name,
-    last_name: seller.last_name,
-    address: seller.address,
+    account_number: seller_user.account_number,
+    user_id: seller_user._id,
+    first_name: seller_user.first_name,
+    last_name: seller_user.last_name,
+    address: seller_user.address,
 
     buyer: {
-      user_id: buyer.user_id,
-      first_name: buyer.first_name,
-      last_name: buyer.last_name,
-      address: buyer.address,
+      account_number: buyer_user.account_number,
+      user_id: buyer_user._id,
+      first_name: buyer_user.first_name,
+      last_name: buyer_user.last_name,
+      address: buyer_user.address,
     },
 
     package: package_type,

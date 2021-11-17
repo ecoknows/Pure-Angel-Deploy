@@ -34,6 +34,24 @@
         </li>
 
         <li
+          *ngIf="checkIfMegaCenter"
+          routerLinkActive="active"
+          routerLink="/mega-center"
+          (click)="drawer?.toggle()"
+        >
+          <div class="top-illusion"></div>
+          <div class="icon-container">
+            <div class="icon-illusion">
+              <div>
+                <fa-icon [icon]="userShield" class="icons"></fa-icon>
+                <span>Mega Center</span>
+              </div>
+            </div>
+          </div>
+          <div class="bottom-illusion"></div>
+        </li>
+
+        <li
           *ngIf="checkIfMegaStockAdmin"
           routerLinkActive="active"
           routerLink="/new-member"

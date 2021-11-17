@@ -129,6 +129,7 @@ export async function createChildVerification(req, res, next) {
   const position = req.body.position;
 
   let child_user_verification = new UserVerification({
+    account_number: child_user.account_number,
     user_id: child_user._id,
     first_name: child_user.first_name,
     last_name: child_user.last_name,
@@ -756,23 +757,21 @@ async function createNewMemberIncome(req) {
   const total_income = req.total_income;
 
   const newMemberIncome = await NewMemberIncome({
+    account_number: user.account_number,
     user_id: user._id,
     first_name: user.first_name,
     last_name: user.last_name,
     address: user.address,
 
     new_member: {
+      account_number: child_user.account_number,
       user_id: child_user._id,
       first_name: child_user.first_name,
       last_name: child_user.last_name,
       address: child_user.address,
-
-      is_stockist: child_user.is_stockist,
-      is_admin: child_user.is_admin,
-      is_mega_center: child_user.is_mega_center,
     },
 
-    income: total_income,
+    value: total_income,
   });
 
   await newMemberIncome.save();

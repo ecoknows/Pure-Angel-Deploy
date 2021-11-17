@@ -15,7 +15,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class CreateNewPinService {
+export class GivePinToStockistService {
   snackBarDuration = 2;
 
   constructor(
@@ -36,14 +36,14 @@ export class CreateNewPinService {
         message: string;
         data: { user: UserState; user_verification: UserState };
       }>(
-        environment.api + 'api/create-new-pin/search-account',
+        environment.api + 'api/give-pin-to-stockist/search-account',
         { account_number },
         { headers: this.authService.headers }
       )
       .subscribe(
         (response) => {
           const data = response.data;
-          if (data && data.user.is_mega_center) {
+          if (data && data.user.is_stockist) {
             stepper.next();
             this.store.dispatch(setSearchAccount({ user: data.user }));
             this.store.dispatch(
@@ -78,10 +78,10 @@ export class CreateNewPinService {
       );
   }
 
-  createPin(account_number: string, number_of_pin: number) {
+  givePin(account_number: string, number_of_pin: number, stepper: any) {
     this.http
       .post<{ message: string }>(
-        environment.api + 'api/create-new-pin/assign-pin',
+        environment.api + 'api/give-pin-to-stockist/assign-pin',
         { account_number, number_of_pin },
         { headers: this.authService.headers }
       )
@@ -97,6 +97,7 @@ export class CreateNewPinService {
             },
           });
           this.router.navigate(['/admin']);
+          stepper.reset();
         },
         (error) => {
           this._snackBar.openFromComponent(SnackbarComponent, {

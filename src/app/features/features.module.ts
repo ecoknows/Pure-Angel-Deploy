@@ -48,6 +48,7 @@ import { ReferralInfoComponent } from './new-order/components/referral-info/refe
 import { SellerInfoComponent } from './new-order/components/seller-info/seller-info.component';
 import { MegaCenterInfoComponent } from './new-order/components/mega-center-info/mega-center-info.component';
 import { MatTableModule } from '@angular/material/table';
+import { GivePinStockistComponent } from './mega-center/components/give-pin-stockist/give-pin-stockist.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { MatTableModule } from '@angular/material/table';
     ReferralInfoComponent,
     SellerInfoComponent,
     MegaCenterInfoComponent,
+    GivePinStockistComponent,
   ],
   imports: [
     NgxChartsModule,

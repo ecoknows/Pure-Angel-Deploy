@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserState } from '@core/redux/user/user.reducer';
 import { AuthService } from '@core/services/auth.service';
-import { CreateNewPinService } from '@core/services/create-new-pin.service';
+import { GivePinToStockistService } from '@core/services/give-pin-to-stockist.service';
 import { Store } from '@ngrx/store';
 import {
   COFFEE_PACKAGE_PER_PIN,
@@ -11,11 +11,11 @@ import {
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-create-new-pin',
-  templateUrl: './create-new-pin.component.html',
-  styleUrls: ['./create-new-pin.component.sass'],
+  selector: 'app-give-pin-stockist',
+  templateUrl: './give-pin-stockist.component.html',
+  styleUrls: ['./give-pin-stockist.component.sass'],
 })
-export class CreateNewPinComponent implements OnInit {
+export class GivePinStockistComponent implements OnInit {
   isLinear = true;
   firstFormGroup!: FormGroup;
   secondFormGroup!: FormGroup;
@@ -24,7 +24,7 @@ export class CreateNewPinComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private createNewPinService: CreateNewPinService,
+    private givePinToStockistService: GivePinToStockistService,
     private authService: AuthService,
     private store: Store<{
       searchAccountReducer: UserState;
@@ -50,8 +50,8 @@ export class CreateNewPinComponent implements OnInit {
     const account_number = this.firstFormGroup.get('account_number')?.value;
 
     if (account_number) {
-      this.createNewPinService.resetAccount();
-      this.createNewPinService.searchAccount(account_number, stepper);
+      this.givePinToStockistService.resetAccount();
+      this.givePinToStockistService.searchAccount(account_number, stepper);
     }
   }
 
@@ -59,28 +59,36 @@ export class CreateNewPinComponent implements OnInit {
     const account_number = this.firstFormGroup.get('account_number')?.value;
 
     if (account_number) {
-      this.createNewPinService.searchAccount(account_number, stepper);
+      this.givePinToStockistService.searchAccount(account_number, stepper);
     }
   }
 
-  createPIN() {
+  givePIN(stepper: any) {
     const account_number = this.firstFormGroup.get('account_number')?.value;
     const addedPin = this.secondFormGroup.get('addedPin')?.value;
     if (account_number && addedPin) {
-      this.createNewPinService.createPin(account_number, addedPin);
+      this.givePinToStockistService.givePin(account_number, addedPin, stepper);
     }
   }
 
-  startingPin(user: UserState | null) {
-    if (user && user.ending_pin != undefined) {
-      return user.ending_pin + 1;
+  startingPin(user: UserState | null, mega_center: UserState | null) {
+    if (user && mega_center) {
+      if (user.ending_pin == undefined && user.number_of_pin == undefined) {
+        if (mega_center && mega_center.ending_pin != undefined) {
+          return mega_center.ending_pin + 1;
+        }
+      } else {
+        if (user && user.ending_pin != undefined) {
+          return user.ending_pin + 1;
+        }
+      }
     }
-
     return undefined;
   }
-  endingPin(user: UserState | null) {
+  endingPin(user: UserState | null, mega_center: UserState | null) {
     const addedPin = this.secondFormGroup.get('addedPin')?.value;
-    if (user && addedPin) {
+
+    if (user && addedPin && mega_center) {
       if (user.ending_pin != undefined && user.number_of_pin != undefined) {
         return user.ending_pin + addedPin + user.number_of_pin;
       }
@@ -91,6 +99,14 @@ export class CreateNewPinComponent implements OnInit {
 
       if (user.ending_pin != undefined && user.number_of_pin == undefined) {
         return user.ending_pin + addedPin;
+      }
+
+      if (
+        user.ending_pin == undefined &&
+        user.number_of_pin == undefined &&
+        mega_center.ending_pin
+      ) {
+        return mega_center.ending_pin + addedPin;
       }
     }
 

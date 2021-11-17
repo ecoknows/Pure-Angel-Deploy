@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { IncomeHistoryState } from '@core/redux/income-history/income-history.reducer';
+import { IncomeHistoryService } from '@core/services/income-history.service';
+import { Store } from '@ngrx/store';
+import { ColumnMode } from '@swimlane/ngx-datatable';
+import { Observable } from 'rxjs';
 
 export interface PeriodicElement {
   name: string;
+  middle: string;
   date: string;
   income: number;
 }
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { name: 'Jerico Villaraza', date: '6/15/15, 9:03 AM', income: 400 },
-];
 
 @Component({
   selector: 'app-income-history',
@@ -18,13 +20,33 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class IncomeHistoryComponent implements OnInit {
   displayedColumns: string[] = ['name', 'date', 'income'];
-  dataSource = ELEMENT_DATA;
+
+  dataSource$: Observable<IncomeHistoryState[]>;
+  ColumnMode = ColumnMode;
 
   title!: string | null;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(
+    private route: ActivatedRoute,
+    private incomeHistoryService: IncomeHistoryService,
+    private store: Store<{ incomeHistoryReducer: IncomeHistoryState[] }>
+  ) {
     this.title = this.route.snapshot.queryParamMap.get('income');
+    this.dataSource$ = this.store.select('incomeHistoryReducer');
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.incomeHistoryService.resetIncomeHistory();
+    switch (this.title) {
+      case 'coffee-income':
+        this.incomeHistoryService.fetchCoffeeIncome();
+        break;
+      case 'soap-income':
+        this.incomeHistoryService.fetchSoapIncome();
+        break;
+      case 'new-member':
+        this.incomeHistoryService.fetchNewMemberIncome();
+        break;
+    }
+  }
 }

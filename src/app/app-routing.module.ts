@@ -9,6 +9,7 @@ import { AdminComponent } from '@features/admin/admin.component';
 import { CreateNewPinComponent } from '@features/admin/components/create-new-pin/create-new-pin.component';
 import { UpgradeAccountComponent } from '@features/admin/components/upgrade-account/upgrade-account.component';
 import { AdminGuardService } from '@features/admin/services/admin-guard.service';
+import { GivePinStockistComponent } from '@features/mega-center/components/give-pin-stockist/give-pin-stockist.component';
 import { MegaCenterComponent } from '@features/mega-center/mega-center.component';
 import { MegaCenterGuardService } from '@features/mega-center/services/mega-center-guard.service';
 import { NewMemberComponent } from '@features/new-member/new-member.component';
@@ -45,16 +46,6 @@ const routes: Routes = [
     component: IncomeHistoryComponent,
     canActivate: [AuthGuardService],
   },
-  // {
-  //   path: 'notifications',
-  //   component: NotificationsComponent,
-  //   canActivate: [AuthGuardService],
-  // },
-  // {
-  //   path: 'referrals',
-  //   component: ReferralsComponent,
-  //   canActivate: [AuthGuardService],
-  // },
   {
     path: 'setting',
     component: SettingComponent,
@@ -74,6 +65,16 @@ const routes: Routes = [
     path: 'admin/upgrade-account',
     component: UpgradeAccountComponent,
     canActivate: [AdminGuardService],
+  },
+  {
+    path: 'mega-center',
+    component: MegaCenterComponent,
+    canActivate: [MegaCenterGuardService],
+  },
+  {
+    path: 'mega-center/give-pin-to-stockist',
+    component: GivePinStockistComponent,
+    canActivate: [MegaCenterGuardService],
   },
 
   {

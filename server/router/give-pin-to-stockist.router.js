@@ -1,20 +1,21 @@
 import express from "express";
 import expressAsyncHandler from "express-async-handler";
 import User from "../models/user.model.js";
-import { checkIfAdmin, verifyUserToken } from "../utils.js";
+import { checkIfMegaCenter, verifyUserToken } from "../utils.js";
 
 import {
   initializeAccount,
   checkStock,
-  updateAdminStock,
+  updateMegaCenterStock,
   updatePin,
   updateStock,
-} from "../middlewares/create-new-pin.js";
+} from "../middlewares/give-pin-to-stockist.js";
+
 import UserVerification from "../models/user.verification.model.js";
 
-let CreateNewPinRouter = express.Router();
+let GivePinToStockistRouter = express.Router();
 
-CreateNewPinRouter.post(
+GivePinToStockistRouter.post(
   "/search-account",
   verifyUserToken,
   expressAsyncHandler(async (req, res) => {
@@ -22,7 +23,7 @@ CreateNewPinRouter.post(
       account_number: req.body.account_number,
     });
 
-    if (searched_account && searched_account.is_mega_center) {
+    if (searched_account && searched_account.is_stockist) {
       const user_verification = await UserVerification.findOne({
         user_id: searched_account._id,
       });
@@ -40,18 +41,18 @@ CreateNewPinRouter.post(
   })
 );
 
-CreateNewPinRouter.post(
+GivePinToStockistRouter.post(
   "/assign-pin",
   verifyUserToken,
-  checkIfAdmin,
+  checkIfMegaCenter,
   initializeAccount,
   checkStock,
   updatePin,
   updateStock,
-  updateAdminStock,
+  updateMegaCenterStock,
   expressAsyncHandler(async (req, res) => {
     res.send({ message: "Successfully Updated PIN!" });
   })
 );
 
-export default CreateNewPinRouter;
+export default GivePinToStockistRouter;
