@@ -19,9 +19,28 @@ export interface IncomeHistoryState {
     address?: string;
   };
 
+  user: {
+    // Direct Referral
+    account_number: string;
+    user_id: string;
+    first_name: string;
+    last_name: string;
+    address: string;
+  };
+
+  new_member?: {
+    account_number?: string;
+    user_id?: string;
+    first_name?: string;
+    last_name?: string;
+    address?: string;
+  };
+
   package?: string;
   quantity?: number;
   value?: number;
+  income?: number;
+
   createdAt?: string;
 }
 

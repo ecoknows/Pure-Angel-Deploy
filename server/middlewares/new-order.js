@@ -1,7 +1,6 @@
 import UserVerification from "../models/user.verification.model.js";
 import User from "../models/user.model.js";
 import CoffeeStockistRepeatPurchase from "../models/coffee-stockist-repeat-purchase.model.js";
-import SoapStockistRepeatPurchase from "../models/coffee-stockist-repeat-purchase.model.js";
 import StockistEncodeNewOrder from "../models/stockist-encode-new-order.model.js";
 import CoffeeIncome from "../models/coffee-income.model.js";
 import SoapIncome from "../models/soap-income.model.js";
@@ -32,6 +31,7 @@ import {
 } from "../constants.js";
 import Purchase from "../models/purchase.model.js";
 import AutomaticEquivalentRebates from "../models/automatic-equivalent-rebates.model.js";
+import SoapStockistRepeatPurchase from "../models/soap-stockist-repeat-purchase.model.js";
 
 export async function initializeNewOrder(req, res, next) {
   const body = req.body;
@@ -201,14 +201,15 @@ export async function createPurchase(req, res, next) {
 
 export async function automaticEquivalentRebatesIncome(req, res, next) {
   const buyer = req.buyer;
-  const seller = req.seller;
   const body = req.body;
-
-  const buyer_user = await User.findById(buyer.user_id);
+  const seller_user = req.seller_user;
+  const buyer_user = req.buyer_user;
 
   const referral_verification = await UserVerification.findOne({
     user_id: buyer.user_that_invite.user_id,
   });
+
+  const referral_user = await User.findById(buyer.user_that_invite.user_id);
 
   if (
     referral_verification &&
@@ -232,9 +233,9 @@ export async function automaticEquivalentRebatesIncome(req, res, next) {
         referral_verification.unpaid_income + total_income;
 
       await AERebatesCreate(
-        referral_verification,
-        buyer,
-        seller,
+        referral_user,
+        buyer_user,
+        seller_user,
         "b1t1",
         COFFEE,
         req.coffee_box,
@@ -242,9 +243,9 @@ export async function automaticEquivalentRebatesIncome(req, res, next) {
       );
 
       await AERebatesCreate(
-        referral_verification,
-        buyer,
-        seller,
+        referral_user,
+        buyer_user,
+        seller_user,
         "b1t1",
         SOAP,
         req.soap_box,
@@ -268,9 +269,9 @@ export async function automaticEquivalentRebatesIncome(req, res, next) {
         referral_verification.unpaid_income + total_income;
 
       await AERebatesCreate(
-        referral_verification,
-        buyer,
-        seller,
+        referral_user,
+        buyer_user,
+        seller_user,
         "b2t3",
         COFFEE,
         req.coffee_box,
@@ -278,9 +279,9 @@ export async function automaticEquivalentRebatesIncome(req, res, next) {
       );
 
       await AERebatesCreate(
-        referral_verification,
-        buyer,
-        seller,
+        referral_user,
+        buyer_user,
+        seller_user,
         "b2t3",
         SOAP,
         req.soap_box,
@@ -532,7 +533,7 @@ export async function stockistRepeatPurchase(req, res, next) {
   const coffee_package = body.coffee_package;
   const soap_package = body.soap_package;
 
-  const buyer_user = await User.findById(buyer.user_id);
+  const buyer_user = req.buyer_user;
 
   if (buyer_user.is_stockist) {
     const stockist_mega_center = await User.findOne({
@@ -561,7 +562,7 @@ export async function stockistRepeatPurchase(req, res, next) {
           user_verifaciton_mega_center.unpaid_income + total_income;
 
         await CoffeeStockistRepeatPurchaseRebates(
-          user_verifaciton_mega_center,
+          stockist_mega_center,
           buyer_user,
           "b1t1",
           coffee_package,
@@ -586,7 +587,7 @@ export async function stockistRepeatPurchase(req, res, next) {
           user_verifaciton_mega_center.unpaid_income + total_income;
 
         await SoapStockistRepeatPurchaseRebates(
-          user_verifaciton_mega_center,
+          stockist_mega_center,
           buyer_user,
           "b1t1",
           soap_package,
@@ -612,7 +613,7 @@ export async function stockistRepeatPurchase(req, res, next) {
           user_verifaciton_mega_center.unpaid_income + total_income;
 
         await CoffeeStockistRepeatPurchaseRebates(
-          user_verifaciton_mega_center,
+          stockist_mega_center,
           buyer_user,
           "b2t3",
           coffee_package,
@@ -637,7 +638,7 @@ export async function stockistRepeatPurchase(req, res, next) {
           user_verifaciton_mega_center.unpaid_income + total_income;
 
         await SoapStockistRepeatPurchaseRebates(
-          user_verifaciton_mega_center,
+          stockist_mega_center,
           buyer_user,
           "b2t3",
           soap_package,
@@ -654,6 +655,7 @@ export async function stockistRepeatPurchase(req, res, next) {
 
 export async function stockistEncodeNewOrder(req, res, next) {
   const seller = req.seller;
+  const seller_user = req.seller_user;
   const user = req.user;
   const body = req.body;
   const coffee_package = body.coffee_package;
@@ -692,8 +694,8 @@ export async function stockistEncodeNewOrder(req, res, next) {
             mega_center_verification.unpaid_income + total_income;
 
           await StockistEncodeNewOrderRebates(
-            mega_center_verification,
-            seller,
+            mega_center_user,
+            seller_user,
             "b1t1",
             coffee_package,
             total_income
@@ -720,8 +722,8 @@ export async function stockistEncodeNewOrder(req, res, next) {
             mega_center_verification.unpaid_income + total_income;
 
           await StockistEncodeNewOrderRebates(
-            mega_center_verification,
-            seller,
+            mega_center_user,
+            seller_user,
             "b2t3",
             coffee_package,
             total_income
@@ -745,20 +747,23 @@ async function AERebatesCreate(
   value
 ) {
   const aeRebates = await AutomaticEquivalentRebates({
-    user_id: referral_user.user_id,
+    account_number: referral_user.account_number,
+    user_id: referral_user._id,
     first_name: referral_user.first_name,
     last_name: referral_user.last_name,
     address: referral_user.address,
 
     buyer: {
-      user_id: buyer.user_id,
+      account_number: referral_user.account_number,
+      user_id: buyer._id,
       first_name: buyer.first_name,
       last_name: buyer.last_name,
       address: buyer.address,
     },
 
     seller: {
-      user_id: seller.user_id,
+      account_number: referral_user.account_number,
+      user_id: seller._id,
       first_name: seller.first_name,
       last_name: seller.last_name,
       address: seller.address,
@@ -841,12 +846,14 @@ async function CoffeeStockistRepeatPurchaseRebates(
   value
 ) {
   const coffeeStockistRP = await CoffeeStockistRepeatPurchase({
-    user_id: mega_center.user_id,
+    account_number: mega_center.account_number,
+    user_id: mega_center._id,
     first_name: mega_center.first_name,
     last_name: mega_center.last_name,
     address: mega_center.address,
 
     stockist: {
+      account_number: stockist.account_number,
       user_id: stockist._id,
       first_name: stockist.first_name,
       last_name: stockist.last_name,
@@ -869,12 +876,14 @@ async function SoapStockistRepeatPurchaseRebates(
   value
 ) {
   const soapStockistRP = await SoapStockistRepeatPurchase({
-    user_id: mega_center.user_id,
+    account_number: mega_center.account_number,
+    user_id: mega_center._id,
     first_name: mega_center.first_name,
     last_name: mega_center.last_name,
     address: mega_center.address,
 
     stockist: {
+      account_number: stockist.account_number,
       user_id: stockist._id,
       first_name: stockist.first_name,
       last_name: stockist.last_name,
@@ -897,13 +906,15 @@ async function StockistEncodeNewOrderRebates(
   value
 ) {
   const stockistEncodeNewOrder = await StockistEncodeNewOrder({
-    user_id: mega_center.user_id,
+    account_number: mega_center.account_number,
+    user_id: mega_center._id,
     first_name: mega_center.first_name,
     last_name: mega_center.first_name,
     address: mega_center.address,
 
     stockist: {
-      user_id: stockist.user_id,
+      account_number: stockist.account_number,
+      user_id: stockist._id,
       first_name: stockist.first_name,
       last_name: stockist.last_name,
       address: stockist.address,

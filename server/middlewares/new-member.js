@@ -336,6 +336,7 @@ export async function addDirectReferral(req, res, next) {
   const child_user = req.child_user;
 
   const newDirectReferral = new DirectReferral({
+    account_number: referral_user.account_number,
     user_id: referral_user._id,
     first_name: referral_user.first_name,
     last_name: referral_user.last_name,
@@ -349,11 +350,14 @@ export async function addDirectReferral(req, res, next) {
     },
 
     user: {
+      account_number: child_user.account_number,
       user_id: child_user._id,
       first_name: child_user.first_name,
       last_name: child_user.last_name,
       address: child_user.address,
     },
+
+    value: DIRECT_REFERRAL_PAYMENT,
   });
 
   await newDirectReferral.save();
@@ -554,12 +558,14 @@ async function addIndirectReferral(
     user_that_invite._id != indirect_referral_user._id
   ) {
     const newIndirectReferral = await new IndirectReferral({
+      account_number: indirect_referral_user.account_number,
       user_id: indirect_referral_user._id,
       first_name: indirect_referral_user.first_name,
       last_name: indirect_referral_user.last_name,
       address: indirect_referral_user.address,
 
       user_that_invite: {
+        account_number: current_user.account_number,
         user_id: current_user._id,
         first_name: current_user.first_name,
         last_name: current_user.last_name,
@@ -567,13 +573,14 @@ async function addIndirectReferral(
       },
 
       user: {
+        account_number: child_user.account_number,
         user_id: child_user._id,
         first_name: child_user.first_name,
         last_name: child_user.last_name,
         address: child_user.address,
       },
 
-      income: 0,
+      value: INDIRECT_REFERRAL_PAYMENT,
     });
 
     await newIndirectReferral.save();
@@ -595,6 +602,8 @@ async function addPairingBonus(child_user, new_root_user) {
     user_id: new_user_genealogy.user_id,
   });
 
+  const rooUser = await User.findById(new_user_genealogy.user_id);
+
   if (rootUserVerification) {
     if (new_user_genealogy.position == "left") {
       const checkIfThereIsLeft = await PairingBonus.findOne({
@@ -604,6 +613,7 @@ async function addPairingBonus(child_user, new_root_user) {
 
       if (checkIfThereIsLeft) {
         checkIfThereIsLeft.left = {
+          account_number: child_user.account_number,
           user_id: child_user._id,
           first_name: child_user.first_name,
           last_name: child_user.last_name,
@@ -613,17 +623,21 @@ async function addPairingBonus(child_user, new_root_user) {
         await checkIfThereIsLeft.save();
       } else {
         const newPairing = new PairingBonus({
-          user_id: rootUserVerification.user_id,
-          first_name: rootUserVerification.first_name,
-          last_name: rootUserVerification.last_name,
-          address: rootUserVerification.address,
+          account_number: rooUser.account_number,
+          user_id: rooUser._id,
+          first_name: rooUser.first_name,
+          last_name: rooUser.last_name,
+          address: rooUser.address,
 
           left: {
+            account_number: child_user.account_number,
             user_id: child_user._id,
             first_name: child_user.first_name,
             last_name: child_user.last_name,
             address: child_user.address,
           },
+
+          value: PAIRING_BONUS_PAYMENT,
         });
 
         await newPairing.save();
@@ -639,6 +653,7 @@ async function addPairingBonus(child_user, new_root_user) {
 
       if (checkIfThereIsRight) {
         checkIfThereIsRight.right = {
+          account_number: child_user.account_number,
           user_id: child_user._id,
           first_name: child_user.first_name,
           last_name: child_user.last_name,
@@ -648,17 +663,21 @@ async function addPairingBonus(child_user, new_root_user) {
         await checkIfThereIsRight.save();
       } else {
         const newPairing = new PairingBonus({
-          user_id: rootUserVerification.user_id,
-          first_name: rootUserVerification.first_name,
-          last_name: rootUserVerification.last_name,
-          address: rootUserVerification.address,
+          account_number: rooUser.account_number,
+          user_id: rooUser._id,
+          first_name: rooUser.first_name,
+          last_name: rooUser.last_name,
+          address: rooUser.address,
 
           right: {
+            account_number: child_user.account_number,
             user_id: child_user._id,
             first_name: child_user.first_name,
             last_name: child_user.last_name,
             address: child_user.address,
           },
+
+          value: PAIRING_BONUS_PAYMENT,
         });
 
         await newPairing.save();

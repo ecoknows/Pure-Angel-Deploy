@@ -2,12 +2,14 @@ import mongoose from "mongoose";
 
 const pairingBonusSchema = new mongoose.Schema(
   {
+    account_number: { type: String },
     user_id: { type: String, required: true, index: true },
     first_name: { type: String, required: true },
     last_name: { type: String, required: true },
     address: { type: String },
 
     left: {
+      account_number: { type: String },
       user_id: { type: String, index: true },
       first_name: { type: String },
       last_name: { type: String },
@@ -15,6 +17,7 @@ const pairingBonusSchema = new mongoose.Schema(
     },
 
     right: {
+      account_number: { type: String },
       user_id: { type: String, index: true },
       first_name: { type: String },
       last_name: { type: String },
@@ -22,8 +25,7 @@ const pairingBonusSchema = new mongoose.Schema(
     },
 
     payed: { type: Boolean, default: false },
-    income_type: { type: String },
-    income: { type: Number, default: 0 },
+    value: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

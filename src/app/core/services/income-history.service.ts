@@ -80,4 +80,159 @@ export class IncomeHistoryService {
         (error) => {}
       );
   }
+
+  fetchAERebatesB1t1() {
+    this.http
+      .get<{ message: string; data: IncomeHistoryState[] }>(
+        environment.api + 'api/income-history/ae-rebates-b1t1',
+        { headers: this.authService.headers }
+      )
+      .subscribe(
+        (response) => {
+          const data = response.data;
+          if (data) {
+            console.log(data);
+
+            this.store.dispatch(setListIncomeHistory({ list: data }));
+          }
+        },
+        (error) => {}
+      );
+  }
+
+  fetchAERebatesB2t3() {
+    this.http
+      .get<{ message: string; data: IncomeHistoryState[] }>(
+        environment.api + 'api/income-history/ae-rebates-b2t3',
+        { headers: this.authService.headers }
+      )
+      .subscribe(
+        (response) => {
+          const data = response.data;
+          if (data) {
+            this.store.dispatch(setListIncomeHistory({ list: data }));
+          }
+        },
+        (error) => {}
+      );
+  }
+
+  fetchDirectReferral() {
+    this.http
+      .get<{ message: string; data: IncomeHistoryState[] }>(
+        environment.api + 'api/income-history/direct-referral',
+        { headers: this.authService.headers }
+      )
+      .subscribe(
+        (response) => {
+          const data = response.data;
+          if (data) {
+            this.store.dispatch(setListIncomeHistory({ list: data }));
+          }
+        },
+        (error) => {}
+      );
+  }
+
+  fetchIndirectReferral() {
+    this.http
+      .get<{ message: string; data: IncomeHistoryState[] }>(
+        environment.api + 'api/income-history/indirect-referral',
+        { headers: this.authService.headers }
+      )
+      .subscribe(
+        (response) => {
+          const data = response.data;
+          if (data) {
+            this.store.dispatch(setListIncomeHistory({ list: data }));
+          }
+        },
+        (error) => {}
+      );
+  }
+
+  fetchPairingBonus() {
+    this.http
+      .get<{ message: string; data: IncomeHistoryState[] }>(
+        environment.api + 'api/income-history/pairing-bonus',
+        { headers: this.authService.headers }
+      )
+      .subscribe(
+        (response) => {
+          const data = response.data;
+          if (data) {
+            this.store.dispatch(setListIncomeHistory({ list: data }));
+          }
+        },
+        (error) => {}
+      );
+  }
+
+  fetchStockistEncodeNewOrderB1t1() {
+    this.http
+      .get<{ message: string; data: IncomeHistoryState[] }>(
+        environment.api + 'api/income-history/stockist-new-order-b1t1',
+        { headers: this.authService.headers }
+      )
+      .subscribe(
+        (response) => {
+          const data = response.data;
+          if (data) {
+            this.store.dispatch(setListIncomeHistory({ list: data }));
+          }
+        },
+        (error) => {}
+      );
+  }
+
+  fetchStockistEncodeNewOrderB2t3() {
+    this.http
+      .get<{ message: string; data: IncomeHistoryState[] }>(
+        environment.api + 'api/income-history/stockist-new-order-b2t3',
+        { headers: this.authService.headers }
+      )
+      .subscribe(
+        (response) => {
+          const data = response.data;
+          if (data) {
+            this.store.dispatch(setListIncomeHistory({ list: data }));
+          }
+        },
+        (error) => {}
+      );
+  }
+
+  fetchStockistRepeatPurchaseCoffee() {
+    this.http
+      .get<{ message: string; data: IncomeHistoryState[] }>(
+        environment.api + 'api/income-history/stockist-repeat-purchase-coffee',
+        { headers: this.authService.headers }
+      )
+      .subscribe(
+        (response) => {
+          const data = response.data;
+          if (data) {
+            this.store.dispatch(setListIncomeHistory({ list: data }));
+          }
+        },
+        (error) => {}
+      );
+  }
+
+  fetchStockistRepeatPurchaseSoap() {
+    this.http
+      .get<{ message: string; data: IncomeHistoryState[] }>(
+        environment.api + 'api/income-history/stockist-repeat-purchase-soap',
+        { headers: this.authService.headers }
+      )
+      .subscribe(
+        (response) => {
+          const data = response.data;
+          if (data) {
+            this.store.dispatch(setListIncomeHistory({ list: data }));
+          }
+        },
+        (error) => {}
+      );
+  }
 }

@@ -16,20 +16,16 @@
     <ng-container *ngIf="title == 'new-member'">New Member Income</ng-container>
     <ng-container *ngIf="title == 'coffee-income'">Coffee Income</ng-container>
     <ng-container *ngIf="title == 'soap-income'">Soap Income</ng-container>
-    <ng-container *ngIf="title == '
-    stockist-new-order-b1t1'"
+    <ng-container *ngIf="title == 'stockist-new-order-b1t1'"
       >B1T1 Stockist Encode New Order Income</ng-container
     >
-    <ng-container *ngIf="title == '
-    stockist-new-order-b2t3'"
+    <ng-container *ngIf="title == 'stockist-new-order-b2t3'"
       >B2T3 Stockist Encode New Order Income</ng-container
     >
-    <ng-container *ngIf="title == '
-    stockist-repeat-purchase-coffee'"
+    <ng-container *ngIf="title == 'stockist-repeat-purchase-coffee'"
       >Stockist Repeat Purchase Coffee Income</ng-container
     >
-    <ng-container *ngIf="title == '
-    stockist-repeat-purchase-soap'"
+    <ng-container *ngIf="title == 'stockist-repeat-purchase-soap'"
       >Stockist Repeat Purchase Soap Income</ng-container
     >
   </h1>
@@ -44,7 +40,14 @@
     [scrollbarH]="true"
     [rows]="dataSource$ | async"
   >
-    <ng-container *ngIf="title == 'soap-income' || title == 'coffee-income'">
+    <ng-container
+      *ngIf="
+        title == 'soap-income' ||
+        title == 'coffee-income' ||
+        title == 'ae-rebates-b1t1' ||
+        title == 'ae-rebates-b2t3'
+      "
+    >
       <ngx-datatable-column name="Buyer">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{ row.buyer.first_name }} {{ row.buyer.last_name }}
@@ -61,6 +64,53 @@
           {{ row.new_member.first_name }} {{ row.new_member.last_name }}
           <div class="primary">
             {{ row.new_member.account_number }}
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ng-container>
+
+    <ng-container
+      *ngIf="title == 'direct-referral' || title == 'indirect-referral'"
+    >
+      <ngx-datatable-column name="Referral Account">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{ row.user.first_name }} {{ row.user.last_name }}
+          <div class="primary">
+            {{ row.user.account_number }}
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ng-container>
+
+    <ng-container *ngIf="title == 'pairing-bonus'">
+      <ngx-datatable-column name="Left and Right Account">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{ row.left.first_name }} {{ row.left.last_name }}
+          <div class="primary">
+            {{ row.left.account_number }}
+          </div>
+
+          {{ row.right.first_name }} {{ row.right.last_name }}
+          <div class="primary">
+            {{ row.right.account_number }}
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ng-container>
+
+    <ng-container
+      *ngIf="
+        title == 'stockist-new-order-b1t1' ||
+        title == 'stockist-new-order-b2t3' ||
+        title == 'stockist-repeat-purchase-coffee' ||
+        title == 'stockist-repeat-purchase-soap'
+      "
+    >
+      <ngx-datatable-column name="Stockist">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{ row.stockist.first_name }} {{ row.stockist.last_name }}
+          <div class="primary">
+            {{ row.stockist.account_number }}
           </div>
         </ng-template>
       </ngx-datatable-column>

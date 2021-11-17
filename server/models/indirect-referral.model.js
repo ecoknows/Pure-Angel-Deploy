@@ -1,12 +1,14 @@
 import mongoose from "mongoose";
 
 const indirectReferralSchema = new mongoose.Schema({
+  account_number: { type: String },
   user_id: { type: String, required: true, index: true },
   first_name: { type: String, required: true },
   last_name: { type: String, required: true },
   address: { type: String },
 
   user_that_invite: {
+    account_number: { type: String },
     user_id: { type: String, required: true, index: true },
     first_name: { type: String, required: true },
     last_name: { type: String, required: true },
@@ -14,13 +16,14 @@ const indirectReferralSchema = new mongoose.Schema({
   },
 
   user: {
+    account_number: { type: String },
     user_id: { type: String, required: true, index: true },
     first_name: { type: String, required: true },
     last_name: { type: String, required: true },
     address: { type: String },
   },
 
-  income: { type: Number, default: 0 },
+  value: { type: Number, default: 0 },
 });
 
 const IndirectReferral = mongoose.model(
