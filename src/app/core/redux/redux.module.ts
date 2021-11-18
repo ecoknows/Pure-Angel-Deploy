@@ -10,6 +10,7 @@ import {
   searchMegaCenterAccountReducer,
 } from './search-account/search-account.reducers';
 import { incomeHistoryReducer } from './income-history/income-history.reducer';
+import { pinHistoryReducer } from './pin-history/pin-history.reducer';
 
 const reducer: object = {
   genealogyReducer: genealogyReducer,
@@ -20,6 +21,7 @@ const reducer: object = {
   searchPlaceUnderAccountReducer: searchPlaceUnderAccountReducer,
   searchGenealogyReducer: searchGenealogyReducer,
   incomeHistoryReducer: incomeHistoryReducer,
+  pinHistoryReducer: pinHistoryReducer,
 };
 
 @NgModule({

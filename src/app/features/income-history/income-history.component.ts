@@ -8,13 +8,6 @@ import { Store } from '@ngrx/store';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { Observable } from 'rxjs';
 
-export interface PeriodicElement {
-  name: string;
-  middle: string;
-  date: string;
-  income: number;
-}
-
 @Component({
   selector: 'app-income-history',
   templateUrl: './income-history.component.html',

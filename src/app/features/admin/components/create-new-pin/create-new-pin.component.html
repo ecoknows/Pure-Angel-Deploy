@@ -1,6 +1,11 @@
 <div class="create-pin">
   <div class="legend">
-    View PIN History : <span matRipple><strong> Click Here </strong></span>
+    <div>
+      <strong>View PIN History :</strong>
+      <span matRipple class="click-here" routerLink="pin-history"
+        ><strong> Click Here </strong></span
+      >
+    </div>
   </div>
 
   <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>

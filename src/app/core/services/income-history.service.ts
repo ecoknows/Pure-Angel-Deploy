@@ -8,7 +8,6 @@ import {
 import { IncomeHistoryState } from '@core/redux/income-history/income-history.reducer';
 import { environment } from '@env';
 import { Store } from '@ngrx/store';
-import { SnackbarComponent } from '@shared/components';
 import { AuthService } from './auth.service';
 
 @Injectable({

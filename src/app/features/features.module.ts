@@ -50,7 +50,6 @@ import { MegaCenterInfoComponent } from './new-order/components/mega-center-info
 import { MatTableModule } from '@angular/material/table';
 import { GivePinStockistComponent } from './mega-center/components/give-pin-stockist/give-pin-stockist.component';
 import { PinHistoryComponent } from './admin/components/create-new-pin/components/pin-history/pin-history.component';
-
 @NgModule({
   declarations: [
     DashboardComponent,

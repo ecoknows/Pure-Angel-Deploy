@@ -18,6 +18,12 @@
         {{ pinRange(user$ | async) }}
       </span>
     </div>
+    <div style="margin-top: 5px">
+      <strong>View PIN History :</strong>
+      <span matRipple class="click-here" routerLink="pin-history"
+        ><strong> Click Here </strong></span
+      >
+    </div>
   </div>
 
   <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>

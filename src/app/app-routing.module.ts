@@ -7,6 +7,7 @@ import { AuthService } from '@core/services/auth.service';
 import { MegaStockAdminGuardService } from '@core/services/mega-stock-admin-guard.service';
 import { AdminComponent } from '@features/admin/admin.component';
 import { CreateNewPinComponent } from '@features/admin/components/create-new-pin/create-new-pin.component';
+import { PinHistoryComponent } from '@features/admin/components/create-new-pin/components/pin-history/pin-history.component';
 import { UpgradeAccountComponent } from '@features/admin/components/upgrade-account/upgrade-account.component';
 import { AdminGuardService } from '@features/admin/services/admin-guard.service';
 import { GivePinStockistComponent } from '@features/mega-center/components/give-pin-stockist/give-pin-stockist.component';
@@ -62,6 +63,11 @@ const routes: Routes = [
     canActivate: [AdminGuardService],
   },
   {
+    path: 'admin/create-new-pin/pin-history',
+    component: PinHistoryComponent,
+    canActivate: [AdminGuardService],
+  },
+  {
     path: 'admin/upgrade-account',
     component: UpgradeAccountComponent,
     canActivate: [AdminGuardService],
@@ -76,7 +82,11 @@ const routes: Routes = [
     component: GivePinStockistComponent,
     canActivate: [MegaCenterGuardService],
   },
-
+  {
+    path: 'mega-center/give-pin-to-stockist/pin-history',
+    component: PinHistoryComponent,
+    canActivate: [MegaCenterGuardService],
+  },
   {
     path: 'new-member',
     component: NewMemberComponent,
