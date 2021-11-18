@@ -35,6 +35,9 @@ NewOrderRouter.post(
           secret_code_suffix: user_search.secret_code_suffix,
           is_mega_center: true,
         });
+        if (user.is_stockist) {
+          referral_user = mega_center_user;
+        }
       } else {
         if (user.is_stockist) {
           mega_center_user = await User.findOne({

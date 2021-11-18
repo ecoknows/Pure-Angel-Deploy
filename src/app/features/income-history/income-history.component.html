@@ -1,34 +1,68 @@
 <div class="income-history">
-  <h1 class="legend">
-    <ng-container *ngIf="title == 'indirect-referral'"
-      >Indirect Referral</ng-container
-    >
-    <ng-container *ngIf="title == 'direct-referral'"
-      >Direct Referral</ng-container
-    >
-    <ng-container *ngIf="title == 'pairing-bonus'">Pairing Bonus</ng-container>
-    <ng-container *ngIf="title == 'ae-rebates-b1t1'"
-      >AE Rebates B1T1</ng-container
-    >
-    <ng-container *ngIf="title == 'ae-rebates-b2t3'"
-      >AE Rebates B2T3</ng-container
-    >
-    <ng-container *ngIf="title == 'new-member'">New Member Income</ng-container>
-    <ng-container *ngIf="title == 'coffee-income'">Coffee Income</ng-container>
-    <ng-container *ngIf="title == 'soap-income'">Soap Income</ng-container>
-    <ng-container *ngIf="title == 'stockist-new-order-b1t1'"
-      >B1T1 Stockist Encode New Order Income</ng-container
-    >
-    <ng-container *ngIf="title == 'stockist-new-order-b2t3'"
-      >B2T3 Stockist Encode New Order Income</ng-container
-    >
-    <ng-container *ngIf="title == 'stockist-repeat-purchase-coffee'"
-      >Stockist Repeat Purchase Coffee Income</ng-container
-    >
-    <ng-container *ngIf="title == 'stockist-repeat-purchase-soap'"
-      >Stockist Repeat Purchase Soap Income</ng-container
-    >
-  </h1>
+  <div class="legend">
+    <h1>
+      <ng-container *ngIf="title == 'indirect-referral'"
+        >Indirect Referral</ng-container
+      >
+      <ng-container *ngIf="title == 'direct-referral'"
+        >Direct Referral</ng-container
+      >
+      <ng-container *ngIf="title == 'pairing-bonus'"
+        >Pairing Bonus</ng-container
+      >
+      <ng-container *ngIf="title == 'ae-rebates-b1t1'"
+        >AE Rebates B1T1</ng-container
+      >
+      <ng-container *ngIf="title == 'ae-rebates-b2t3'"
+        >AE Rebates B2T3</ng-container
+      >
+      <ng-container *ngIf="title == 'new-member'"
+        >New Member Income</ng-container
+      >
+      <ng-container *ngIf="title == 'coffee-income'"
+        >Coffee Income</ng-container
+      >
+      <ng-container *ngIf="title == 'soap-income'">Soap Income</ng-container>
+      <ng-container *ngIf="title == 'stockist-new-order-b1t1'"
+        >B1T1 Stockist Encode New Order Income</ng-container
+      >
+      <ng-container *ngIf="title == 'stockist-new-order-b2t3'"
+        >B2T3 Stockist Encode New Order Income</ng-container
+      >
+      <ng-container *ngIf="title == 'stockist-repeat-purchase-coffee'"
+        >Stockist Repeat Purchase Coffee Income</ng-container
+      >
+      <ng-container *ngIf="title == 'stockist-repeat-purchase-soap'"
+        >Stockist Repeat Purchase Soap Income</ng-container
+      >
+      <ng-container *ngIf="title == 'total-income'">Total Income</ng-container>
+      <ng-container *ngIf="title == 'unclaimed-income'"
+        >Unclaimed Income</ng-container
+      >
+      <ng-container *ngIf="title == 'product-voucher'"
+        >Product Voucher</ng-container
+      >
+    </h1>
+
+    <ng-container *ngIf="title == 'unclaimed-income'">
+      <ul>
+        <li>
+          Total Income :
+          <span
+            >₱
+            {{ (user$ | async)?.overall_income | number: "1.2-2" }}
+          </span>
+        </li>
+        <li>
+          Unclaimed Income :
+          <span
+            >₱
+            {{ (user$ | async)?.unpaid_income | number: "1.2-2" }}
+          </span>
+        </li>
+      </ul>
+    </ng-container>
+  </div>
 
   <ngx-datatable
     class="material fullscreen"
@@ -82,8 +116,10 @@
       </ngx-datatable-column>
     </ng-container>
 
-    <ng-container *ngIf="title == 'pairing-bonus'">
-      <ngx-datatable-column name="Left and Right Account">
+    <ng-container
+      *ngIf="title == 'pairing-bonus' || title == 'product-voucher'"
+    >
+      <ngx-datatable-column name="Pair Accounts">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{ row.left.first_name }} {{ row.left.last_name }}
           <div class="primary">
@@ -112,6 +148,16 @@
           <div class="primary">
             {{ row.stockist.account_number }}
           </div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ng-container>
+
+    <ng-container
+      *ngIf="title == 'total-income' || title == 'unclaimed-income'"
+    >
+      <ngx-datatable-column name="Income Name">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{ row.type }}
         </ng-template>
       </ngx-datatable-column>
     </ng-container>

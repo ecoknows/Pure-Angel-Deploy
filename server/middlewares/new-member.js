@@ -1,6 +1,7 @@
 import Genealogy from "../models/genealogy.model.js";
 import User from "../models/user.model.js";
 import UserVerification from "../models/user.verification.model.js";
+import TotalIncome from "../models/total-income.model.js";
 import { nanoid } from "nanoid";
 
 import bcrypt from "bcryptjs";
@@ -21,6 +22,7 @@ import {
 import IndirectReferral from "../models/indirect-referral.model.js";
 import PairingBonus from "../models/pairing-bonus.model.js";
 import NewMemberIncome from "../models/new-member-income.model.js";
+import ProductVoucher from "../models/product-voucher.model.js";
 
 import moment from "moment";
 
@@ -410,11 +412,19 @@ export async function payDirectReferral(req, res, next) {
   });
 
   if (user_that_invite) {
+    const user_that_invite_user = await User.findById(user_that_invite.user_id);
+
     user_that_invite.direct_referral =
       user_that_invite.direct_referral + DIRECT_REFERRAL_PAYMENT;
 
     user_that_invite.overall_income =
       user_that_invite.overall_income + DIRECT_REFERRAL_PAYMENT;
+
+    await createTotalIncome(
+      user_that_invite_user,
+      "Direct Referral",
+      DIRECT_REFERRAL_PAYMENT
+    );
 
     await user_that_invite.save();
   }
@@ -511,6 +521,8 @@ export async function newMemberIncome(req, res, next) {
 
       user_verification.unpaid_income =
         user_verification.unpaid_income + total_income;
+
+      await createTotalIncome(user, "New Member Income", total_income);
     } else {
       user_verification.new_member_income = total_income;
 
@@ -519,6 +531,7 @@ export async function newMemberIncome(req, res, next) {
 
       user_verification.unpaid_income =
         user_verification.unpaid_income + total_income;
+      await createTotalIncome(user, "New Member Income", total_income);
     }
 
     await user_verification.save();
@@ -733,33 +746,35 @@ async function indirectReferralRecursion(
   id_of_the_indirect_referral,
   count
 ) {
-  const indirect_referral_user = await UserVerification.findOne({
+  const indirect_referral_verification = await UserVerification.findOne({
     user_id: id_of_the_indirect_referral,
   });
 
-  if (indirect_referral_user && count < INDIRECT_REFERRAL_LIMIT) {
+  const indirect_referral_user = await User.findById(
+    id_of_the_indirect_referral
+  );
+
+  if (indirect_referral_verification && count < INDIRECT_REFERRAL_LIMIT) {
     if (user_to_verify.verified) {
-      indirect_referral_user.indirect_referral =
-        indirect_referral_user.indirect_referral + INDIRECT_REFERRAL_PAYMENT;
+      indirect_referral_verification.indirect_referral =
+        indirect_referral_verification.indirect_referral +
+        INDIRECT_REFERRAL_PAYMENT;
 
-      indirect_referral_user.overall_income =
-        indirect_referral_user.overall_income + INDIRECT_REFERRAL_PAYMENT;
+      indirect_referral_verification.overall_income =
+        indirect_referral_verification.overall_income +
+        INDIRECT_REFERRAL_PAYMENT;
 
-      indirect_referral_user.unpaid_income =
-        indirect_referral_user.unpaid_income + INDIRECT_REFERRAL_PAYMENT;
+      indirect_referral_verification.unpaid_income =
+        indirect_referral_verification.unpaid_income +
+        INDIRECT_REFERRAL_PAYMENT;
 
-      const updateIndirectReferral = await IndirectReferral.findOne({
-        user_id: indirect_referral_user.user_id,
-        "user_that_invite.user_id": user_to_verify.user_that_invite.user_id,
-        "user.user_id": user_to_verify.user_id,
-      });
+      await createTotalIncome(
+        indirect_referral_user,
+        "Indirect Referral",
+        INDIRECT_REFERRAL_PAYMENT
+      );
 
-      if (updateIndirectReferral) {
-        updateIndirectReferral.income = INDIRECT_REFERRAL_PAYMENT;
-        await updateIndirectReferral.save();
-      }
-
-      const indirect_user = await indirect_referral_user.save();
+      const indirect_user = await indirect_referral_verification.save();
 
       await indirectReferralRecursion(
         user_to_verify,
@@ -820,13 +835,12 @@ async function updatePairingStatus(user, pairingBonus) {
     user.product_voucher =
       user.product_voucher + PAIRING_PRODUCT_VOUCHER_PAYMENT;
 
-    pairingBonus.income = PAIRING_BONUS_PAYMENT;
-
-    pairingBonus.income_type = PRODUCT_VOUCHER_TYPE;
     pairingBonus.payed = true;
 
     await pairingBonus.save();
     await user.save();
+
+    await createProductVoucher(pairingBonus);
   } else if (days > 0 || days == null) {
     user.starting_date_of_first_paired = undefined;
 
@@ -838,10 +852,79 @@ async function updatePairingStatus(user, pairingBonus) {
     user.overall_income = user.overall_income + PAIRING_BONUS_PAYMENT;
     user.unpaid_income = user.unpaid_income + PAIRING_BONUS_PAYMENT;
 
-    pairingBonus.income_type = PAIRING_BONUS_TYPE;
     pairingBonus.payed = true;
+
+    await createTotalIncomePairingBonus(
+      pairingBonus,
+      "Pairing Bonus",
+      PAIRING_BONUS_PAYMENT
+    );
 
     await pairingBonus.save();
     await user.save();
+  }
+}
+
+async function createProductVoucher(pairingBonus) {
+  const productVoucher = new ProductVoucher({
+    account_number: pairingBonus.account_number,
+    user_id: pairingBonus.user_id,
+    first_name: pairingBonus.first_name,
+    last_name: pairingBonus.last_name,
+    address: pairingBonus.address,
+
+    left: {
+      account_number: pairingBonus.left.account_number,
+      user_id: pairingBonus.left.user_id,
+      first_name: pairingBonus.left.first_name,
+      last_name: pairingBonus.left.last_name,
+      address: pairingBonus.left.address,
+    },
+
+    right: {
+      account_number: pairingBonus.right.account_number,
+      user_id: pairingBonus.right.user_id,
+      first_name: pairingBonus.right.first_name,
+      last_name: pairingBonus.right.last_name,
+      address: pairingBonus.right.address,
+    },
+
+    value: PAIRING_PRODUCT_VOUCHER_PAYMENT,
+  });
+
+  await productVoucher.save();
+}
+
+async function createTotalIncome(user, type, total_income) {
+  if (total_income) {
+    const totalIncome = new TotalIncome({
+      account_number: user.account_number,
+      user_id: user._id,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      address: user.address,
+
+      type: type,
+      value: total_income,
+    });
+
+    await totalIncome.save();
+  }
+}
+
+async function createTotalIncomePairingBonus(pairingBonus, type, total_income) {
+  if (total_income) {
+    const totalIncome = new TotalIncome({
+      account_number: pairingBonus.account_number,
+      user_id: pairingBonus.user_id,
+      first_name: pairingBonus.first_name,
+      last_name: pairingBonus.last_name,
+      address: pairingBonus.address,
+
+      type: type,
+      value: total_income,
+    });
+
+    await totalIncome.save();
   }
 }

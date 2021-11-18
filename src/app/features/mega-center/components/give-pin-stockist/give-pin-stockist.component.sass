@@ -1,6 +1,14 @@
 @import 'responsive'
 @import 'variable'
 
+
+.give-pin
+  .legend
+      padding: 10px
+
+  @include media('<=lg')
+    padding-top: 65px
+
 .mat-stepper-vertical
   margin-top: 8px
 
@@ -8,11 +16,9 @@
 .mat-form-field
   margin-top: 16px
 
+span
+  color: $primaryColor
 
-mat-stepper
-
-  @include media('<=lg')
-    padding-top: 60px
 
 h1
   font-weight: 500

@@ -1,3 +1,4 @@
+import PinGiving from "../models/pin-giving.model.js";
 import { COFFEE_PACKAGE_PER_PIN, SOAP_PACKAGE_PER_PIN } from "../constants.js";
 import User from "../models/user.model.js";
 import UserVerification from "../models/user.verification.model.js";
@@ -67,6 +68,7 @@ export async function updatePin(req, res, next) {
 }
 
 export async function updateStock(req, res, next) {
+  const searched_account = req.searched_account;
   const verification_account = req.verification_account;
   const number_of_pin = req.number_of_pin;
   const total_coffee_added = number_of_pin * COFFEE_PACKAGE_PER_PIN;
@@ -79,6 +81,14 @@ export async function updateStock(req, res, next) {
   verification_account.stock_soap = verification_account.stock_soap
     ? verification_account.stock_soap + total_soap_added
     : total_soap_added;
+
+  await createPinGiving(
+    req.user,
+    searched_account,
+    number_of_pin,
+    total_coffee_added,
+    total_soap_added
+  );
 
   await verification_account.save();
 
@@ -97,4 +107,34 @@ export async function updateAdminStock(req, res, next) {
   await admin_user.save();
 
   next();
+}
+
+async function createPinGiving(
+  user,
+  recipient,
+  quantity,
+  coffee_quantity,
+  soap_quantity
+) {
+  const pinGiving = new PinGiving({
+    account_number: user.account_number,
+    user_id: user._id,
+    first_name: user.first_name,
+    last_name: user.last_name,
+    address: user.address,
+
+    recipient: {
+      account_number: recipient.account_number,
+      user_id: recipient._id,
+      first_name: recipient.first_name,
+      last_name: recipient.last_name,
+      address: recipient.address,
+    },
+
+    quantity: quantity,
+    soap_quantity: soap_quantity,
+    coffee_quantity: coffee_quantity,
+  });
+
+  await pinGiving.save();
 }

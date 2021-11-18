@@ -97,6 +97,7 @@ export class GivePinToStockistService {
             },
           });
           this.router.navigate(['/admin']);
+          this.authService.fetchUserDetails();
           stepper.reset();
         },
         (error) => {

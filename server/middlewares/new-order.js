@@ -3,6 +3,7 @@ import User from "../models/user.model.js";
 import CoffeeStockistRepeatPurchase from "../models/coffee-stockist-repeat-purchase.model.js";
 import StockistEncodeNewOrder from "../models/stockist-encode-new-order.model.js";
 import CoffeeIncome from "../models/coffee-income.model.js";
+import TotalIncome from "../models/total-income.model.js";
 import SoapIncome from "../models/soap-income.model.js";
 import {
   COFFEE_B1T1_AE_REBATES,
@@ -40,10 +41,9 @@ export async function initializeNewOrder(req, res, next) {
   const buyer = await UserVerification.findOne({ user_id: body.buyer });
   const seller = await UserVerification.findOne({ user_id: user._id });
 
-  const seller_user = await User.findById(seller.user_id);
-  const buyer_user = await User.findById(buyer.user_id);
-
   if (seller && buyer) {
+    const seller_user = await User.findById(seller.user_id);
+    const buyer_user = await User.findById(buyer.user_id);
     req.buyer = buyer;
     req.seller = seller;
     req.buyer_user = buyer_user;
@@ -232,6 +232,12 @@ export async function automaticEquivalentRebatesIncome(req, res, next) {
       referral_verification.unpaid_income =
         referral_verification.unpaid_income + total_income;
 
+      await createTotalIncome(
+        referral_user,
+        "AE Rebates ( B1T1 )",
+        total_income
+      );
+
       await AERebatesCreate(
         referral_user,
         buyer_user,
@@ -267,6 +273,12 @@ export async function automaticEquivalentRebatesIncome(req, res, next) {
 
       referral_verification.unpaid_income =
         referral_verification.unpaid_income + total_income;
+
+      await createTotalIncome(
+        referral_user,
+        "AE Rebates ( B2T3 )",
+        total_income
+      );
 
       await AERebatesCreate(
         referral_user,
@@ -324,6 +336,14 @@ export async function purchaseIncome(req, res, next) {
       seller.overall_income = seller.overall_income + total_income;
       seller.unpaid_income = seller.unpaid_income + total_income;
 
+      await createTotalIncome(
+        seller_user,
+        "Coffee Income",
+        coffee_total_income
+      );
+
+      await createTotalIncome(seller_user, "Soap Income", soap_total_income);
+
       await CoffeeIncomeRebates(
         seller_user,
         buyer_user,
@@ -360,6 +380,14 @@ export async function purchaseIncome(req, res, next) {
       seller.overall_income = seller.overall_income + total_income;
       seller.unpaid_income = seller.unpaid_income + total_income;
 
+      await createTotalIncome(
+        seller_user,
+        "Coffee Income",
+        coffee_total_income
+      );
+
+      await createTotalIncome(seller_user, "Soap Income", soap_total_income);
+
       await CoffeeIncomeRebates(
         seller_user,
         buyer_user,
@@ -394,6 +422,14 @@ export async function purchaseIncome(req, res, next) {
 
       seller.overall_income = seller.overall_income + total_income;
       seller.unpaid_income = seller.unpaid_income + total_income;
+
+      await createTotalIncome(
+        seller_user,
+        "Coffee Income",
+        coffee_total_income
+      );
+
+      await createTotalIncome(seller_user, "Soap Income", soap_total_income);
 
       await CoffeeIncomeRebates(
         seller_user,
@@ -433,6 +469,14 @@ export async function purchaseIncome(req, res, next) {
       seller.overall_income = seller.overall_income + total_income;
       seller.unpaid_income = seller.unpaid_income + total_income;
 
+      await createTotalIncome(
+        seller_user,
+        "Coffee Income",
+        coffee_total_income
+      );
+
+      await createTotalIncome(seller_user, "Soap Income", soap_total_income);
+
       await CoffeeIncomeRebates(
         seller_user,
         buyer_user,
@@ -469,6 +513,14 @@ export async function purchaseIncome(req, res, next) {
       seller.overall_income = seller.overall_income + total_income;
       seller.unpaid_income = seller.unpaid_income + total_income;
 
+      await createTotalIncome(
+        seller_user,
+        "Coffee Income",
+        coffee_total_income
+      );
+
+      await createTotalIncome(seller_user, "Soap Income", soap_total_income);
+
       await CoffeeIncomeRebates(
         seller_user,
         buyer_user,
@@ -503,6 +555,14 @@ export async function purchaseIncome(req, res, next) {
 
       seller.overall_income = seller.overall_income + total_income;
       seller.unpaid_income = seller.unpaid_income + total_income;
+
+      await createTotalIncome(
+        seller_user,
+        "Coffee Income",
+        coffee_total_income
+      );
+
+      await createTotalIncome(seller_user, "Soap Income", soap_total_income);
 
       await CoffeeIncomeRebates(
         seller_user,
@@ -561,6 +621,12 @@ export async function stockistRepeatPurchase(req, res, next) {
         user_verifaciton_mega_center.unpaid_income =
           user_verifaciton_mega_center.unpaid_income + total_income;
 
+        await createTotalIncome(
+          stockist_mega_center,
+          "Stockist Repeat Purchase Coffee Income",
+          total_income
+        );
+
         await CoffeeStockistRepeatPurchaseRebates(
           stockist_mega_center,
           buyer_user,
@@ -585,6 +651,12 @@ export async function stockistRepeatPurchase(req, res, next) {
           user_verifaciton_mega_center.overall_income + total_income;
         user_verifaciton_mega_center.unpaid_income =
           user_verifaciton_mega_center.unpaid_income + total_income;
+
+        await createTotalIncome(
+          stockist_mega_center,
+          "Stockist Repeat Purchase Soap Income",
+          total_income
+        );
 
         await SoapStockistRepeatPurchaseRebates(
           stockist_mega_center,
@@ -612,6 +684,12 @@ export async function stockistRepeatPurchase(req, res, next) {
         user_verifaciton_mega_center.unpaid_income =
           user_verifaciton_mega_center.unpaid_income + total_income;
 
+        await createTotalIncome(
+          stockist_mega_center,
+          "Stockist Repeat Purchase Coffee Income",
+          total_income
+        );
+
         await CoffeeStockistRepeatPurchaseRebates(
           stockist_mega_center,
           buyer_user,
@@ -636,6 +714,12 @@ export async function stockistRepeatPurchase(req, res, next) {
           user_verifaciton_mega_center.overall_income + total_income;
         user_verifaciton_mega_center.unpaid_income =
           user_verifaciton_mega_center.unpaid_income + total_income;
+
+        await createTotalIncome(
+          stockist_mega_center,
+          "Stockist Repeat Purchase Soap Income",
+          total_income
+        );
 
         await SoapStockistRepeatPurchaseRebates(
           stockist_mega_center,
@@ -693,6 +777,12 @@ export async function stockistEncodeNewOrder(req, res, next) {
           mega_center_verification.unpaid_income =
             mega_center_verification.unpaid_income + total_income;
 
+          await createTotalIncome(
+            mega_center_user,
+            "B1T1 Stockist Encode New Order Income",
+            total_income
+          );
+
           await StockistEncodeNewOrderRebates(
             mega_center_user,
             seller_user,
@@ -721,6 +811,12 @@ export async function stockistEncodeNewOrder(req, res, next) {
           mega_center_verification.unpaid_income =
             mega_center_verification.unpaid_income + total_income;
 
+          await createTotalIncome(
+            mega_center_user,
+            "B2T3 Stockist Encode New Order Income",
+            total_income
+          );
+
           await StockistEncodeNewOrderRebates(
             mega_center_user,
             seller_user,
@@ -746,36 +842,38 @@ async function AERebatesCreate(
   quantity,
   value
 ) {
-  const aeRebates = await AutomaticEquivalentRebates({
-    account_number: referral_user.account_number,
-    user_id: referral_user._id,
-    first_name: referral_user.first_name,
-    last_name: referral_user.last_name,
-    address: referral_user.address,
-
-    buyer: {
+  if (value) {
+    const aeRebates = await AutomaticEquivalentRebates({
       account_number: referral_user.account_number,
-      user_id: buyer._id,
-      first_name: buyer.first_name,
-      last_name: buyer.last_name,
-      address: buyer.address,
-    },
+      user_id: referral_user._id,
+      first_name: referral_user.first_name,
+      last_name: referral_user.last_name,
+      address: referral_user.address,
 
-    seller: {
-      account_number: referral_user.account_number,
-      user_id: seller._id,
-      first_name: seller.first_name,
-      last_name: seller.last_name,
-      address: seller.address,
-    },
+      buyer: {
+        account_number: referral_user.account_number,
+        user_id: buyer._id,
+        first_name: buyer.first_name,
+        last_name: buyer.last_name,
+        address: buyer.address,
+      },
 
-    package: package_type,
-    product: product,
-    quantity: quantity,
-    value: value,
-  });
+      seller: {
+        account_number: referral_user.account_number,
+        user_id: seller._id,
+        first_name: seller.first_name,
+        last_name: seller.last_name,
+        address: seller.address,
+      },
 
-  await aeRebates.save();
+      package: package_type,
+      product: product,
+      quantity: quantity,
+      value: value,
+    });
+
+    await aeRebates.save();
+  }
 }
 
 async function CoffeeIncomeRebates(
@@ -785,27 +883,29 @@ async function CoffeeIncomeRebates(
   quantity,
   value
 ) {
-  const coffeeIncome = await CoffeeIncome({
-    account_number: seller_user.account_number,
-    user_id: seller_user._id,
-    first_name: seller_user.first_name,
-    last_name: seller_user.last_name,
-    address: seller_user.address,
+  if (value) {
+    const coffeeIncome = await CoffeeIncome({
+      account_number: seller_user.account_number,
+      user_id: seller_user._id,
+      first_name: seller_user.first_name,
+      last_name: seller_user.last_name,
+      address: seller_user.address,
 
-    buyer: {
-      account_number: buyer_user.account_number,
-      user_id: buyer_user._id,
-      first_name: buyer_user.first_name,
-      last_name: buyer_user.last_name,
-      address: buyer_user.address,
-    },
+      buyer: {
+        account_number: buyer_user.account_number,
+        user_id: buyer_user._id,
+        first_name: buyer_user.first_name,
+        last_name: buyer_user.last_name,
+        address: buyer_user.address,
+      },
 
-    package: package_type,
-    quantity: quantity,
-    value: value,
-  });
+      package: package_type,
+      quantity: quantity,
+      value: value,
+    });
 
-  await coffeeIncome.save();
+    await coffeeIncome.save();
+  }
 }
 
 async function SoapIncomeRebates(
@@ -815,27 +915,29 @@ async function SoapIncomeRebates(
   quantity,
   value
 ) {
-  const soapIncome = await SoapIncome({
-    account_number: seller_user.account_number,
-    user_id: seller_user._id,
-    first_name: seller_user.first_name,
-    last_name: seller_user.last_name,
-    address: seller_user.address,
+  if (value) {
+    const soapIncome = await SoapIncome({
+      account_number: seller_user.account_number,
+      user_id: seller_user._id,
+      first_name: seller_user.first_name,
+      last_name: seller_user.last_name,
+      address: seller_user.address,
 
-    buyer: {
-      account_number: buyer_user.account_number,
-      user_id: buyer_user._id,
-      first_name: buyer_user.first_name,
-      last_name: buyer_user.last_name,
-      address: buyer_user.address,
-    },
+      buyer: {
+        account_number: buyer_user.account_number,
+        user_id: buyer_user._id,
+        first_name: buyer_user.first_name,
+        last_name: buyer_user.last_name,
+        address: buyer_user.address,
+      },
 
-    package: package_type,
-    quantity: quantity,
-    value: value,
-  });
+      package: package_type,
+      quantity: quantity,
+      value: value,
+    });
 
-  await soapIncome.save();
+    await soapIncome.save();
+  }
 }
 
 async function CoffeeStockistRepeatPurchaseRebates(
@@ -845,27 +947,29 @@ async function CoffeeStockistRepeatPurchaseRebates(
   quantity,
   value
 ) {
-  const coffeeStockistRP = await CoffeeStockistRepeatPurchase({
-    account_number: mega_center.account_number,
-    user_id: mega_center._id,
-    first_name: mega_center.first_name,
-    last_name: mega_center.last_name,
-    address: mega_center.address,
+  if (value) {
+    const coffeeStockistRP = await CoffeeStockistRepeatPurchase({
+      account_number: mega_center.account_number,
+      user_id: mega_center._id,
+      first_name: mega_center.first_name,
+      last_name: mega_center.last_name,
+      address: mega_center.address,
 
-    stockist: {
-      account_number: stockist.account_number,
-      user_id: stockist._id,
-      first_name: stockist.first_name,
-      last_name: stockist.last_name,
-      address: stockist.address,
-    },
+      stockist: {
+        account_number: stockist.account_number,
+        user_id: stockist._id,
+        first_name: stockist.first_name,
+        last_name: stockist.last_name,
+        address: stockist.address,
+      },
 
-    package: package_type,
-    quantity: quantity,
-    value: value,
-  });
+      package: package_type,
+      quantity: quantity,
+      value: value,
+    });
 
-  await coffeeStockistRP.save();
+    await coffeeStockistRP.save();
+  }
 }
 
 async function SoapStockistRepeatPurchaseRebates(
@@ -875,27 +979,29 @@ async function SoapStockistRepeatPurchaseRebates(
   quantity,
   value
 ) {
-  const soapStockistRP = await SoapStockistRepeatPurchase({
-    account_number: mega_center.account_number,
-    user_id: mega_center._id,
-    first_name: mega_center.first_name,
-    last_name: mega_center.last_name,
-    address: mega_center.address,
+  if (value) {
+    const soapStockistRP = await SoapStockistRepeatPurchase({
+      account_number: mega_center.account_number,
+      user_id: mega_center._id,
+      first_name: mega_center.first_name,
+      last_name: mega_center.last_name,
+      address: mega_center.address,
 
-    stockist: {
-      account_number: stockist.account_number,
-      user_id: stockist._id,
-      first_name: stockist.first_name,
-      last_name: stockist.last_name,
-      address: stockist.address,
-    },
+      stockist: {
+        account_number: stockist.account_number,
+        user_id: stockist._id,
+        first_name: stockist.first_name,
+        last_name: stockist.last_name,
+        address: stockist.address,
+      },
 
-    package: package_type,
-    quantity: quantity,
-    value: value,
-  });
+      package: package_type,
+      quantity: quantity,
+      value: value,
+    });
 
-  await soapStockistRP.save();
+    await soapStockistRP.save();
+  }
 }
 
 async function StockistEncodeNewOrderRebates(
@@ -905,25 +1011,44 @@ async function StockistEncodeNewOrderRebates(
   quantity,
   value
 ) {
-  const stockistEncodeNewOrder = await StockistEncodeNewOrder({
-    account_number: mega_center.account_number,
-    user_id: mega_center._id,
-    first_name: mega_center.first_name,
-    last_name: mega_center.first_name,
-    address: mega_center.address,
+  if (value) {
+    const stockistEncodeNewOrder = await StockistEncodeNewOrder({
+      account_number: mega_center.account_number,
+      user_id: mega_center._id,
+      first_name: mega_center.first_name,
+      last_name: mega_center.first_name,
+      address: mega_center.address,
 
-    stockist: {
-      account_number: stockist.account_number,
-      user_id: stockist._id,
-      first_name: stockist.first_name,
-      last_name: stockist.last_name,
-      address: stockist.address,
-    },
+      stockist: {
+        account_number: stockist.account_number,
+        user_id: stockist._id,
+        first_name: stockist.first_name,
+        last_name: stockist.last_name,
+        address: stockist.address,
+      },
 
-    package: package_type,
-    quantity: quantity,
-    value: value,
-  });
+      package: package_type,
+      quantity: quantity,
+      value: value,
+    });
 
-  await stockistEncodeNewOrder.save();
+    await stockistEncodeNewOrder.save();
+  }
+}
+
+async function createTotalIncome(user, type, total_income) {
+  if (total_income) {
+    const totalIncome = new TotalIncome({
+      account_number: user.account_number,
+      user_id: user._id,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      address: user.address,
+
+      type: type,
+      value: total_income,
+    });
+
+    await totalIncome.save();
+  }
 }

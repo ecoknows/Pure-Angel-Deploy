@@ -30,7 +30,7 @@
 
   <div class="dashboard-bottom-info">
     <p>
-      <span class="primary"> <strong>Info:</strong> </span>You can click the
+      <span class="primary"> <strong>Info: </strong> </span>You can click the
       specific income to view the summary or history of that income
     </p>
     <div class="row" matRipple>
@@ -298,7 +298,12 @@
 
     <mat-divider></mat-divider>
 
-    <div class="row" matRipple>
+    <div
+      class="row"
+      matRipple
+      [routerLink]="['/incomes']"
+      [queryParams]="{ income: 'total-income' }"
+    >
       <div class="income">
         <h5>Total Income</h5>
       </div>
@@ -311,7 +316,12 @@
       </div>
     </div>
 
-    <div class="row" matRipple>
+    <div
+      class="row"
+      matRipple
+      [routerLink]="['/incomes']"
+      [queryParams]="{ income: 'unclaimed-income' }"
+    >
       <div class="income">
         <h5>Unclaimed Income</h5>
       </div>
@@ -324,9 +334,14 @@
       </div>
     </div>
 
-    <div class="row" matRipple>
+    <div
+      class="row"
+      matRipple
+      [routerLink]="['/incomes']"
+      [queryParams]="{ income: 'product-voucher' }"
+    >
       <div class="income">
-        <h5>Pairing Voucher</h5>
+        <h5>Product Voucher</h5>
       </div>
 
       <div class="amount">

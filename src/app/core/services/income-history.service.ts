@@ -235,4 +235,38 @@ export class IncomeHistoryService {
         (error) => {}
       );
   }
+
+  fetchProductVoucher() {
+    this.http
+      .get<{ message: string; data: IncomeHistoryState[] }>(
+        environment.api + 'api/income-history/product-voucher',
+        { headers: this.authService.headers }
+      )
+      .subscribe(
+        (response) => {
+          const data = response.data;
+          if (data) {
+            this.store.dispatch(setListIncomeHistory({ list: data }));
+          }
+        },
+        (error) => {}
+      );
+  }
+
+  fetchTotalIncome() {
+    this.http
+      .get<{ message: string; data: IncomeHistoryState[] }>(
+        environment.api + 'api/income-history/total-income',
+        { headers: this.authService.headers }
+      )
+      .subscribe(
+        (response) => {
+          const data = response.data;
+          if (data) {
+            this.store.dispatch(setListIncomeHistory({ list: data }));
+          }
+        },
+        (error) => {}
+      );
+  }
 }

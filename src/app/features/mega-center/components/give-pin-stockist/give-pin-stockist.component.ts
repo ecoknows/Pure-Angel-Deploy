@@ -46,6 +46,31 @@ export class GivePinStockistComponent implements OnInit {
     this.authService.fetchUserDetails();
   }
 
+  pinRange(user: null | UserState) {
+    if (user) {
+      if (user?.ending_pin && user?.number_of_pin) {
+        if (user.number_of_pin > 0) {
+          const starting = (user.ending_pin + 1).toString();
+          const ending = (user.ending_pin + user.number_of_pin).toString();
+
+          return (
+            user.secret_code_suffix +
+            '0' +
+            starting +
+            ' to ' +
+            user.secret_code_suffix +
+            '0' +
+            ending
+          );
+        }
+      } else {
+        return 'Out of Stock';
+      }
+    }
+
+    return 'Unavailable';
+  }
+
   searchAccount(stepper: any) {
     const account_number = this.firstFormGroup.get('account_number')?.value;
 

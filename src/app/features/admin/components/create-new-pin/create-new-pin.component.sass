@@ -1,6 +1,14 @@
 @import 'responsive'
 @import 'variable'
 
+.create-pin
+  .legend
+      padding: 10px
+
+  @include media('<=lg')
+    padding-top: 65px
+
+
 .mat-stepper-vertical
   margin-top: 8px
 
@@ -9,10 +17,9 @@
   margin-top: 16px
 
 
-mat-stepper
+span
+  color: $primaryColor
 
-  @include media('<=lg')
-    padding-top: 60px
 
 h1
   font-weight: 500
@@ -29,6 +36,4 @@ ul
     font-weight: 500
     font-size: 1rem
 
-    span
-      color: $primaryColor
 

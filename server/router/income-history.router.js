@@ -11,6 +11,8 @@ import PairingBonus from "../models/pairing-bonus.model.js";
 import StockistEncodeNewOrder from "../models/stockist-encode-new-order.model.js";
 import CoffeeStockistRepeatPurchase from "../models/coffee-stockist-repeat-purchase.model.js";
 import SoapStockistRepeatPurchase from "../models/soap-stockist-repeat-purchase.model.js";
+import ProductVoucher from "../models/product-voucher.model.js";
+import TotalIncome from "../models/total-income.model.js";
 
 const IncomeHistoryRouter = express.Router();
 
@@ -289,4 +291,49 @@ IncomeHistoryRouter.get(
   })
 );
 
+IncomeHistoryRouter.get(
+  "/product-voucher",
+  verifyUserToken,
+  expressAsyncHandler(async (req, res) => {
+    const user = req.user;
+
+    const productVoucher = await ProductVoucher.find({
+      user_id: user._id,
+    }).sort({ createdAt: -1 });
+
+    if (productVoucher) {
+      res.send({
+        message: "Successfully Fetch Data",
+        data: productVoucher,
+      });
+    } else {
+      res.send({
+        message: "Empty Income",
+      });
+    }
+  })
+);
+
+IncomeHistoryRouter.get(
+  "/total-income",
+  verifyUserToken,
+  expressAsyncHandler(async (req, res) => {
+    const user = req.user;
+
+    const totalIncome = await TotalIncome.find({
+      user_id: user._id,
+    }).sort({ createdAt: -1 });
+
+    if (totalIncome) {
+      res.send({
+        message: "Successfully Fetch Data",
+        data: totalIncome,
+      });
+    } else {
+      res.send({
+        message: "Empty Income",
+      });
+    }
+  })
+);
 export default IncomeHistoryRouter;

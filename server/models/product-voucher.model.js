@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const directReferralSchema = new mongoose.Schema(
+const productVoucherSchema = new mongoose.Schema(
   {
     account_number: { type: String },
     user_id: { type: String, required: true, index: true },
@@ -8,7 +8,7 @@ const directReferralSchema = new mongoose.Schema(
     last_name: { type: String, required: true },
     address: { type: String },
 
-    root_user: {
+    left: {
       account_number: { type: String },
       user_id: { type: String, index: true },
       first_name: { type: String },
@@ -16,11 +16,11 @@ const directReferralSchema = new mongoose.Schema(
       address: { type: String },
     },
 
-    user: {
+    right: {
       account_number: { type: String },
-      user_id: { type: String, required: true, index: true },
-      first_name: { type: String, required: true },
-      last_name: { type: String, required: true },
+      user_id: { type: String, index: true },
+      first_name: { type: String },
+      last_name: { type: String },
       address: { type: String },
     },
 
@@ -29,6 +29,6 @@ const directReferralSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const DirectReferral = mongoose.model("DirectReferral", directReferralSchema);
+const ProductVoucher = mongoose.model("ProductVoucher", productVoucherSchema);
 
-export default DirectReferral;
+export default ProductVoucher;

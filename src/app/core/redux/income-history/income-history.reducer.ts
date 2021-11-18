@@ -37,6 +37,7 @@ export interface IncomeHistoryState {
   };
 
   package?: string;
+  type?: string;
   quantity?: number;
   value?: number;
   income?: number;

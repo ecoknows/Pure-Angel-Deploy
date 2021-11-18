@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IncomeHistoryState } from '@core/redux/income-history/income-history.reducer';
+import { UserState } from '@core/redux/user/user.reducer';
+import { AuthService } from '@core/services/auth.service';
 import { IncomeHistoryService } from '@core/services/income-history.service';
 import { Store } from '@ngrx/store';
 import { ColumnMode } from '@swimlane/ngx-datatable';
@@ -20,6 +22,7 @@ export interface PeriodicElement {
 })
 export class IncomeHistoryComponent implements OnInit {
   dataSource$: Observable<IncomeHistoryState[]>;
+  user$: Observable<UserState>;
   ColumnMode = ColumnMode;
 
   title!: string | null;
@@ -27,10 +30,15 @@ export class IncomeHistoryComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private incomeHistoryService: IncomeHistoryService,
-    private store: Store<{ incomeHistoryReducer: IncomeHistoryState[] }>
+    private authService: AuthService,
+    private store: Store<{
+      incomeHistoryReducer: IncomeHistoryState[];
+      userReducer: UserState;
+    }>
   ) {
     this.title = this.route.snapshot.queryParamMap.get('income');
     this.dataSource$ = this.store.select('incomeHistoryReducer');
+    this.user$ = this.store.select('userReducer');
   }
 
   ngOnInit() {
@@ -71,6 +79,16 @@ export class IncomeHistoryComponent implements OnInit {
         break;
       case 'stockist-repeat-purchase-soap':
         this.incomeHistoryService.fetchStockistRepeatPurchaseSoap();
+        break;
+      case 'product-voucher':
+        this.incomeHistoryService.fetchProductVoucher();
+        break;
+      case 'total-income':
+        this.incomeHistoryService.fetchTotalIncome();
+        break;
+      case 'unclaimed-income':
+        this.incomeHistoryService.fetchTotalIncome();
+        this.authService.fetchUserDetails();
         break;
     }
   }
